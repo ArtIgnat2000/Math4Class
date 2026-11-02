@@ -6167,3 +6167,141 @@ h1[tabindex='-1']:focus {
     animation: none;
   }
 }
+
+/* Modal pilot: one mathematical idea per view, optional provenance. */
+.mass-intro-dialog {
+  max-width: 570px;
+}
+.mass-intro {
+  margin: 18px 0 22px;
+}
+.mass-intro-switch {
+  display: flex;
+  gap: 7px;
+  padding: 4px;
+  border-radius: 13px;
+  background: #eef2e9;
+}
+.mass-intro-switch button {
+  flex: 1;
+  min-height: 43px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: #476049;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 750;
+  cursor: pointer;
+}
+.mass-intro-switch button[aria-pressed='true'] {
+  background: #fff;
+  color: #284b37;
+  box-shadow: 0 3px 9px #243c291c;
+}
+.mass-intro-switch button:focus-visible {
+  outline: 2px solid #5c8769;
+  outline-offset: 2px;
+}
+.mass-intro-panel {
+  margin-top: 12px;
+  padding: 16px 9px;
+  border: 1px solid #dbe5d7;
+  border-radius: 16px;
+  background: radial-gradient(ellipse at 50% 10%, #fffefb, #ebf1e9);
+  text-align: center;
+  animation: mass-bubble-enter 0.3s ease-out both;
+}
+.mass-intro-equation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 9px;
+  min-height: 110px;
+}
+.mass-intro-equation > .mass-object-weight {
+  width: 95px;
+  height: 98px;
+}
+.mass-intro-sign {
+  color: #426448;
+  font-size: 25px;
+  font-weight: 850;
+}
+.mass-intro-ten {
+  display: grid;
+  grid-template-columns: repeat(5, 36px);
+  gap: 1px 2px;
+  align-items: center;
+}
+.mass-intro-ten .mass-object-weight.small {
+  width: 36px;
+  height: 45px;
+}
+.mass-intro-ten .mass-object-weight.small span {
+  bottom: 5px;
+  font-size: 8px;
+}
+.mass-intro-result {
+  display: block;
+  margin-top: 14px;
+  color: #2e593e;
+  font-size: clamp(17px, 3.7vw, 23px);
+  letter-spacing: -0.03em;
+}
+.mass-intro-source {
+  margin-top: 17px;
+  color: #536952;
+  font-size: 11px;
+  line-height: 1.6;
+}
+.mass-intro-source summary {
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.mass-intro-source p {
+  margin-top: 7px;
+}
+.mass-intro-source .topic-reference {
+  display: block;
+  margin-top: 9px;
+}
+@media (max-width: 540px) {
+  .mass-intro-equation > .mass-object-weight {
+    width: 70px;
+    height: 77px;
+  }
+  .mass-intro-ten {
+    grid-template-columns: repeat(5, 29px);
+    gap: 0;
+  }
+  .mass-intro-ten .mass-object-weight.small {
+    width: 29px;
+    height: 36px;
+  }
+  .mass-intro-ten .mass-object-weight.small span {
+    font-size: 7px;
+    bottom: 4px;
+  }
+  .mass-intro-switch button {
+    font-size: 11px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mass-intro-panel {
+    animation: none;
+  }
+}
+
+/* Ten identical marks are countable; one large legend stays readable on phones. */
+.mass-intro-ten .mass-object-weight.small span {
+  display: none;
+}
+.mass-intro-ten-label {
+  grid-column: 1 / -1;
+  margin-top: 4px;
+  font-size: 11px;
+  font-weight: 800;
+  color: #33543d;
+}

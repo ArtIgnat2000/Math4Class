@@ -376,7 +376,7 @@ test('premium pilot keeps the props, gives optional reference and saves exit fro
 }) => {
   await page.goto('/#/topics');
   await page.locator('.topic-card').filter({ hasText: 'Килограмм и грамм' }).click();
-  await page.getByRole('button', { name: 'Давай попробуем' }).click();
+  await page.getByRole('button', { name: 'Начать занятие' }).click();
   await expect(page.getByRole('heading', { name: 'Сколько граммов в 3 кг?' })).toBeVisible();
   await expect(page.locator('.mass-object-weight img')).toHaveCount(3);
   await expect(
@@ -391,7 +391,7 @@ test('premium pilot keeps the props, gives optional reference and saves exit fro
   await page.getByRole('button', { name: 'Показать Бука' }).click();
   await page.getByRole('button', { name: 'Подсказка', exact: true }).click();
   expect((await readSession(page)).hintOpen).toBe(true);
-  await page.getByRole('button', { name: 'Сохранить занятие и выйти' }).click();
+  await page.getByRole('button', { name: 'Сохранить и выйти' }).click();
   await expect(page.getByRole('heading', { name: 'Твой день открытий' })).toBeVisible();
   await page.getByRole('button', { name: 'Продолжить занятие' }).click();
   expect((await readSession(page)).hintOpen).toBe(true);
@@ -406,11 +406,27 @@ test('premium mass lesson and its reference meet automated WCAG AA checks on pho
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/#/topics');
   await page.locator('.topic-card').filter({ hasText: 'Килограмм и грамм' }).click();
-  await page.getByRole('button', { name: 'Давай попробуем' }).click();
+  await page.getByRole('button', { name: 'Начать занятие' }).click();
   await page.getByRole('button', { name: 'Таблица единиц' }).click();
   await page.getByRole('button', { name: 'Все единицы массы' }).click();
   const result = await new AxeBuilder({ page })
     .withTags(['wcag2a', 'wcag2aa', 'wcag21aa'])
     .analyze();
   expect(result.violations).toEqual([]);
+});
+
+test('mass introduction offers two visual examples and keeps source optional', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/#/topics');
+  await page.locator('.topic-card').filter({ hasText: 'Килограмм и грамм' }).click();
+  const dialog = page.getByRole('dialog', { name: 'Килограмм и грамм' });
+  await expect(dialog.locator('.mass-intro-ten .mass-object-weight')).toHaveCount(10);
+  await expect(dialog.getByText('1 кг = 1 000 г')).toBeVisible();
+  await expect(dialog.getByText('Самостоятельный тренажёр', { exact: false })).toBeHidden();
+  await dialog.getByRole('button', { name: 'Кг вместе с г' }).click();
+  await expect(dialog.getByText('1 000 г + 200 г = 1 200 г')).toBeVisible();
+  await expect(dialog.getByText('2 кг 350 г')).toHaveCount(0);
+  await dialog.locator('summary').click();
+  await expect(dialog.getByText('Самостоятельный тренажёр', { exact: false })).toBeVisible();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 });

@@ -235,12 +235,12 @@ describe('lesson exit is available on every card', () => {
     const { rerender } = render(
       <Lesson session={session} onChange={vi.fn()} onSubmit={submit} onNext={next} onExit={exit} />,
     );
-    await user.click(screen.getByRole('button', { name: 'Сохранить занятие и выйти' }));
+    await user.click(screen.getByRole('button', { name: 'Сохранить и выйти' }));
     const checked = submitAnswer(session, '3000');
     rerender(
       <Lesson session={checked} onChange={vi.fn()} onSubmit={submit} onNext={next} onExit={exit} />,
     );
-    await user.click(screen.getByRole('button', { name: 'Сохранить занятие и выйти' }));
+    await user.click(screen.getByRole('button', { name: 'Сохранить и выйти' }));
     expect(exit).toHaveBeenCalledTimes(2);
     expect(submit).not.toHaveBeenCalled();
     expect(next).not.toHaveBeenCalled();

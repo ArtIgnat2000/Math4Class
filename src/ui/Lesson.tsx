@@ -21,6 +21,7 @@ import { LEVEL_LABELS } from '../engine/progress';
 import { referenceDescription } from '../engine/references';
 import { MathVisual } from './MathVisual';
 import { MassStory } from './MassStory';
+import { MassIntroVisual } from './MassIntroVisual';
 import { Brand, InfoNote, Modal, ProgressBar, Stars, TopicOrigin, TopicSymbol } from './shared';
 
 export function TopicDialog({
@@ -40,6 +41,31 @@ export function TopicDialog({
   onClose: () => void;
   onStart: () => void;
 }) {
+  if (topic.id === 'mass-kg-g')
+    return (
+      <Modal
+        title={topic.title}
+        eyebrow={`${grade} КЛАСС · ${mode === 'review' ? 'ПОВТОРЕНИЕ' : 'ПОЗНАКОМИМСЯ С МАССОЙ'}`}
+        onClose={onClose}
+        className="topic-dialog mass-intro-dialog"
+      >
+        <MassIntroVisual />
+        <button data-autofocus className="button primary full-width" onClick={onStart}>
+          {mode === 'review'
+            ? 'Начать повторение'
+            : mode === 'practice'
+              ? 'Потренироваться'
+              : 'Начать занятие'}
+          <ArrowRight size={18} />
+        </button>
+        <details className="mass-intro-source">
+          <summary>Об источнике темы</summary>
+          <TopicOrigin topic={topic} />
+          <p>Самостоятельный тренажёр по фотографии страницы 46, не полный курс учебника.</p>
+          {topic.reference && <p>{referenceDescription(topic.reference)}</p>}
+        </details>
+      </Modal>
+    );
   return (
     <Modal
       title={topic.title}
@@ -266,7 +292,7 @@ function TaskArea({
             type="button"
             className="task-exit"
             onClick={onExit}
-            aria-label="Сохранить занятие и выйти"
+            aria-label="Сохранить и выйти"
           >
             <ArrowLeft size={17} /> Сохранить и выйти
           </button>
