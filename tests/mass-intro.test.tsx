@@ -6,6 +6,13 @@ describe('visual introduction to kilograms and grams', () => {
   it('shows 1 kg as ten smaller 100 g weights, without a paragraph', () => {
     const { container } = render(<MassIntroVisual />);
     expect(container.querySelectorAll('.mass-intro-ten .mass-object-weight')).toHaveLength(10);
+    expect(
+      container.querySelector('.mass-intro-equation > .mass-object-weight img'),
+    ).toHaveAttribute('src', expect.stringContaining('weight.webp'));
+    for (const image of container.querySelectorAll('.mass-intro-ten img')) {
+      expect(image).toHaveAttribute('src', expect.stringContaining('weight-100g.webp'));
+    }
+    expect(screen.getAllByText('100 г')).toHaveLength(10);
     expect(screen.getByText('1 кг = 1 000 г')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: '1 кг — это сколько?' })).toHaveAttribute(
       'aria-pressed',

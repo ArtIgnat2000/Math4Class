@@ -6132,12 +6132,12 @@ h1[tabindex='-1']:focus {
 }
 .mass-intro-ten {
   display: grid;
-  grid-template-columns: repeat(5, 36px);
-  gap: 1px 2px;
+  grid-template-columns: repeat(5, 48px);
+  gap: 3px 2px;
   align-items: center;
 }
 .mass-intro-ten .mass-object-weight.small {
-  width: 36px;
+  width: 48px;
   height: auto;
 }
 .mass-intro-ten .mass-object-weight.small span {
@@ -6157,11 +6157,11 @@ h1[tabindex='-1']:focus {
     height: auto;
   }
   .mass-intro-ten {
-    grid-template-columns: repeat(5, 29px);
-    gap: 0;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 3px;
   }
   .mass-intro-ten .mass-object-weight.small {
-    width: 29px;
+    width: 100%;
     height: auto;
   }
   .mass-intro-ten .mass-object-weight.small span {
@@ -6178,9 +6178,12 @@ h1[tabindex='-1']:focus {
   }
 }
 
-/* Ten identical marks are countable; one large legend stays readable on phones. */
+/* Each miniature weight keeps its own readable nominal below the object. */
 .mass-intro-ten .mass-object-weight.small span {
-  display: none;
+  display: block;
+  min-height: 16px;
+  font-size: 11px;
+  line-height: 1.25;
 }
 .mass-intro-ten-label {
   grid-column: 1 / -1;
@@ -6219,7 +6222,7 @@ h1[tabindex='-1']:focus {
   width: 120px;
 }
 .mass-intro-ten .mass-object-weight.small img {
-  height: 45px;
+  height: 57px;
 }
 @media (max-width: 540px) {
   .mass-intro-equation > .mass-object-weight img {
@@ -6238,6 +6241,26 @@ h1[tabindex='-1']:focus {
     width: 103px;
   }
   .mass-intro-ten .mass-object-weight.small img {
-    height: 36px;
+    height: 55px;
+  }
+}
+
+/* Keep ten individually recognisable 100 g weights on narrow screens. */
+@media (max-width: 540px) {
+  .mass-intro-panel:has(.mass-intro-ten) .mass-intro-equation {
+    flex-direction: column;
+    gap: 3px;
+  }
+  .mass-intro-ten {
+    width: min(100%, 260px);
+  }
+  .mass-intro-panel:has(.mass-intro-ten) .mass-intro-result {
+    margin-top: 14px;
+  }
+}
+
+@media (max-width: 540px) {
+  .mass-intro-ten .mass-object-weight.small span {
+    font-size: 11px;
   }
 }
