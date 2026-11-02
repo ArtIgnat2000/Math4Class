@@ -376,7 +376,7 @@ test('pilot mass story follows the child through a lesson and respects skipping'
 }) => {
   await page.goto('/#/topics');
   await page.locator('.topic-card').filter({ hasText: 'Килограмм и грамм' }).click();
-  await expect(page.getByRole('region', { name: 'История Слона и гирек' })).toBeVisible();
+  await expect(page.getByRole('region', { name: 'История Бука и гирек' })).toBeVisible();
   await expect(
     page.getByRole('img', { name: 'Три отдельные гири, на каждой написано 1 кг' }),
   ).toBeVisible();
@@ -385,7 +385,7 @@ test('pilot mass story follows the child through a lesson and respects skipping'
   await expect(
     page.getByRole('img', { name: 'Три отдельные гири, на каждой написано 1 кг' }),
   ).toBeVisible();
-  await expect(page.getByRole('region', { name: 'История Слона и гирек' })).toBeVisible();
+  await expect(page.getByRole('region', { name: 'История Бука и гирек' })).toBeVisible();
   await expect(page.locator('.mass-question-visual')).toBeVisible();
   await page.getByRole('button', { name: /Показать 10 гирек/ }).click();
   await expect(page.locator('.mass-story-weight')).toHaveCount(10);
@@ -393,5 +393,5 @@ test('pilot mass story follows the child through a lesson and respects skipping'
   await expect(page.locator('.mass-story-return')).toBeVisible();
   await page.locator('.mass-story-return').click();
   await answerCurrent(page);
-  await expect(page.getByText('Слон радуется!')).toBeVisible();
+  await expect(page.getByText('Бук радуется!')).toBeVisible();
 });
