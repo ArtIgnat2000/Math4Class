@@ -5937,3 +5937,193 @@ h1[tabindex='-1']:focus {
     animation: none;
   }
 }
+
+/* Question-specific props: labels are the given values, never computed answers. */
+.mass-question-visual {
+  margin: 22px auto 14px;
+  max-width: 640px;
+  border-radius: 22px;
+  border: 1px solid #d9e6cf;
+  background: radial-gradient(ellipse at 50% 15%, #fffdfa, #e8f1e1);
+  padding: 24px 16px 30px;
+}
+.mass-question-items {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  min-height: 100px;
+}
+.mass-question-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: end;
+  gap: 9px;
+  max-width: 270px;
+}
+.mass-group-label {
+  flex-basis: 100%;
+  text-align: center;
+  color: #425d40;
+  font-size: 13px;
+  font-weight: 800;
+  margin-top: 9px;
+}
+.mass-question-plus {
+  color: #51654c;
+  font-size: 27px;
+  font-weight: 800;
+}
+.mass-object {
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex: none;
+  font-weight: 800;
+  animation: mass-prop-enter 0.4s ease-out both;
+}
+.mass-object-weight {
+  width: 60px;
+  height: 67px;
+  margin-top: 18px;
+  border-radius: 22px 22px 13px 13px;
+  color: #fefdf5;
+  background: linear-gradient(115deg, #b6d0ad 0%, #6e9a7b 48%, #3d705a 100%);
+  box-shadow:
+    inset 5px 2px 7px #fff8,
+    inset -5px -2px 8px #254c4577,
+    0 6px 0 #3d6454,
+    0 11px 13px #30452c44;
+}
+.mass-object-weight::before {
+  content: '';
+  position: absolute;
+  width: 31px;
+  height: 14px;
+  border-radius: 8px 8px 2px 2px;
+  background: linear-gradient(#accbac, #5a8770);
+  top: -13px;
+  box-shadow: inset 2px 1px 3px #fff8;
+}
+.mass-object-weight.small {
+  width: 48px;
+  height: 53px;
+  color: #683d30;
+  background: linear-gradient(115deg, #ffdfb6, #efa678 55%, #c87857);
+  box-shadow:
+    inset 3px 2px 5px #fff8,
+    0 5px 0 #a86b51,
+    0 9px 12px #6e4d3844;
+}
+.mass-object-weight span {
+  font-size: 13px;
+  position: relative;
+  z-index: 1;
+  white-space: nowrap;
+}
+.mass-object-parcel {
+  min-width: 95px;
+  height: 83px;
+  padding: 0 9px;
+  margin-top: 6px;
+  border-radius: 12px;
+  color: #654a31;
+  background: linear-gradient(130deg, #fbe2aa, #dfad71 70%, #c58c5e);
+  box-shadow:
+    inset 4px 3px 6px #fff9,
+    0 7px 0 #bd895e,
+    0 12px 14px #66513444;
+}
+.mass-object-parcel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 42%;
+  width: 15%;
+  background: #faefd1aa;
+}
+.mass-object-parcel span {
+  z-index: 1;
+  background: #fffbef;
+  border-radius: 5px;
+  padding: 4px 6px;
+  white-space: nowrap;
+}
+.mass-question-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+.mass-question-cards span {
+  padding: 20px 14px;
+  border-radius: 11px;
+  background: #fffdfa;
+  border: 2px solid #b5c9ab;
+  box-shadow: 0 5px 0 #a4ba99;
+  color: #3e5d42;
+  font-weight: 800;
+}
+.mass-object-apples {
+  min-width: 144px;
+  height: 95px;
+  color: #643b2d;
+  border-radius: 40% 40% 20px 20px;
+  background:
+    radial-gradient(circle at 25% 25%, #f9c182 0 14px, transparent 15px),
+    radial-gradient(circle at 57% 22%, #e88368 0 19px, transparent 20px),
+    radial-gradient(circle at 80% 32%, #d7685c 0 17px, transparent 18px),
+    linear-gradient(0deg, #b98553 0 50%, transparent 51%);
+  box-shadow:
+    0 6px 0 #947046,
+    0 11px 12px #66513444;
+}
+.mass-object-apples span {
+  align-self: end;
+  font-size: 13px;
+  padding-bottom: 10px;
+}
+.mass-object-apples b {
+  position: absolute;
+  right: -25px;
+  top: -5px;
+  color: #3e5d42;
+  font-size: 27px;
+}
+@keyframes mass-prop-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-12px) scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (max-width: 540px) {
+  .mass-question-items {
+    gap: 9px;
+  }
+  .mass-object-weight {
+    width: 47px;
+    height: 56px;
+  }
+  .mass-object-weight span {
+    font-size: 11px;
+  }
+  .mass-object-parcel {
+    min-width: 78px;
+    height: 66px;
+  }
+  .mass-object-parcel span {
+    font-size: 11px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mass-object {
+    animation: none;
+  }
+}

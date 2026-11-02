@@ -22,6 +22,7 @@ import { LEVEL_LABELS } from '../engine/progress';
 import { referenceDescription } from '../engine/references';
 import { MathVisual } from './MathVisual';
 import { MassStory } from './MassStory';
+import { MassQuestionVisual } from './MassQuestionVisual';
 import { Brand, InfoNote, Modal, ProgressBar, Stars, TopicOrigin, TopicSymbol } from './shared';
 
 export function TopicDialog({
@@ -279,7 +280,10 @@ function TaskArea({
         </span>
         <h1>{task.question}</h1>
         {session.topicId === 'mass-kg-g' && (
-          <MassStory taskId={task.id} correct={session.feedback?.correct} hint={task.hint} />
+          <>
+            <MassQuestionVisual taskId={task.id} />
+            <MassStory taskId={task.id} correct={session.feedback?.correct} hint={task.hint} />
+          </>
         )}
         {task.diagram && <Diagram diagram={task.diagram} />}
         {!task.diagram && task.expression && <MathVisual expression={task.expression} />}
