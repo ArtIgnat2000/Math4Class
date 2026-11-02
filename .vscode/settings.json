@@ -1,0 +1,8 @@
+{
+  "json.schemas": [
+    {
+      "fileMatch": ["/src/content/grade-*.json", "/public/content/example-grade-4.json"],
+      "url": "./public/content/schema.json"
+    }
+  ]
+}
