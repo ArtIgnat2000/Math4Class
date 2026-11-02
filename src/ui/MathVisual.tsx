@@ -1,3 +1,5 @@
+import type { CSSProperties } from 'react';
+
 // Concrete models are shown only when the expression fits on screen without scaling
 // or changing its meaning. Larger and compound expressions keep their textual form.
 export function parseVisualExpression(expression: string) {
@@ -14,6 +16,8 @@ export function parseVisualExpression(expression: string) {
     return { left, right, kind: 'multiply' as const };
   return null;
 }
+
+const delay = (index: number): CSSProperties => ({ animationDelay: `${index * 90}ms` });
 
 export function MathVisual({ expression }: { expression: string }) {
   const model = parseVisualExpression(expression);
@@ -36,7 +40,7 @@ export function MathVisual({ expression }: { expression: string }) {
           Array.from({ length: left }, (_, row) => (
             <div className="math-visual-group" key={row}>
               {Array.from({ length: right }, (_, i) => (
-                <span className="math-cube" key={i} />
+                <span className="math-cube" style={delay(row * right + i)} key={i} />
               ))}
             </div>
           ))
@@ -47,6 +51,7 @@ export function MathVisual({ expression }: { expression: string }) {
                 <span
                   className={`math-cube ${kind === 'subtract' && i >= left - right ? 'removed' : ''}`}
                   key={i}
+                  style={delay(i)}
                 />
               ))}
             </div>
@@ -55,7 +60,7 @@ export function MathVisual({ expression }: { expression: string }) {
                 <span className="math-visual-plus">+</span>
                 <div className="math-visual-group green">
                   {Array.from({ length: right }, (_, i) => (
-                    <span className="math-cube" key={i} />
+                    <span className="math-cube" style={delay(left + i)} key={i} />
                   ))}
                 </div>
               </>

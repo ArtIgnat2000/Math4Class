@@ -5661,3 +5661,82 @@ h1[tabindex='-1']:focus {
     animation: none;
   }
 }
+
+/* Visible but non-essential celebratory motion around the original illustration. */
+.learning-hero {
+  isolation: isolate;
+}
+.hero-magic {
+  position: absolute;
+  inset: 0 0 0 48%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 2;
+}
+.hero-magic span {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  font-size: 23px;
+  font-weight: 800;
+  color: #9e593a;
+  background: #fff7dc;
+  box-shadow:
+    0 6px 0 #ddcda8,
+    0 12px 18px #40543833;
+  animation: magic-drift 3.6s ease-in-out infinite;
+}
+.hero-magic span:nth-child(1) {
+  left: 12%;
+  top: 15%;
+  transform: rotate(-12deg);
+}
+.hero-magic span:nth-child(2) {
+  right: 10%;
+  top: 25%;
+  animation-delay: -1.2s;
+  background: #f4d3b8;
+}
+.hero-magic span:nth-child(3) {
+  right: 18%;
+  bottom: 12%;
+  animation-delay: -2.4s;
+  background: #e2edd1;
+}
+@keyframes magic-drift {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -19px;
+  }
+}
+@media (max-width: 680px) {
+  .hero-magic span {
+    width: 27px;
+    height: 27px;
+    font-size: 17px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-magic span {
+    animation: none;
+  }
+}
+.math-cube.removed {
+  animation-name: cube-arrive-removed;
+}
+@keyframes cube-arrive-removed {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.85);
+  }
+  to {
+    opacity: 0.42;
+    transform: none;
+  }
+}
