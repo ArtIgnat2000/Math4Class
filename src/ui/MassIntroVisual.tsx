@@ -5,7 +5,7 @@ const root = import.meta.env.BASE_URL;
 function Weight({ label, small = false }: { label: string; small?: boolean }) {
   return (
     <span className={`mass-object mass-object-weight ${small ? 'small' : ''}`}>
-      <img src={`${root}illustrations/props/weight.webp`} alt="" />
+      <img src={`${root}illustrations/props/${small ? 'weight-100g' : 'weight'}.webp`} alt="" />
       <span>{label}</span>
     </span>
   );

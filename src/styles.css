@@ -5885,7 +5885,7 @@ h1[tabindex='-1']:focus {
   height: auto;
 }
 .mass-object-weight.small img {
-  filter: sepia(0.8) saturate(0.85) hue-rotate(337deg) drop-shadow(0 7px 5px #523e2540);
+  filter: drop-shadow(0 7px 5px #523e2540);
 }
 .mass-object-parcel {
   width: 82px;

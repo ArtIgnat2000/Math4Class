@@ -5,7 +5,10 @@ import type { ReactNode } from 'react';
 function Weight({ label, small = false }: { label: string; small?: boolean }) {
   return (
     <span className={`mass-object mass-object-weight ${small ? 'small' : ''}`}>
-      <img src={`${import.meta.env.BASE_URL}illustrations/props/weight.webp`} alt="" />
+      <img
+        src={`${import.meta.env.BASE_URL}illustrations/props/${small ? 'weight-unmarked' : 'weight'}.webp`}
+        alt=""
+      />
       <span>{label}</span>
     </span>
   );
