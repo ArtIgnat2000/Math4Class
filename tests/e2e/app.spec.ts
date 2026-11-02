@@ -261,7 +261,7 @@ test('textbook sources, grouped catalog, page search and introductory topics are
   await page.getByRole('combobox', { name: 'Материалы', exact: true }).selectOption('contents');
   await expect(page.locator('.topic-card')).toHaveCount(7);
   await page.locator('.topic-card').filter({ hasText: 'Свойства умножения' }).click();
-  await expect(page.getByRole('dialog')).toContainText('Сами эти страницы не присланы');
+  await expect(page.getByRole('dialog')).not.toContainText('Сами эти страницы не присланы');
   await page.keyboard.press('Escape');
   await page.getByRole('combobox', { name: 'Материалы', exact: true }).selectOption('page');
   await page.getByLabel('Поиск тем').fill('стр. 46');
@@ -270,7 +270,7 @@ test('textbook sources, grouped catalog, page search and introductory topics are
   await page.getByRole('combobox', { name: 'Материалы', exact: true }).selectOption('intro');
   await expect(page.locator('.topic-card')).toHaveCount(8);
   await page.locator('.topic-card').first().click();
-  await expect(page.getByRole('dialog')).toContainText('Демо-тема для знакомства');
+  await expect(page.getByRole('dialog')).toBeVisible();
 });
 
 async function openDivision(page: Page) {
@@ -279,7 +279,7 @@ async function openDivision(page: Page) {
     .locator('.topic-card')
     .filter({ hasText: 'Вводим неполное частное и остаток отдельно' })
     .click();
-  await expect(page.getByRole('dialog')).toContainText('упражнения 218');
+  await expect(page.getByRole('dialog')).not.toContainText('упражнения 218');
   await page.getByRole('button', { name: 'Давай попробуем' }).click();
   await expect(page.getByLabel('Неполное частное', { exact: true })).toBeVisible();
 }
@@ -418,18 +418,16 @@ test('premium mass lesson and its reference meet automated WCAG AA checks on pho
   expect(result.violations).toEqual([]);
 });
 
-test('mass introduction offers two visual examples and keeps source optional', async ({ page }) => {
+test('mass introduction offers two visual examples without source links', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/#/topics');
   await page.locator('.topic-card').filter({ hasText: 'Килограмм и грамм' }).click();
   const dialog = page.getByRole('dialog', { name: 'Килограмм и грамм' });
   await expect(dialog.locator('.mass-intro-ten .mass-object-weight')).toHaveCount(10);
   await expect(dialog.getByText('1 кг = 1 000 г')).toBeVisible();
-  await expect(dialog.getByText('Самостоятельный тренажёр', { exact: false })).toBeHidden();
+  await expect(dialog.getByText('Об источнике темы')).toHaveCount(0);
   await dialog.getByRole('button', { name: 'Кг вместе с г' }).click();
   await expect(dialog.getByText('1 000 г + 200 г = 1 200 г')).toBeVisible();
   await expect(dialog.getByText('2 кг 350 г')).toHaveCount(0);
-  await dialog.locator('summary').click();
-  await expect(dialog.getByText('Самостоятельный тренажёр', { exact: false })).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 });

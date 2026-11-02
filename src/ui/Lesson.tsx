@@ -18,11 +18,10 @@ import type { Grade, Task, Topic } from '../engine/content';
 import type { Answer, LessonResult, Session, TopicProgress } from '../engine/model';
 import { answerLabel, initialOrder, parseNumericAnswer } from '../engine/answers';
 import { LEVEL_LABELS } from '../engine/progress';
-import { referenceDescription } from '../engine/references';
 import { MathVisual } from './MathVisual';
 import { MassStory } from './MassStory';
 import { MassIntroVisual } from './MassIntroVisual';
-import { Brand, InfoNote, Modal, ProgressBar, Stars, TopicOrigin, TopicSymbol } from './shared';
+import { Brand, InfoNote, Modal, ProgressBar, Stars, TopicSymbol } from './shared';
 
 export function TopicDialog({
   topic,
@@ -58,12 +57,6 @@ export function TopicDialog({
               : 'Начать занятие'}
           <ArrowRight size={18} />
         </button>
-        <details className="mass-intro-source">
-          <summary>Об источнике темы</summary>
-          <TopicOrigin topic={topic} />
-          <p>Самостоятельный тренажёр по фотографии страницы 46, не полный курс учебника.</p>
-          {topic.reference && <p>{referenceDescription(topic.reference)}</p>}
-        </details>
       </Modal>
     );
   return (
@@ -89,10 +82,6 @@ export function TopicDialog({
           </span>
         </div>
       </div>
-      <TopicOrigin topic={topic} />
-      {topic.reference && (
-        <p className="topic-source-note">{referenceDescription(topic.reference)}</p>
-      )}
       <div className="theory-card">
         <span className="theory-label">
           <Lightbulb size={17} />

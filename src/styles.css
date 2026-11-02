@@ -6138,8 +6138,8 @@ h1[tabindex='-1']:focus {
   min-height: 110px;
 }
 .mass-intro-equation > .mass-object-weight {
-  width: 95px;
-  height: 98px;
+  width: 108px;
+  height: 114px;
 }
 .mass-intro-sign {
   color: #426448;
@@ -6167,28 +6167,10 @@ h1[tabindex='-1']:focus {
   font-size: clamp(17px, 3.7vw, 23px);
   letter-spacing: -0.03em;
 }
-.mass-intro-source {
-  margin-top: 17px;
-  color: #536952;
-  font-size: 11px;
-  line-height: 1.6;
-}
-.mass-intro-source summary {
-  cursor: pointer;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-.mass-intro-source p {
-  margin-top: 7px;
-}
-.mass-intro-source .topic-reference {
-  display: block;
-  margin-top: 9px;
-}
 @media (max-width: 540px) {
   .mass-intro-equation > .mass-object-weight {
-    width: 70px;
-    height: 77px;
+    width: 92px;
+    height: 104px;
   }
   .mass-intro-ten {
     grid-template-columns: repeat(5, 29px);
@@ -6234,4 +6216,37 @@ h1[tabindex='-1']:focus {
 }
 .curriculum-parent-link svg {
   flex-shrink: 0;
+}
+
+/* Center labels within the object's actual front face, not its bounding box. */
+.mass-object-weight span {
+  top: 66%;
+  bottom: auto;
+  transform: translateY(-50%);
+  text-align: center;
+}
+.mass-object-parcel span {
+  top: 64%;
+  bottom: auto;
+  left: 60%;
+  transform: translateY(-50%);
+  text-align: center;
+}
+.mass-intro-equation > .mass-object-parcel {
+  width: 120px;
+  height: 125px;
+}
+.mass-intro-equation > .mass-object-parcel span {
+  font-size: 15px;
+  padding: 0;
+  background: none;
+}
+@media (max-width: 540px) {
+  .mass-intro-equation > .mass-object-parcel {
+    width: 103px;
+    height: 111px;
+  }
+  .mass-intro-equation > .mass-object-parcel span {
+    font-size: 13px;
+  }
 }
