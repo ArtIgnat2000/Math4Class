@@ -5555,3 +5555,109 @@ h1[tabindex='-1']:focus {
     font-size: 12px;
   }
 }
+
+/* Concrete models: each block represents exactly one unit. Motion is ornamental,
+   never required to understand the quantity or submit an answer. */
+.math-visual {
+  margin: 20px auto;
+  padding: 22px 16px 14px;
+  max-width: 520px;
+  border-radius: 22px;
+  background: radial-gradient(circle at 50% 0%, #fffdf5, #edf5e9);
+  border: 1px solid #dce9d6;
+  text-align: center;
+}
+.math-visual-scene {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  min-height: 58px;
+}
+.math-visual-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 7px;
+  max-width: 250px;
+}
+.math-visual-plus {
+  font-size: 24px;
+  font-weight: 800;
+  color: #506b4b;
+}
+.math-cube {
+  width: 28px;
+  height: 28px;
+  flex: none;
+  border-radius: 8px;
+  background: linear-gradient(145deg, #ffdbac 0%, #f3a46d 48%, #dd7950 100%);
+  box-shadow:
+    inset 2px 2px 3px #fff9,
+    inset -2px -3px 4px #a64d3d55,
+    0 5px 0 #ba6948,
+    0 8px 9px #694b3550;
+  animation: cube-arrive 0.4s ease-out both;
+}
+.math-visual-group.green .math-cube {
+  background: linear-gradient(145deg, #e0f5bd, #83ba88 55%, #518867);
+  box-shadow:
+    inset 2px 2px 3px #fff9,
+    inset -2px -3px 4px #386d4f66,
+    0 5px 0 #477457,
+    0 8px 9px #38543c55;
+}
+.math-cube.removed {
+  opacity: 0.42;
+  position: relative;
+}
+.math-cube.removed::after {
+  content: '×';
+  position: absolute;
+  inset: 0;
+  color: #6d3930;
+  font-size: 28px;
+  line-height: 27px;
+  font-weight: 800;
+}
+.math-visual figcaption {
+  margin-top: 19px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #496347;
+}
+@keyframes cube-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .math-cube {
+    animation: none;
+  }
+}
+
+/* A gentle entrance for the existing original 3D-inspired scene. */
+.hero-illustration {
+  animation: hero-float 5s ease-in-out infinite;
+}
+@keyframes hero-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-illustration {
+    animation: none;
+  }
+}
