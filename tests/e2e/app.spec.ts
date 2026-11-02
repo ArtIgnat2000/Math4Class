@@ -234,10 +234,11 @@ test('textbook sources, grouped catalog, page search and introductory topics are
   page,
 }) => {
   await page.goto('/#/topics');
-  await expect(page.getByRole('heading', { name: '«Школа России»' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: '«Школа России»' })).toHaveCount(0);
   await expect(page.locator('.catalog-count')).toContainText('256 заданий');
   await expect(page.locator('.catalog-section')).toHaveCount(5);
-  await page.getByRole('button', { name: 'Об учебнике и материалах' }).click();
+  await page.goto('/#/parents');
+  await page.getByRole('button', { name: 'Об источнике встроенных материалов 4 класса' }).click();
   const source = page.getByRole('dialog');
   await expect(source).toContainText('М. А. Бантова');
   await expect(source).toContainText('Просвещение, 2026');
@@ -245,6 +246,7 @@ test('textbook sources, grouped catalog, page search and introductory topics are
   await expect(source).toContainText('7 тем по оглавлению');
   await expect(source).toContainText('не полный курс');
   await page.keyboard.press('Escape');
+  await page.goto('/#/topics');
   await page.getByLabel('Раздел учебника').selectOption('calendar');
   await expect(page.locator('.topic-card')).toHaveCount(6);
   await expect(page.locator('.topic-reference')).toContainText([
@@ -338,7 +340,8 @@ test('source dialog and quotient/remainder inputs pass automated accessibility c
     expect(result.violations).toEqual([]);
   };
   await page.goto('/');
-  await page.getByRole('button', { name: 'Об учебнике и материалах' }).click();
+  await page.goto('/#/parents');
+  await page.getByRole('button', { name: 'Об источнике встроенных материалов 4 класса' }).click();
   await check();
   await page.keyboard.press('Escape');
   await openDivision(page);
@@ -368,7 +371,7 @@ test('expanded textbook content and two-field progress remain available offline'
   await expect(page.locator('.topic-card')).toHaveCount(35);
   await page.getByLabel('Раздел учебника').selectOption('calendar');
   await expect(page.locator('.topic-card')).toHaveCount(6);
-  await expect(page.getByRole('heading', { name: '«Школа России»' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: '«Школа России»' })).toHaveCount(0);
 });
 
 test('premium pilot keeps the props, gives optional reference and saves exit from the card', async ({

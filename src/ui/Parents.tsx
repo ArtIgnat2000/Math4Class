@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import { useApp } from '../state/AppContext';
 import { BUILTIN_PACKS } from '../content';
+import { CurriculumInfo } from './Curriculum';
 import { describeValidationError, GRADES, parsePack, type ContentPack } from '../engine/content';
 import { appDataSchema, createProfile, type AppData } from '../engine/model';
 import { dayKey, plural } from '../engine/dates';
@@ -307,6 +308,7 @@ export function Parents({ onProfiles }: { onProfiles: () => void }) {
             );
           })}
         </div>
+        <CurriculumInfo pack={BUILTIN_PACKS[4]} />
         <div className="content-panel-actions">
           <button className="button secondary" onClick={() => contentInput.current?.click()}>
             <Upload size={17} />
