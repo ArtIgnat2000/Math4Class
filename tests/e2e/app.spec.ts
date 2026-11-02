@@ -249,14 +249,7 @@ test('textbook sources, grouped catalog, page search and introductory topics are
   await page.goto('/#/topics');
   await page.getByLabel('Раздел учебника').selectOption('calendar');
   await expect(page.locator('.topic-card')).toHaveCount(6);
-  await expect(page.locator('.topic-reference')).toContainText([
-    'стр. 47',
-    'стр. 47',
-    'стр. 47',
-    'стр. 47',
-    'стр. 47',
-    'стр. 47',
-  ]);
+  await expect(page.locator('.topic-reference')).toHaveCount(0);
   await page.getByLabel('Раздел учебника').selectOption('all');
   await page.getByRole('combobox', { name: 'Материалы', exact: true }).selectOption('contents');
   await expect(page.locator('.topic-card')).toHaveCount(7);

@@ -5322,30 +5322,6 @@ h1[tabindex='-1']:focus {
 .catalog-count {
   flex-wrap: wrap;
 }
-.topic-reference {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 10px;
-  color: #556746;
-  font-size: 10px;
-  line-height: 1.7;
-}
-.topic-reference > span {
-  background: #f0f4e9;
-  border-radius: 5px;
-  padding: 3px 7px;
-}
-.topic-reference > .challenge-label {
-  color: #765a33;
-  background: #f7edd9;
-}
-.topic-source-note {
-  font-size: 11px;
-  line-height: 1.9;
-  color: #5b684f;
-  margin: 10px 0 18px;
-}
 .curriculum-dialog h3 {
   font-size: 17px;
   line-height: 1.65;
@@ -5837,7 +5813,7 @@ h1[tabindex='-1']:focus {
   flex-wrap: wrap;
   justify-content: center;
   align-items: end;
-  gap: 9px;
+  gap: 16px 9px;
   max-width: 270px;
 }
 .mass-group-label {
@@ -5846,7 +5822,7 @@ h1[tabindex='-1']:focus {
   color: #425d40;
   font-size: 13px;
   font-weight: 800;
-  margin-top: 9px;
+  margin-top: 0;
 }
 .mass-question-plus {
   color: #51654c;
@@ -5873,40 +5849,47 @@ h1[tabindex='-1']:focus {
   object-fit: contain;
   filter: drop-shadow(0 8px 7px #1c352638);
 }
-.mass-object-weight span {
-  position: absolute;
-  left: 50%;
-  bottom: 11px;
-  translate: -50% 0;
-  color: #fff;
+/* Quantities sit below the objects, never over their painted surfaces. */
+.mass-object-weight span,
+.mass-object-parcel span {
+  display: block;
+  position: static;
+  width: 100%;
+  min-height: 21px;
+  color: #304d39;
   font-size: 13px;
   font-weight: 850;
+  line-height: 1.35;
+  text-align: center;
   white-space: nowrap;
-  text-shadow: 0 1px 4px #002a25;
+  background: none;
+  padding: 0;
+  border-radius: 0;
+  text-shadow: none;
+  translate: none;
+  transform: none;
+}
+.mass-object-weight,
+.mass-object-parcel {
+  height: auto;
+  align-content: start;
+}
+.mass-object-weight img {
+  height: 82px;
+}
+.mass-object-parcel img {
+  height: 90px;
 }
 .mass-object-weight.small {
   width: 67px;
-  height: 72px;
+  height: auto;
 }
 .mass-object-weight.small img {
   filter: sepia(0.8) saturate(0.85) hue-rotate(337deg) drop-shadow(0 7px 5px #523e2540);
 }
 .mass-object-parcel {
   width: 82px;
-  height: 90px;
-}
-.mass-object-parcel span {
-  position: absolute;
-  left: 50%;
-  bottom: 18px;
-  translate: -50% 0;
-  white-space: nowrap;
-  font-size: 12px;
-  font-weight: 850;
-  color: #49382d;
-  background: #fff7e6d9;
-  padding: 2px 3px;
-  border-radius: 3px;
+  height: auto;
 }
 .mass-question-cards {
   display: flex;
@@ -5960,21 +5943,22 @@ h1[tabindex='-1']:focus {
     width: 70px;
     height: 72px;
   }
-  .mass-object-weight span {
-    font-size: 11px;
-    bottom: 9px;
+  .mass-object-weight img {
+    height: 72px;
   }
   .mass-object-weight.small {
     width: 55px;
-    height: 62px;
+    height: auto;
   }
   .mass-object-parcel {
     width: 66px;
+    height: auto;
+  }
+  .mass-object-parcel img {
     height: 74px;
   }
   .mass-object-parcel span {
     font-size: 10px;
-    bottom: 12px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -6139,7 +6123,7 @@ h1[tabindex='-1']:focus {
 }
 .mass-intro-equation > .mass-object-weight {
   width: 108px;
-  height: 114px;
+  height: auto;
 }
 .mass-intro-sign {
   color: #426448;
@@ -6154,7 +6138,7 @@ h1[tabindex='-1']:focus {
 }
 .mass-intro-ten .mass-object-weight.small {
   width: 36px;
-  height: 45px;
+  height: auto;
 }
 .mass-intro-ten .mass-object-weight.small span {
   bottom: 5px;
@@ -6170,7 +6154,7 @@ h1[tabindex='-1']:focus {
 @media (max-width: 540px) {
   .mass-intro-equation > .mass-object-weight {
     width: 92px;
-    height: 104px;
+    height: auto;
   }
   .mass-intro-ten {
     grid-template-columns: repeat(5, 29px);
@@ -6178,7 +6162,7 @@ h1[tabindex='-1']:focus {
   }
   .mass-intro-ten .mass-object-weight.small {
     width: 29px;
-    height: 36px;
+    height: auto;
   }
   .mass-intro-ten .mass-object-weight.small span {
     font-size: 7px;
@@ -6218,49 +6202,42 @@ h1[tabindex='-1']:focus {
   flex-shrink: 0;
 }
 
-/* Center labels within the object's actual front face, not its bounding box. */
-.mass-object-weight span {
-  top: 66%;
-  bottom: auto;
-  transform: translateY(-50%);
-  text-align: center;
+/* Intro uses the same below-object labels and a separate result row. */
+.mass-intro-equation > .mass-object-weight img {
+  height: 114px;
 }
-.mass-object-parcel span {
-  top: 64%;
-  bottom: auto;
-  left: 60%;
-  transform: translateY(-50%);
-  text-align: center;
-}
-.mass-intro-equation > .mass-object-parcel {
-  width: 120px;
+.mass-intro-equation > .mass-object-parcel img {
   height: 125px;
+}
+.mass-intro-equation > .mass-object-weight span {
+  font-size: 17px;
 }
 .mass-intro-equation > .mass-object-parcel span {
   font-size: 15px;
-  padding: 0;
-  background: none;
+}
+.mass-intro-equation > .mass-object-parcel {
+  width: 120px;
+}
+.mass-intro-ten .mass-object-weight.small img {
+  height: 45px;
 }
 @media (max-width: 540px) {
-  .mass-intro-equation > .mass-object-parcel {
-    width: 103px;
+  .mass-intro-equation > .mass-object-weight img {
+    height: 104px;
+  }
+  .mass-intro-equation > .mass-object-parcel img {
     height: 111px;
+  }
+  .mass-intro-equation > .mass-object-weight span {
+    font-size: 15px;
   }
   .mass-intro-equation > .mass-object-parcel span {
     font-size: 13px;
   }
-}
-
-/* Intro labels remain readable and clear of the equation beneath the objects. */
-.mass-intro-equation > .mass-object-weight span {
-  top: 68%;
-  font-size: 17px;
-}
-@media (max-width: 540px) {
-  .mass-intro-equation > .mass-object-weight span {
-    font-size: 15px;
+  .mass-intro-equation > .mass-object-parcel {
+    width: 103px;
   }
-  .mass-intro-ten-label {
-    font-size: 12px;
+  .mass-intro-ten .mass-object-weight.small img {
+    height: 36px;
   }
 }
