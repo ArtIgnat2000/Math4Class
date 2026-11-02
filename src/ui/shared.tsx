@@ -13,7 +13,6 @@ import {
 } from 'lucide-react';
 import { GRADES, type Grade, type Topic } from '../engine/content';
 import { LEVEL_LABELS } from '../engine/progress';
-import { referenceLabel } from '../engine/references';
 import type { Profile, TopicProgress } from '../engine/model';
 
 export function Brand({ small = false }: { small?: boolean }) {
@@ -276,16 +275,6 @@ export function TopicSymbol({
     </span>
   );
 }
-export function TopicOrigin({ topic }: { topic: Topic }) {
-  const label = referenceLabel(topic.reference);
-  if (!label && !topic.challenge) return null;
-  return (
-    <span className="topic-reference">
-      {label && <span>{label}</span>}
-      {topic.challenge && <span className="challenge-label">Задача со звёздочкой</span>}
-    </span>
-  );
-}
 export function TopicCard({
   topic,
   index,
@@ -316,7 +305,6 @@ export function TopicCard({
       </span>
       <strong>{topic.title}</strong>
       <span className="topic-description">{topic.description}</span>
-      <TopicOrigin topic={topic} />
       <span className="topic-card-bottom">
         <span>
           {progress ? (

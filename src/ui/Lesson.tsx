@@ -12,18 +12,16 @@ import {
   Flag,
   Lightbulb,
   RotateCcw,
-  Sparkles,
   Star,
 } from 'lucide-react';
 import type { Grade, Task, Topic } from '../engine/content';
 import type { Answer, LessonResult, Session, TopicProgress } from '../engine/model';
 import { answerLabel, initialOrder, parseNumericAnswer } from '../engine/answers';
 import { LEVEL_LABELS } from '../engine/progress';
-import { referenceDescription } from '../engine/references';
 import { MathVisual } from './MathVisual';
 import { MassStory } from './MassStory';
-import { MassQuestionVisual } from './MassQuestionVisual';
-import { Brand, InfoNote, Modal, ProgressBar, Stars, TopicOrigin, TopicSymbol } from './shared';
+import { MassIntroVisual } from './MassIntroVisual';
+import { Brand, InfoNote, Modal, ProgressBar, Stars, TopicSymbol } from './shared';
 
 export function TopicDialog({
   topic,
@@ -42,6 +40,25 @@ export function TopicDialog({
   onClose: () => void;
   onStart: () => void;
 }) {
+  if (topic.id === 'mass-kg-g')
+    return (
+      <Modal
+        title={topic.title}
+        eyebrow={`${grade} КЛАСС · ${mode === 'review' ? 'ПОВТОРЕНИЕ' : 'ПОЗНАКОМИМСЯ С МАССОЙ'}`}
+        onClose={onClose}
+        className="topic-dialog mass-intro-dialog"
+      >
+        <MassIntroVisual />
+        <button data-autofocus className="button primary full-width" onClick={onStart}>
+          {mode === 'review'
+            ? 'Начать повторение'
+            : mode === 'practice'
+              ? 'Потренироваться'
+              : 'Начать занятие'}
+          <ArrowRight size={18} />
+        </button>
+      </Modal>
+    );
   return (
     <Modal
       title={topic.title}
@@ -65,21 +82,6 @@ export function TopicDialog({
           </span>
         </div>
       </div>
-      <TopicOrigin topic={topic} />
-      {topic.reference && (
-        <p className="topic-source-note">{referenceDescription(topic.reference)}</p>
-      )}
-      {topic.id === 'mass-kg-g' && (
-        <>
-          <MassStory />
-          {mode === 'learn' && (
-            <>
-              <p className="mass-preview-label">Первое задание: посчитай массу трёх больших гирь</p>
-              <MassQuestionVisual taskId="kg-3" />
-            </>
-          )}
-        </>
-      )}
       <div className="theory-card">
         <span className="theory-label">
           <Lightbulb size={17} />
@@ -213,11 +215,13 @@ function TaskArea({
   onSubmit,
   onHint,
   onNext,
+  onExit,
 }: {
   session: Session;
   onSubmit: (answer: Answer) => void;
   onHint: () => void;
   onNext: () => void;
+  onExit: () => void;
 }) {
   const entry = session.entries[session.cursor];
   const task = entry.task;
@@ -267,33 +271,30 @@ function TaskArea({
       }}
     >
       <div className="task-content">
-        <span className="task-kind-label">
-          {entry.retry ? (
-            <>
-              <RotateCcw size={14} />
-              Ещё одна попытка — у тебя получится
-            </>
-          ) : (
-            <>
-              <Sparkles size={14} />
-              {task.type === 'division'
-                ? 'Найди частное и остаток'
-                : task.type === 'number'
-                  ? 'Найди ответ'
-                  : task.type === 'choice'
-                    ? 'Выбери ответ'
-                    : task.type === 'compare'
-                      ? 'Сравни'
-                      : 'Расставь по порядку'}
-            </>
-          )}
-        </span>
+        <div className="task-card-top">
+          <span>
+            {entry.retry
+              ? 'Повторение'
+              : `Задание ${session.cursor + 1} из ${session.initialCount}`}
+          </span>
+          <button
+            type="button"
+            className="task-exit"
+            onClick={onExit}
+            aria-label="Сохранить и выйти"
+          >
+            <ArrowLeft size={17} /> Сохранить и выйти
+          </button>
+        </div>
         <h1>{task.question}</h1>
         {session.topicId === 'mass-kg-g' && (
-          <>
-            <MassQuestionVisual taskId={task.id} />
-            <MassStory taskId={task.id} correct={session.feedback?.correct} hint={task.hint} />
-          </>
+          <MassStory
+            taskId={task.id}
+            correct={session.feedback?.correct}
+            hint={task.hint}
+            hintOpen={session.hintOpen}
+            onHint={onHint}
+          />
         )}
         {task.diagram && <Diagram diagram={task.diagram} />}
         {!task.diagram && task.expression && <MathVisual expression={task.expression} />}
@@ -450,7 +451,7 @@ function TaskArea({
             </div>
           )}
         </div>
-        {!checked && (
+        {!checked && session.topicId !== 'mass-kg-g' && (
           <div className="hint-area">
             {session.hintOpen ? (
               <aside className="task-hint">
@@ -495,15 +496,6 @@ function TaskArea({
         </div>
       )}
       <div className="task-footer">
-        <span>
-          {checked ? (
-            'Понимание важнее скорости'
-          ) : (
-            <>
-              <span className="keyboard-key">↵</span>Enter — проверить ответ
-            </>
-          )}
-        </span>
         <button className="button primary" type="submit" disabled={!checked && !canSubmit}>
           {checked
             ? session.cursor + 1 === session.entries.length
@@ -529,7 +521,6 @@ export function Lesson({
   onNext: () => void;
   onExit: () => void;
 }) {
-  const retry = session.entries[session.cursor].retry;
   return (
     <div className="lesson-shell">
       <header className="lesson-header">
@@ -545,24 +536,8 @@ export function Lesson({
           <ChevronRight size={14} />
           <strong>{session.topicTitle}</strong>
         </span>
-        <button className="text-button" onClick={onExit}>
-          <ArrowLeft size={16} />
-          Сохранить и выйти
-        </button>
       </header>
       <main className="lesson-main">
-        <div className="lesson-progress-label">
-          <span>
-            {session.mode === 'review'
-              ? 'Повторяем и закрепляем'
-              : session.mode === 'practice'
-                ? 'Свободная тренировка'
-                : 'Маленький шаг к большому открытию'}
-          </span>
-          <strong>
-            {retry ? 'Закрепляем' : `Задание ${session.cursor + 1} из ${session.initialCount}`}
-          </strong>
-        </div>
         <ProgressBar
           value={(Math.min(session.initialCount, session.cursor) / session.initialCount) * 100}
           label="Прогресс занятия"
@@ -573,26 +548,10 @@ export function Lesson({
           onSubmit={onSubmit}
           onHint={() => onChange({ ...session, hintOpen: true })}
           onNext={onNext}
+          onExit={onExit}
         />
-        <p className="lesson-reassurance">
-          <SproutIcon />
-          Без таймера. Без плохих оценок. В своём темпе.
-        </p>
       </main>
     </div>
-  );
-}
-function SproutIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-      <path
-        d="M9 16V9M9 12C3 12 2 9 2 5c5 0 7 3 7 7Zm0-3c0-5 3-7 7-7 0 5-2 7-7 7Z"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
   );
 }
 export function Result({

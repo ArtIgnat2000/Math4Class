@@ -5,6 +5,10 @@ import type { ReactNode } from 'react';
 function Weight({ label, small = false }: { label: string; small?: boolean }) {
   return (
     <span className={`mass-object mass-object-weight ${small ? 'small' : ''}`}>
+      <img
+        src={`${import.meta.env.BASE_URL}illustrations/props/${small ? 'weight-unmarked' : 'weight'}.webp`}
+        alt=""
+      />
       <span>{label}</span>
     </span>
   );
@@ -12,6 +16,7 @@ function Weight({ label, small = false }: { label: string; small?: boolean }) {
 function Parcel({ label }: { label: string }) {
   return (
     <span className="mass-object mass-object-parcel">
+      <img src={`${import.meta.env.BASE_URL}illustrations/props/parcel.webp`} alt="" />
       <span>{label}</span>
     </span>
   );
@@ -92,10 +97,10 @@ const pictures: Record<string, { label: string; picture: ReactNode }> = {
     ),
   },
   'order-mass': {
-    label: 'Четыре неупорядоченные карточки масс: 900 г, 1 кг, 1 кг 50 г, 1 500 г',
+    label: 'Четыре неупорядоченные карточки масс: 1 кг 50 г, 900 г, 1 500 г, 1 кг',
     picture: (
       <div className="mass-question-cards">
-        {['900 г', '1 кг', '1 кг 50 г', '1 500 г'].map((mass) => (
+        {['1 кг 50 г', '900 г', '1 500 г', '1 кг'].map((mass) => (
           <span key={mass}>{mass}</span>
         ))}
       </div>
@@ -106,7 +111,7 @@ const pictures: Record<string, { label: string; picture: ReactNode }> = {
     picture: (
       <Group>
         <span className="mass-object mass-object-apples">
-          <span>Яблоки</span>
+          <img src={`${import.meta.env.BASE_URL}illustrations/props/apples.webp`} alt="" />
           <b>?</b>
         </span>
         <span className="mass-group-label">Все яблоки вместе: 1 кг</span>

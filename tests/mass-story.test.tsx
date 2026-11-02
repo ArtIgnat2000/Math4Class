@@ -1,44 +1,40 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { MassStory } from '../src/ui/MassStory';
 
-describe('pilot story for kilograms and grams', () => {
-  it('shows an exact, countable model without revealing the task answer', () => {
+describe('Buk lesson scene', () => {
+  it('uses a separate premium Buk and shows three premium weights, with no duplicate question', () => {
     const { container } = render(<MassStory taskId="kg-3" />);
-    expect(screen.getByText(/У Бука три такие гири/)).toBeInTheDocument();
-    expect(screen.getByAltText('Бук — сова-помощник из проекта «Слово»')).toHaveAttribute(
+    expect(screen.getByAltText('Бук — сова-помощник')).toHaveAttribute(
       'src',
-      expect.stringContaining('/illustrations/buk/face.webp'),
+      expect.stringContaining('buk/premium.webp'),
     );
-    expect(container.querySelector('img')?.getAttribute('src')).not.toContain('mass-characters');
-    expect(container.querySelectorAll('.mass-story-weight')).toHaveLength(0);
-    fireEvent.click(screen.getByRole('button', { name: /Показать 10 гирек/ }));
-    expect(container.querySelectorAll('.mass-story-weight')).toHaveLength(10);
-    expect(screen.getByText('10 × 100 г = 1 000 г = 1 кг')).toBeInTheDocument();
-    fireEvent.click(screen.getByRole('button', { name: 'Пропустить сцену' }));
-    expect(screen.queryByText('10 × 100 г = 1 000 г = 1 кг')).not.toBeInTheDocument();
-    fireEvent.click(screen.getByRole('button', { name: /Вернуться к истории Бука/ }));
-    expect(screen.getByRole('region', { name: 'История Бука и гирек' })).toBeInTheDocument();
+    expect(container.querySelectorAll('.mass-object-weight img')).toHaveLength(3);
+    expect(screen.queryByText(/Сколько граммов/)).not.toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: 'Скрыть Бука' }));
+    expect(container.querySelectorAll('.mass-object-weight')).toHaveLength(3);
+    fireEvent.click(screen.getByRole('button', { name: 'Показать Бука' }));
+    expect(
+      screen.getByRole('region', { name: 'Бук помогает с единицами массы' }),
+    ).toBeInTheDocument();
   });
-  it('changes dialogue after feedback without punishing a mistake', () => {
+  it('keeps reference separate from the assisted hint', () => {
+    const onHint = vi.fn();
     const { rerender } = render(
-      <MassStory taskId="mixed-2-350" correct={false} hint="Переведи 2 кг в граммы." />,
+      <MassStory taskId="weighing" hint="Яблоки бывают разной массы." onHint={onHint} />,
     );
-    expect(screen.getByText(/Переведи 2 кг в граммы/)).toBeInTheDocument();
-    rerender(<MassStory taskId="mixed-2-350" correct={true} />);
-    expect(screen.getByText(/Бук радуется/)).toBeInTheDocument();
-  });
-});
-
-describe('story wording matches the task', () => {
-  it.each([
-    ['kg-3', 'Каждая большая гиря весит 1 кг'],
-    ['mixed-2-350', 'пакет крупы массой 350 г'],
-    ['g-7000', 'груз массой 7 000 г'],
-    ['weighing', 'масса каждого яблока неизвестна'],
-  ])('%s has an unambiguous prompt', (taskId, phrase) => {
-    const { unmount } = render(<MassStory taskId={taskId} />);
-    expect(screen.getByText(new RegExp(phrase))).toBeInTheDocument();
-    unmount();
+    fireEvent.click(screen.getByRole('button', { name: 'Таблица единиц' }));
+    expect(screen.getByText('1 кг = 1 000 г')).toBeInTheDocument();
+    expect(onHint).not.toHaveBeenCalled();
+    fireEvent.click(screen.getByRole('button', { name: 'Все единицы массы' }));
+    expect(screen.getByRole('table', { name: 'Единицы массы' })).toHaveTextContent('1 ц = 100 кг');
+    fireEvent.click(screen.getByRole('button', { name: 'Подсказка' }));
+    expect(onHint).toHaveBeenCalledOnce();
+    rerender(
+      <MassStory taskId="weighing" hint="Яблоки бывают разной массы." hintOpen onHint={onHint} />,
+    );
+    expect(screen.getByText('Яблоки бывают разной массы.')).toBeInTheDocument();
+    rerender(<MassStory taskId="weighing" correct={false} />);
+    expect(screen.getByText('Посмотри разбор ответа ниже.')).toBeInTheDocument();
   });
 });

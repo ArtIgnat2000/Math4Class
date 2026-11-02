@@ -21,7 +21,6 @@ import {
   type TopicReference,
 } from '../engine/content';
 import { referenceLabel } from '../engine/references';
-import { CurriculumBanner } from './Curriculum';
 import { dayKey, plural, recentDays } from '../engine/dates';
 import type { Session } from '../engine/model';
 import { dueTopics, gradeStats, recommendedTopic, topicKey } from '../engine/progress';
@@ -122,7 +121,6 @@ export function Learning({
       >
         <GradeSwitcher grade={profile.grade} onChange={setGrade} />
       </PageHeading>
-      <CurriculumBanner pack={pack} />
       <div className="hero-grid">
         <section className="learning-hero">
           <div className="hero-copy">
@@ -292,7 +290,6 @@ export function Catalog({ onOpen }: { onOpen: OpenTopic }) {
       >
         <GradeSwitcher grade={profile.grade} onChange={changeGrade} />
       </PageHeading>
-      <CurriculumBanner pack={pack} />
       {pack.sections && (
         <div className="curriculum-filters">
           <label htmlFor="section-filter">

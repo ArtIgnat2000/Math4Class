@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { BookOpen, ChevronRight } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 import type { ContentPack } from '../engine/content';
 import { plural } from '../engine/dates';
 import { Modal } from './shared';
 
-export function CurriculumBanner({ pack }: { pack: ContentPack }) {
+/** Textbook provenance belongs to the parent-facing materials section, not the child's route. */
+export function CurriculumInfo({ pack }: { pack: ContentPack }) {
   const [open, setOpen] = useState(false);
   const source = pack.curriculum;
   if (!source) return null;
@@ -16,41 +17,28 @@ export function CurriculumBanner({ pack }: { pack: ContentPack }) {
   const taskCount = pack.topics.reduce((n, t) => n + t.tasks.length, 0);
   return (
     <>
-      <aside className="curriculum-banner" aria-label="Учебник и материалы">
-        <span className="curriculum-icon">
-          <BookOpen size={25} strokeWidth={1.7} />
-        </span>
-        <div className="curriculum-copy">
-          <span className="eyebrow">
-            {pack.grade} КЛАСС · ЧАСТЬ {source.part}
-          </span>
-          <h2>«{source.series}»</h2>
-          <p>
-            {source.authors[0]}
-            {source.authors.length > 1 ? ' и др.' : ''} · {source.publisher}, {source.year}
-          </p>
-          <p className="curriculum-scope">
-            {pack.topics.length} {plural(pack.topics.length, ['тема', 'темы', 'тем'])} · {taskCount}{' '}
-            {plural(taskCount, ['задание', 'задания', 'заданий'])} в банке
-          </p>
-          <small>По присланным фотографиям и оглавлению · не полный курс</small>
-        </div>
-        <button className="text-button curriculum-more" onClick={() => setOpen(true)}>
-          Об учебнике и материалах <ChevronRight size={16} />
-        </button>
-      </aside>
+      <button className="text-button curriculum-parent-link" onClick={() => setOpen(true)}>
+        Об источнике встроенных материалов 4 класса <ChevronRight size={16} />
+      </button>
       {open && (
         <Modal
           title="Об учебнике и материалах"
-          eyebrow="НА ЧТО ОПИРАЕМСЯ"
+          eyebrow="ИНФОРМАЦИЯ ДЛЯ РОДИТЕЛЕЙ"
           onClose={() => setOpen(false)}
           className="curriculum-dialog"
         >
+          <p className="small-note">
+            {pack.grade} класс · часть {source.part}
+          </p>
           <h3>{source.title}</h3>
           <p className="curriculum-authors">{source.authors.join(', ')}.</p>
           <p className="small-note">
             Серия «{source.series}». {source.publisher}, {source.year}.
             {source.edition ? ` ${source.edition}.` : ''}
+          </p>
+          <p className="small-note">
+            {pack.topics.length} {plural(pack.topics.length, ['тема', 'темы', 'тем'])} · {taskCount}{' '}
+            {plural(taskCount, ['задание', 'задания', 'заданий'])} в банке
           </p>
           <div className="source-breakdown">
             {counts.page > 0 && (

@@ -5273,64 +5273,7 @@ h1[tabindex='-1']:focus {
   }
 }
 
-/* Textbook-aware lessons: sources are visible, never implied to be a full course. */
-.curriculum-banner {
-  display: flex;
-  align-items: center;
-  gap: 17px;
-  padding: 19px 22px;
-  margin-bottom: 25px;
-  border: 1px solid #dfe7d4;
-  border-radius: 14px;
-  background: #f0f5e9;
-  color: #506342;
-}
-.curriculum-icon {
-  display: grid;
-  place-items: center;
-  width: 52px;
-  height: 60px;
-  flex-shrink: 0;
-  border-radius: 9px 13px 13px 9px;
-  border-left: 4px solid #95aa7a;
-  background: #e0e9d2;
-  color: #526b40;
-}
-.curriculum-copy {
-  flex: 1;
-  min-width: 0;
-}
-.curriculum-copy .eyebrow {
-  font-size: 9px;
-  margin: 0 0 3px;
-}
-.curriculum-copy h2 {
-  margin: 0 0 5px;
-  font-size: 20px;
-  line-height: 1.3;
-  letter-spacing: -0.5px;
-}
-.curriculum-copy p {
-  margin: 0;
-  font-size: 11px;
-  line-height: 1.8;
-}
-.curriculum-copy .curriculum-scope {
-  font-weight: 750;
-  margin-top: 4px;
-}
-.curriculum-copy small {
-  display: block;
-  font-size: 10px;
-  margin-top: 3px;
-  line-height: 1.7;
-}
-.curriculum-more {
-  align-self: flex-end;
-  font-size: 10px;
-  text-align: left;
-  flex-shrink: 0;
-}
+/* Textbook metadata is available only in the parent-facing materials section. */
 .curriculum-filters {
   display: flex;
   gap: 17px;
@@ -5378,30 +5321,6 @@ h1[tabindex='-1']:focus {
 }
 .catalog-count {
   flex-wrap: wrap;
-}
-.topic-reference {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 10px;
-  color: #556746;
-  font-size: 10px;
-  line-height: 1.7;
-}
-.topic-reference > span {
-  background: #f0f4e9;
-  border-radius: 5px;
-  padding: 3px 7px;
-}
-.topic-reference > .challenge-label {
-  color: #765a33;
-  background: #f7edd9;
-}
-.topic-source-note {
-  font-size: 11px;
-  line-height: 1.9;
-  color: #5b684f;
-  margin: 10px 0 18px;
 }
 .curriculum-dialog h3 {
   font-size: 17px;
@@ -5494,32 +5413,7 @@ h1[tabindex='-1']:focus {
   margin: 15px auto 0;
   max-width: 430px;
 }
-@media (max-width: 740px) {
-  .curriculum-banner {
-    flex-wrap: wrap;
-    align-items: flex-start;
-    gap: 13px;
-  }
-  .curriculum-more {
-    margin-left: 65px;
-  }
-  .curriculum-copy {
-    flex-basis: calc(100% - 80px);
-  }
-}
 @media (max-width: 540px) {
-  .curriculum-banner {
-    padding: 17px;
-  }
-  .curriculum-copy h2 {
-    font-size: 20px;
-  }
-  .curriculum-copy p {
-    font-size: 11px;
-  }
-  .curriculum-copy small {
-    font-size: 10px;
-  }
   .curriculum-filters {
     gap: 13px;
   }
@@ -5741,173 +5635,134 @@ h1[tabindex='-1']:focus {
   }
 }
 
-/* Pilot episode: the same concrete kilogram model is available beside every
-   question; the illustration never asserts a particular answer on its own. */
+/* Compact, contextual scene: Buk + the exact props of the question share one card. */
 .mass-story {
-  margin: 22px auto;
-  overflow: hidden;
-  border: 1px solid #e5d7bd;
-  border-radius: 22px;
-  background: #fffaf0;
+  margin: 16px auto;
   max-width: 640px;
-  box-shadow: 0 15px 30px #76573514;
+  border: 1px solid #e5d7bd;
+  border-radius: 18px;
+  background: #fffaf0;
+  overflow: hidden;
 }
-.mass-story-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  padding: 11px 18px;
-  color: #79523e;
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 0.07em;
-}
-.mass-story-bar button,
-.mass-story-return,
-.mass-story-action {
+.mass-story-tools button,
+.mass-story-action,
+.mass-story-return {
   cursor: pointer;
   border: 1px solid #d4c3a4;
-  border-radius: 12px;
+  border-radius: 10px;
+  padding: 7px 10px;
   background: #fff;
   color: #68482d;
   font: inherit;
-  padding: 8px 12px;
-  letter-spacing: 0;
+  font-size: 12px;
 }
-.mass-story-return {
-  display: block;
-  margin: 20px auto;
+.mass-story-tools button:disabled {
+  opacity: 0.7;
+  cursor: default;
 }
 .mass-story-frame {
-  position: relative;
-  overflow: hidden;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 16px;
+  min-height: 92px;
 }
 .mass-story-frame img {
-  display: block;
-  width: 100%;
-  height: auto;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
-  animation:
-    mass-scene-enter 0.7s ease-out both,
-    mass-scene-breathe 6s ease-in-out 0.7s infinite;
+  flex: none;
+  width: 68px;
+  height: 110px;
+  object-fit: contain;
+  animation: mass-buk-enter 0.4s ease-out both;
 }
 .mass-story-bubble {
-  position: relative;
-  margin: -42px 18px 12px auto;
-  padding: 12px 17px;
-  width: min(84%, 410px);
-  border-radius: 17px 17px 17px 4px;
-  background: #fffdf8;
-  border: 2px solid #e8d3b2;
-  box-shadow: 0 7px 20px #5b3e2b24;
+  padding: 10px 14px;
+  border-radius: 14px 14px 14px 4px;
+  background: #fff;
+  border: 1px solid #e8d3b2;
   color: #4a4033;
   animation: mass-bubble-enter 0.35s ease-out both;
 }
 .mass-story-bubble strong {
-  display: block;
   color: #7d4c32;
-  font-size: 13px;
+  font-size: 12px;
 }
 .mass-story-bubble p {
-  margin: 4px 0 0;
-  font-size: 14px;
-  line-height: 1.5;
+  margin: 3px 0 0;
+  font-size: 13px;
+  line-height: 1.45;
 }
-.mass-story-model {
-  padding: 0 18px 18px;
+.mass-story .mass-question-visual {
+  margin: 4px 14px 10px;
+  max-width: none;
+  padding: 8px 12px 13px;
+  border-radius: 14px;
+}
+.mass-story .mass-question-items {
+  min-height: 88px;
+}
+.mass-story-tools {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 14px 12px;
+}
+.mass-story-hint {
+  margin: 0 14px 12px;
+  padding: 9px 12px;
+  border-radius: 10px;
+  background: #f9eecf;
+  color: #4f4834;
+  font-size: 13px;
+}
+.mass-story-reference {
+  margin: 0 14px 12px;
+  padding: 12px;
+  border: 1px solid #dce9d6;
+  background: #f4f8ee;
+  border-radius: 12px;
   text-align: center;
 }
-.mass-story-rule {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px 15px;
-  margin: 10px 0;
-}
-.mass-story-rule span {
-  color: #56714f;
-  font-size: 13px;
-}
-.mass-story-rule strong {
+.mass-story-reference > strong {
   color: #3a5a3a;
-  font-size: 20px;
+  font-size: 18px;
 }
-.mass-story-action {
-  font-size: 13px;
-  font-weight: 700;
+.mass-units-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  color: #37553d;
+  text-align: left;
+  font-size: 12px;
 }
-.mass-story-weights {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  align-items: center;
-  justify-content: center;
-  padding: 16px 0 3px;
+.mass-units-table th,
+.mass-units-table td {
+  padding: 8px;
+  border-top: 1px solid #d6e3cd;
 }
-.mass-story-weight {
-  display: grid;
-  place-items: center;
-  width: 49px;
-  height: 46px;
-  border-radius: 16px 16px 10px 10px;
-  color: #5d3929;
-  font-size: 11px;
-  font-weight: 800;
-  background: linear-gradient(145deg, #ffddb5, #efa777 60%, #d37b54);
-  box-shadow:
-    inset 2px 3px 3px #fff8,
-    0 4px 0 #b36c4d,
-    0 8px 8px #6a483a33;
-  animation: mass-weight-enter 0.35s ease-out both;
+.mass-story-collapsed {
+  text-align: center;
 }
-.mass-story-weight:nth-child(2n) {
-  animation-delay: 0.1s;
+.mass-story-collapsed .mass-question-visual {
+  margin: 12px auto;
 }
-.mass-story-weight:nth-child(3n) {
-  animation-delay: 0.2s;
+.mass-story-return {
+  margin: 8px auto 14px;
 }
-.mass-story-weights strong {
-  flex-basis: 100%;
-  color: #3a5a3a;
-  font-size: 14px;
-  margin-top: 8px;
-}
-@keyframes mass-scene-enter {
+@keyframes mass-buk-enter {
   from {
-    opacity: 0.5;
-    transform: scale(1.04);
+    opacity: 0;
+    transform: translateY(8px);
   }
   to {
     opacity: 1;
     transform: none;
-  }
-}
-@keyframes mass-scene-breathe {
-  0%,
-  100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.035);
   }
 }
 @keyframes mass-bubble-enter {
   from {
     opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-@keyframes mass-weight-enter {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
+    transform: translateY(8px);
   }
   to {
     opacity: 1;
@@ -5915,25 +5770,23 @@ h1[tabindex='-1']:focus {
   }
 }
 @media (max-width: 540px) {
-  .mass-story-bar {
-    font-size: 9px;
-    padding: 9px;
+  .mass-story-frame {
+    padding: 3px 10px;
   }
-  .mass-story-bar button {
-    font-size: 10px;
-  }
-  .mass-story-bubble {
-    width: calc(100% - 20px);
-    margin: -12px 10px 10px;
+  .mass-story-frame img {
+    width: 56px;
+    height: 96px;
   }
   .mass-story-bubble p {
     font-size: 12px;
   }
+  .mass-story .mass-question-visual {
+    margin: 3px 8px 9px;
+  }
 }
 @media (prefers-reduced-motion: reduce) {
   .mass-story-frame img,
-  .mass-story-bubble,
-  .mass-story-weight {
+  .mass-story-bubble {
     animation: none;
   }
 }
@@ -5960,7 +5813,7 @@ h1[tabindex='-1']:focus {
   flex-wrap: wrap;
   justify-content: center;
   align-items: end;
-  gap: 9px;
+  gap: 16px 9px;
   max-width: 270px;
 }
 .mass-group-label {
@@ -5969,7 +5822,7 @@ h1[tabindex='-1']:focus {
   color: #425d40;
   font-size: 13px;
   font-weight: 800;
-  margin-top: 9px;
+  margin-top: 0;
 }
 .mass-question-plus {
   color: #51654c;
@@ -5984,73 +5837,59 @@ h1[tabindex='-1']:focus {
   font-weight: 800;
   animation: mass-prop-enter 0.4s ease-out both;
 }
+/* Separate studio-lit objects, repeated exactly as many times as the question states. */
 .mass-object-weight {
-  width: 60px;
-  height: 67px;
-  margin-top: 18px;
-  border-radius: 22px 22px 13px 13px;
-  color: #fefdf5;
-  background: linear-gradient(115deg, #b6d0ad 0%, #6e9a7b 48%, #3d705a 100%);
-  box-shadow:
-    inset 5px 2px 7px #fff8,
-    inset -5px -2px 8px #254c4577,
-    0 6px 0 #3d6454,
-    0 11px 13px #30452c44;
+  width: 83px;
+  height: 82px;
 }
-.mass-object-weight::before {
-  content: '';
-  position: absolute;
-  width: 31px;
-  height: 14px;
-  border-radius: 8px 8px 2px 2px;
-  background: linear-gradient(#accbac, #5a8770);
-  top: -13px;
-  box-shadow: inset 2px 1px 3px #fff8;
+.mass-object img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 7px #1c352638);
+}
+/* Quantities sit below the objects, never over their painted surfaces. */
+.mass-object-weight span,
+.mass-object-parcel span {
+  display: block;
+  position: static;
+  width: 100%;
+  min-height: 21px;
+  color: #304d39;
+  font-size: 13px;
+  font-weight: 850;
+  line-height: 1.35;
+  text-align: center;
+  white-space: nowrap;
+  background: none;
+  padding: 0;
+  border-radius: 0;
+  text-shadow: none;
+  translate: none;
+  transform: none;
+}
+.mass-object-weight,
+.mass-object-parcel {
+  height: auto;
+  align-content: start;
+}
+.mass-object-weight img {
+  height: 82px;
+}
+.mass-object-parcel img {
+  height: 90px;
 }
 .mass-object-weight.small {
-  width: 48px;
-  height: 53px;
-  color: #683d30;
-  background: linear-gradient(115deg, #ffdfb6, #efa678 55%, #c87857);
-  box-shadow:
-    inset 3px 2px 5px #fff8,
-    0 5px 0 #a86b51,
-    0 9px 12px #6e4d3844;
+  width: 67px;
+  height: auto;
 }
-.mass-object-weight span {
-  font-size: 13px;
-  position: relative;
-  z-index: 1;
-  white-space: nowrap;
+.mass-object-weight.small img {
+  filter: drop-shadow(0 7px 5px #523e2540);
 }
 .mass-object-parcel {
-  min-width: 95px;
-  height: 83px;
-  padding: 0 9px;
-  margin-top: 6px;
-  border-radius: 12px;
-  color: #654a31;
-  background: linear-gradient(130deg, #fbe2aa, #dfad71 70%, #c58c5e);
-  box-shadow:
-    inset 4px 3px 6px #fff9,
-    0 7px 0 #bd895e,
-    0 12px 14px #66513444;
-}
-.mass-object-parcel::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 42%;
-  width: 15%;
-  background: #faefd1aa;
-}
-.mass-object-parcel span {
-  z-index: 1;
-  background: #fffbef;
-  border-radius: 5px;
-  padding: 4px 6px;
-  white-space: nowrap;
+  width: 82px;
+  height: auto;
 }
 .mass-question-cards {
   display: flex;
@@ -6068,30 +5907,20 @@ h1[tabindex='-1']:focus {
   font-weight: 800;
 }
 .mass-object-apples {
-  min-width: 144px;
-  height: 95px;
-  color: #643b2d;
-  border-radius: 40% 40% 20px 20px;
-  background:
-    radial-gradient(circle at 25% 25%, #f9c182 0 14px, transparent 15px),
-    radial-gradient(circle at 57% 22%, #e88368 0 19px, transparent 20px),
-    radial-gradient(circle at 80% 32%, #d7685c 0 17px, transparent 18px),
-    linear-gradient(0deg, #b98553 0 50%, transparent 51%);
-  box-shadow:
-    0 6px 0 #947046,
-    0 11px 12px #66513444;
-}
-.mass-object-apples span {
-  align-self: end;
-  font-size: 13px;
-  padding-bottom: 10px;
+  width: 138px;
+  height: 108px;
 }
 .mass-object-apples b {
   position: absolute;
-  right: -25px;
-  top: -5px;
-  color: #3e5d42;
-  font-size: 27px;
+  right: 0;
+  top: 0;
+  background: #fffdf4;
+  color: #304d39;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  font-size: 19px;
+  box-shadow: 0 3px 8px #304d3930;
 }
 @keyframes mass-prop-enter {
   from {
@@ -6105,21 +5934,31 @@ h1[tabindex='-1']:focus {
 }
 @media (max-width: 540px) {
   .mass-question-items {
-    gap: 9px;
+    gap: 5px;
+  }
+  .mass-question-group {
+    gap: 2px;
   }
   .mass-object-weight {
-    width: 47px;
-    height: 56px;
+    width: 70px;
+    height: 72px;
   }
-  .mass-object-weight span {
-    font-size: 11px;
+  .mass-object-weight img {
+    height: 72px;
+  }
+  .mass-object-weight.small {
+    width: 55px;
+    height: auto;
   }
   .mass-object-parcel {
-    min-width: 78px;
-    height: 66px;
+    width: 66px;
+    height: auto;
+  }
+  .mass-object-parcel img {
+    height: 74px;
   }
   .mass-object-parcel span {
-    font-size: 11px;
+    font-size: 10px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -6127,62 +5966,301 @@ h1[tabindex='-1']:focus {
     animation: none;
   }
 }
-.mass-preview-label {
-  margin: 20px 0 0;
-  text-align: center;
-  font-size: 14px;
-  font-weight: 800;
-  color: #425d40;
-}
-.topic-dialog .mass-question-visual {
-  margin-top: 12px;
-}
 
-/* The original Buk is an independent character, not a fixed background scene. */
+/* Premium pilot: no duplicated narration or ornamental panels in the task. */
+.mass-story {
+  border-color: #e0dfd3;
+  background: #fcfaf3;
+  box-shadow: 0 12px 28px #183c2912;
+}
 .mass-story-frame {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-  padding: 8px 20px 14px;
-  min-height: 150px;
-  background: radial-gradient(circle at 25% 30%, #f1e8bb, #f9f7ec 64%, #e8f0df);
+  min-height: 95px;
 }
 .mass-story-frame img {
-  width: clamp(84px, 24%, 135px);
-  height: auto;
-  aspect-ratio: 1;
-  object-fit: contain;
-  flex: none;
-  animation: mass-buk-enter 0.5s ease-out both;
+  width: 62px;
+  height: 96px;
 }
 .mass-story-bubble {
-  width: auto;
-  flex: 1;
-  margin: 0;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  padding: 4px 8px;
+  animation: none;
 }
-@keyframes mass-buk-enter {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
+.mass-story-bubble strong {
+  font-size: 14px;
+  color: #264934;
+}
+.mass-story-bubble p {
+  margin: 2px 0;
+}
+.mass-story-tools {
+  justify-content: flex-start;
+  padding: 6px 0 0;
+  gap: 6px;
+}
+.mass-story-tools button {
+  padding: 7px 9px;
+  font-size: 11px;
+}
+.mass-story .mass-question-visual {
+  background: radial-gradient(ellipse at 50% 12%, #fefefa 0%, #e9eee7 85%);
+  border-color: #e1e8dd;
+}
+.mass-story-frame img.buk-celebrates {
+  animation: buk-happy 0.55s ease-out both;
+}
+@keyframes buk-happy {
+  40% {
+    transform: translateY(-7px) rotate(-5deg);
   }
-  to {
-    opacity: 1;
+  100% {
     transform: none;
   }
 }
+.task-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 22px;
+  color: #62755e;
+  font-weight: 700;
+  font-size: 12px;
+}
+.task-exit {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 40px;
+  border: 1px solid #cfdbc8;
+  border-radius: 10px;
+  background: #f8faf4;
+  color: #35513b;
+  padding: 8px 11px;
+  font: inherit;
+  cursor: pointer;
+}
+.task-exit:hover,
+.task-exit:focus-visible {
+  background: #edf4e8;
+  outline-color: #668d6b;
+}
+.task-footer {
+  justify-content: flex-end;
+}
 @media (max-width: 540px) {
-  .mass-story-frame {
-    padding: 8px;
-    gap: 5px;
+  .task-card-top {
+    margin-bottom: 15px;
   }
-  .mass-story-bubble {
-    width: auto;
-    margin: 0;
+  .task-exit {
+    font-size: 11px;
+  }
+  .mass-story-frame img {
+    width: 48px;
+    height: 82px;
+  }
+  .mass-story-tools button {
+    padding: 7px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .mass-story-frame img {
+  .mass-story-frame img.buk-celebrates {
     animation: none;
+  }
+}
+
+/* Modal pilot: one mathematical idea per view, optional provenance. */
+.mass-intro-dialog {
+  max-width: 570px;
+}
+.mass-intro {
+  margin: 18px 0 22px;
+}
+.mass-intro-switch {
+  display: flex;
+  gap: 7px;
+  padding: 4px;
+  border-radius: 13px;
+  background: #eef2e9;
+}
+.mass-intro-switch button {
+  flex: 1;
+  min-height: 43px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: #476049;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 750;
+  cursor: pointer;
+}
+.mass-intro-switch button[aria-pressed='true'] {
+  background: #fff;
+  color: #284b37;
+  box-shadow: 0 3px 9px #243c291c;
+}
+.mass-intro-switch button:focus-visible {
+  outline: 2px solid #5c8769;
+  outline-offset: 2px;
+}
+.mass-intro-panel {
+  margin-top: 12px;
+  padding: 16px 9px;
+  border: 1px solid #dbe5d7;
+  border-radius: 16px;
+  background: radial-gradient(ellipse at 50% 10%, #fffefb, #ebf1e9);
+  text-align: center;
+  animation: mass-bubble-enter 0.3s ease-out both;
+}
+.mass-intro-equation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 9px;
+  min-height: 140px;
+}
+.mass-intro-equation > .mass-object-weight {
+  width: 108px;
+  height: auto;
+}
+.mass-intro-sign {
+  color: #426448;
+  font-size: 25px;
+  font-weight: 850;
+}
+.mass-intro-ten {
+  display: grid;
+  grid-template-columns: repeat(5, 48px);
+  gap: 3px 2px;
+  align-items: center;
+}
+.mass-intro-ten .mass-object-weight.small {
+  width: 48px;
+  height: auto;
+}
+.mass-intro-ten .mass-object-weight.small span {
+  bottom: 5px;
+  font-size: 8px;
+}
+.mass-intro-result {
+  display: block;
+  margin-top: 24px;
+  color: #2e593e;
+  font-size: clamp(17px, 3.7vw, 23px);
+  letter-spacing: -0.03em;
+}
+@media (max-width: 540px) {
+  .mass-intro-equation > .mass-object-weight {
+    width: 92px;
+    height: auto;
+  }
+  .mass-intro-ten {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 3px;
+  }
+  .mass-intro-ten .mass-object-weight.small {
+    width: 100%;
+    height: auto;
+  }
+  .mass-intro-ten .mass-object-weight.small span {
+    font-size: 7px;
+    bottom: 4px;
+  }
+  .mass-intro-switch button {
+    font-size: 11px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mass-intro-panel {
+    animation: none;
+  }
+}
+
+/* Each miniature weight keeps its own readable nominal below the object. */
+.mass-intro-ten .mass-object-weight.small span {
+  display: block;
+  min-height: 16px;
+  font-size: 11px;
+  line-height: 1.25;
+}
+.mass-intro-ten-label {
+  grid-column: 1 / -1;
+  margin-top: 4px;
+  font-size: 14px;
+  font-weight: 800;
+  color: #33543d;
+}
+
+/* Provenance is discoverable for adults, not a banner ahead of the child's lesson. */
+.curriculum-parent-link {
+  margin: 12px 0 4px;
+  max-width: 100%;
+  white-space: normal;
+  text-align: left;
+  font-size: 12px;
+}
+.curriculum-parent-link svg {
+  flex-shrink: 0;
+}
+
+/* Intro uses the same below-object labels and a separate result row. */
+.mass-intro-equation > .mass-object-weight img {
+  height: 114px;
+}
+.mass-intro-equation > .mass-object-parcel img {
+  height: 125px;
+}
+.mass-intro-equation > .mass-object-weight span {
+  font-size: 17px;
+}
+.mass-intro-equation > .mass-object-parcel span {
+  font-size: 15px;
+}
+.mass-intro-equation > .mass-object-parcel {
+  width: 120px;
+}
+.mass-intro-ten .mass-object-weight.small img {
+  height: 57px;
+}
+@media (max-width: 540px) {
+  .mass-intro-equation > .mass-object-weight img {
+    height: 104px;
+  }
+  .mass-intro-equation > .mass-object-parcel img {
+    height: 111px;
+  }
+  .mass-intro-equation > .mass-object-weight span {
+    font-size: 15px;
+  }
+  .mass-intro-equation > .mass-object-parcel span {
+    font-size: 13px;
+  }
+  .mass-intro-equation > .mass-object-parcel {
+    width: 103px;
+  }
+  .mass-intro-ten .mass-object-weight.small img {
+    height: 55px;
+  }
+}
+
+/* Keep ten individually recognisable 100 g weights on narrow screens. */
+@media (max-width: 540px) {
+  .mass-intro-panel:has(.mass-intro-ten) .mass-intro-equation {
+    flex-direction: column;
+    gap: 3px;
+  }
+  .mass-intro-ten {
+    width: min(100%, 260px);
+  }
+  .mass-intro-panel:has(.mass-intro-ten) .mass-intro-result {
+    margin-top: 14px;
+  }
+}
+
+@media (max-width: 540px) {
+  .mass-intro-ten .mass-object-weight.small span {
+    font-size: 11px;
   }
 }

@@ -128,21 +128,30 @@ describe('textbook lessons and compound answers', () => {
     expect(screen.getByLabelText('Материалы')).toHaveValue('all');
     expect(container.querySelectorAll('.topic-card')).toHaveLength(35);
   });
-  it('shows the photographed edition and honestly distinguishes page and contents coverage', async () => {
+  it('keeps textbook provenance in Parents, not on the child home', async () => {
     const user = userEvent.setup();
-    render(
+    const { rerender } = render(
       <AppProvider>
         <Learning onOpen={vi.fn()} onNavigate={vi.fn()} onResume={vi.fn()} />
       </AppProvider>,
     );
-    expect(screen.getByRole('heading', { name: '«Школа России»' })).toBeInTheDocument();
-    await user.click(screen.getByRole('button', { name: 'Об учебнике и материалах' }));
+    expect(screen.queryByRole('heading', { name: '«Школа России»' })).not.toBeInTheDocument();
+    expect(screen.queryByText(/М. И. Моро/)).not.toBeInTheDocument();
+    rerender(
+      <AppProvider>
+        <Parents onProfiles={vi.fn()} />
+      </AppProvider>,
+    );
+    await user.click(
+      screen.getByRole('button', { name: 'Об источнике встроенных материалов 4 класса' }),
+    );
     const dialog = within(screen.getByRole('dialog'));
     expect(dialog.getByText('20 тем по фотографиям страниц.')).toBeInTheDocument();
     expect(dialog.getByText('7 тем по оглавлению.')).toBeInTheDocument();
     expect(dialog.getByText(/М. А. Бантова/)).toBeInTheDocument();
     expect(dialog.getByText(/16-е издание, стереотипное/)).toBeInTheDocument();
-    expect(dialog.getByText(/не полный курс и не официальное приложение/)).toBeInTheDocument();
+    expect(dialog.getByText(/35 тем/)).toBeInTheDocument();
+    expect(dialog.getByText(/256 заданий в банке/)).toBeInTheDocument();
     await user.keyboard('{Escape}');
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
@@ -222,4 +231,27 @@ describe('textbook lessons and compound answers', () => {
       expect(rect.getAttribute('width')).toBe(rect.getAttribute('height'));
     },
   );
+});
+
+describe('lesson exit is available on every card', () => {
+  it('exits before and after checking without submitting or advancing', async () => {
+    const user = userEvent.setup();
+    const topic = BUILTIN_PACKS[4].topics.find((t) => t.id === 'mass-kg-g')!;
+    const session = createSession(topic, 4);
+    const exit = vi.fn();
+    const submit = vi.fn();
+    const next = vi.fn();
+    const { rerender } = render(
+      <Lesson session={session} onChange={vi.fn()} onSubmit={submit} onNext={next} onExit={exit} />,
+    );
+    await user.click(screen.getByRole('button', { name: 'Сохранить и выйти' }));
+    const checked = submitAnswer(session, '3000');
+    rerender(
+      <Lesson session={checked} onChange={vi.fn()} onSubmit={submit} onNext={next} onExit={exit} />,
+    );
+    await user.click(screen.getByRole('button', { name: 'Сохранить и выйти' }));
+    expect(exit).toHaveBeenCalledTimes(2);
+    expect(submit).not.toHaveBeenCalled();
+    expect(next).not.toHaveBeenCalled();
+  });
 });

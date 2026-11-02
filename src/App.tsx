@@ -522,15 +522,6 @@ export default function App() {
               </section>
             </div>
           </div>
-          <InfoNote icon="sparkles">
-            В 4 классе добавлены темы «Школы России» по присланным фотографиям. Это самостоятельный
-            тренажёр, а не полный курс; в 1–3 классах пока демоматериалы. Концептуальная основа —
-            проект{' '}
-            <a href="https://artignat2000.github.io/slovo2/" target="_blank" rel="noreferrer">
-              «Слово»
-            </a>
-            .
-          </InfoNote>
           <button
             data-autofocus
             className="button primary full-width"
