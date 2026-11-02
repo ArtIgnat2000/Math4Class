@@ -379,7 +379,7 @@ test('pilot mass story follows the child through a lesson and respects skipping'
   await expect(page.getByRole('region', { name: 'История Слона и гирек' })).toBeVisible();
   await page.getByRole('button', { name: 'Давай попробуем' }).click();
   await expect(page.getByRole('region', { name: 'История Слона и гирек' })).toBeVisible();
-  await page.getByRole('button', { name: /Показать: сколько гирек/ }).click();
+  await page.getByRole('button', { name: /Показать 10 гирек/ }).click();
   await expect(page.locator('.mass-story-weight')).toHaveCount(10);
   await page.getByRole('button', { name: 'Пропустить сцену' }).click();
   await expect(page.locator('.mass-story-return')).toBeVisible();

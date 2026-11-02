@@ -279,7 +279,7 @@ function TaskArea({
         </span>
         <h1>{task.question}</h1>
         {session.topicId === 'mass-kg-g' && (
-          <MassStory taskId={task.id} correct={session.feedback?.correct} />
+          <MassStory taskId={task.id} correct={session.feedback?.correct} hint={task.hint} />
         )}
         {task.diagram && <Diagram diagram={task.diagram} />}
         {!task.diagram && task.expression && <MathVisual expression={task.expression} />}
