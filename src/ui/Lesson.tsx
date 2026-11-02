@@ -21,6 +21,7 @@ import { answerLabel, initialOrder, parseNumericAnswer } from '../engine/answers
 import { LEVEL_LABELS } from '../engine/progress';
 import { referenceDescription } from '../engine/references';
 import { MathVisual } from './MathVisual';
+import { MassStory } from './MassStory';
 import { Brand, InfoNote, Modal, ProgressBar, Stars, TopicOrigin, TopicSymbol } from './shared';
 
 export function TopicDialog({
@@ -67,6 +68,7 @@ export function TopicDialog({
       {topic.reference && (
         <p className="topic-source-note">{referenceDescription(topic.reference)}</p>
       )}
+      {topic.id === 'mass-kg-g' && <MassStory />}
       <div className="theory-card">
         <span className="theory-label">
           <Lightbulb size={17} />
@@ -276,6 +278,9 @@ function TaskArea({
           )}
         </span>
         <h1>{task.question}</h1>
+        {session.topicId === 'mass-kg-g' && (
+          <MassStory taskId={task.id} correct={session.feedback?.correct} />
+        )}
         {task.diagram && <Diagram diagram={task.diagram} />}
         {!task.diagram && task.expression && <MathVisual expression={task.expression} />}
         {task.expression && (

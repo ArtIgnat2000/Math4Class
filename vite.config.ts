@@ -8,7 +8,13 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'prompt',
-      includeAssets: ['favicon.svg', 'illustrations/*.svg', 'icons/*.png', 'content/*.json'],
+      includeAssets: [
+        'favicon.svg',
+        'illustrations/*.svg',
+        'illustrations/*.webp',
+        'icons/*.png',
+        'content/*.json',
+      ],
       manifest: {
         name: 'Число — математика с интересом',
         short_name: 'Число',
@@ -31,7 +37,7 @@ export default defineConfig({
         ],
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,svg,png,woff2,json}'],
+        globPatterns: ['**/*.{js,css,html,svg,png,webp,woff2,json}'],
         navigateFallback: 'index.html',
         cleanupOutdatedCaches: true,
       },

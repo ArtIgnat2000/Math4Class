@@ -370,3 +370,20 @@ test('expanded textbook content and two-field progress remain available offline'
   await expect(page.locator('.topic-card')).toHaveCount(6);
   await expect(page.getByRole('heading', { name: '«Школа России»' })).toBeVisible();
 });
+
+test('pilot mass story follows the child through a lesson and respects skipping', async ({
+  page,
+}) => {
+  await page.goto('/#/topics');
+  await page.locator('.topic-card').filter({ hasText: 'Килограмм и грамм' }).click();
+  await expect(page.getByRole('region', { name: 'История Слона и гирек' })).toBeVisible();
+  await page.getByRole('button', { name: 'Давай попробуем' }).click();
+  await expect(page.getByRole('region', { name: 'История Слона и гирек' })).toBeVisible();
+  await page.getByRole('button', { name: /Показать: сколько гирек/ }).click();
+  await expect(page.locator('.mass-story-weight')).toHaveCount(10);
+  await page.getByRole('button', { name: 'Пропустить сцену' }).click();
+  await expect(page.locator('.mass-story-return')).toBeVisible();
+  await page.locator('.mass-story-return').click();
+  await answerCurrent(page);
+  await expect(page.getByText('Слон радуется!')).toBeVisible();
+});
