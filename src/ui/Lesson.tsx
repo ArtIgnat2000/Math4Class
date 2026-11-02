@@ -20,6 +20,7 @@ import type { Answer, LessonResult, Session, TopicProgress } from '../engine/mod
 import { answerLabel, initialOrder, parseNumericAnswer } from '../engine/answers';
 import { LEVEL_LABELS } from '../engine/progress';
 import { referenceDescription } from '../engine/references';
+import { MathVisual } from './MathVisual';
 import { Brand, InfoNote, Modal, ProgressBar, Stars, TopicOrigin, TopicSymbol } from './shared';
 
 export function TopicDialog({
@@ -77,6 +78,7 @@ export function TopicDialog({
           <span>Например</span>
           {topic.theory.example}
         </div>
+        <MathVisual expression={topic.theory.example} />
       </div>
       <div className="topic-dialog-level">
         <span>
@@ -275,6 +277,7 @@ function TaskArea({
         </span>
         <h1>{task.question}</h1>
         {task.diagram && <Diagram diagram={task.diagram} />}
+        {!task.diagram && task.expression && <MathVisual expression={task.expression} />}
         {task.expression && (
           <div className="task-expression">
             {task.expression}
