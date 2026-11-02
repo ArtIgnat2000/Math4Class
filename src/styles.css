@@ -6135,7 +6135,7 @@ h1[tabindex='-1']:focus {
   justify-content: center;
   align-items: center;
   gap: 9px;
-  min-height: 110px;
+  min-height: 140px;
 }
 .mass-intro-equation > .mass-object-weight {
   width: 108px;
@@ -6162,7 +6162,7 @@ h1[tabindex='-1']:focus {
 }
 .mass-intro-result {
   display: block;
-  margin-top: 14px;
+  margin-top: 24px;
   color: #2e593e;
   font-size: clamp(17px, 3.7vw, 23px);
   letter-spacing: -0.03em;
@@ -6201,7 +6201,7 @@ h1[tabindex='-1']:focus {
 .mass-intro-ten-label {
   grid-column: 1 / -1;
   margin-top: 4px;
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 800;
   color: #33543d;
 }
@@ -6248,5 +6248,19 @@ h1[tabindex='-1']:focus {
   }
   .mass-intro-equation > .mass-object-parcel span {
     font-size: 13px;
+  }
+}
+
+/* Intro labels remain readable and clear of the equation beneath the objects. */
+.mass-intro-equation > .mass-object-weight span {
+  top: 68%;
+  font-size: 17px;
+}
+@media (max-width: 540px) {
+  .mass-intro-equation > .mass-object-weight span {
+    font-size: 15px;
+  }
+  .mass-intro-ten-label {
+    font-size: 12px;
   }
 }

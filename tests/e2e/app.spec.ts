@@ -425,6 +425,9 @@ test('mass introduction offers two visual examples without source links', async 
   const dialog = page.getByRole('dialog', { name: 'Килограмм и грамм' });
   await expect(dialog.locator('.mass-intro-ten .mass-object-weight')).toHaveCount(10);
   await expect(dialog.getByText('1 кг = 1 000 г')).toBeVisible();
+  const objects = await dialog.locator('.mass-intro-equation').boundingBox();
+  const result = await dialog.locator('.mass-intro-result').boundingBox();
+  expect(objects && result && result.y >= objects.y + objects.height).toBe(true);
   await expect(dialog.getByText('Об источнике темы')).toHaveCount(0);
   await dialog.getByRole('button', { name: 'Кг вместе с г' }).click();
   await expect(dialog.getByText('1 000 г + 200 г = 1 200 г')).toBeVisible();
