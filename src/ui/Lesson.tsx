@@ -69,7 +69,17 @@ export function TopicDialog({
       {topic.reference && (
         <p className="topic-source-note">{referenceDescription(topic.reference)}</p>
       )}
-      {topic.id === 'mass-kg-g' && <MassStory />}
+      {topic.id === 'mass-kg-g' && (
+        <>
+          <MassStory />
+          {mode === 'learn' && (
+            <>
+              <p className="mass-preview-label">Первое задание: посчитай массу трёх больших гирь</p>
+              <MassQuestionVisual taskId="kg-3" />
+            </>
+          )}
+        </>
+      )}
       <div className="theory-card">
         <span className="theory-label">
           <Lightbulb size={17} />

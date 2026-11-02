@@ -377,7 +377,14 @@ test('pilot mass story follows the child through a lesson and respects skipping'
   await page.goto('/#/topics');
   await page.locator('.topic-card').filter({ hasText: 'Килограмм и грамм' }).click();
   await expect(page.getByRole('region', { name: 'История Слона и гирек' })).toBeVisible();
+  await expect(
+    page.getByRole('img', { name: 'Три отдельные гири, на каждой написано 1 кг' }),
+  ).toBeVisible();
   await page.getByRole('button', { name: 'Давай попробуем' }).click();
+  await expect(page.getByRole('heading', { name: 'Сколько граммов в 3 кг?' })).toBeVisible();
+  await expect(
+    page.getByRole('img', { name: 'Три отдельные гири, на каждой написано 1 кг' }),
+  ).toBeVisible();
   await expect(page.getByRole('region', { name: 'История Слона и гирек' })).toBeVisible();
   await expect(page.locator('.mass-question-visual')).toBeVisible();
   await page.getByRole('button', { name: /Показать 10 гирек/ }).click();

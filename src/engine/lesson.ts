@@ -16,7 +16,17 @@ export function createSession(
     topic.tasks.filter((t) => !prioritized.some((p) => p.id === t.id)),
     random,
   );
-  const tasks = [...shuffled(prioritized, random), ...rest].slice(0, topic.lessonSize);
+  // The pilot story opens with the three weights shown in its first picture.
+  // Keep review/practice shuffled so their existing behavior does not change.
+  const pilotOpening =
+    grade === 4 && topic.id === 'mass-kg-g' && mode === 'learn'
+      ? topic.tasks.find((task) => task.id === 'kg-3')
+      : undefined;
+  const tasks = [
+    ...(pilotOpening ? [pilotOpening] : []),
+    ...shuffled(prioritized, random),
+    ...rest.filter((task) => task.id !== pilotOpening?.id),
+  ].slice(0, topic.lessonSize);
   return {
     id: uid(),
     grade,

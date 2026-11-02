@@ -6127,3 +6127,13 @@ h1[tabindex='-1']:focus {
     animation: none;
   }
 }
+.mass-preview-label {
+  margin: 20px 0 0;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 800;
+  color: #425d40;
+}
+.topic-dialog .mass-question-visual {
+  margin-top: 12px;
+}

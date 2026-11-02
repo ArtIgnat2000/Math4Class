@@ -49,6 +49,19 @@ function canonical(task: Task): Answer {
       : task.answer;
 }
 
+describe('mass story opening', () => {
+  it('always opens new learning sessions with three 1 kg weights', () => {
+    const mass = pack.topics.find((t) => t.id === 'mass-kg-g')!;
+    for (const random of [() => 0, () => 0.5, () => 0.99]) {
+      const lesson = createSession(mass, 4, 'learn', [], random);
+      expect(lesson.entries[0].task.id).toBe('kg-3');
+      expect(new Set(lesson.entries.map((entry) => entry.task.id)).size).toBe(
+        lesson.entries.length,
+      );
+    }
+  });
+});
+
 describe('content contract', () => {
   it('validates all 44 topics and their 301 tasks', () => {
     const packs = Object.values(BUILTIN_PACKS);
