@@ -22,7 +22,6 @@ import { LEVEL_LABELS } from '../engine/progress';
 import { referenceDescription } from '../engine/references';
 import { MathVisual } from './MathVisual';
 import { MassStory } from './MassStory';
-import { MassQuestionVisual } from './MassQuestionVisual';
 import { Brand, InfoNote, Modal, ProgressBar, Stars, TopicOrigin, TopicSymbol } from './shared';
 
 export function TopicDialog({
@@ -69,17 +68,7 @@ export function TopicDialog({
       {topic.reference && (
         <p className="topic-source-note">{referenceDescription(topic.reference)}</p>
       )}
-      {topic.id === 'mass-kg-g' && (
-        <>
-          <MassStory />
-          {mode === 'learn' && (
-            <>
-              <p className="mass-preview-label">Первое задание: посчитай массу трёх больших гирь</p>
-              <MassQuestionVisual taskId="kg-3" />
-            </>
-          )}
-        </>
-      )}
+      {topic.id === 'mass-kg-g' && <MassStory taskId={mode === 'learn' ? 'kg-3' : undefined} />}
       <div className="theory-card">
         <span className="theory-label">
           <Lightbulb size={17} />
@@ -290,10 +279,13 @@ function TaskArea({
         </span>
         <h1>{task.question}</h1>
         {session.topicId === 'mass-kg-g' && (
-          <>
-            <MassQuestionVisual taskId={task.id} />
-            <MassStory taskId={task.id} correct={session.feedback?.correct} hint={task.hint} />
-          </>
+          <MassStory
+            taskId={task.id}
+            correct={session.feedback?.correct}
+            hint={task.hint}
+            hintOpen={session.hintOpen}
+            onHint={onHint}
+          />
         )}
         {task.diagram && <Diagram diagram={task.diagram} />}
         {!task.diagram && task.expression && <MathVisual expression={task.expression} />}
@@ -450,7 +442,7 @@ function TaskArea({
             </div>
           )}
         </div>
-        {!checked && (
+        {!checked && session.topicId !== 'mass-kg-g' && (
           <div className="hint-area">
             {session.hintOpen ? (
               <aside className="task-hint">

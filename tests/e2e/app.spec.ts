@@ -376,7 +376,7 @@ test('pilot mass story follows the child through a lesson and respects skipping'
 }) => {
   await page.goto('/#/topics');
   await page.locator('.topic-card').filter({ hasText: 'Килограмм и грамм' }).click();
-  await expect(page.getByRole('region', { name: 'История Бука и гирек' })).toBeVisible();
+  await expect(page.getByRole('region', { name: 'Бук помогает с единицами массы' })).toBeVisible();
   await expect(
     page.getByRole('img', { name: 'Три отдельные гири, на каждой написано 1 кг' }),
   ).toBeVisible();
@@ -385,13 +385,19 @@ test('pilot mass story follows the child through a lesson and respects skipping'
   await expect(
     page.getByRole('img', { name: 'Три отдельные гири, на каждой написано 1 кг' }),
   ).toBeVisible();
-  await expect(page.getByRole('region', { name: 'История Бука и гирек' })).toBeVisible();
+  await expect(page.getByRole('region', { name: 'Бук помогает с единицами массы' })).toBeVisible();
   await expect(page.locator('.mass-question-visual')).toBeVisible();
-  await page.getByRole('button', { name: /Показать 10 гирек/ }).click();
+  await page.getByRole('button', { name: 'Бук: справка о массе' }).click();
+  expect((await readSession(page)).hintOpen).toBe(false);
+  await page.getByRole('button', { name: 'Вся таблица единиц массы' }).click();
+  await expect(page.getByRole('table', { name: 'Единицы массы' })).toContainText('1 ц = 100 кг');
+  await page.getByRole('button', { name: /Показать десять гирек/ }).click();
   await expect(page.locator('.mass-story-weight')).toHaveCount(10);
-  await page.getByRole('button', { name: 'Пропустить сцену' }).click();
+  await page.getByRole('button', { name: 'Скрыть Бука' }).click();
   await expect(page.locator('.mass-story-return')).toBeVisible();
   await page.locator('.mass-story-return').click();
+  await page.getByRole('button', { name: 'Бук: подсказка к вопросу' }).click();
+  expect((await readSession(page)).hintOpen).toBe(true);
   await answerCurrent(page);
   await expect(page.getByText('Бук радуется!')).toBeVisible();
 });

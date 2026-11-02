@@ -92,10 +92,10 @@ const pictures: Record<string, { label: string; picture: ReactNode }> = {
     ),
   },
   'order-mass': {
-    label: 'Четыре неупорядоченные карточки масс: 900 г, 1 кг, 1 кг 50 г, 1 500 г',
+    label: 'Четыре неупорядоченные карточки масс: 1 кг 50 г, 900 г, 1 500 г, 1 кг',
     picture: (
       <div className="mass-question-cards">
-        {['900 г', '1 кг', '1 кг 50 г', '1 500 г'].map((mass) => (
+        {['1 кг 50 г', '900 г', '1 500 г', '1 кг'].map((mass) => (
           <span key={mass}>{mass}</span>
         ))}
       </div>

@@ -19,6 +19,15 @@ describe('one faithful picture per mass question', () => {
     expect(container.querySelectorAll('.mass-object-parcel')).toHaveLength(parcels);
     unmount();
   });
+  it('does not show sorted cards before an ordering answer', () => {
+    const { container } = render(<MassQuestionVisual taskId="order-mass" />);
+    expect(
+      Array.from(
+        container.querySelectorAll('.mass-question-cards span'),
+        (card) => card.textContent,
+      ),
+    ).toEqual(['1 кг 50 г', '900 г', '1 500 г', '1 кг']);
+  });
   it('does not invent a scene for other topics', () => {
     const { container } = render(<MassQuestionVisual taskId="unrelated" />);
     expect(container).toBeEmptyDOMElement();

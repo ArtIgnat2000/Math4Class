@@ -12,5 +12,5 @@ SIL Open Font License 1.1. Текст лицензии включён в пуб�
 Для помощника Бука используются два кадра из 3D-спрайтов проекта автора
 [«Слово»](https://github.com/ArtIgnat2000/slovo2):
 `public/buk3d/student/face.webp` и `public/buk3d/student/happy.webp` (первые кадры,
-обрезаны до 256 × 256). Копии хранятся локально в `public/illustrations/buk/` для
+обрезаны по прозрачным полям). Копии хранятся локально в `public/illustrations/buk/` для
 работы офлайн. Код «Слова» не копировался. Иллюстрация со слоном удалена.
