@@ -371,33 +371,46 @@ test('expanded textbook content and two-field progress remain available offline'
   await expect(page.getByRole('heading', { name: '«Школа России»' })).toBeVisible();
 });
 
-test('pilot mass story follows the child through a lesson and respects skipping', async ({
+test('premium pilot keeps the props, gives optional reference and saves exit from the card', async ({
   page,
 }) => {
   await page.goto('/#/topics');
   await page.locator('.topic-card').filter({ hasText: 'Килограмм и грамм' }).click();
-  await expect(page.getByRole('region', { name: 'Бук помогает с единицами массы' })).toBeVisible();
-  await expect(
-    page.getByRole('img', { name: 'Три отдельные гири, на каждой написано 1 кг' }),
-  ).toBeVisible();
   await page.getByRole('button', { name: 'Давай попробуем' }).click();
   await expect(page.getByRole('heading', { name: 'Сколько граммов в 3 кг?' })).toBeVisible();
+  await expect(page.locator('.mass-object-weight img')).toHaveCount(3);
   await expect(
     page.getByRole('img', { name: 'Три отдельные гири, на каждой написано 1 кг' }),
   ).toBeVisible();
-  await expect(page.getByRole('region', { name: 'Бук помогает с единицами массы' })).toBeVisible();
-  await expect(page.locator('.mass-question-visual')).toBeVisible();
-  await page.getByRole('button', { name: 'Бук: справка о массе' }).click();
+  await page.getByRole('button', { name: 'Таблица единиц' }).click();
   expect((await readSession(page)).hintOpen).toBe(false);
-  await page.getByRole('button', { name: 'Вся таблица единиц массы' }).click();
+  await page.getByRole('button', { name: 'Все единицы массы' }).click();
   await expect(page.getByRole('table', { name: 'Единицы массы' })).toContainText('1 ц = 100 кг');
-  await page.getByRole('button', { name: /Показать десять гирек/ }).click();
-  await expect(page.locator('.mass-story-weight')).toHaveCount(10);
   await page.getByRole('button', { name: 'Скрыть Бука' }).click();
-  await expect(page.locator('.mass-story-return')).toBeVisible();
-  await page.locator('.mass-story-return').click();
-  await page.getByRole('button', { name: 'Бук: подсказка к вопросу' }).click();
+  await expect(page.locator('.mass-object-weight img')).toHaveCount(3);
+  await page.getByRole('button', { name: 'Показать Бука' }).click();
+  await page.getByRole('button', { name: 'Подсказка', exact: true }).click();
+  expect((await readSession(page)).hintOpen).toBe(true);
+  await page.getByRole('button', { name: 'Сохранить занятие и выйти' }).click();
+  await expect(page.getByRole('heading', { name: 'Твой день открытий' })).toBeVisible();
+  await page.getByRole('button', { name: 'Продолжить занятие' }).click();
   expect((await readSession(page)).hintOpen).toBe(true);
   await answerCurrent(page);
-  await expect(page.getByText('Бук радуется!')).toBeVisible();
+  await expect(page.getByText('Верно!', { exact: true })).toBeVisible();
+});
+
+test('premium mass lesson and its reference meet automated WCAG AA checks on phone', async ({
+  page,
+}) => {
+  const { default: AxeBuilder } = await import('@axe-core/playwright');
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/#/topics');
+  await page.locator('.topic-card').filter({ hasText: 'Килограмм и грамм' }).click();
+  await page.getByRole('button', { name: 'Давай попробуем' }).click();
+  await page.getByRole('button', { name: 'Таблица единиц' }).click();
+  await page.getByRole('button', { name: 'Все единицы массы' }).click();
+  const result = await new AxeBuilder({ page })
+    .withTags(['wcag2a', 'wcag2aa', 'wcag21aa'])
+    .analyze();
+  expect(result.violations).toEqual([]);
 });

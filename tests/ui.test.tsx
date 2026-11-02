@@ -223,3 +223,26 @@ describe('textbook lessons and compound answers', () => {
     },
   );
 });
+
+describe('lesson exit is available on every card', () => {
+  it('exits before and after checking without submitting or advancing', async () => {
+    const user = userEvent.setup();
+    const topic = BUILTIN_PACKS[4].topics.find((t) => t.id === 'mass-kg-g')!;
+    const session = createSession(topic, 4);
+    const exit = vi.fn();
+    const submit = vi.fn();
+    const next = vi.fn();
+    const { rerender } = render(
+      <Lesson session={session} onChange={vi.fn()} onSubmit={submit} onNext={next} onExit={exit} />,
+    );
+    await user.click(screen.getByRole('button', { name: 'Сохранить занятие и выйти' }));
+    const checked = submitAnswer(session, '3000');
+    rerender(
+      <Lesson session={checked} onChange={vi.fn()} onSubmit={submit} onNext={next} onExit={exit} />,
+    );
+    await user.click(screen.getByRole('button', { name: 'Сохранить занятие и выйти' }));
+    expect(exit).toHaveBeenCalledTimes(2);
+    expect(submit).not.toHaveBeenCalled();
+    expect(next).not.toHaveBeenCalled();
+  });
+});
