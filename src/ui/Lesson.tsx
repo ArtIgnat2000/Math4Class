@@ -21,6 +21,8 @@ import { answerLabel, initialOrder, parseNumericAnswer } from '../engine/answers
 import { LEVEL_LABELS } from '../engine/progress';
 import { referenceDescription } from '../engine/references';
 import { MathVisual } from './MathVisual';
+import { MassStory } from './MassStory';
+import { MassQuestionVisual } from './MassQuestionVisual';
 import { Brand, InfoNote, Modal, ProgressBar, Stars, TopicOrigin, TopicSymbol } from './shared';
 
 export function TopicDialog({
@@ -66,6 +68,17 @@ export function TopicDialog({
       <TopicOrigin topic={topic} />
       {topic.reference && (
         <p className="topic-source-note">{referenceDescription(topic.reference)}</p>
+      )}
+      {topic.id === 'mass-kg-g' && (
+        <>
+          <MassStory />
+          {mode === 'learn' && (
+            <>
+              <p className="mass-preview-label">Первое задание: посчитай массу трёх больших гирь</p>
+              <MassQuestionVisual taskId="kg-3" />
+            </>
+          )}
+        </>
       )}
       <div className="theory-card">
         <span className="theory-label">
@@ -276,6 +289,12 @@ function TaskArea({
           )}
         </span>
         <h1>{task.question}</h1>
+        {session.topicId === 'mass-kg-g' && (
+          <>
+            <MassQuestionVisual taskId={task.id} />
+            <MassStory taskId={task.id} correct={session.feedback?.correct} hint={task.hint} />
+          </>
+        )}
         {task.diagram && <Diagram diagram={task.diagram} />}
         {!task.diagram && task.expression && <MathVisual expression={task.expression} />}
         {task.expression && (

@@ -157,6 +157,11 @@ export function Learning({
               {active ? `${active.grade} класс · ${active.topicTitle}` : '5 минут · в своём темпе'}
             </span>
           </div>
+          <div className="hero-magic" aria-hidden="true">
+            <span>✦</span>
+            <span>+</span>
+            <span>✧</span>
+          </div>
           <img
             className="hero-illustration"
             src={`${import.meta.env.BASE_URL}illustrations/math-adventure.svg`}
