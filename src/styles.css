@@ -6264,3 +6264,49 @@ h1[tabindex='-1']:focus {
     font-size: 11px;
   }
 }
+
+/* Next mass pilot: a single 100 kg cargo crate, then ten identical crates. */
+.centner-intro .mass-intro-panel {
+  min-height: 225px;
+  display: grid;
+  place-items: center;
+}
+.centner-example {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  color: #2e593e;
+}
+.centner-example > img {
+  display: block;
+  width: min(230px, 70vw);
+  height: 135px;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 6px #30432324);
+}
+.centner-example strong {
+  font-size: clamp(18px, 4vw, 23px);
+  line-height: 1.35;
+  text-align: center;
+}
+.centner-ten {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 5px;
+  width: min(100%, 350px);
+}
+.centner-ten img {
+  display: block;
+  width: 100%;
+  height: 70px;
+  object-fit: contain;
+}
+@media (max-width: 540px) {
+  .centner-ten {
+    width: min(100%, 270px);
+    gap: 3px;
+  }
+  .centner-ten img {
+    height: 56px;
+  }
+}

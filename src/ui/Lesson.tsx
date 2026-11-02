@@ -21,6 +21,7 @@ import { LEVEL_LABELS } from '../engine/progress';
 import { MathVisual } from './MathVisual';
 import { MassStory } from './MassStory';
 import { MassIntroVisual } from './MassIntroVisual';
+import { CentnerIntroVisual } from './CentnerIntroVisual';
 import { Brand, InfoNote, Modal, ProgressBar, Stars, TopicSymbol } from './shared';
 
 export function TopicDialog({
@@ -40,7 +41,7 @@ export function TopicDialog({
   onClose: () => void;
   onStart: () => void;
 }) {
-  if (topic.id === 'mass-kg-g')
+  if (topic.id === 'mass-kg-g' || topic.id === 'mass-tonne-centner')
     return (
       <Modal
         title={topic.title}
@@ -48,7 +49,7 @@ export function TopicDialog({
         onClose={onClose}
         className="topic-dialog mass-intro-dialog"
       >
-        <MassIntroVisual />
+        {topic.id === 'mass-kg-g' ? <MassIntroVisual /> : <CentnerIntroVisual />}
         <button data-autofocus className="button primary full-width" onClick={onStart}>
           {mode === 'review'
             ? 'Начать повторение'

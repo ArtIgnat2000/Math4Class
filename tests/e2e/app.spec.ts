@@ -411,6 +411,27 @@ test('premium mass lesson and its reference meet automated WCAG AA checks on pho
   expect(result.violations).toEqual([]);
 });
 
+test('centner introduction shows one crate then ten without spoiling a question', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/#/topics');
+  await page.locator('.topic-card').filter({ hasText: 'Тонна, центнер, килограмм' }).click();
+  const dialog = page.getByRole('dialog', { name: 'Тонна, центнер, килограмм' });
+  await expect(dialog.getByText('1 ц = 100 кг')).toBeVisible();
+  await expect(dialog.locator('.centner-example > img')).toHaveCount(1);
+  await dialog.getByRole('button', { name: 'А тонна?' }).click();
+  await expect(dialog.locator('.centner-ten img')).toHaveCount(10);
+  await expect(dialog.getByText('10 ц = 1 т = 1 000 кг')).toBeVisible();
+  const { default: AxeBuilder } = await import('@axe-core/playwright');
+  const accessibility = await new AxeBuilder({ page })
+    .withTags(['wcag2a', 'wcag2aa', 'wcag21aa'])
+    .analyze();
+  expect(accessibility.violations).toEqual([]);
+  await expect(dialog.getByText('6 ц')).toHaveCount(0);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+});
+
 test('mass introduction offers two visual examples without source links', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/#/topics');
