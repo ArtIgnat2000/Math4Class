@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { MassQuestionVisual } from './MassQuestionVisual';
+import { Modal } from './shared';
 
 /** Task-specific props stay visible even if Buk is hidden. A reference is not a hint. */
 export function MassStory({
@@ -69,33 +70,35 @@ export function MassStory({
       {reference && (
         <div className="mass-story-reference" aria-label="Справка по единицам массы">
           <strong>1 кг = 1 000 г</strong>
-          <button
-            type="button"
-            className="mass-story-action"
-            aria-expanded={fullTable}
-            onClick={() => setFullTable((value) => !value)}
-          >
-            {fullTable ? 'Свернуть' : 'Все единицы массы'}
+          <button type="button" className="mass-story-action" onClick={() => setFullTable(true)}>
+            Все единицы массы
           </button>
-          {fullTable && (
-            <table className="mass-units-table" aria-label="Единицы массы">
-              <tbody>
-                <tr>
-                  <th scope="row">Тонна</th>
-                  <td>1 т = 1 000 кг = 10 ц</td>
-                </tr>
-                <tr>
-                  <th scope="row">Центнер</th>
-                  <td>1 ц = 100 кг</td>
-                </tr>
-                <tr>
-                  <th scope="row">Килограмм</th>
-                  <td>1 кг = 1 000 г</td>
-                </tr>
-              </tbody>
-            </table>
-          )}
         </div>
+      )}
+      {fullTable && (
+        <Modal
+          title="Таблица единиц массы"
+          onClose={() => setFullTable(false)}
+          className="mass-table-dialog"
+        >
+          <p>Сравни величины в одной единице измерения.</p>
+          <table className="mass-units-table" aria-label="Единицы массы">
+            <tbody>
+              <tr>
+                <th scope="row">Тонна</th>
+                <td>1 т = 1 000 кг = 10 ц</td>
+              </tr>
+              <tr>
+                <th scope="row">Центнер</th>
+                <td>1 ц = 100 кг</td>
+              </tr>
+              <tr>
+                <th scope="row">Килограмм</th>
+                <td>1 кг = 1 000 г</td>
+              </tr>
+            </tbody>
+          </table>
+        </Modal>
       )}
     </section>
   );

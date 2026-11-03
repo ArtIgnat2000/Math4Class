@@ -405,6 +405,7 @@ test('premium pilot keeps the props, gives optional reference and saves exit fro
   expect((await readSession(page)).hintOpen).toBe(false);
   await page.getByRole('button', { name: 'Все единицы массы' }).click();
   await expect(page.getByRole('table', { name: 'Единицы массы' })).toContainText('1 ц = 100 кг');
+  await page.getByRole('button', { name: 'Закрыть окно' }).click();
   await page.getByRole('button', { name: 'Скрыть Бука' }).click();
   await expect(page.locator('.mass-object-weight img')).toHaveCount(3);
   await page.getByRole('button', { name: 'Показать Бука' }).click();
