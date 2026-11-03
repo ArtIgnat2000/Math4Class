@@ -2,6 +2,7 @@ import { useRef, useState, type PointerEvent } from 'react';
 import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, GripVertical } from 'lucide-react';
 import { MassWeight, type MassWeightValue } from './MassWeights';
 import { CentnerOrderGuide, CentnerOrderPicture } from './CentnerOrder';
+import { CalendarOrderToken } from './CalendarVisual';
 import { Modal } from './shared';
 
 type Item = { id: string; label: string };
@@ -35,13 +36,15 @@ export function OrderAnswer({
   disabled,
   illustrated = false,
   kind = 'mass',
+  topicId,
 }: {
   items: Item[];
   order: string[];
   onChange: (order: string[]) => void;
   disabled: boolean;
   illustrated?: boolean;
-  kind?: 'mass' | 'centner';
+  kind?: 'mass' | 'centner' | 'calendar';
+  topicId?: string;
 }) {
   const drag = useRef<{
     id: string;
@@ -151,8 +154,10 @@ export function OrderAnswer({
               {illustrated &&
                 (kind === 'mass' ? (
                   <MassWeights label={item.label} />
-                ) : (
+                ) : kind === 'centner' ? (
                   <CentnerOrderPicture label={item.label} />
+                ) : (
+                  <CalendarOrderToken topicId={topicId ?? ''} label={item.label} />
                 ))}
               <strong>{item.label}</strong>
               <div>

@@ -24,6 +24,7 @@ import { CentnerQuestionVisual } from './CentnerQuestionVisual';
 import { MassComparisonIntro } from './MassComparisonIntro';
 import { ComparisonChoicePicture, MassComparisonVisual } from './MassComparisonVisual';
 import { MassWordIntro, MassWordVisual } from './MassWordVisual';
+import { CalendarIntro, CalendarVisual } from './CalendarVisual';
 import { NumericKeypad } from './NumericKeypad';
 import { OrderAnswer } from './OrderAnswer';
 import { Brand, InfoNote, Modal, ProgressBar, Stars, TopicSymbol } from './shared';
@@ -45,6 +46,25 @@ export function TopicDialog({
   onClose: () => void;
   onStart: () => void;
 }) {
+  if (topic.id.startsWith('calendar-'))
+    return (
+      <Modal
+        title={topic.title}
+        eyebrow={`${grade} КЛАСС · ${mode === 'review' ? 'ПОВТОРЕНИЕ' : 'ИССЛЕДУЕМ КАЛЕНДАРЬ'}`}
+        onClose={onClose}
+        className="topic-dialog mass-intro-dialog"
+      >
+        <CalendarIntro />
+        <button data-autofocus className="button primary full-width" onClick={onStart}>
+          {mode === 'review'
+            ? 'Начать повторение'
+            : mode === 'practice'
+              ? 'Потренироваться'
+              : 'Начать занятие'}
+          <ArrowRight size={18} />
+        </button>
+      </Modal>
+    );
   if (topic.id === 'mass-word-problems')
     return (
       <Modal
@@ -347,6 +367,9 @@ function TaskArea({
           <MassComparisonVisual taskId={task.id} />
         )}
         {session.topicId === 'mass-word-problems' && <MassWordVisual taskId={task.id} />}
+        {session.topicId.startsWith('calendar-') && task.type !== 'order' && (
+          <CalendarVisual topicId={session.topicId} taskId={task.id} />
+        )}
         {task.diagram && <Diagram diagram={task.diagram} />}
         {!task.diagram && task.expression && <MathVisual expression={task.expression} />}
         {task.expression && (
@@ -498,9 +521,18 @@ function TaskArea({
               onChange={setAnswer}
               disabled={checked}
               illustrated={
-                session.topicId === 'mass-kg-g' || session.topicId === 'mass-tonne-centner'
+                session.topicId === 'mass-kg-g' ||
+                session.topicId === 'mass-tonne-centner' ||
+                session.topicId.startsWith('calendar-')
               }
-              kind={session.topicId === 'mass-tonne-centner' ? 'centner' : 'mass'}
+              kind={
+                session.topicId.startsWith('calendar-')
+                  ? 'calendar'
+                  : session.topicId === 'mass-tonne-centner'
+                    ? 'centner'
+                    : 'mass'
+              }
+              topicId={session.topicId}
             />
           )}
         </div>

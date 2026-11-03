@@ -7477,3 +7477,121 @@ h1[tabindex='-1']:focus {
     font-size: 17px;
   }
 }
+
+/* Calendar pictures: a real tear-off page or a season prop for each stated
+   month/year, never a highlighted answer. Values stay outside the artwork. */
+.calendar-intro > p {
+  margin: 12px 0;
+  color: #4e614b;
+  font-size: 15px;
+  line-height: 1.5;
+}
+.calendar-intro-seasons,
+.calendar-visual {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  margin: 16px auto 10px;
+  padding: 12px;
+  max-width: 620px;
+  border: 1px solid #dce7d3;
+  border-radius: 17px;
+  background: #fbfcf6;
+}
+.calendar-token {
+  display: flex;
+  flex: 0 1 108px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 72px;
+  min-height: 90px;
+  border: 1px solid #dce7d3;
+  border-radius: 11px;
+  background: #fffefa;
+  padding: 5px;
+  text-align: center;
+}
+.calendar-token img {
+  display: block;
+  width: 100%;
+  height: 65px;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+.calendar-token strong {
+  font-size: 13px;
+  line-height: 1.25;
+  color: #36543d;
+  overflow-wrap: anywhere;
+}
+.calendar-token-icon {
+  display: grid;
+  place-items: center;
+  width: 50px;
+  height: 55px;
+  color: #748b6f;
+  font-size: 32px;
+  font-weight: 750;
+}
+.calendar-token-days,
+.calendar-token-interval {
+  border-style: dashed;
+  background: #f1f7ea;
+}
+.calendar-year-strip {
+  gap: 4px;
+}
+.calendar-year-strip .calendar-token {
+  flex-basis: 71px;
+  min-width: 55px;
+  min-height: 72px;
+}
+.calendar-year-strip .calendar-token img {
+  height: 43px;
+}
+.illustrated-order .calendar-token {
+  flex: 1 1 auto;
+  min-height: 67px;
+  border: 0;
+  background: none;
+  padding: 0;
+}
+.illustrated-order .calendar-token strong {
+  display: none;
+}
+.illustrated-order .calendar-token img {
+  height: 65px;
+}
+@media (max-width: 599px) {
+  .calendar-visual,
+  .calendar-intro-seasons {
+    padding: 7px 4px;
+    gap: 5px;
+  }
+  .calendar-token {
+    flex-basis: 90px;
+    min-width: 66px;
+    min-height: 76px;
+  }
+  .calendar-token img {
+    height: 49px;
+  }
+  .calendar-token strong {
+    font-size: 11px;
+  }
+  .calendar-year-strip .calendar-token {
+    flex-basis: calc(25% - 6px);
+    min-width: 0;
+    min-height: 60px;
+  }
+  .calendar-year-strip .calendar-token img {
+    height: 35px;
+  }
+  .illustrated-order .calendar-token img {
+    height: 54px;
+  }
+}
