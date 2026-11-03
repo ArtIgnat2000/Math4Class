@@ -7036,3 +7036,43 @@ h1[tabindex='-1']:focus {
     min-height: 88px;
   }
 }
+
+/* Each draggable card shows the actual mass as a one- or two-weight scene.
+   Values stay below the metal, never over the artwork. */
+.order-mass-weights {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 3px;
+  width: 100%;
+  min-height: 66px;
+  pointer-events: none;
+}
+.order-mass-weight {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: none;
+  width: 50px;
+  color: #304d39;
+  font-size: 11px;
+  font-weight: 750;
+  line-height: 1.25;
+  white-space: nowrap;
+}
+.order-mass-weight img {
+  display: block;
+  width: 46px;
+  height: 48px;
+  object-fit: contain;
+  filter: drop-shadow(0 3px 2px #25342933);
+  pointer-events: none;
+}
+.illustrated-order li {
+  min-height: 165px;
+}
+@media (max-width: 599px) {
+  .illustrated-order li {
+    min-height: 145px;
+  }
+}

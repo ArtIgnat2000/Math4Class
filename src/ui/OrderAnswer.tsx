@@ -3,6 +3,41 @@ import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, GripVertical } from 'lucide-
 
 type Item = { id: string; label: string };
 
+// A printed 1 kg weight is used only where the card actually includes 1 kg.
+// The other weights are unmarked; their values are separate legible captions.
+function MassWeights({ label }: { label: string }) {
+  const weights =
+    label === '1 кг'
+      ? [{ mark: true, caption: '1 кг' }]
+      : label === '900 г'
+        ? [{ mark: false, caption: '900 г' }]
+        : label === '1 кг 50 г'
+          ? [
+              { mark: true, caption: '1 кг' },
+              { mark: false, caption: '50 г' },
+            ]
+          : label === '1 500 г'
+            ? [
+                { mark: true, caption: '1 кг' },
+                { mark: false, caption: '500 г' },
+              ]
+            : [];
+  return (
+    <span className="order-mass-weights" aria-hidden="true">
+      {weights.map(({ mark, caption }) => (
+        <span className="order-mass-weight" key={caption}>
+          <img
+            src={`${import.meta.env.BASE_URL}illustrations/props/${mark ? 'weight' : 'weight-unmarked'}.webp`}
+            alt=""
+            draggable={false}
+          />
+          <span>{caption}</span>
+        </span>
+      ))}
+    </span>
+  );
+}
+
 /** Pointer capture supports both touch and mouse; arrow buttons remain a keyboard fallback. */
 export function OrderAnswer({
   items,
@@ -116,6 +151,7 @@ export function OrderAnswer({
             >
               <span className="order-position">{i + 1}</span>
               <GripVertical className="order-grip" size={19} aria-hidden="true" />
+              {illustrated && <MassWeights label={item.label} />}
               <strong>{item.label}</strong>
               <div>
                 <button

@@ -37,6 +37,18 @@ for (const [width, height, mobile] of [
       const rows = page.locator('.illustrated-order li');
       await expect(page.locator('.mass-question-order-mass')).toHaveCount(0);
       await expect(rows).toHaveCount(4);
+      for (const [label, count] of [
+        ['900 г', 1],
+        ['1 кг', 1],
+        ['1 кг 50 г', 2],
+        ['1 500 г', 2],
+      ] as const) {
+        const card = page.locator(
+          `.illustrated-order li[data-order-id="${task.items.find((item: { label: string }) => item.label === label).id}"]`,
+        );
+        await expect(card.locator('.order-mass-weight img')).toHaveCount(count);
+        await expect(card.locator('.order-mass-weight img').first()).toBeVisible();
+      }
       const initial = await rows.locator('strong').allTextContents();
       const first = await rows.nth(0).boundingBox();
       const third = await rows.nth(2).boundingBox();
