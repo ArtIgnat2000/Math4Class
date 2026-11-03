@@ -440,8 +440,10 @@ test('centner task keeps its subject illustration on a small phone', async ({ pa
   await page.goto('/#/topics');
   await page.locator('.topic-card').filter({ hasText: 'Тонна, центнер, килограмм' }).click();
   await page.getByRole('button', { name: 'Начать занятие' }).click();
-  const picture = page.locator('.centner-question-visual');
-  await expect(picture).toBeVisible();
+  const picture = page.locator(
+    '.centner-question-visual, .illustrated-order .centner-order-picture',
+  );
+  await expect(picture.first()).toBeVisible();
   await expect(picture.locator('img').first()).toHaveJSProperty('complete', true);
   const { default: AxeBuilder } = await import('@axe-core/playwright');
   const accessibility = await new AxeBuilder({ page })

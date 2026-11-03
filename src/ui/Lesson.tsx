@@ -21,6 +21,9 @@ import { MassStory } from './MassStory';
 import { MassIntroVisual } from './MassIntroVisual';
 import { CentnerIntroVisual } from './CentnerIntroVisual';
 import { CentnerQuestionVisual } from './CentnerQuestionVisual';
+import { MassComparisonIntro } from './MassComparisonIntro';
+import { ComparisonChoicePicture, MassComparisonVisual } from './MassComparisonVisual';
+import { MassWordIntro, MassWordVisual } from './MassWordVisual';
 import { NumericKeypad } from './NumericKeypad';
 import { OrderAnswer } from './OrderAnswer';
 import { Brand, InfoNote, Modal, ProgressBar, Stars, TopicSymbol } from './shared';
@@ -42,6 +45,44 @@ export function TopicDialog({
   onClose: () => void;
   onStart: () => void;
 }) {
+  if (topic.id === 'mass-word-problems')
+    return (
+      <Modal
+        title={topic.title}
+        eyebrow={`${grade} КЛАСС · ${mode === 'review' ? 'ПОВТОРЕНИЕ' : 'РЕШАЕМ ЗАДАЧИ НА МАССУ'}`}
+        onClose={onClose}
+        className="topic-dialog mass-intro-dialog"
+      >
+        <MassWordIntro />
+        <button data-autofocus className="button primary full-width" onClick={onStart}>
+          {mode === 'review'
+            ? 'Начать повторение'
+            : mode === 'practice'
+              ? 'Потренироваться'
+              : 'Начать занятие'}
+          <ArrowRight size={18} />
+        </button>
+      </Modal>
+    );
+  if (topic.id === 'mass-conversion-comparison')
+    return (
+      <Modal
+        title={topic.title}
+        eyebrow={`${grade} КЛАСС · ${mode === 'review' ? 'ПОВТОРЕНИЕ' : 'СРАВНИВАЕМ МАССЫ'}`}
+        onClose={onClose}
+        className="topic-dialog mass-intro-dialog"
+      >
+        <MassComparisonIntro />
+        <button data-autofocus className="button primary full-width" onClick={onStart}>
+          {mode === 'review'
+            ? 'Начать повторение'
+            : mode === 'practice'
+              ? 'Потренироваться'
+              : 'Начать занятие'}
+          <ArrowRight size={18} />
+        </button>
+      </Modal>
+    );
   if (topic.id === 'mass-kg-g' || topic.id === 'mass-tonne-centner')
     return (
       <Modal
@@ -265,7 +306,7 @@ function TaskArea({
   }, [checked]);
   return (
     <form
-      className={`task-card ${session.topicId === 'mass-kg-g' ? 'mass-task-card' : ''}`}
+      className={`task-card ${session.topicId === 'mass-kg-g' ? 'mass-task-card' : ''} ${session.topicId === 'mass-conversion-comparison' ? 'comparison-task-card' : ''}`}
       onSubmit={(e) => {
         e.preventDefault();
         if (checked) onNext();
@@ -302,6 +343,10 @@ function TaskArea({
         {session.topicId === 'mass-tonne-centner' && task.type !== 'order' && (
           <CentnerQuestionVisual taskId={task.id} />
         )}
+        {session.topicId === 'mass-conversion-comparison' && task.id !== 'heaviest' && (
+          <MassComparisonVisual taskId={task.id} />
+        )}
+        {session.topicId === 'mass-word-problems' && <MassWordVisual taskId={task.id} />}
         {task.diagram && <Diagram diagram={task.diagram} />}
         {!task.diagram && task.expression && <MathVisual expression={task.expression} />}
         {task.expression && (
@@ -411,6 +456,9 @@ function TaskArea({
                   onClick={() => setAnswer(option.id)}
                 >
                   <span>{String.fromCharCode(1040 + i)}</span>
+                  {session.topicId === 'mass-conversion-comparison' && (
+                    <ComparisonChoicePicture value={option.label} />
+                  )}
                   <strong>{option.label}</strong>
                   {checked && task.answer === option.id && <Check size={19} />}
                 </button>
