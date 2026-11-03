@@ -7116,3 +7116,13 @@ h1[tabindex='-1']:focus {
     padding: 26px 20px 20px;
   }
 }
+
+/* Three canonical denominations also fit on the 900 g card at 320 px. */
+.order-mass-weight {
+  width: 38px;
+  font-size: 11px;
+}
+.order-mass-weight img {
+  width: 36px;
+  height: 45px;
+}

@@ -10,7 +10,7 @@ function MassWeights({ label }: { label: string }) {
     label === '1 кг'
       ? ['1 кг']
       : label === '900 г'
-        ? ['900 г']
+        ? ['500 г', '200 г', '200 г']
         : label === '1 кг 50 г'
           ? ['1 кг', '50 г']
           : label === '1 500 г'
@@ -18,8 +18,8 @@ function MassWeights({ label }: { label: string }) {
             : [];
   return (
     <span className="order-mass-weights" aria-hidden="true">
-      {values.map((value) => (
-        <MassWeight value={value} key={value} />
+      {values.map((value, index) => (
+        <MassWeight value={value} key={`${value}-${index}`} />
       ))}
     </span>
   );

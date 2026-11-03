@@ -2,7 +2,7 @@
 // Captions are outside the artwork so a weight is never mislabeled.
 export const MASS_WEIGHTS = {
   '1 кг': 'illustrations/props/weight.webp',
-  '900 г': 'illustrations/props/order-900g.svg',
+  '200 г': 'illustrations/props/order-200g.svg',
   '500 г': 'illustrations/props/order-500g.svg',
   '50 г': 'illustrations/props/order-50g.svg',
 } as const;

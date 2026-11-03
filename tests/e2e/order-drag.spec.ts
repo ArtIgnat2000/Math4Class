@@ -8,6 +8,7 @@ const topic = pack.topics.find((item: { id: string }) => item.id === 'mass-kg-g'
 const task = topic.tasks.find((item: { id: string }) => item.id === 'order-mass');
 
 for (const [width, height, mobile] of [
+  [320, 640, true],
   [390, 844, true],
   [768, 1024, true],
   [1280, 900, false],
@@ -37,8 +38,11 @@ for (const [width, height, mobile] of [
       const rows = page.locator('.illustrated-order li');
       await expect(page.locator('.mass-question-order-mass')).toHaveCount(0);
       await expect(rows).toHaveCount(4);
+      expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(
+        width,
+      );
       for (const [label, count] of [
-        ['900 г', 1],
+        ['900 г', 3],
         ['1 кг', 1],
         ['1 кг 50 г', 2],
         ['1 500 г', 2],
@@ -52,7 +56,7 @@ for (const [width, height, mobile] of [
       await page.getByRole('button', { name: 'Гири и вес' }).click();
       const guide = page.getByRole('table', { name: 'Гири и их масса' });
       await expect(guide.locator('tbody tr')).toHaveCount(4);
-      for (const label of ['1 кг', '900 г', '500 г', '50 г']) {
+      for (const label of ['1 кг', '200 г', '500 г', '50 г']) {
         const row = guide
           .locator('tbody tr')
           .filter({ has: page.getByRole('rowheader', { name: label, exact: true }) });
