@@ -70,7 +70,7 @@ for (const [width, height, mobile] of [
         await page.mouse.up();
       }
       await expect(rows.nth(2).locator('strong')).toHaveText(initial[0]);
-      const arrow = rows.nth(2).getByRole('button', { name: `Поднять ${initial[0]}` });
+      const arrow = rows.nth(2).getByRole('button', { name: `Сдвинуть влево ${initial[0]}` });
       if (mobile) {
         await arrow.focus();
         await page.keyboard.press('Enter');

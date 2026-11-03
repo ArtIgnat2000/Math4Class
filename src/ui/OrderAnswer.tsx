@@ -1,5 +1,5 @@
 import { useRef, useState, type PointerEvent } from 'react';
-import { ArrowDown, ArrowUp, GripVertical } from 'lucide-react';
+import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, GripVertical } from 'lucide-react';
 
 type Item = { id: string; label: string };
 
@@ -122,17 +122,17 @@ export function OrderAnswer({
                   type="button"
                   disabled={disabled || i === 0}
                   onClick={() => move(i, -1)}
-                  aria-label={`Поднять ${item.label}`}
+                  aria-label={`${illustrated ? 'Сдвинуть влево' : 'Поднять'} ${item.label}`}
                 >
-                  <ArrowUp size={18} />
+                  {illustrated ? <ArrowLeft size={18} /> : <ArrowUp size={18} />}
                 </button>
                 <button
                   type="button"
                   disabled={disabled || i === order.length - 1}
                   onClick={() => move(i, 1)}
-                  aria-label={`Опустить ${item.label}`}
+                  aria-label={`${illustrated ? 'Сдвинуть вправо' : 'Опустить'} ${item.label}`}
                 >
-                  <ArrowDown size={18} />
+                  {illustrated ? <ArrowRight size={18} /> : <ArrowDown size={18} />}
                 </button>
               </div>
             </li>
