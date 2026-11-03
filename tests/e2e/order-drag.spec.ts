@@ -10,6 +10,7 @@ const task = topic.tasks.find((item: { id: string }) => item.id === 'order-mass'
 for (const [width, height, mobile] of [
   [320, 640, true],
   [390, 844, true],
+  [600, 900, true],
   [768, 1024, true],
   [1280, 900, false],
 ] as const) {
@@ -38,6 +39,33 @@ for (const [width, height, mobile] of [
       const rows = page.locator('.illustrated-order li');
       await expect(page.locator('.mass-question-order-mass')).toHaveCount(0);
       await expect(rows).toHaveCount(4);
+      await expect(rows.locator('.order-grip')).toHaveCount(0);
+      const cardBoxes = await Promise.all(
+        [0, 1, 2, 3].map((index) => rows.nth(index).boundingBox()),
+      );
+      const firstBox = cardBoxes[0]!;
+      for (const box of cardBoxes.slice(1)) {
+        if (width < 768) {
+          expect(Math.abs(box!.x - firstBox.x)).toBeLessThan(2);
+        } else {
+          expect(Math.abs(box!.y - firstBox.y)).toBeLessThan(2);
+        }
+      }
+      const previous = rows.nth(1).getByRole('button', {
+        name: /Переместить на предыдущую позицию/,
+      });
+      const next = rows.nth(1).getByRole('button', {
+        name: /Переместить на следующую позицию/,
+      });
+      await expect(previous).toBeVisible();
+      await expect(next).toBeVisible();
+      await expect(
+        previous.locator(width < 768 ? '.order-arrow-vertical' : '.order-arrow-horizontal'),
+      ).toBeVisible();
+      await expect(
+        next.locator(width < 768 ? '.order-arrow-vertical' : '.order-arrow-horizontal'),
+      ).toBeVisible();
+      expect((await previous.boundingBox())!.height).toBeGreaterThanOrEqual(44);
       expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(
         width,
       );
@@ -114,7 +142,9 @@ for (const [width, height, mobile] of [
         await page.mouse.up();
       }
       await expect(rows.nth(2).locator('strong')).toHaveText(initial[0]);
-      const arrow = rows.nth(2).getByRole('button', { name: `Сдвинуть влево ${initial[0]}` });
+      const arrow = rows
+        .nth(2)
+        .getByRole('button', { name: `Переместить на предыдущую позицию ${initial[0]}` });
       if (mobile) {
         await arrow.focus();
         await page.keyboard.press('Enter');

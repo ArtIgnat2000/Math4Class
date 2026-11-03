@@ -87,7 +87,9 @@ for (const [width, height, touch] of [
         await page.mouse.up();
       }
       await expect(cards.nth(2).locator('strong')).toHaveText(original[0]);
-      const arrow = cards.nth(2).getByRole('button', { name: `Сдвинуть влево ${original[0]}` });
+      const arrow = cards
+        .nth(2)
+        .getByRole('button', { name: `Переместить на предыдущую позицию ${original[0]}` });
       if (touch) {
         await arrow.focus();
         await page.keyboard.press('Enter');

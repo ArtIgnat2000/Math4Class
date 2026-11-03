@@ -150,7 +150,7 @@ export function OrderAnswer({
               onPointerCancel={finish}
             >
               <span className="order-position">{i + 1}</span>
-              <GripVertical className="order-grip" size={19} aria-hidden="true" />
+              {!illustrated && <GripVertical className="order-grip" size={19} aria-hidden="true" />}
               {illustrated &&
                 (kind === 'mass' ? (
                   <MassWeights label={item.label} />
@@ -165,17 +165,31 @@ export function OrderAnswer({
                   type="button"
                   disabled={disabled || i === 0}
                   onClick={() => move(i, -1)}
-                  aria-label={`${illustrated ? 'Сдвинуть влево' : 'Поднять'} ${item.label}`}
+                  aria-label={`${illustrated ? 'Переместить на предыдущую позицию' : 'Поднять'} ${item.label}`}
                 >
-                  {illustrated ? <ArrowLeft size={18} /> : <ArrowUp size={18} />}
+                  {illustrated ? (
+                    <>
+                      <ArrowLeft className="order-arrow-horizontal" size={20} aria-hidden="true" />
+                      <ArrowUp className="order-arrow-vertical" size={20} aria-hidden="true" />
+                    </>
+                  ) : (
+                    <ArrowUp size={18} aria-hidden="true" />
+                  )}
                 </button>
                 <button
                   type="button"
                   disabled={disabled || i === order.length - 1}
                   onClick={() => move(i, 1)}
-                  aria-label={`${illustrated ? 'Сдвинуть вправо' : 'Опустить'} ${item.label}`}
+                  aria-label={`${illustrated ? 'Переместить на следующую позицию' : 'Опустить'} ${item.label}`}
                 >
-                  {illustrated ? <ArrowRight size={18} /> : <ArrowDown size={18} />}
+                  {illustrated ? (
+                    <>
+                      <ArrowRight className="order-arrow-horizontal" size={20} aria-hidden="true" />
+                      <ArrowDown className="order-arrow-vertical" size={20} aria-hidden="true" />
+                    </>
+                  ) : (
+                    <ArrowDown size={18} aria-hidden="true" />
+                  )}
                 </button>
               </div>
             </li>

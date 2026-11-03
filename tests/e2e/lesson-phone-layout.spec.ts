@@ -52,7 +52,9 @@ async function showTask(
   await page.reload();
 }
 
-test('every lesson card fits a standard phone without scrolling', async ({ browser }) => {
+test('lesson cards fit a standard phone unless a vertical illustrated list needs scrolling', async ({
+  browser,
+}) => {
   test.setTimeout(180_000);
   const height = 844;
   const context = await browser.newContext({
@@ -69,6 +71,7 @@ test('every lesson card fits a standard phone without scrolling', async ({ brows
           await showTask(page, pack.grade, topic, task);
           const size = await page.evaluate(() => ({
             bottom: document.querySelector('.task-card')!.getBoundingClientRect().bottom,
+            verticalOrder: !!document.querySelector('.illustrated-order'),
             scrollHeight: document.documentElement.scrollHeight,
             exitHeight: document.querySelector('.task-exit')!.getBoundingClientRect().height,
             keypadHeights: [...document.querySelectorAll('.numeric-keypad button')].map(
@@ -76,8 +79,15 @@ test('every lesson card fits a standard phone without scrolling', async ({ brows
             ),
           }));
           const label = `${pack.grade}/${topic.id}/${task.id}`;
-          expect(size.bottom, label).toBeLessThanOrEqual(height - 16);
-          expect(size.scrollHeight, label).toBeLessThanOrEqual(height);
+          if (size.verticalOrder) {
+            // A readable one-column picture list takes priority over a forced fit.
+            const submit = page.locator('.task-footer button');
+            await submit.scrollIntoViewIfNeeded();
+            await expect(submit).toBeInViewport();
+          } else {
+            expect(size.bottom, label).toBeLessThanOrEqual(height - 16);
+            expect(size.scrollHeight, label).toBeLessThanOrEqual(height);
+          }
           expect(size.exitHeight, label).toBeGreaterThanOrEqual(44);
           expect(
             size.keypadHeights.every((buttonHeight) => buttonHeight >= 44),
