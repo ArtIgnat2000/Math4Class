@@ -1,6 +1,8 @@
 import { useRef, useState, type PointerEvent } from 'react';
 import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, GripVertical } from 'lucide-react';
 import { MassWeight, type MassWeightValue } from './MassWeights';
+import { CentnerOrderGuide, CentnerOrderPicture } from './CentnerOrder';
+import { Modal } from './shared';
 
 type Item = { id: string; label: string };
 
@@ -32,12 +34,14 @@ export function OrderAnswer({
   onChange,
   disabled,
   illustrated = false,
+  kind = 'mass',
 }: {
   items: Item[];
   order: string[];
   onChange: (order: string[]) => void;
   disabled: boolean;
   illustrated?: boolean;
+  kind?: 'mass' | 'centner';
 }) {
   const drag = useRef<{
     id: string;
@@ -50,6 +54,7 @@ export function OrderAnswer({
   const [target, setTarget] = useState<string | null>(null);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [announcement, setAnnouncement] = useState('');
+  const [guideOpen, setGuideOpen] = useState(false);
   const move = (index: number, direction: -1 | 1) => {
     const next = [...order];
     const moved = next[index];
@@ -118,6 +123,11 @@ export function OrderAnswer({
   return (
     <div className={`order-answer ${illustrated ? 'illustrated-order' : ''}`}>
       <p>Перетащи карточки в нужном порядке.</p>
+      {illustrated && kind === 'centner' && (
+        <button type="button" className="order-guide-button" onClick={() => setGuideOpen(true)}>
+          Грузы и масса
+        </button>
+      )}
       <ol aria-label="Порядок величин">
         {order.map((id, i) => {
           const item = items.find((entry) => entry.id === id)!;
@@ -138,7 +148,12 @@ export function OrderAnswer({
             >
               <span className="order-position">{i + 1}</span>
               <GripVertical className="order-grip" size={19} aria-hidden="true" />
-              {illustrated && <MassWeights label={item.label} />}
+              {illustrated &&
+                (kind === 'mass' ? (
+                  <MassWeights label={item.label} />
+                ) : (
+                  <CentnerOrderPicture label={item.label} />
+                ))}
               <strong>{item.label}</strong>
               <div>
                 <button
@@ -165,6 +180,15 @@ export function OrderAnswer({
       <span className="sr-only" role="status">
         {announcement}
       </span>
+      {guideOpen && (
+        <Modal
+          title="Какой груз сколько весит"
+          onClose={() => setGuideOpen(false)}
+          className="mass-weight-dialog"
+        >
+          <CentnerOrderGuide />
+        </Modal>
+      )}
     </div>
   );
 }

@@ -299,7 +299,9 @@ function TaskArea({
             onHint={onHint}
           />
         )}
-        {session.topicId === 'mass-tonne-centner' && <CentnerQuestionVisual taskId={task.id} />}
+        {session.topicId === 'mass-tonne-centner' && task.type !== 'order' && (
+          <CentnerQuestionVisual taskId={task.id} />
+        )}
         {task.diagram && <Diagram diagram={task.diagram} />}
         {!task.diagram && task.expression && <MathVisual expression={task.expression} />}
         {task.expression && (
@@ -447,7 +449,10 @@ function TaskArea({
               order={answer}
               onChange={setAnswer}
               disabled={checked}
-              illustrated={session.topicId === 'mass-kg-g'}
+              illustrated={
+                session.topicId === 'mass-kg-g' || session.topicId === 'mass-tonne-centner'
+              }
+              kind={session.topicId === 'mass-tonne-centner' ? 'centner' : 'mass'}
             />
           )}
         </div>
