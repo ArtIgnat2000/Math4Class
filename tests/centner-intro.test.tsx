@@ -5,15 +5,17 @@ import { CentnerIntroVisual } from '../src/ui/CentnerIntroVisual';
 describe('centner introduction', () => {
   it('introduces a centner as 100 kg without implying a person weighs 100 kg', () => {
     const { container } = render(<CentnerIntroVisual />);
-    expect(container.querySelectorAll('.centner-example img')).toHaveLength(1);
+    expect(container.querySelectorAll('.centner-comparison img')).toHaveLength(2);
     expect(screen.getByText('1 ц = 100 кг')).toBeInTheDocument();
-    expect(screen.getByRole('img', { name: /один груз массой один центнер/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole('img', { name: /центнер — груз в сто раз тяжелее/i }),
+    ).toBeInTheDocument();
     expect(screen.queryByText(/спортсмен|атлет/i)).not.toBeInTheDocument();
   });
-  it('counts exactly ten centner crates in a tonne', () => {
+  it('shows that a tonne is ten centners without drawing a wall of crates', () => {
     const { container } = render(<CentnerIntroVisual />);
-    fireEvent.click(screen.getByRole('button', { name: 'А тонна?' }));
-    expect(container.querySelectorAll('.centner-ten img')).toHaveLength(10);
-    expect(screen.getByText('10 ц = 1 т = 1 000 кг')).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: 'Тонна' }));
+    expect(container.querySelectorAll('.centner-comparison img')).toHaveLength(2);
+    expect(screen.getByText('1 т = 10 ц = 1 000 кг')).toBeInTheDocument();
   });
 });

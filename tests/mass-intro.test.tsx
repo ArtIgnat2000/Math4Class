@@ -3,18 +3,19 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { MassIntroVisual } from '../src/ui/MassIntroVisual';
 
 describe('visual introduction to kilograms and grams', () => {
-  it('shows 1 kg as ten smaller 100 g weights, without a paragraph', () => {
+  it('shows that kilo means one thousand with distinct gram and kilogram objects', () => {
     const { container } = render(<MassIntroVisual />);
-    expect(container.querySelectorAll('.mass-intro-ten .mass-object-weight')).toHaveLength(10);
-    expect(
-      container.querySelector('.mass-intro-equation > .mass-object-weight img'),
-    ).toHaveAttribute('src', expect.stringContaining('weight.webp'));
-    for (const image of container.querySelectorAll('.mass-intro-ten img')) {
-      expect(image).toHaveAttribute('src', expect.stringContaining('weight-100g.webp'));
-    }
-    expect(screen.getAllByText('100 г')).toHaveLength(10);
+    expect(container.querySelector('.kilo-gram img')).toHaveAttribute(
+      'src',
+      expect.stringContaining('gram-weight.webp'),
+    );
+    expect(container.querySelector('.kilo-kilogram img')).toHaveAttribute(
+      'src',
+      expect.stringContaining('weight.webp'),
+    );
+    expect(screen.getByText('кило')).toBeInTheDocument();
     expect(screen.getByText('1 кг = 1 000 г')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: '1 кг — это сколько?' })).toHaveAttribute(
+    expect(screen.getByRole('button', { name: 'Что значит «кило»?' })).toHaveAttribute(
       'aria-pressed',
       'true',
     );

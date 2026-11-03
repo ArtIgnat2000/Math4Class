@@ -22,6 +22,7 @@ import { MathVisual } from './MathVisual';
 import { MassStory } from './MassStory';
 import { MassIntroVisual } from './MassIntroVisual';
 import { CentnerIntroVisual } from './CentnerIntroVisual';
+import { CentnerQuestionVisual } from './CentnerQuestionVisual';
 import { Brand, InfoNote, Modal, ProgressBar, Stars, TopicSymbol } from './shared';
 
 export function TopicDialog({
@@ -297,6 +298,7 @@ function TaskArea({
             onHint={onHint}
           />
         )}
+        {session.topicId === 'mass-tonne-centner' && <CentnerQuestionVisual taskId={task.id} />}
         {task.diagram && <Diagram diagram={task.diagram} />}
         {!task.diagram && task.expression && <MathVisual expression={task.expression} />}
         {task.expression && (
