@@ -363,7 +363,7 @@ function TaskArea({
               </p>
             </fieldset>
           )}
-          {task.type === 'division' && (
+          {task.type === 'division' && !checked && (
             <NumericKeypad
               value={divisionAnswer[activeNumericField]}
               onChange={(value) => setAnswer({ ...divisionAnswer, [activeNumericField]: value })}
@@ -393,13 +393,13 @@ function TaskArea({
               <small id="answer-help">Можно писать с пробелами: 12 000</small>
             </div>
           )}
-          {task.type === 'number' && (
+          {task.type === 'number' && !checked && (
             <NumericKeypad
               value={typeof answer === 'string' ? answer : ''}
               onChange={setAnswer}
               inputRef={inputRef}
-              allowDecimal
-              allowNegative
+              allowDecimal={!Number.isInteger(task.answer)}
+              allowNegative={task.answer < 0}
               disabled={checked}
             />
           )}
