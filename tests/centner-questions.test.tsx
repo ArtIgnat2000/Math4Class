@@ -10,7 +10,7 @@ const cases = [
   ['kg-2300', 1],
   ['equal', 2],
   ['kg-to-centners', 1],
-  ['order', 0],
+  ['order', 12],
 ] as const;
 
 describe('centner task scenes', () => {

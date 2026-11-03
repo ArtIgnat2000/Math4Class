@@ -23,6 +23,7 @@ import { MassStory } from './MassStory';
 import { MassIntroVisual } from './MassIntroVisual';
 import { CentnerIntroVisual } from './CentnerIntroVisual';
 import { CentnerQuestionVisual } from './CentnerQuestionVisual';
+import { NumericKeypad } from './NumericKeypad';
 import { Brand, InfoNote, Modal, ProgressBar, Stars, TopicSymbol } from './shared';
 
 export function TopicDialog({
@@ -238,6 +239,12 @@ function TaskArea({
           : ''),
   );
   const inputRef = useRef<HTMLInputElement>(null);
+  const remainderRef = useRef<HTMLInputElement>(null);
+  const [activeNumericField, setActiveNumericField] = useState<'quotient' | 'remainder'>(
+    'quotient',
+  );
+  const touchKeyboard =
+    typeof window !== 'undefined' && window.matchMedia?.('(pointer: coarse)').matches;
   const controlsRef = useRef<HTMLDivElement>(null);
   const feedbackRef = useRef<HTMLDivElement>(null);
   const checked = session.feedback !== null;
@@ -322,9 +329,10 @@ function TaskArea({
                   Неполное частное
                   <input
                     ref={inputRef}
+                    onFocus={() => setActiveNumericField('quotient')}
                     id="quotient-answer"
                     type="text"
-                    inputMode="numeric"
+                    inputMode={touchKeyboard ? 'none' : 'numeric'}
                     autoComplete="off"
                     maxLength={32}
                     value={divisionAnswer.quotient}
@@ -336,9 +344,11 @@ function TaskArea({
                 <label htmlFor="remainder-answer">
                   Остаток
                   <input
+                    ref={remainderRef}
+                    onFocus={() => setActiveNumericField('remainder')}
                     id="remainder-answer"
                     type="text"
-                    inputMode="numeric"
+                    inputMode={touchKeyboard ? 'none' : 'numeric'}
                     autoComplete="off"
                     maxLength={32}
                     value={divisionAnswer.remainder}
@@ -353,6 +363,14 @@ function TaskArea({
               </p>
             </fieldset>
           )}
+          {task.type === 'division' && (
+            <NumericKeypad
+              value={divisionAnswer[activeNumericField]}
+              onChange={(value) => setAnswer({ ...divisionAnswer, [activeNumericField]: value })}
+              inputRef={activeNumericField === 'quotient' ? inputRef : remainderRef}
+              disabled={checked}
+            />
+          )}
           {task.type === 'number' && (
             <div className="number-answer">
               <label className="sr-only" htmlFor="numeric-answer">
@@ -362,7 +380,7 @@ function TaskArea({
                 ref={inputRef}
                 id="numeric-answer"
                 type="text"
-                inputMode="decimal"
+                inputMode={touchKeyboard ? 'none' : 'decimal'}
                 autoComplete="off"
                 maxLength={32}
                 value={typeof answer === 'string' ? answer : ''}
@@ -374,6 +392,16 @@ function TaskArea({
               {task.unit && <span>{task.unit}</span>}
               <small id="answer-help">Можно писать с пробелами: 12 000</small>
             </div>
+          )}
+          {task.type === 'number' && (
+            <NumericKeypad
+              value={typeof answer === 'string' ? answer : ''}
+              onChange={setAnswer}
+              inputRef={inputRef}
+              allowDecimal
+              allowNegative
+              disabled={checked}
+            />
           )}
           {task.type === 'choice' && (
             <div className="choice-options">

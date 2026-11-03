@@ -6512,3 +6512,87 @@ h1[tabindex='-1']:focus {
     animation: none;
   }
 }
+
+/* Touch-first keypad; keyboard input remains available for physical keyboards. */
+.numeric-keypad {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  width: min(100%, 320px);
+  margin: 17px auto 5px;
+}
+.numeric-keypad button {
+  min-height: 48px;
+  border: 1px solid #cbdac4;
+  border-radius: 12px;
+  background: #fffefa;
+  color: #314e39;
+  font: inherit;
+  font-size: 21px;
+  font-weight: 750;
+  box-shadow: 0 2px 0 #d9e2d3;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.numeric-keypad button:active {
+  background: #e7f0df;
+  box-shadow: none;
+}
+.numeric-keypad button:focus-visible {
+  outline: 3px solid #597e59;
+  outline-offset: 2px;
+}
+.numeric-keypad button:disabled {
+  opacity: 0.52;
+  cursor: default;
+}
+.numeric-keypad .numeric-keypad-minus {
+  grid-column: 1 / -1;
+  min-height: 40px;
+  font-size: 18px;
+}
+@media (pointer: fine) {
+  .numeric-keypad {
+    display: none;
+  }
+}
+
+/* Ordering task keeps the illustrated masses in question order, not answer order. */
+.centner-order-scenes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: center;
+  gap: 12px;
+}
+.centner-nine-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  align-items: center;
+  justify-items: center;
+  width: 100%;
+  height: 93px;
+  gap: 0;
+}
+.centner-nine-grid img {
+  width: 100%;
+  height: 42px;
+  object-fit: contain;
+}
+.centner-nine {
+  width: 105px;
+}
+@media (max-width: 540px) {
+  .centner-order-scenes {
+    gap: 6px;
+  }
+  .centner-nine {
+    width: 87px;
+  }
+  .centner-nine-grid {
+    height: 82px;
+  }
+  .centner-nine-grid img {
+    height: 36px;
+  }
+}
