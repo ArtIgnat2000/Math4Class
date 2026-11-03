@@ -1,9 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import {
-  ArrowDown,
   ArrowLeft,
   ArrowRight,
-  ArrowUp,
   BookOpen,
   Check,
   ChevronRight,
@@ -24,6 +22,7 @@ import { MassIntroVisual } from './MassIntroVisual';
 import { CentnerIntroVisual } from './CentnerIntroVisual';
 import { CentnerQuestionVisual } from './CentnerQuestionVisual';
 import { NumericKeypad } from './NumericKeypad';
+import { OrderAnswer } from './OrderAnswer';
 import { Brand, InfoNote, Modal, ProgressBar, Stars, TopicSymbol } from './shared';
 
 export function TopicDialog({
@@ -264,12 +263,6 @@ function TaskArea({
     else if (inputRef.current) inputRef.current.focus();
     else controlsRef.current?.querySelector('button')?.focus();
   }, [checked]);
-  const move = (index: number, direction: -1 | 1) => {
-    if (!Array.isArray(answer)) return;
-    const next = [...answer];
-    [next[index], next[index + direction]] = [next[index + direction], next[index]];
-    setAnswer(next);
-  };
   return (
     <form
       className={`task-card ${session.topicId === 'mass-kg-g' ? 'mass-task-card' : ''}`}
@@ -448,38 +441,12 @@ function TaskArea({
             </div>
           )}
           {task.type === 'order' && Array.isArray(answer) && (
-            <div className="order-answer">
-              <p>Меняй элементы местами с помощью стрелок</p>
-              <ol>
-                {answer.map((id, i) => {
-                  const item = task.items.find((t) => t.id === id)!;
-                  return (
-                    <li key={id}>
-                      <span className="order-position">{i + 1}</span>
-                      <strong>{item.label}</strong>
-                      <div>
-                        <button
-                          type="button"
-                          disabled={checked || i === 0}
-                          onClick={() => move(i, -1)}
-                          aria-label={`Поднять ${item.label}`}
-                        >
-                          <ArrowUp size={18} />
-                        </button>
-                        <button
-                          type="button"
-                          disabled={checked || i === answer.length - 1}
-                          onClick={() => move(i, 1)}
-                          aria-label={`Опустить ${item.label}`}
-                        >
-                          <ArrowDown size={18} />
-                        </button>
-                      </div>
-                    </li>
-                  );
-                })}
-              </ol>
-            </div>
+            <OrderAnswer
+              items={task.items}
+              order={answer}
+              onChange={setAnswer}
+              disabled={checked}
+            />
           )}
         </div>
         {!checked && session.topicId !== 'mass-kg-g' && (

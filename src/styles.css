@@ -6841,3 +6841,77 @@ h1[tabindex='-1']:focus {
     gap: 3px;
   }
 }
+
+/* A reference is a quick fact in the card; the full chart is a focused dialog. */
+.mass-story-reference {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px 14px;
+  padding: 8px 12px;
+}
+.mass-story-reference > strong {
+  font-size: 15px;
+}
+.mass-table-dialog {
+  max-width: 480px;
+}
+.mass-table-dialog > p {
+  color: #52634c;
+  margin: 8px 0 16px;
+}
+.mass-table-dialog .mass-units-table th {
+  white-space: nowrap;
+}
+.order-answer li {
+  min-height: 52px;
+  touch-action: none;
+  cursor: grab;
+  user-select: none;
+  transition:
+    border-color 0.15s,
+    background 0.15s,
+    transform 0.15s;
+}
+.order-answer li:active {
+  cursor: grabbing;
+}
+.order-answer li.order-dragging {
+  border-color: #628b65;
+  background: #e8f3e4;
+  transform: scale(1.025);
+  box-shadow: 0 6px 18px #314f3426;
+}
+.order-answer li.order-drop-target {
+  border-color: #578b60;
+  background: #e9f5e7;
+  box-shadow: inset 0 3px #578b60;
+}
+.order-grip {
+  flex: none;
+  color: #668267;
+}
+.order-answer li button {
+  width: 44px;
+  height: 44px;
+  cursor: pointer;
+}
+@media (prefers-reduced-motion: reduce) {
+  .order-answer li {
+    transition: none;
+  }
+}
+@media (max-width: 599px) and (pointer: coarse) {
+  .mass-task-card .mass-story-reference {
+    margin: 4px 0 6px;
+  }
+  .order-answer li {
+    gap: 7px;
+    padding: 5px 8px;
+  }
+  .order-answer li button {
+    width: 44px;
+    height: 44px;
+  }
+}

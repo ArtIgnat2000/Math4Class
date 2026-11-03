@@ -70,3 +70,29 @@ for (const taskId of ['to-kilo', 'mixed-2-350', 'kg-3']) {
     }
   });
 }
+
+test('quick reference stays compact while full table opens separately', async ({ browser }) => {
+  const context = await browser.newContext({
+    viewport: { width: 390, height: 844 },
+    isMobile: true,
+    hasTouch: true,
+  });
+  try {
+    const page = await context.newPage();
+    await page.goto('/#/topics');
+    await page.locator('.topic-card').filter({ hasText: 'Килограмм и грамм' }).click();
+    await page.getByRole('button', { name: 'Начать занятие' }).click();
+    await page.getByRole('button', { name: 'Таблица единиц' }).click();
+    const bottom = await page
+      .locator('.task-card')
+      .evaluate((card) => card.getBoundingClientRect().bottom);
+    expect(bottom).toBeLessThan(844 - 12);
+    await page.getByRole('button', { name: 'Все единицы массы' }).click();
+    await expect(page.getByRole('dialog', { name: 'Таблица единиц массы' })).toBeVisible();
+    await page.keyboard.press('Escape');
+    await expect(page.getByRole('dialog', { name: 'Таблица единиц массы' })).toHaveCount(0);
+    await expect(page.getByRole('button', { name: 'Проверить' })).toBeVisible();
+  } finally {
+    await context.close();
+  }
+});
