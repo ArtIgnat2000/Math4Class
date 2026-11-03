@@ -272,7 +272,7 @@ function TaskArea({
   };
   return (
     <form
-      className="task-card"
+      className={`task-card ${session.topicId === 'mass-kg-g' ? 'mass-task-card' : ''}`}
       onSubmit={(e) => {
         e.preventDefault();
         if (checked) onNext();

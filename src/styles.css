@@ -6671,3 +6671,173 @@ h1[tabindex='-1']:focus {
     padding: 12px 20px;
   }
 }
+
+/* Phone mass questions: give the problem and the picture the space, not decorative chrome.
+   Keep the units, input, keypad and exit readable; never clip the card. */
+@media (max-width: 599px) and (pointer: coarse) {
+  .lesson-shell:has(.mass-task-card) {
+    padding-bottom: 8px;
+  }
+  .lesson-shell:has(.mass-task-card) .lesson-header {
+    min-height: 50px;
+    padding: 7px 14px;
+  }
+  .lesson-shell:has(.mass-task-card) .lesson-main {
+    padding: 7px 10px 8px;
+  }
+  .lesson-shell:has(.mass-task-card) .lesson-progress-label {
+    margin-bottom: 5px;
+  }
+  .lesson-shell:has(.mass-task-card) .task-card {
+    margin-top: 5px;
+  }
+  .mass-task-card .task-content {
+    padding: 10px 12px 8px;
+  }
+  .mass-task-card .task-card-top {
+    margin-bottom: 7px;
+  }
+  .mass-task-card .task-content h1 {
+    font-size: 19px;
+    line-height: 1.32;
+  }
+  .mass-task-card .mass-story {
+    margin: 8px auto;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+  .mass-task-card .mass-story-frame {
+    min-height: 0;
+    padding: 0;
+    gap: 5px;
+  }
+  .mass-task-card .mass-story-frame > img {
+    display: none;
+  }
+  .mass-task-card .mass-story-bubble {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 5px;
+    padding: 0;
+  }
+  .mass-task-card .mass-story-bubble strong {
+    font-size: 11px;
+  }
+  .mass-task-card .mass-story-tools {
+    gap: 4px;
+    padding: 0;
+  }
+  .mass-task-card .mass-story-tools button {
+    min-height: 34px;
+    padding: 4px 7px;
+    font-size: 10px;
+  }
+  .mass-task-card .mass-story-tools button:last-child {
+    display: none;
+  }
+  .mass-task-card .mass-story .mass-question-visual {
+    margin: 6px 0 0;
+    padding: 6px 5px 8px;
+  }
+  .mass-task-card .mass-story .mass-question-items {
+    min-height: 65px;
+    gap: 3px;
+  }
+  .mass-task-card .mass-question-to-kilo .mass-question-items,
+  .mass-task-card .mass-question-mixed-2-350 .mass-question-items {
+    flex-wrap: nowrap;
+  }
+  .mass-task-card .mass-question-group {
+    gap: 2px;
+  }
+  .mass-task-card .mass-object-weight {
+    width: clamp(49px, 15vw, 66px);
+  }
+  .mass-task-card .mass-object-weight img {
+    height: clamp(52px, 16vw, 67px);
+  }
+  .mass-task-card .mass-object-weight.small {
+    width: clamp(40px, 12vw, 55px);
+  }
+  .mass-task-card .mass-object-weight.small img {
+    height: clamp(48px, 14vw, 59px);
+  }
+  .mass-task-card .mass-object-parcel {
+    width: clamp(49px, 15vw, 66px);
+  }
+  .mass-task-card .mass-object-parcel img {
+    height: clamp(58px, 17vw, 75px);
+  }
+  .mass-task-card .mass-object-weight span,
+  .mass-task-card .mass-object-parcel span {
+    min-height: 16px;
+    font-size: 11px;
+  }
+  .mass-task-card .mass-question-plus {
+    font-size: 19px;
+  }
+  .mass-task-card .answer-controls {
+    margin-top: 8px;
+  }
+  .mass-task-card .number-answer input {
+    height: 47px;
+  }
+  .mass-task-card .number-answer > small {
+    display: none;
+  }
+  .mass-task-card .numeric-keypad {
+    gap: 5px;
+    margin: 7px auto 0;
+  }
+  .mass-task-card .numeric-keypad button {
+    min-height: 44px;
+  }
+  .mass-task-card .hint-area {
+    margin-top: 6px;
+    min-height: 0;
+  }
+  .mass-task-card .task-footer {
+    padding: 7px 12px;
+  }
+  .mass-task-card .task-footer .button {
+    min-height: 44px;
+  }
+}
+
+/* Very short, narrow phones: the card itself has the exit control, so the
+   duplicate brand header can go. The progress bar remains visible. */
+@media (max-width: 359px) and (max-height: 650px) and (pointer: coarse) {
+  .lesson-shell:has(.mass-task-card) .lesson-header,
+  .lesson-shell:has(.mass-task-card) .lesson-progress-label {
+    display: none;
+  }
+  .lesson-shell:has(.mass-task-card) .lesson-main {
+    padding: 4px 6px;
+  }
+  .mass-task-card .task-content {
+    padding: 5px 8px;
+  }
+  .mass-task-card .task-card-top {
+    margin-bottom: 3px;
+  }
+  .mass-task-card .mass-story {
+    margin: 3px auto;
+  }
+  .mass-task-card .mass-story .mass-question-visual {
+    margin-top: 3px;
+    padding: 3px;
+  }
+  .mass-task-card .mass-object-weight img,
+  .mass-task-card .mass-object-weight.small img {
+    height: 43px;
+  }
+  .mass-task-card .mass-object-parcel img {
+    height: 48px;
+  }
+  .mass-task-card .numeric-keypad {
+    margin-top: 4px;
+    gap: 3px;
+  }
+}
