@@ -427,7 +427,7 @@ test('centner task keeps its subject illustration on a small phone', async ({ pa
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 });
 
-test('centner introduction shows one crate then ten without spoiling a question', async ({
+test('centner introduction compares distinct loads without spoiling a question', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
@@ -435,10 +435,10 @@ test('centner introduction shows one crate then ten without spoiling a question'
   await page.locator('.topic-card').filter({ hasText: 'Тонна, центнер, килограмм' }).click();
   const dialog = page.getByRole('dialog', { name: 'Тонна, центнер, килограмм' });
   await expect(dialog.getByText('1 ц = 100 кг')).toBeVisible();
-  await expect(dialog.locator('.centner-example > img')).toHaveCount(1);
-  await dialog.getByRole('button', { name: 'А тонна?' }).click();
-  await expect(dialog.locator('.centner-ten img')).toHaveCount(10);
-  await expect(dialog.getByText('10 ц = 1 т = 1 000 кг')).toBeVisible();
+  await expect(dialog.locator('.centner-comparison img')).toHaveCount(2);
+  await dialog.getByRole('button', { name: 'Тонна' }).click();
+  await expect(dialog.locator('.centner-comparison img')).toHaveCount(2);
+  await expect(dialog.getByText('1 т = 10 ц = 1 000 кг')).toBeVisible();
   const { default: AxeBuilder } = await import('@axe-core/playwright');
   const accessibility = await new AxeBuilder({ page })
     .withTags(['wcag2a', 'wcag2aa', 'wcag21aa'])
@@ -453,9 +453,11 @@ test('mass introduction offers two visual examples without source links', async 
   await page.goto('/#/topics');
   await page.locator('.topic-card').filter({ hasText: 'Килограмм и грамм' }).click();
   const dialog = page.getByRole('dialog', { name: 'Килограмм и грамм' });
-  await expect(dialog.locator('.mass-intro-ten .mass-object-weight')).toHaveCount(10);
+  await expect(dialog.locator('.kilo-gram img')).toHaveCount(1);
+  await expect(dialog.locator('.kilo-kilogram img')).toHaveCount(1);
+  await expect(dialog.getByText('кило', { exact: true })).toBeVisible();
   await expect(dialog.getByText('1 кг = 1 000 г')).toBeVisible();
-  const objects = await dialog.locator('.mass-intro-equation').boundingBox();
+  const objects = await dialog.locator('.kilo-objects').boundingBox();
   const result = await dialog.locator('.mass-intro-result').boundingBox();
   expect(objects && result && result.y >= objects.y + objects.height).toBe(true);
   await expect(dialog.getByText('Об источнике темы')).toHaveCount(0);

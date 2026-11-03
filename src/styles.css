@@ -6277,40 +6277,11 @@ h1[tabindex='-1']:focus {
   gap: 12px;
   color: #2e593e;
 }
-.centner-example > img {
-  display: block;
-  width: min(230px, 70vw);
-  height: 135px;
-  object-fit: contain;
-  filter: drop-shadow(0 6px 6px #30432324);
-}
 .centner-example strong {
   font-size: clamp(18px, 4vw, 23px);
   line-height: 1.35;
   text-align: center;
 }
-.centner-ten {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 5px;
-  width: min(100%, 350px);
-}
-.centner-ten img {
-  display: block;
-  width: 100%;
-  height: 70px;
-  object-fit: contain;
-}
-@media (max-width: 540px) {
-  .centner-ten {
-    width: min(100%, 270px);
-    gap: 3px;
-  }
-  .centner-ten img {
-    height: 56px;
-  }
-}
-
 /* Task-specific loads: captions never cover the objects or reveal conversions. */
 .centner-question-items,
 .centner-load-group {
@@ -6374,5 +6345,170 @@ h1[tabindex='-1']:focus {
   }
   .centner-load-kg img {
     height: 82px;
+  }
+}
+
+/* Kilo is a multiplier, not a thousand tiny objects to count. */
+.kilo-panel {
+  padding: 20px 12px;
+}
+.kilo-objects {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(8px, 3vw, 23px);
+  min-height: 140px;
+}
+.kilo-object {
+  display: grid;
+  justify-items: center;
+  color: #304f39;
+  font-size: 16px;
+  gap: 3px;
+  flex: none;
+}
+.kilo-object img {
+  display: block;
+  object-fit: contain;
+  width: 100%;
+}
+.kilo-gram {
+  width: 70px;
+}
+.kilo-gram img {
+  height: 70px;
+}
+.kilo-kilogram {
+  width: 115px;
+}
+.kilo-kilogram img {
+  height: 115px;
+}
+.kilo-transition {
+  display: grid;
+  justify-items: center;
+  color: #376149;
+  font-size: 21px;
+  font-weight: 850;
+  white-space: nowrap;
+  animation: kilo-reveal 1s 0.4s both;
+}
+.kilo-transition span {
+  font-size: 23px;
+  line-height: 1;
+}
+.kilo-meaning {
+  margin: 10px 0 0;
+  font-size: 16px;
+  color: #33543d;
+}
+.kilo-meaning strong {
+  color: #a55736;
+}
+.kilo-panel .mass-intro-result {
+  margin-top: 6px;
+}
+@keyframes kilo-reveal {
+  from {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@media (max-width: 540px) {
+  .kilo-gram {
+    width: 55px;
+  }
+  .kilo-gram img {
+    height: 65px;
+  }
+  .kilo-kilogram {
+    width: 90px;
+  }
+  .kilo-kilogram img {
+    height: 104px;
+  }
+  .kilo-transition {
+    font-size: 17px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .kilo-transition {
+    animation: none;
+  }
+}
+
+/* Centner intro uses the same one-step visual grammar as the kilogram pilot. */
+.centner-comparison {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(7px, 3vw, 20px);
+  min-height: 150px;
+}
+.centner-symbol {
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  width: 120px;
+  flex: none;
+  color: #32543e;
+  font-size: 15px;
+}
+.centner-symbol img {
+  width: 100%;
+  height: 110px;
+  object-fit: contain;
+  filter: drop-shadow(0 5px 6px #203a2830);
+}
+.centner-kilogram {
+  width: 92px;
+}
+.centner-crate {
+  width: 155px;
+}
+.centner-container {
+  width: 150px;
+}
+.centner-multiplier {
+  display: grid;
+  justify-items: center;
+  color: #365d43;
+  font-size: 20px;
+  font-weight: 850;
+  white-space: nowrap;
+  animation: kilo-reveal 1s 0.4s both;
+}
+.centner-multiplier span {
+  font-size: 24px;
+  line-height: 1;
+}
+@media (max-width: 540px) {
+  .centner-symbol {
+    width: 89px;
+    font-size: 13px;
+  }
+  .centner-symbol img {
+    height: 95px;
+  }
+  .centner-kilogram {
+    width: 68px;
+  }
+  .centner-crate {
+    width: 125px;
+  }
+  .centner-container {
+    width: 107px;
+  }
+  .centner-multiplier {
+    font-size: 16px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .centner-multiplier {
+    animation: none;
   }
 }

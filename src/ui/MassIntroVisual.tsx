@@ -22,7 +22,7 @@ export function MassIntroVisual() {
           aria-pressed={view === 'equivalence'}
           onClick={() => setView('equivalence')}
         >
-          1 кг — это сколько?
+          Что значит «кило»?
         </button>
         <button
           type="button"
@@ -33,21 +33,27 @@ export function MassIntroVisual() {
         </button>
       </div>
       {view === 'equivalence' ? (
-        <div className="mass-intro-panel" key="equivalence">
+        <div className="mass-intro-panel kilo-panel" key="equivalence">
           <div
-            className="mass-intro-equation"
+            className="kilo-objects"
             role="img"
-            aria-label="Одна гиря 1 килограмм равна десяти маленьким гирям по 100 граммов"
+            aria-label="Маленькая аптечная гирька 1 грамм и большая гиря 1 килограмм. Кило значит тысяча: в килограмме тысяча граммов"
           >
-            <Weight label="1 кг" />
-            <span className="mass-intro-sign">=</span>
-            <div className="mass-intro-ten">
-              {Array.from({ length: 10 }, (_, i) => (
-                <Weight key={i} label="100 г" small />
-              ))}
-              <span className="mass-intro-ten-label">10 гирек по 100 г</span>
-            </div>
+            <span className="kilo-object kilo-gram">
+              <img src={`${root}illustrations/props/gram-weight.webp`} alt="" />
+              <strong>1 г</strong>
+            </span>
+            <span className="kilo-transition" aria-hidden="true">
+              × 1 000 <span>→</span>
+            </span>
+            <span className="kilo-object kilo-kilogram">
+              <img src={`${root}illustrations/props/weight.webp`} alt="" />
+              <strong>1 кг</strong>
+            </span>
           </div>
+          <p className="kilo-meaning">
+            <strong>кило</strong> = 1 000
+          </p>
           <strong className="mass-intro-result">1 кг = 1 000 г</strong>
         </div>
       ) : (
