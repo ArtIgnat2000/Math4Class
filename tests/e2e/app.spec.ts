@@ -411,6 +411,22 @@ test('premium mass lesson and its reference meet automated WCAG AA checks on pho
   expect(result.violations).toEqual([]);
 });
 
+test('centner task keeps its subject illustration on a small phone', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/#/topics');
+  await page.locator('.topic-card').filter({ hasText: 'Тонна, центнер, килограмм' }).click();
+  await page.getByRole('button', { name: 'Начать занятие' }).click();
+  const picture = page.locator('.centner-question-visual');
+  await expect(picture).toBeVisible();
+  await expect(picture.locator('img').first()).toHaveJSProperty('complete', true);
+  const { default: AxeBuilder } = await import('@axe-core/playwright');
+  const accessibility = await new AxeBuilder({ page })
+    .withTags(['wcag2a', 'wcag2aa', 'wcag21aa'])
+    .analyze();
+  expect(accessibility.violations).toEqual([]);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+});
+
 test('centner introduction shows one crate then ten without spoiling a question', async ({
   page,
 }) => {

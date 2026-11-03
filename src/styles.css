@@ -6310,3 +6310,69 @@ h1[tabindex='-1']:focus {
     height: 56px;
   }
 }
+
+/* Task-specific loads: captions never cover the objects or reveal conversions. */
+.centner-question-items,
+.centner-load-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 9px;
+}
+.centner-question-items {
+  min-height: 115px;
+}
+.centner-load-group {
+  max-width: 340px;
+}
+.centner-load {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  width: 92px;
+  flex: none;
+  color: #36543b;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.35;
+  text-align: center;
+  white-space: nowrap;
+}
+.centner-load img {
+  display: block;
+  width: 100%;
+  height: 65px;
+  object-fit: contain;
+  filter: drop-shadow(0 5px 5px #233d262a);
+}
+.centner-load-tonne {
+  width: 107px;
+}
+.centner-load-kg img {
+  height: 93px;
+}
+.centner-separator {
+  font-size: 28px;
+  font-weight: 800;
+  color: #526b40;
+}
+@media (max-width: 540px) {
+  .centner-question-items,
+  .centner-load-group {
+    gap: 7px;
+  }
+  .centner-load {
+    width: 75px;
+    font-size: 12px;
+  }
+  .centner-load img {
+    height: 58px;
+  }
+  .centner-load-tonne {
+    width: 91px;
+  }
+  .centner-load-kg img {
+    height: 82px;
+  }
+}
