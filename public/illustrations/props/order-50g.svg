@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Небольшая серебристая круглая гиря">
+<defs><radialGradient id="silver" cx=".32" cy=".22" r=".8"><stop stop-color="#fff"/><stop offset=".3" stop-color="#e2eaf2"/><stop offset=".67" stop-color="#a4aec7"/><stop offset=".88" stop-color="#747e9d"/><stop offset="1" stop-color="#4a5373"/></radialGradient><linearGradient id="ring" x2="1"><stop stop-color="#7a829b"/><stop offset=".5" stop-color="#fff"/><stop offset="1" stop-color="#68738d"/></linearGradient></defs>
+<ellipse cx="60" cy="109" rx="31" ry="4" fill="#24314d" opacity=".12"/>
+<circle cx="60" cy="26" r="12" fill="none" stroke="#66728e" stroke-width="8"/>
+<circle cx="60" cy="26" r="12" fill="none" stroke="url(#ring)" stroke-width="6"/>
+<circle cx="60" cy="72" r="35" fill="url(#silver)" stroke="#77829e" stroke-width="2"/>
+<path d="M37 66 Q42 49 54 46" fill="none" stroke="#fff" stroke-width="4" opacity=".75"/>
+</svg>

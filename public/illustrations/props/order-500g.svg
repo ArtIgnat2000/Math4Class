@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Золотистая шестигранная гиря">
+<defs><linearGradient id="gold" x1="0" x2="1"><stop stop-color="#795228"/><stop offset=".22" stop-color="#f9dc83"/><stop offset=".55" stop-color="#c99038"/><stop offset=".78" stop-color="#f6df93"/><stop offset="1" stop-color="#7a5128"/></linearGradient><linearGradient id="face" x2="1" y2="1"><stop stop-color="#ffedac"/><stop offset="1" stop-color="#9f6c2f"/></linearGradient></defs>
+<ellipse cx="60" cy="111" rx="39" ry="5" fill="#382c18" opacity=".13"/>
+<path d="M45 12 H75 L80 17 V31 H40 V17 Z" fill="url(#gold)" stroke="#956a34" stroke-width="2"/>
+<rect x="52" y="29" width="16" height="12" rx="2" fill="url(#gold)" stroke="#987033" stroke-width="2"/>
+<path d="M38 41 H82 L101 57 V93 L83 108 H37 L19 93 V57 Z" fill="url(#gold)" stroke="#8b6234" stroke-width="2"/>
+<path d="M39 45 H81 L91 59 V90 L81 103 H39 L29 90 V59 Z" fill="url(#face)" stroke="#d0a258" stroke-width="2"/>
+<path d="M40 50 V91" stroke="#fff6c8" stroke-width="2" opacity=".7"/>
+</svg>

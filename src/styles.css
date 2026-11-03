@@ -6915,3 +6915,289 @@ h1[tabindex='-1']:focus {
     height: 44px;
   }
 }
+
+/* The full conversion chart is a reading surface, not the tiny in-card caption. */
+.mass-table-dialog {
+  padding: 28px;
+}
+.mass-table-dialog > h2 {
+  font-size: clamp(23px, 5vw, 28px);
+  line-height: 1.2;
+}
+.mass-table-dialog > p {
+  font-size: 16px;
+  line-height: 1.45;
+}
+.mass-table-dialog .mass-units-table {
+  font-size: 18px;
+  line-height: 1.4;
+  margin-top: 16px;
+}
+.mass-table-dialog .mass-units-table th,
+.mass-table-dialog .mass-units-table td {
+  padding: 14px 10px;
+}
+.mass-table-dialog .mass-units-table th {
+  font-weight: 800;
+}
+@media (max-width: 540px) {
+  .mass-table-dialog {
+    padding: 26px 20px 20px;
+  }
+  .mass-table-dialog .mass-units-table tr {
+    display: block;
+    padding: 12px 0;
+    border-top: 1px solid #d6e3cd;
+  }
+  .mass-table-dialog .mass-units-table th,
+  .mass-table-dialog .mass-units-table td {
+    display: block;
+    border: 0;
+    padding: 2px 0;
+  }
+  .mass-table-dialog .mass-units-table th {
+    font-size: 16px;
+  }
+  .mass-table-dialog .mass-units-table td {
+    font-size: 19px;
+    font-weight: 650;
+  }
+}
+
+/* On touch screens the card itself is the draggable control. Preserve the
+   arrow buttons for screen readers and for an attached keyboard. */
+@media (pointer: coarse) {
+  .order-answer li {
+    position: relative;
+    min-height: 62px;
+    box-shadow: 0 3px 0 #dfe9d8;
+  }
+  .order-answer li.order-dragging {
+    position: relative;
+    z-index: 3;
+    transition: none;
+    box-shadow: 0 12px 25px #314f3445;
+  }
+  .order-answer li > div {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .order-answer li > div:focus-within {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip-path: none;
+  }
+}
+
+/* The pictured mass cards ARE the ordering controls; no disconnected duplicate scene. */
+.illustrated-order {
+  max-width: 640px;
+}
+.illustrated-order ol {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 9px;
+}
+.illustrated-order li {
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  min-height: 112px;
+  border: 2px solid #b5c9ab;
+  border-radius: 15px;
+  background: #fffdfa;
+  box-shadow: 0 5px 0 #a4ba99;
+}
+.illustrated-order li > strong {
+  flex: none;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 800;
+  color: #304d39;
+}
+.illustrated-order .order-position {
+  align-self: flex-start;
+}
+.illustrated-order li > div {
+  justify-content: center;
+}
+@media (max-width: 599px) {
+  .illustrated-order ol {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .illustrated-order li {
+    min-height: 88px;
+  }
+}
+
+/* Each draggable card shows the actual mass as a one- or two-weight scene.
+   Values stay below the metal, never over the artwork. */
+.order-mass-weights {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 3px;
+  width: 100%;
+  min-height: 66px;
+  pointer-events: none;
+}
+.order-mass-weight {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: none;
+  width: 50px;
+  color: #304d39;
+  font-size: 11px;
+  font-weight: 750;
+  line-height: 1.25;
+  white-space: nowrap;
+}
+.order-mass-weight img {
+  display: block;
+  width: 46px;
+  height: 48px;
+  object-fit: contain;
+  filter: drop-shadow(0 3px 2px #25342933);
+  pointer-events: none;
+}
+.illustrated-order li {
+  min-height: 165px;
+}
+@media (max-width: 599px) {
+  .illustrated-order li {
+    min-height: 145px;
+  }
+}
+
+/* Picture-to-value key for the four fixed identities in the ordering task. */
+.mass-weight-dialog {
+  max-width: 450px;
+}
+.mass-weight-dialog > p {
+  font-size: 16px;
+  line-height: 1.45;
+  color: #52634c;
+  margin: 14px 0;
+}
+.mass-weights-guide {
+  width: 100%;
+  margin-top: 18px;
+  border-collapse: collapse;
+  text-align: left;
+  color: #304d39;
+}
+.mass-weights-guide th,
+.mass-weights-guide td {
+  border-bottom: 1px solid #d6e3cd;
+  padding: 6px 12px;
+}
+.mass-weights-guide thead th {
+  font-size: 14px;
+}
+.mass-weights-guide tbody th {
+  font-size: 19px;
+  font-weight: 800;
+}
+.mass-weights-guide img {
+  display: block;
+  width: 55px;
+  height: 56px;
+  object-fit: contain;
+}
+@media (max-width: 540px) {
+  .mass-weight-dialog {
+    padding: 26px 20px 20px;
+  }
+}
+
+/* Three canonical denominations also fit on the 900 g card at 320 px. */
+.order-mass-weight {
+  width: 38px;
+  font-size: 11px;
+}
+.order-mass-weight img {
+  width: 36px;
+  height: 45px;
+}
+
+/* The four pictured loads are the draggable ordering cards, not a separate
+   static diagram above the answer. Nine centners show nine marked crates. */
+.centner-order-picture {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 85px;
+  pointer-events: none;
+}
+.centner-order-picture img {
+  display: block;
+  width: min(100%, 100px);
+  height: 78px;
+  object-fit: contain;
+  pointer-events: none;
+  filter: drop-shadow(0 3px 3px #25342929);
+}
+.centner-order-nine {
+  display: grid;
+  grid-template-columns: repeat(3, 30px);
+  grid-template-rows: repeat(3, 24px);
+  place-content: center;
+  gap: 0 3px;
+}
+.centner-order-nine img {
+  width: 30px;
+  height: 24px;
+}
+.order-guide-button {
+  display: block;
+  margin: 0 auto 12px;
+  padding: 9px 14px;
+  min-height: 44px;
+  border: 1px solid #cbdac4;
+  border-radius: 10px;
+  color: #35513b;
+  background: #f8faf4;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.centner-order-guide .centner-order-picture {
+  width: 105px;
+  height: 64px;
+}
+.centner-order-guide .centner-order-picture img {
+  width: 85px;
+  height: 62px;
+}
+.centner-order-guide .centner-order-nine img {
+  width: 24px;
+  height: 19px;
+}
+.centner-order-guide .centner-order-nine {
+  grid-template-columns: repeat(3, 24px);
+  grid-template-rows: repeat(3, 19px);
+}
+@media (max-width: 599px) {
+  .centner-order-picture {
+    height: 68px;
+  }
+  .centner-order-picture img {
+    height: 64px;
+  }
+  .centner-order-nine img {
+    height: 20px;
+  }
+  .centner-order-nine {
+    grid-template-rows: repeat(3, 20px);
+  }
+}

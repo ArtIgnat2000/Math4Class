@@ -1,16 +1,19 @@
 import { useState } from 'react';
 import { MassQuestionVisual } from './MassQuestionVisual';
 import { Modal } from './shared';
+import { MassWeightGuide } from './MassWeights';
 
 /** Task-specific props stay visible even if Buk is hidden. A reference is not a hint. */
 export function MassStory({
   taskId,
+  showWeightGuide = false,
   correct,
   hint,
   hintOpen = false,
   onHint,
 }: {
   taskId?: string;
+  showWeightGuide?: boolean;
   correct?: boolean | null;
   hint?: string;
   hintOpen?: boolean;
@@ -19,6 +22,7 @@ export function MassStory({
   const [open, setOpen] = useState(true);
   const [reference, setReference] = useState(false);
   const [fullTable, setFullTable] = useState(false);
+  const [weightsOpen, setWeightsOpen] = useState(false);
   if (!open) {
     return (
       <div className="mass-story-collapsed">
@@ -50,6 +54,11 @@ export function MassStory({
             >
               {reference ? 'Скрыть таблицу' : 'Таблица единиц'}
             </button>
+            {showWeightGuide && (
+              <button type="button" onClick={() => setWeightsOpen(true)}>
+                Гири и вес
+              </button>
+            )}
             {onHint && correct == null && (
               <button type="button" aria-expanded={hintOpen} onClick={onHint} disabled={hintOpen}>
                 {hintOpen ? 'Подсказка открыта' : 'Подсказка'}
@@ -74,6 +83,15 @@ export function MassStory({
             Все единицы массы
           </button>
         </div>
+      )}
+      {weightsOpen && (
+        <Modal
+          title="Какая гиря сколько весит"
+          onClose={() => setWeightsOpen(false)}
+          className="mass-weight-dialog"
+        >
+          <MassWeightGuide />
+        </Modal>
       )}
       {fullTable && (
         <Modal

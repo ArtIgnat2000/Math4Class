@@ -15,7 +15,6 @@ import {
   RotateCcw,
   Settings2,
   ShieldCheck,
-  Sparkles,
   Sprout,
   Trophy,
   X,
@@ -33,6 +32,7 @@ import { ProfilesDialog } from './ui/Profiles';
 import { Lesson, Result, TopicDialog } from './ui/Lesson';
 import { Brand, InfoNote, Modal, ProfileButton, StatPills } from './ui/shared';
 import { version } from '../package.json';
+import { canApplyUpdate } from './pwaUpdates';
 
 type Route =
   'learn' | 'topics' | 'review' | 'progress' | 'rewards' | 'parents' | 'lesson' | 'result';
@@ -75,8 +75,10 @@ export default function App() {
   } | null>(null);
   const [pendingStart, setPendingStart] = useState<(() => void) | null>(null);
   const [updateAvailable, setUpdateAvailable] = useState(false);
+  const [updateError, setUpdateError] = useState(false);
   const [offlineReady, setOfflineReady] = useState(false);
   const updatePwa = useRef<((reloadPage?: boolean) => Promise<void>) | null>(null);
+  const updating = useRef(false);
   const installPrompt = useRef<InstallPrompt | null>(null);
   const navigate = (next: Route) => {
     setRoute(next);
@@ -111,13 +113,74 @@ export default function App() {
   }, []);
   useEffect(() => {
     if (!import.meta.env.PROD) return;
+    let disposed = false;
+    let stopChecks: (() => void) | undefined;
     void import('virtual:pwa-register').then(({ registerSW }) => {
+      if (disposed) return;
       updatePwa.current = registerSW({
         onNeedRefresh: () => setUpdateAvailable(true),
         onOfflineReady: () => setOfflineReady(true),
+        onRegisteredSW: (_url, registration) => {
+          if (!registration || disposed) return;
+          const check = () => {
+            if (navigator.onLine && document.visibilityState === 'visible') {
+              setUpdateError(false);
+              void registration.update().catch(() => {
+                // Offline or transient network error: try again on the next visit/check.
+              });
+            }
+          };
+          const visible = () => {
+            if (document.visibilityState === 'visible') check();
+          };
+          window.addEventListener('online', check);
+          document.addEventListener('visibilitychange', visible);
+          const timer = window.setInterval(check, 30 * 60_000);
+          stopChecks = () => {
+            window.removeEventListener('online', check);
+            document.removeEventListener('visibilitychange', visible);
+            window.clearInterval(timer);
+          };
+          check();
+        },
       });
     });
+    return () => {
+      disposed = true;
+      stopChecks?.();
+    };
   }, []);
+  // Never reload an unfinished answer or an open dialog. A finished lesson,
+  // saved exit, or the next idle visit applies the waiting worker automatically.
+  useEffect(() => {
+    if (
+      !updatePwa.current ||
+      !canApplyUpdate({
+        updateAvailable: updateAvailable && storageStatus !== 'unavailable',
+        route,
+        dialogOpen: !!dialog || !!topicDialog,
+        pendingStart: !!pendingStart,
+        mobileOpen,
+        updating: updating.current,
+        updateError,
+      })
+    )
+      return;
+    updating.current = true;
+    void updatePwa.current(true).catch(() => {
+      updating.current = false;
+      setUpdateError(true);
+    });
+  }, [
+    updateAvailable,
+    route,
+    dialog,
+    topicDialog,
+    pendingStart,
+    mobileOpen,
+    updateError,
+    storageStatus,
+  ]);
   useEffect(() => {
     document.title = `${routeLabels[route]} · Число`;
     window.scrollTo({ top: 0, behavior: 'instant' });
@@ -238,23 +301,10 @@ export default function App() {
           <span>Сейчас без интернета. Загруженные темы и локальный прогресс доступны.</span>
         </div>
       )}
-      {updateAvailable && (
-        <div className="global-banner update" role="status">
-          <Sparkles size={17} />
-          <span>
-            Новая версия «Числа» готова.
-            {route === 'lesson' ? ' Обновим после занятия.' : ' Прогресс останется на месте.'}
-          </span>
-          {route !== 'lesson' && (
-            <button
-              onClick={() => {
-                void updatePwa.current?.(true);
-              }}
-            >
-              Обновить
-              <RotateCcw size={14} />
-            </button>
-          )}
+      {updateError && (
+        <div className="global-banner update" role="alert">
+          <span>Не удалось установить обновление. Повторим попытку при следующем открытии.</span>
+          <button onClick={() => setUpdateError(false)}>Повторить</button>
         </div>
       )}
     </>
