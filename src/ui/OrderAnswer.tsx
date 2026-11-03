@@ -1,38 +1,25 @@
 import { useRef, useState, type PointerEvent } from 'react';
 import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, GripVertical } from 'lucide-react';
+import { MassWeight, type MassWeightValue } from './MassWeights';
 
 type Item = { id: string; label: string };
 
-// A printed 1 kg weight is used only where the card actually includes 1 kg.
-// The other weights are unmarked; their values are separate legible captions.
+// Composite labels are sums of fixed-denomination weights, not new weights.
 function MassWeights({ label }: { label: string }) {
-  const weights =
+  const values: MassWeightValue[] =
     label === '1 кг'
-      ? [{ mark: true, caption: '1 кг' }]
+      ? ['1 кг']
       : label === '900 г'
-        ? [{ mark: false, caption: '900 г' }]
+        ? ['900 г']
         : label === '1 кг 50 г'
-          ? [
-              { mark: true, caption: '1 кг' },
-              { mark: false, caption: '50 г' },
-            ]
+          ? ['1 кг', '50 г']
           : label === '1 500 г'
-            ? [
-                { mark: true, caption: '1 кг' },
-                { mark: false, caption: '500 г' },
-              ]
+            ? ['1 кг', '500 г']
             : [];
   return (
     <span className="order-mass-weights" aria-hidden="true">
-      {weights.map(({ mark, caption }) => (
-        <span className="order-mass-weight" key={caption}>
-          <img
-            src={`${import.meta.env.BASE_URL}illustrations/props/${mark ? 'weight' : 'weight-unmarked'}.webp`}
-            alt=""
-            draggable={false}
-          />
-          <span>{caption}</span>
-        </span>
+      {values.map((value) => (
+        <MassWeight value={value} key={value} />
       ))}
     </span>
   );

@@ -49,6 +49,24 @@ for (const [width, height, mobile] of [
         await expect(card.locator('.order-mass-weight img')).toHaveCount(count);
         await expect(card.locator('.order-mass-weight img').first()).toBeVisible();
       }
+      await page.getByRole('button', { name: 'Гири и вес' }).click();
+      const guide = page.getByRole('table', { name: 'Гири и их масса' });
+      await expect(guide.locator('tbody tr')).toHaveCount(4);
+      for (const label of ['1 кг', '900 г', '500 г', '50 г']) {
+        const row = guide
+          .locator('tbody tr')
+          .filter({ has: page.getByRole('rowheader', { name: label, exact: true }) });
+        const source = await row.locator('img').getAttribute('src');
+        await expect(
+          page
+            .locator('.illustrated-order .order-mass-weight')
+            .filter({ hasText: label })
+            .first()
+            .locator('img'),
+        ).toHaveAttribute('src', source!);
+        await expect(row.locator('img')).toHaveJSProperty('complete', true);
+      }
+      await page.getByRole('button', { name: 'Закрыть окно' }).click();
       const initial = await rows.locator('strong').allTextContents();
       const first = await rows.nth(0).boundingBox();
       const third = await rows.nth(2).boundingBox();

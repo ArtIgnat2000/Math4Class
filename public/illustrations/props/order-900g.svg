@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Медная цилиндрическая гиря">
+<defs><linearGradient id="c" x1="0" x2="1"><stop stop-color="#884529"/><stop offset=".23" stop-color="#e8a278"/><stop offset=".56" stop-color="#f7cb99"/><stop offset=".85" stop-color="#ae5c39"/><stop offset="1" stop-color="#6e342a"/></linearGradient><linearGradient id="top" x2=".25" y2="1"><stop stop-color="#fff0ce"/><stop offset="1" stop-color="#ac5835"/></linearGradient></defs>
+<ellipse cx="60" cy="110" rx="45" ry="5" fill="#2c241e" opacity=".14"/>
+<rect x="49" y="14" width="22" height="24" rx="8" fill="url(#c)" stroke="#81452c" stroke-width="2"/>
+<ellipse cx="60" cy="14" rx="13" ry="5" fill="url(#top)" stroke="#ac6241"/>
+<path d="M19 46 Q19 33 32 31 H88 Q101 33 101 46 L97 93 Q96 105 83 107 H37 Q24 105 23 93 Z" fill="url(#c)" stroke="#793d2b" stroke-width="2"/>
+<ellipse cx="60" cy="44" rx="41" ry="12" fill="url(#top)" stroke="#ab6244" stroke-width="2"/>
+<path d="M30 56 Q29 48 32 44" fill="none" stroke="#fff1d7" stroke-width="3" opacity=".65"/>
+</svg>

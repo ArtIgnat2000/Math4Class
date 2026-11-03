@@ -292,6 +292,7 @@ function TaskArea({
         {session.topicId === 'mass-kg-g' && (
           <MassStory
             taskId={task.type === 'order' ? undefined : task.id}
+            showWeightGuide={task.type === 'order'}
             correct={session.feedback?.correct}
             hint={task.hint}
             hintOpen={session.hintOpen}

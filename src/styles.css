@@ -7076,3 +7076,43 @@ h1[tabindex='-1']:focus {
     min-height: 145px;
   }
 }
+
+/* Picture-to-value key for the four fixed identities in the ordering task. */
+.mass-weight-dialog {
+  max-width: 450px;
+}
+.mass-weight-dialog > p {
+  font-size: 16px;
+  line-height: 1.45;
+  color: #52634c;
+  margin: 14px 0;
+}
+.mass-weights-guide {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  color: #304d39;
+}
+.mass-weights-guide th,
+.mass-weights-guide td {
+  border-bottom: 1px solid #d6e3cd;
+  padding: 6px 12px;
+}
+.mass-weights-guide thead th {
+  font-size: 14px;
+}
+.mass-weights-guide tbody th {
+  font-size: 19px;
+  font-weight: 800;
+}
+.mass-weights-guide img {
+  display: block;
+  width: 55px;
+  height: 56px;
+  object-fit: contain;
+}
+@media (max-width: 540px) {
+  .mass-weight-dialog {
+    padding: 26px 20px 20px;
+  }
+}
