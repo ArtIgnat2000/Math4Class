@@ -34,7 +34,9 @@ for (const [width, height, mobile] of [
         localStorage.setItem(key, JSON.stringify(data));
       }, task);
       await page.reload();
-      const rows = page.locator('.order-answer li');
+      const rows = page.locator('.illustrated-order li');
+      await expect(page.locator('.mass-question-order-mass')).toHaveCount(0);
+      await expect(rows).toHaveCount(4);
       const initial = await rows.locator('strong').allTextContents();
       const first = await rows.nth(0).boundingBox();
       const third = await rows.nth(2).boundingBox();
@@ -57,7 +59,7 @@ for (const [width, height, mobile] of [
           if (step === 6) {
             await expect(rows.nth(0)).toHaveClass(/order-dragging/);
             const moving = await rows.nth(0).boundingBox();
-            expect(moving!.y).toBeGreaterThan(first!.y + 15);
+            expect(Math.hypot(moving!.x - first!.x, moving!.y - first!.y)).toBeGreaterThan(15);
           }
         }
         await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });

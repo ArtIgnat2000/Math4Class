@@ -9,18 +9,24 @@ export function OrderAnswer({
   order,
   onChange,
   disabled,
+  illustrated = false,
 }: {
   items: Item[];
   order: string[];
   onChange: (order: string[]) => void;
   disabled: boolean;
+  illustrated?: boolean;
 }) {
-  const drag = useRef<{ id: string; pointerId: number; startY: number; target: string } | null>(
-    null,
-  );
+  const drag = useRef<{
+    id: string;
+    pointerId: number;
+    startX: number;
+    startY: number;
+    target: string;
+  } | null>(null);
   const [active, setActive] = useState<string | null>(null);
   const [target, setTarget] = useState<string | null>(null);
-  const [offset, setOffset] = useState(0);
+  const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [announcement, setAnnouncement] = useState('');
   const move = (index: number, direction: -1 | 1) => {
     const next = [...order];
@@ -34,23 +40,35 @@ export function OrderAnswer({
   const start = (event: PointerEvent<HTMLLIElement>, id: string) => {
     if (disabled || (event.target as HTMLElement).closest('button')) return;
     if (event.pointerType === 'mouse' && event.button !== 0) return;
-    drag.current = { id, pointerId: event.pointerId, startY: event.clientY, target: id };
+    drag.current = {
+      id,
+      pointerId: event.pointerId,
+      startX: event.clientX,
+      startY: event.clientY,
+      target: id,
+    };
     event.currentTarget.setPointerCapture(event.pointerId);
   };
   const over = (event: PointerEvent<HTMLLIElement>) => {
     const current = drag.current;
     if (!current || current.pointerId !== event.pointerId) return;
-    if (Math.abs(event.clientY - current.startY) < 6 && !active) return;
+    if (Math.hypot(event.clientX - current.startX, event.clientY - current.startY) < 6 && !active)
+      return;
     setActive(current.id);
-    setOffset(event.clientY - current.startY);
+    setOffset({ x: event.clientX - current.startX, y: event.clientY - current.startY });
     // Hit-test the untransformed rows, not the moving card under the finger.
     const rows = Array.from(
       event.currentTarget.parentElement?.querySelectorAll<HTMLElement>('[data-order-id]') ?? [],
     );
     const hovered = rows.find((row) => {
-      const { top, bottom } = row.getBoundingClientRect();
-      const y = row.dataset.orderId === current.id ? current.startY : event.clientY;
-      return y >= top && y <= bottom && row.dataset.orderId !== current.id;
+      if (row.dataset.orderId === current.id) return false;
+      const { left, right, top, bottom } = row.getBoundingClientRect();
+      return (
+        event.clientX >= left &&
+        event.clientX <= right &&
+        event.clientY >= top &&
+        event.clientY <= bottom
+      );
     });
     current.target = hovered?.dataset.orderId ?? current.id;
     setTarget(current.target);
@@ -73,11 +91,11 @@ export function OrderAnswer({
     drag.current = null;
     setActive(null);
     setTarget(null);
-    setOffset(0);
+    setOffset({ x: 0, y: 0 });
   };
   return (
-    <div className="order-answer">
-      <p>Перетащи величины пальцем в нужном порядке.</p>
+    <div className={`order-answer ${illustrated ? 'illustrated-order' : ''}`}>
+      <p>Перетащи карточки в нужном порядке.</p>
       <ol aria-label="Порядок величин">
         {order.map((id, i) => {
           const item = items.find((entry) => entry.id === id)!;
@@ -86,7 +104,9 @@ export function OrderAnswer({
               key={id}
               data-order-id={id}
               style={
-                active === id ? { transform: `translateY(${offset}px) scale(1.025)` } : undefined
+                active === id
+                  ? { transform: `translate(${offset.x}px, ${offset.y}px) scale(1.025)` }
+                  : undefined
               }
               className={`${active === id ? 'order-dragging' : ''} ${active && target === id && active !== id ? 'order-drop-target' : ''}`}
               onPointerDown={(event) => start(event, id)}

@@ -291,7 +291,7 @@ function TaskArea({
         <h1>{task.question}</h1>
         {session.topicId === 'mass-kg-g' && (
           <MassStory
-            taskId={task.id}
+            taskId={task.type === 'order' ? undefined : task.id}
             correct={session.feedback?.correct}
             hint={task.hint}
             hintOpen={session.hintOpen}
@@ -446,6 +446,7 @@ function TaskArea({
               order={answer}
               onChange={setAnswer}
               disabled={checked}
+              illustrated={session.topicId === 'mass-kg-g'}
             />
           )}
         </div>

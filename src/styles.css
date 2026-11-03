@@ -6994,3 +6994,45 @@ h1[tabindex='-1']:focus {
     clip-path: none;
   }
 }
+
+/* The pictured mass cards ARE the ordering controls; no disconnected duplicate scene. */
+.illustrated-order {
+  max-width: 640px;
+}
+.illustrated-order ol {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 9px;
+}
+.illustrated-order li {
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  min-height: 112px;
+  border: 2px solid #b5c9ab;
+  border-radius: 15px;
+  background: #fffdfa;
+  box-shadow: 0 5px 0 #a4ba99;
+}
+.illustrated-order li > strong {
+  flex: none;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 800;
+  color: #304d39;
+}
+.illustrated-order .order-position {
+  align-self: flex-start;
+}
+.illustrated-order li > div {
+  justify-content: center;
+}
+@media (max-width: 599px) {
+  .illustrated-order ol {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .illustrated-order li {
+    min-height: 88px;
+  }
+}
