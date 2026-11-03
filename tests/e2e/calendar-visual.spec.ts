@@ -49,6 +49,16 @@ for (const [width, height] of [
             await expect(picture).toBeVisible();
             await expect(picture.locator('.calendar-token')).not.toHaveCount(0);
             await expect(picture.locator('img').first()).toHaveJSProperty('complete', true);
+            if (topic.id === 'calendar-months' && selected.id === 'month-count') {
+              const pictures = await picture.locator('img').evaluateAll((images) =>
+                images.map((image) => ({
+                  src: (image as HTMLImageElement).currentSrc,
+                  width: (image as HTMLImageElement).naturalWidth,
+                })),
+              );
+              expect(new Set(pictures.map((image) => image.src)).size).toBe(12);
+              expect(pictures.every((image) => image.width > 0)).toBe(true);
+            }
           }
           expect(
             await page.evaluate(() => document.documentElement.scrollWidth),

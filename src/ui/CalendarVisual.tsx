@@ -25,6 +25,32 @@ const yearMonthNames = [
   'Ноя',
   'Дек',
 ];
+// A month has the same recognizable subject wherever it appears, while the
+// whole pictured question changes with its dates, intervals and unknowns.
+const monthArt: Record<string, string> = {
+  янв: 'month-01.webp',
+  фев: 'month-02.webp',
+  мар: 'month-03.webp',
+  апр: 'month-04.webp',
+  май: 'month-05.webp',
+  июн: 'month-06.webp',
+  июл: 'month-07.webp',
+  авг: 'month-08.webp',
+  сен: 'month-09.webp',
+  окт: 'month-10.webp',
+  ноя: 'month-11.svg',
+  дек: 'month-12.svg',
+};
+export function calendarArtFor(token: Token): string {
+  if (token.kind === 'month') {
+    const key = token.label.toLocaleLowerCase('ru').slice(0, 3);
+    return monthArt[key] ?? 'page.webp'; // Roman numeral or unknown: no answer hint.
+  }
+  if (token.kind === 'season') return `${token.season}.webp`;
+  return (
+    { year: 'year.svg', week: 'week.svg', interval: 'interval.svg', days: 'days.svg' } as const
+  )[token.kind];
+}
 
 // These are only the quantities and dates in each question, never a computed
 // total or a highlighted correct option. An unasked count stays a question mark.
@@ -122,26 +148,11 @@ const scenes: Record<string, Record<string, Token[]>> = {
 export function CalendarToken({ token }: { token: Token }) {
   return (
     <span className={`calendar-token calendar-token-${token.kind}`}>
-      {token.season ? (
-        <img
-          src={`${import.meta.env.BASE_URL}illustrations/calendar/${token.season}.webp`}
-          alt=""
-          draggable={false}
-        />
-      ) : token.kind === 'month' ||
-        token.kind === 'year' ||
-        token.kind === 'week' ||
-        token.kind === 'interval' ? (
-        <img
-          src={`${import.meta.env.BASE_URL}illustrations/calendar/page.webp`}
-          alt=""
-          draggable={false}
-        />
-      ) : (
-        <span className="calendar-token-icon" aria-hidden="true">
-          •
-        </span>
-      )}
+      <img
+        src={`${import.meta.env.BASE_URL}illustrations/calendar/${calendarArtFor(token)}`}
+        alt=""
+        draggable={false}
+      />
       <strong>{token.label}</strong>
     </span>
   );
