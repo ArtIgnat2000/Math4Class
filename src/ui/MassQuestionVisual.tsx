@@ -124,7 +124,11 @@ export function MassQuestionVisual({ taskId }: { taskId: string }) {
   const scene = pictures[taskId];
   if (!scene) return null;
   return (
-    <figure className="mass-question-visual" role="img" aria-label={scene.label}>
+    <figure
+      className={`mass-question-visual mass-question-${taskId}`}
+      role="img"
+      aria-label={scene.label}
+    >
       <div className="mass-question-items" aria-hidden="true">
         {scene.picture}
       </div>
