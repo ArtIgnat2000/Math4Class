@@ -7201,3 +7201,173 @@ h1[tabindex='-1']:focus {
     grid-template-rows: repeat(3, 20px);
   }
 }
+
+/* Compare the pictured, marked loads before choosing a sign. All numerals
+   remain outside the textured objects; arbitrary loads never borrow the
+   canonical 1-centner crate or 1-tonne container. */
+.comparison-intro > p {
+  margin: 12px 0;
+  color: #4e614b;
+  font-size: 15px;
+  line-height: 1.5;
+}
+.comparison-intro-anchors {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 15px 0;
+}
+.comparison-intro-anchors > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  border: 1px solid #dbe8d1;
+  border-radius: 14px;
+  padding: 10px 4px;
+  background: #f7faf2;
+  color: #35543b;
+}
+.comparison-intro-anchors img {
+  width: 100%;
+  height: 76px;
+  object-fit: contain;
+  filter: drop-shadow(0 5px 5px #293f2b26);
+}
+.comparison-intro-anchors strong {
+  font-size: 19px;
+}
+.comparison-intro-anchors span {
+  font-size: 14px;
+  font-weight: 700;
+}
+.mass-comparison-visual {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin: 16px auto 10px;
+  padding: 12px;
+  max-width: 640px;
+  border: 1px solid #dbe7ce;
+  border-radius: 17px;
+  background: linear-gradient(150deg, #f7f9ef, #e9f1e5);
+}
+.comparison-side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  flex: 1;
+  min-width: 0;
+  border: 1px solid #d5e4d0;
+  border-radius: 13px;
+  padding: 8px 5px;
+  background: #fffefa;
+}
+.comparison-side > strong {
+  margin-top: 5px;
+  font-size: clamp(14px, 3.8vw, 18px);
+  color: #31533a;
+  text-align: center;
+}
+.comparison-objects {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 4px;
+  width: 100%;
+}
+.comparison-prop {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  align-items: center;
+  width: 68px;
+  color: #36533a;
+  font-size: 12px;
+  font-weight: 750;
+  line-height: 1.25;
+  white-space: nowrap;
+}
+.comparison-prop img {
+  display: block;
+  width: 100%;
+  height: 65px;
+  object-fit: contain;
+  filter: drop-shadow(0 5px 4px #293f2b29);
+}
+.comparison-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.comparison-stack > b {
+  font-size: 14px;
+  color: #37553e;
+}
+.comparison-task-card .answer-controls {
+  margin-top: 14px;
+}
+.comparison-task-card .choice-option > .comparison-choice-picture {
+  width: 82px;
+  height: 72px;
+  flex: none;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.comparison-choice-picture img {
+  width: 100%;
+  height: 68px;
+  object-fit: contain;
+}
+.comparison-choice-picture > span {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  padding: 2px 4px;
+  border-radius: 5px;
+  background: #fff;
+  font-size: 12px;
+  font-weight: 800;
+}
+@media (max-width: 599px) {
+  .comparison-intro-anchors img {
+    height: 57px;
+  }
+  .comparison-intro-anchors strong {
+    font-size: 16px;
+  }
+  .comparison-intro-anchors span {
+    font-size: 12px;
+  }
+  .comparison-task-card .task-content {
+    padding: 15px 13px;
+  }
+  .mass-comparison-visual {
+    padding: 7px;
+    gap: 5px;
+  }
+  .comparison-side {
+    padding: 5px 2px;
+  }
+  .comparison-prop {
+    width: clamp(42px, 11vw, 55px);
+    font-size: 11px;
+  }
+  .comparison-prop img {
+    height: 49px;
+  }
+  .comparison-task-card .choice-option > .comparison-choice-picture {
+    width: 65px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .comparison-prop img,
+  .comparison-intro-anchors img {
+    animation: none;
+  }
+}
