@@ -6963,3 +6963,34 @@ h1[tabindex='-1']:focus {
     font-weight: 650;
   }
 }
+
+/* On touch screens the card itself is the draggable control. Preserve the
+   arrow buttons for screen readers and for an attached keyboard. */
+@media (pointer: coarse) {
+  .order-answer li {
+    position: relative;
+    min-height: 62px;
+    box-shadow: 0 3px 0 #dfe9d8;
+  }
+  .order-answer li.order-dragging {
+    position: relative;
+    z-index: 3;
+    transition: none;
+    box-shadow: 0 12px 25px #314f3445;
+  }
+  .order-answer li > div {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .order-answer li > div:focus-within {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip-path: none;
+  }
+}

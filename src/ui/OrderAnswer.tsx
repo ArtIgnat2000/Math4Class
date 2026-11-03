@@ -20,6 +20,7 @@ export function OrderAnswer({
   );
   const [active, setActive] = useState<string | null>(null);
   const [target, setTarget] = useState<string | null>(null);
+  const [offset, setOffset] = useState(0);
   const [announcement, setAnnouncement] = useState('');
   const move = (index: number, direction: -1 | 1) => {
     const next = [...order];
@@ -41,13 +42,18 @@ export function OrderAnswer({
     if (!current || current.pointerId !== event.pointerId) return;
     if (Math.abs(event.clientY - current.startY) < 6 && !active) return;
     setActive(current.id);
-    const element = document
-      .elementFromPoint(event.clientX, event.clientY)
-      ?.closest<HTMLElement>('[data-order-id]');
-    if (element?.dataset.orderId && order.includes(element.dataset.orderId)) {
-      current.target = element.dataset.orderId;
-      setTarget(current.target);
-    }
+    setOffset(event.clientY - current.startY);
+    // Hit-test the untransformed rows, not the moving card under the finger.
+    const rows = Array.from(
+      event.currentTarget.parentElement?.querySelectorAll<HTMLElement>('[data-order-id]') ?? [],
+    );
+    const hovered = rows.find((row) => {
+      const { top, bottom } = row.getBoundingClientRect();
+      const y = row.dataset.orderId === current.id ? current.startY : event.clientY;
+      return y >= top && y <= bottom && row.dataset.orderId !== current.id;
+    });
+    current.target = hovered?.dataset.orderId ?? current.id;
+    setTarget(current.target);
   };
   const finish = (event: PointerEvent<HTMLLIElement>) => {
     const current = drag.current;
@@ -67,10 +73,11 @@ export function OrderAnswer({
     drag.current = null;
     setActive(null);
     setTarget(null);
+    setOffset(0);
   };
   return (
     <div className="order-answer">
-      <p>Перетащи карточки в нужном порядке. С клавиатуры используй стрелки.</p>
+      <p>Перетащи величины пальцем в нужном порядке.</p>
       <ol aria-label="Порядок величин">
         {order.map((id, i) => {
           const item = items.find((entry) => entry.id === id)!;
@@ -78,6 +85,9 @@ export function OrderAnswer({
             <li
               key={id}
               data-order-id={id}
+              style={
+                active === id ? { transform: `translateY(${offset}px) scale(1.025)` } : undefined
+              }
               className={`${active === id ? 'order-dragging' : ''} ${active && target === id && active !== id ? 'order-drop-target' : ''}`}
               onPointerDown={(event) => start(event, id)}
               onPointerMove={over}

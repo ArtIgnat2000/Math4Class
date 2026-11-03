@@ -54,6 +54,11 @@ for (const [width, height, mobile] of [
               },
             ],
           });
+          if (step === 6) {
+            await expect(rows.nth(0)).toHaveClass(/order-dragging/);
+            const moving = await rows.nth(0).boundingBox();
+            expect(moving!.y).toBeGreaterThan(first!.y + 15);
+          }
         }
         await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
       } else {
@@ -63,10 +68,13 @@ for (const [width, height, mobile] of [
         await page.mouse.up();
       }
       await expect(rows.nth(2).locator('strong')).toHaveText(initial[0]);
-      await rows
-        .nth(2)
-        .getByRole('button', { name: `Поднять ${initial[0]}` })
-        .click();
+      const arrow = rows.nth(2).getByRole('button', { name: `Поднять ${initial[0]}` });
+      if (mobile) {
+        await arrow.focus();
+        await page.keyboard.press('Enter');
+      } else {
+        await arrow.click();
+      }
       await expect(rows.nth(1).locator('strong')).toHaveText(initial[0]);
     } finally {
       await context.close();
