@@ -321,6 +321,9 @@ export default function App() {
                 <X size={21} />
               </button>
             </div>
+            <p className="sidebar-release" aria-label={`Версия приложения ${version}`}>
+              Версия приложения <strong>v{version}</strong>
+            </p>
             <p className="nav-caption">ТВОЁ ПРОСТРАНСТВО</p>
             <nav className="main-nav">
               {NAV.map((item) => {
@@ -402,10 +405,7 @@ export default function App() {
                   setDialog('profiles');
                 }}
               />
-              <div className="sidebar-version">
-                <span>Сделано с заботой</span>
-                <span>v{version}</span>
-              </div>
+              <p className="sidebar-credit">Сделано с заботой</p>
             </div>
           </aside>
           <div className="workspace">

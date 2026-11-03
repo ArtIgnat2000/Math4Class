@@ -1,6 +1,11 @@
 import { expect, test, type Page } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
 import type { AppData, Session } from '../../src/engine/model';
+const { version } = JSON.parse(
+  await readFile(new URL('../../package.json', import.meta.url), 'utf8'),
+) as {
+  version: string;
+};
 const key = 'chislo:data:v1';
 async function readSession(page: Page): Promise<Session> {
   return page.evaluate((key) => {
@@ -55,6 +60,24 @@ async function answerCurrent(page: Page, wrong = false) {
   await page.getByRole('button', { name: 'Проверить', exact: true }).click();
   await expect(page.locator('.answer-feedback')).toBeVisible();
 }
+
+test('release number matches the package and is visible at the top of the hamburger menu', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 320, height: 640 });
+  await page.goto('/#/learn');
+  await page.getByRole('button', { name: 'Открыть меню' }).click();
+  const menu = page.getByRole('complementary', { name: 'Основная навигация' });
+  const release = menu.getByLabel(`Версия приложения ${version}`);
+  await expect(release).toBeInViewport();
+  await expect(release).toContainText(`v${version}`);
+  const brand = await menu.locator('.sidebar-brand').boundingBox();
+  const releaseBox = await release.boundingBox();
+  expect(brand && releaseBox && releaseBox.y >= brand.y + brand.height).toBe(true);
+  await page.getByRole('button', { name: 'Закрыть меню' }).last().click();
+  await page.setViewportSize({ width: 1024, height: 768 });
+  await expect(menu.getByLabel(`Версия приложения ${version}`)).toBeVisible();
+});
 
 test('honest first boot, grade navigation and topic filters', async ({ page }) => {
   const errors: string[] = [];
