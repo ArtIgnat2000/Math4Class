@@ -7089,6 +7089,7 @@ h1[tabindex='-1']:focus {
 }
 .mass-weights-guide {
   width: 100%;
+  margin-top: 18px;
   border-collapse: collapse;
   text-align: left;
   color: #304d39;

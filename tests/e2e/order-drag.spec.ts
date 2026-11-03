@@ -55,6 +55,10 @@ for (const [width, height, mobile] of [
       }
       await page.getByRole('button', { name: 'Гири и вес' }).click();
       const guide = page.getByRole('table', { name: 'Гири и их масса' });
+      await expect(guide.locator('thead th')).toHaveText(['Гиря', 'Масса']);
+      await expect(
+        page.getByRole('dialog', { name: 'Какая гиря сколько весит' }).locator('p'),
+      ).toHaveCount(0);
       await expect(guide.locator('tbody tr')).toHaveCount(4);
       await expect(guide.locator('tbody th[scope="row"]')).toHaveText([
         '1 кг',

@@ -20,11 +20,10 @@ export function MassWeight({ value }: { value: MassWeightValue }) {
 export function MassWeightGuide() {
   return (
     <>
-      <p>В этом задании каждой гире соответствует одна масса. От большей к меньшей:</p>
       <table className="mass-weights-guide" aria-label="Гири и их масса">
         <thead>
           <tr>
-            <th scope="col">Картинка</th>
+            <th scope="col">Гиря</th>
             <th scope="col">Масса</th>
           </tr>
         </thead>
@@ -39,7 +38,6 @@ export function MassWeightGuide() {
           ))}
         </tbody>
       </table>
-      <p>Несколько гирь вместе показывают сумму их масс.</p>
     </>
   );
 }
