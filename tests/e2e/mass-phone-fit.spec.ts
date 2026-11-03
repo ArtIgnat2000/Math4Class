@@ -96,3 +96,37 @@ test('quick reference stays compact while full table opens separately', async ({
     await context.close();
   }
 });
+
+test('full units chart uses readable text without horizontal overflow on narrow phones', async ({
+  browser,
+}) => {
+  for (const width of [320, 390]) {
+    const context = await browser.newContext({
+      viewport: { width, height: 667 },
+      isMobile: true,
+      hasTouch: true,
+    });
+    try {
+      const page = await context.newPage();
+      await page.goto('/#/topics');
+      await page.locator('.topic-card').filter({ hasText: 'Килограмм и грамм' }).click();
+      await page.getByRole('button', { name: 'Начать занятие' }).click();
+      await page.getByRole('button', { name: 'Таблица единиц' }).click();
+      await page.getByRole('button', { name: 'Все единицы массы' }).click();
+      const metrics = await page.locator('.mass-table-dialog').evaluate((dialog) => {
+        const value = dialog.querySelector('td')!;
+        return {
+          font: parseFloat(getComputedStyle(value).fontSize),
+          scrollWidth: dialog.scrollWidth,
+          clientWidth: dialog.clientWidth,
+          bottom: dialog.getBoundingClientRect().bottom,
+        };
+      });
+      expect(metrics.font).toBeGreaterThanOrEqual(18);
+      expect(metrics.scrollWidth).toBeLessThanOrEqual(metrics.clientWidth);
+      expect(metrics.bottom).toBeLessThanOrEqual(667);
+    } finally {
+      await context.close();
+    }
+  }
+});
