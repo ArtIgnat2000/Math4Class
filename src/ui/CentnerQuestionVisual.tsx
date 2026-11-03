@@ -54,7 +54,7 @@ const scenes: Record<string, { description: string; picture: ReactNode }> = {
       <>
         <Load kind="tonne" label="1 т" />
         <span className="centner-separator">?</span>
-        <Load kind="centner" label="10 ц" />
+        <Load kind="kg" label="10 ц" />
       </>
     ),
   },
@@ -63,12 +63,20 @@ const scenes: Record<string, { description: string; picture: ReactNode }> = {
     picture: <Load kind="kg" label="900 кг" />,
   },
   order: {
-    description: 'Четыре неупорядоченные карточки масс: 80 кг, 1 ц, 9 ц, 1 т',
+    description: 'Четыре неупорядоченные группы грузов: 80 кг, 1 ц, 9 ц, 1 т',
     picture: (
-      <div className="mass-question-cards">
-        {['80 кг', '1 ц', '9 ц', '1 т'].map((value) => (
-          <span key={value}>{value}</span>
-        ))}
+      <div className="centner-order-scenes">
+        <Load kind="kg" label="80 кг" />
+        <Load kind="centner" label="1 ц" />
+        <span className="centner-load centner-nine">
+          <span className="centner-nine-grid">
+            {Array.from({ length: 9 }, (_, i) => (
+              <img key={i} src={crate} alt="" />
+            ))}
+          </span>
+          <span>9 ц</span>
+        </span>
+        <Load kind="tonne" label="1 т" />
       </div>
     ),
   },
