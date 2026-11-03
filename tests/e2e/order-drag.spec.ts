@@ -56,7 +56,13 @@ for (const [width, height, mobile] of [
       await page.getByRole('button', { name: 'Гири и вес' }).click();
       const guide = page.getByRole('table', { name: 'Гири и их масса' });
       await expect(guide.locator('tbody tr')).toHaveCount(4);
-      for (const label of ['1 кг', '200 г', '500 г', '50 г']) {
+      await expect(guide.locator('tbody th[scope="row"]')).toHaveText([
+        '1 кг',
+        '500 г',
+        '200 г',
+        '50 г',
+      ]);
+      for (const label of ['1 кг', '500 г', '200 г', '50 г']) {
         const row = guide
           .locator('tbody tr')
           .filter({ has: page.getByRole('rowheader', { name: label, exact: true }) });
