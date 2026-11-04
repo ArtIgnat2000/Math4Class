@@ -256,7 +256,7 @@ export function CalendarIntro({
             <span className="season-cycle-direction" aria-hidden="true">
               ↻
             </span>
-            <span className="season-cycle-center">Год</span>
+            <span className="season-cycle-center season-cycle-center-elegant">Год</span>
             {seasonMonths.map(({ name, image }, index) => (
               <button
                 type="button"

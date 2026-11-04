@@ -8498,6 +8498,29 @@ h1[tabindex='-1']:focus {
 }
 
 /* Clickable quadrants: the ring is one continuous year, but no label overlaps its centre. */
+.season-cycle {
+  position: relative;
+  width: min(100%, 300px, 36vh);
+  min-width: min(100%, 220px);
+  margin: 14px auto 20px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fffdf7 0 35%, #f6f2e7 69%, #fbfaf5 72%);
+  box-shadow:
+    0 12px 34px #29382c12,
+    inset 0 0 0 1px #c9b99a;
+}
+.season-cycle-center {
+  position: absolute;
+  inset: 38% 33% auto;
+  padding: 10px 0;
+  border-top: 1px solid #c7ac78;
+  border-bottom: 1px solid #c7ac78;
+  color: #26372f;
+  font-size: 21px;
+  letter-spacing: 0.07em;
+  text-align: center;
+  font-weight: 800;
+}
 .season-cycle-choice {
   position: absolute;
   display: flex;
@@ -8505,28 +8528,30 @@ h1[tabindex='-1']:focus {
   align-items: center;
   justify-content: center;
   gap: 2px;
-  width: 78px;
-  height: 66px;
+  width: 82px;
+  height: 70px;
   border: 0;
-  border-radius: 14px;
-  background: #fffdf4eb;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #fffdf7 0%, #f6f2e7 100%);
   color: #18342e;
   font: inherit;
   font-size: 13px;
   cursor: pointer;
-  box-shadow: 0 3px 10px #203e302b;
+  box-shadow: 0 4px 12px #21372b18;
   transition:
     transform 150ms ease-out,
-    box-shadow 150ms ease-out;
+    box-shadow 150ms ease-out,
+    background 150ms ease-out;
 }
 .season-cycle-choice svg {
-  width: 25px;
-  height: 25px;
+  width: 28px;
+  height: 28px;
   stroke-width: 1.8;
 }
 .season-cycle-choice:hover {
   transform: translate(-50%, -50%) scale(1.04);
-  box-shadow: 0 5px 14px #203e3050;
+  box-shadow: 0 6px 16px #21372b28;
+  background: linear-gradient(135deg, #f6f2e7 0%, #fffdf7 100%);
 }
 .season-cycle-choice:active {
   transform: translate(-50%, -50%) scale(0.97);
@@ -8536,23 +8561,23 @@ h1[tabindex='-1']:focus {
   outline-offset: 2px;
 }
 .season-cycle .season-cycle-winter {
-  top: 13%;
+  top: 12%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
 .season-cycle .season-cycle-spring {
   top: 50%;
-  left: 87%;
+  left: 88%;
   transform: translate(-50%, -50%);
 }
 .season-cycle .season-cycle-summer {
-  top: 87%;
+  top: 88%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
 .season-cycle .season-cycle-autumn {
   top: 50%;
-  left: 13%;
+  left: 12%;
   transform: translate(-50%, -50%);
 }
 .season-cycle .season-cycle-choice:hover {
