@@ -23,6 +23,7 @@ import { MassComparisonIntro } from './MassComparisonIntro';
 import { ComparisonChoicePicture, MassComparisonVisual } from './MassComparisonVisual';
 import { MassWordIntro, MassWordVisual } from './MassWordVisual';
 import { CalendarIntro, CalendarVisual } from './CalendarVisual';
+import { YearMonthsPilot } from './YearMonthsPilot';
 import { NumericKeypad } from './NumericKeypad';
 import { OrderAnswer } from './OrderAnswer';
 import { Brand, Modal, ProgressBar, Stars, TopicSymbol } from './shared';
@@ -44,6 +45,17 @@ export function TopicDialog({
   onClose: () => void;
   onStart: () => void;
 }) {
+  if (topic.id === 'calendar-years-months')
+    return (
+      <Modal
+        title={topic.title}
+        eyebrow={`${grade} КЛАСС · СНАЧАЛА РАЗБЕРЁМСЯ`}
+        onClose={onClose}
+        className="topic-dialog mass-intro-dialog"
+      >
+        <YearMonthsPilot onPractice={onStart} />
+      </Modal>
+    );
   if (topic.id.startsWith('calendar-'))
     return (
       <Modal
