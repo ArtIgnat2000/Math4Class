@@ -8138,3 +8138,63 @@ h1[tabindex='-1']:focus {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+
+/* A single visual language for the year: engraved diagram, not mixed stock art. */
+.year-month-pilot .season-cycle {
+  width: min(100%, 292px, 36vh);
+  background: radial-gradient(circle at 48% 38%, #294539, #162d27 75%);
+  box-shadow:
+    0 16px 28px #152b2338,
+    inset 0 0 0 1px #b8a57c;
+}
+.year-month-pilot .season-cycle-center {
+  inset: 39% 34% auto;
+  color: #f8f2e3;
+  border-color: #bba574;
+  font-weight: 650;
+  letter-spacing: 0.11em;
+}
+.year-month-pilot .season-cycle-item {
+  width: 70px;
+  padding: 4px 2px 6px;
+  background: #f8f5eb;
+  border: 1px solid #baaa85;
+  border-radius: 50% 50% 13px 13px;
+  box-shadow: 0 5px 12px #0d201d38;
+  color: #243a30;
+  font-size: 12px;
+}
+.year-month-pilot .season-cycle-symbol {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #e7e4d9;
+  margin-bottom: 3px;
+}
+.year-month-pilot .season-cycle-symbol svg {
+  width: 23px;
+  height: 23px;
+  stroke-width: 1.6;
+}
+.year-month-pilot .season-cycle-winter .season-cycle-symbol {
+  color: #426780;
+  background: #e4edf0;
+}
+.year-month-pilot .season-cycle-spring .season-cycle-symbol {
+  color: #9a5660;
+  background: #f2e6df;
+}
+.year-month-pilot .season-cycle-summer .season-cycle-symbol {
+  color: #9a6c2d;
+  background: #f3e9d0;
+}
+.year-month-pilot .season-cycle-autumn .season-cycle-symbol {
+  color: #8d593b;
+  background: #efe3d8;
+}
+.year-month-pilot .season-cycle-winter,
+.year-month-pilot .season-cycle-summer {
+  left: calc(50% - 35px);
+}

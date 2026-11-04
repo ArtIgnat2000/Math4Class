@@ -29,7 +29,7 @@ test('calendar explanation is visual, separate from checked textbook exercises',
   await page.locator('.topic-card').filter({ hasText: 'Переводим годы в месяцы' }).first().click();
   const dialog = page.getByRole('dialog');
   await expect(dialog.getByRole('img', { name: /Круг года/ })).toBeVisible();
-  await expect(dialog.locator('.season-cycle-item img')).toHaveCount(4);
+  await expect(dialog.locator('.season-cycle-symbol svg')).toHaveCount(4);
   expect(await dialog.evaluate((element) => element.scrollHeight <= element.clientHeight + 2)).toBe(
     true,
   );

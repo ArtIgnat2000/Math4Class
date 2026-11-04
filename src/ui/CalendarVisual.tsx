@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Flower2, Leaf, Snowflake, Sun } from 'lucide-react';
 type Season = 'winter' | 'spring' | 'summer' | 'autumn';
 type Token = {
   label: string;
@@ -195,66 +196,31 @@ export function CalendarIntro() {
             aria-label="Круг года: зима, весна, лето, осень, затем снова зима"
           >
             <svg viewBox="0 0 320 320" aria-hidden="true" className="season-cycle-ring">
-              <defs>
-                <linearGradient id="year-metal" x1="0" y1="0" x2="1" y2="1">
-                  <stop stopColor="#c0a376" />
-                  <stop offset="0.52" stopColor="#eee0ba" />
-                  <stop offset="1" stopColor="#967249" />
-                </linearGradient>
-              </defs>
+              <circle cx="160" cy="160" r="111" fill="none" stroke="#aa956f" strokeWidth="1" />
               <circle
                 cx="160"
                 cy="160"
-                r="111"
+                r="98"
                 fill="none"
-                stroke="url(#year-metal)"
-                strokeWidth="2"
-              />
-              <circle
-                cx="160"
-                cy="160"
-                r="102"
-                fill="none"
-                stroke="#d9cfb7"
+                stroke="#8b7858"
                 strokeWidth="1"
-                strokeDasharray="2 5"
+                strokeDasharray="1 6"
               />
-              <path
-                d="M 160 49 A 111 111 0 1 1 159.9 49"
+              <circle
+                cx="160"
+                cy="160"
+                r="110"
                 fill="none"
-                stroke="url(#year-metal)"
-                strokeWidth="8"
-                strokeLinecap="round"
-              />
-              <path
-                d="M 240 82 L 253 86 L 248 98"
-                fill="none"
-                stroke="#81623d"
+                stroke="#d2b980"
                 strokeWidth="5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+                strokeDasharray="159 14"
+                transform="rotate(-90 160 160)"
               />
               <path
-                d="M 239 239 L 233 252 L 221 247"
+                d="M 238 75 l 15 8 -14 5 M 245 237 l -8 16 -5 -14 M 82 245 l -15 -8 14 -5 M 75 83 l 8 -16 5 14"
                 fill="none"
-                stroke="#81623d"
-                strokeWidth="5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M 81 238 L 68 233 L 73 221"
-                fill="none"
-                stroke="#81623d"
-                strokeWidth="5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M 82 81 L 87 68 L 99 73"
-                fill="none"
-                stroke="#81623d"
-                strokeWidth="5"
+                stroke="#d2b980"
+                strokeWidth="3"
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
@@ -266,10 +232,12 @@ export function CalendarIntro() {
                 className={`season-cycle-item season-cycle-${image}`}
                 aria-hidden="true"
               >
-                <img
-                  src={`${import.meta.env.BASE_URL}illustrations/calendar/${image}.webp`}
-                  alt=""
-                />
+                <span className="season-cycle-symbol">
+                  {image === 'winter' && <Snowflake aria-hidden="true" />}
+                  {image === 'spring' && <Flower2 aria-hidden="true" />}
+                  {image === 'summer' && <Sun aria-hidden="true" />}
+                  {image === 'autumn' && <Leaf aria-hidden="true" />}
+                </span>
                 <strong>{name}</strong>
               </span>
             ))}
