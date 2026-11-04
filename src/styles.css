@@ -7750,3 +7750,62 @@ h1[tabindex='-1']:focus {
     display: block;
   }
 }
+
+/* Illustrated ordering cards on phones: the picture owns the left side at
+   full card height, the value is beside it, and vertical controls stay visible. */
+@media (max-width: 767px) {
+  .illustrated-order li {
+    grid-template-columns: minmax(0, 45%) minmax(0, 1fr) 44px;
+    grid-template-rows: minmax(108px, auto);
+    min-height: 122px;
+    gap: 8px;
+    padding: 7px 9px;
+  }
+  .illustrated-order li > .order-mass-weights,
+  .illustrated-order li > .centner-order-picture,
+  .illustrated-order li > .calendar-token {
+    grid-column: 1;
+    grid-row: 1;
+    align-self: stretch;
+    width: 100%;
+    height: auto;
+    min-height: 0;
+  }
+  .illustrated-order li > strong {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: center;
+    overflow-wrap: anywhere;
+  }
+  .illustrated-order li > div {
+    grid-column: 3;
+    grid-row: 1;
+  }
+  .illustrated-order li > .calendar-token img {
+    width: 100%;
+    height: 100px;
+    object-fit: contain;
+  }
+  .illustrated-order li > .order-mass-weights {
+    align-items: center;
+  }
+  .illustrated-order .order-mass-weight {
+    width: min(33%, 48px);
+  }
+  .illustrated-order .order-mass-weight img {
+    width: 100%;
+    height: 75px;
+  }
+  .illustrated-order li > .centner-order-picture img {
+    width: min(100%, 120px);
+    height: 105px;
+  }
+  .illustrated-order li > .centner-order-nine {
+    grid-template-columns: repeat(3, 34px);
+    grid-template-rows: repeat(3, 33px);
+  }
+  .illustrated-order li > .centner-order-nine img {
+    width: 34px;
+    height: 33px;
+  }
+}
