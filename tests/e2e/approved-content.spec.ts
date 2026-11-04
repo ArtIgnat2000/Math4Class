@@ -30,11 +30,15 @@ test('calendar explanation is visual, separate from checked textbook exercises',
   const dialog = page.getByRole('dialog');
   await expect(dialog.getByRole('img', { name: /Круг года/ })).toBeVisible();
   await expect(dialog.locator('.season-cycle-item img')).toHaveCount(4);
+  expect(await dialog.evaluate((element) => element.scrollHeight <= element.clientHeight + 2)).toBe(
+    true,
+  );
   await dialog.getByText('Посмотреть месяцы и римские цифры').click();
   await expect(dialog.locator('.calendar-season-months > div')).toHaveCount(4);
   await expect(dialog.getByText(/IV = 4/)).toBeVisible();
   await expect(dialog.locator('.calendar-roman-grid > div')).toHaveCount(12);
   await expect(page.locator('.task-card')).toHaveCount(0);
+  await dialog.getByRole('button', { name: 'Вернуться к кругу года' }).click();
   await dialog.getByRole('button', { name: 'Дальше' }).click();
   await expect(dialog.getByText('Открытие 2 из 3')).toBeVisible();
   await dialog.getByRole('button', { name: 'Лето' }).click();
