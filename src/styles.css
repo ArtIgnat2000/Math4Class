@@ -8496,3 +8496,148 @@ h1[tabindex='-1']:focus {
     height: 9px;
   }
 }
+
+/* Clickable quadrants: the ring is one continuous year, but no label overlaps its centre. */
+.season-cycle-choice {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  width: 78px;
+  height: 66px;
+  border: 0;
+  border-radius: 14px;
+  background: #fffdf4eb;
+  color: #18342e;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  box-shadow: 0 3px 10px #203e302b;
+  transition:
+    transform 150ms ease-out,
+    box-shadow 150ms ease-out;
+}
+.season-cycle-choice svg {
+  width: 25px;
+  height: 25px;
+  stroke-width: 1.8;
+}
+.season-cycle-choice:hover {
+  transform: translate(-50%, -50%) scale(1.04);
+  box-shadow: 0 5px 14px #203e3050;
+}
+.season-cycle-choice:active {
+  transform: translate(-50%, -50%) scale(0.97);
+}
+.season-cycle-choice:focus-visible {
+  outline: 3px solid #172f39;
+  outline-offset: 2px;
+}
+.season-cycle .season-cycle-winter {
+  top: 13%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.season-cycle .season-cycle-spring {
+  top: 50%;
+  left: 87%;
+  transform: translate(-50%, -50%);
+}
+.season-cycle .season-cycle-summer {
+  top: 87%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.season-cycle .season-cycle-autumn {
+  top: 50%;
+  left: 13%;
+  transform: translate(-50%, -50%);
+}
+.season-cycle .season-cycle-choice:hover {
+  transform: translate(-50%, -50%) scale(1.04);
+}
+.season-cycle .season-cycle-choice:active {
+  transform: translate(-50%, -50%) scale(0.97);
+}
+@media (prefers-reduced-motion: reduce) {
+  .season-cycle-choice {
+    transition: none;
+  }
+}
+.season-detail {
+  min-height: 320px;
+}
+.season-detail-kicker {
+  margin: 18px 0 3px;
+  color: #4a6856;
+  font-size: 13px !important;
+  font-weight: 700;
+}
+.season-detail h3 {
+  margin: 4px 0 8px;
+}
+.season-detail > p {
+  line-height: 1.4;
+}
+.season-detail-months {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 16px 0;
+}
+.season-detail-months button {
+  min-height: 78px;
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 4px;
+  border: 2px solid #c2d7cc;
+  border-radius: 12px;
+  background: #f2faf5;
+  color: #203d32;
+  font: inherit;
+  cursor: pointer;
+}
+.season-detail-months button span {
+  font-size: 22px;
+  font-weight: 800;
+}
+.season-detail-months button strong {
+  font-size: 13px;
+}
+.season-detail-months button[aria-pressed='true'] {
+  border-color: #2a735b;
+  background: #d9f1e5;
+}
+.season-detail-months button:focus-visible {
+  outline: 3px solid #193c32;
+  outline-offset: 2px;
+}
+.season-detail-discovery {
+  padding: 14px;
+  border-radius: 12px;
+  background: #e6f3ed;
+  color: #193c32;
+}
+.season-detail-end {
+  font-size: 13px !important;
+  color: #496151;
+}
+
+.season-detail-next {
+  min-height: 44px;
+  width: 100%;
+  border: 1px solid #438d75;
+  border-radius: 11px;
+  background: #e8f4eb;
+  color: #173d30;
+  font: inherit;
+  font-weight: 750;
+  cursor: pointer;
+}
+.season-detail-next:focus-visible {
+  outline: 3px solid #193c32;
+  outline-offset: 2px;
+}

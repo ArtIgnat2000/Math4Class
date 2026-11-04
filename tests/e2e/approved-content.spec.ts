@@ -28,8 +28,21 @@ test('calendar explanation is visual, separate from checked textbook exercises',
   await page.goto('/#/topics');
   await page.locator('.topic-card').filter({ hasText: 'Переводим годы в месяцы' }).first().click();
   const dialog = page.getByRole('dialog');
-  await expect(dialog.getByRole('img', { name: /Круг года/ })).toBeVisible();
-  await expect(dialog.locator('.season-cycle-symbol svg')).toHaveCount(4);
+  await expect(dialog.getByRole('group', { name: /Круг года/ })).toBeVisible();
+  await expect(dialog.locator('.season-cycle-choice svg')).toHaveCount(4);
+  await dialog.getByRole('button', { name: 'Открыть: Весна' }).click();
+  await expect(
+    dialog.getByRole('group', { name: 'Месяцы: Весна' }).getByRole('button'),
+  ).toHaveCount(3);
+  await dialog.getByRole('button', { name: /Апрель/ }).click();
+  await expect(dialog.locator('.season-detail-discovery')).toContainText('Апрель — 2-й месяц');
+  await dialog.getByRole('button', { name: 'Дальше — Лето' }).click();
+  await expect(dialog.getByRole('button', { name: 'Июнь' })).toHaveAttribute(
+    'aria-pressed',
+    'true',
+  );
+  await expect(page.locator('.task-card')).toHaveCount(0);
+  await dialog.getByRole('button', { name: 'Вернуться к кругу года' }).click();
   expect(await dialog.evaluate((element) => element.scrollHeight <= element.clientHeight + 2)).toBe(
     true,
   );
@@ -159,7 +172,7 @@ for (const [width, height] of [
       await page.goto('/#/topics');
       await page.locator('.topic-card').filter({ hasText: 'Переводим годы в месяцы' }).click();
       const dialog = page.getByRole('dialog');
-      await expect(dialog.getByRole('img', { name: /Круг года/ })).toBeVisible();
+      await expect(dialog.getByRole('group', { name: /Круг года/ })).toBeVisible();
       await expect(dialog.getByRole('button', { name: 'Проверить себя' })).toHaveCount(0);
       await dialog.getByRole('button', { name: 'Дальше' }).click();
       await dialog.getByRole('button', { name: 'Осень' }).click();
