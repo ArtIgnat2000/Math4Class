@@ -24,7 +24,7 @@ describe('child-facing UI', () => {
       screen.getByText('0', { exact: false, selector: '.goal-ring strong' }),
     ).toHaveTextContent('0/5');
     await user.click(screen.getByRole('button', { name: '1 класс' }));
-    expect(screen.getByText('Числа до 20', { exact: true })).toBeInTheDocument();
+    expect(screen.getByText(/Пока нет заданий, сверенных с учебником/)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: '1 класс' })).toHaveAttribute('aria-pressed', 'true');
   });
   it('filters content and provides a useful empty state', async () => {
@@ -34,12 +34,16 @@ describe('child-facing UI', () => {
         <Catalog onOpen={vi.fn()} />
       </AppProvider>,
     );
-    await user.type(screen.getByRole('searchbox', { name: 'Поиск тем' }), 'геометр');
-    expect(screen.getByText('Геометрические фигуры', { exact: true })).toBeInTheDocument();
+    await user.type(screen.getByRole('searchbox', { name: 'Поиск тем' }), 'уравнения');
+    expect(
+      screen.getByText('Уравнения: сложение и вычитание', { exact: true }),
+    ).toBeInTheDocument();
     await user.type(screen.getByRole('searchbox'), 'not-found');
     expect(screen.getByRole('heading', { name: 'Такой темы пока нет' })).toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: 'Показать все темы' }));
-    expect(screen.getByText('Многозначные числа', { exact: true })).toBeInTheDocument();
+    expect(
+      screen.getByText('Уравнения: сложение и вычитание', { exact: true }),
+    ).toBeInTheDocument();
   });
   it('does not submit the profile form when choosing a grade', async () => {
     const user = userEvent.setup();
@@ -110,23 +114,23 @@ describe('textbook lessons and compound answers', () => {
         <Catalog onOpen={vi.fn()} />
       </AppProvider>,
     );
-    expect(container.querySelectorAll('.topic-card')).toHaveLength(35);
-    await user.selectOptions(screen.getByLabelText('Раздел учебника'), 'mass');
-    expect(container.querySelectorAll('.topic-card')).toHaveLength(4);
+    expect(container.querySelectorAll('.topic-card')).toHaveLength(6);
+    await user.selectOptions(screen.getByLabelText('Раздел учебника'), 'calendar');
+    expect(container.querySelectorAll('.topic-card')).toHaveLength(1);
     await user.selectOptions(screen.getByLabelText('Материалы'), 'intro');
     expect(screen.getByRole('heading', { name: 'Такой темы пока нет' })).toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: 'Показать все темы' }));
     await user.type(screen.getByRole('searchbox'), 'стр. 47');
-    expect(container.querySelectorAll('.topic-card')).toHaveLength(10);
+    expect(container.querySelectorAll('.topic-card')).toHaveLength(3);
     await user.clear(screen.getByRole('searchbox'));
     await user.selectOptions(screen.getByLabelText('Материалы'), 'contents');
-    expect(container.querySelectorAll('.topic-card')).toHaveLength(7);
+    expect(container.querySelectorAll('.topic-card')).toHaveLength(0);
     await user.click(screen.getByRole('button', { name: '1 класс' }));
     expect(screen.queryByLabelText('Раздел учебника')).not.toBeInTheDocument();
-    expect(container.querySelectorAll('.topic-card')).toHaveLength(3);
+    expect(container.querySelectorAll('.topic-card')).toHaveLength(0);
     await user.click(screen.getByRole('button', { name: '4 класс' }));
     expect(screen.getByLabelText('Материалы')).toHaveValue('all');
-    expect(container.querySelectorAll('.topic-card')).toHaveLength(35);
+    expect(container.querySelectorAll('.topic-card')).toHaveLength(6);
   });
   it('keeps textbook provenance in Parents, not on the child home', async () => {
     const user = userEvent.setup();

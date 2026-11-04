@@ -113,6 +113,18 @@ export function Learning({
   const next = recommendedTopic(profile, pack, today);
   const stats = gradeStats(profile, pack);
   const active = profile.activeSession;
+  // Show the next untried step first; completed topics stay in the catalog.
+  const routeTopics = [
+    ...(next.topic ? [next.topic] : []),
+    ...pack.topics.filter(
+      (topic) =>
+        topic.id !== next.topic?.id && !profile.topics[topicKey(pack.grade, topic.id)]?.sessions,
+    ),
+    ...pack.topics.filter(
+      (topic) =>
+        topic.id !== next.topic?.id && !!profile.topics[topicKey(pack.grade, topic.id)]?.sessions,
+    ),
+  ].slice(0, 3);
   return (
     <div className="page learning-page">
       <PageHeading
@@ -141,18 +153,29 @@ export function Learning({
             </p>
             <button
               className="button primary hero-button"
-              onClick={() =>
-                active
-                  ? onResume()
-                  : onOpen(next.topic, pack.grade, next.review ? 'review' : 'learn')
-              }
+              onClick={() => {
+                if (active) onResume();
+                else if (next.topic)
+                  onOpen(next.topic, pack.grade, next.review ? 'review' : 'learn');
+              }}
+              disabled={!active && !next.topic}
             >
-              {active ? 'Продолжить занятие' : next.review ? 'Время повторить' : 'Начать занятие'}
+              {active
+                ? 'Продолжить занятие'
+                : !next.topic
+                  ? 'Ожидаем проверенные задания'
+                  : next.review
+                    ? 'Время повторить'
+                    : 'Начать занятие'}
               <ArrowRight size={18} />
             </button>
             <span className="hero-time">
               <Clock3 size={13} />
-              {active ? `${active.grade} класс · ${active.topicTitle}` : '5 минут · в своём темпе'}
+              {active
+                ? `${active.grade} класс · ${active.topicTitle}`
+                : next.topic
+                  ? '5 минут · в своём темпе'
+                  : 'Материалы проверяются по учебнику'}
             </span>
           </div>
           <div className="hero-magic" aria-hidden="true">
@@ -175,7 +198,7 @@ export function Learning({
               <h2>Твой маршрут</h2>
               <span className="grade-label">{profile.grade} класс</span>
             </div>
-            <p>Любая тема — начало нового открытия</p>
+            <p>Следующий шаг — первым</p>
           </div>
           <button className="text-button" onClick={() => onNavigate('topics')}>
             Все темы
@@ -183,19 +206,22 @@ export function Learning({
           </button>
         </div>
         <div className="topic-grid">
-          {pack.topics.slice(0, 3).map((topic, i) => (
+          {!routeTopics.length && (
+            <p role="status">Пока нет заданий, сверенных с учебником для этого класса.</p>
+          )}
+          {routeTopics.map((topic, i) => (
             <TopicCard
               key={topic.id}
               topic={topic}
               index={i}
               progress={profile.topics[topicKey(pack.grade, topic.id)]}
-              recommended={topic.id === next.topic.id}
+              recommended={topic.id === next.topic?.id}
               review={next.review}
               onOpen={() =>
                 onOpen(
                   topic,
                   pack.grade,
-                  topic.id === next.topic.id && next.review ? 'review' : 'learn',
+                  topic.id === next.topic?.id && next.review ? 'review' : 'learn',
                 )
               }
             />
@@ -397,15 +423,19 @@ export function Catalog({ onOpen }: { onOpen: OpenTopic }) {
       ) : (
         <div className="empty-state">
           <Search size={36} />
-          <h2>Такой темы пока нет</h2>
-          <p>Попробуй другое слово или сбрось фильтры.</p>
+          <h2>{pack.topics.length ? 'Такой темы пока нет' : 'Задания проверяются'}</h2>
+          <p>
+            {pack.topics.length
+              ? 'Попробуй другое слово или сбрось фильтры.'
+              : 'Пока нет заданий, сверенных со страницами учебника для этого класса.'}
+          </p>
           <button className="button secondary" onClick={resetFilters}>
             Показать все темы
           </button>
         </div>
       )}
       <InfoNote icon="sparkles">
-        <strong>Учим понимать, а не торопиться.</strong> Все темы открыты. В каждой — короткое
+        <strong>Учим понимать, а не торопиться.</strong> В проверенных темах есть короткое
         объяснение, задания и подсказки. Задания для занятия выбираются из банка темы; повторяй,
         чтобы попробовать другие варианты. Класс можно менять в любой момент.
       </InfoNote>

@@ -230,7 +230,7 @@ describe('recommendations and calendars', () => {
     expect(recommendedTopic(fresh, pack, today)).toMatchObject({ topic: first, review: false });
     const p = finishSession(fresh, solve(createSession(first, 4)), today).profile;
     expect(dueTopics(p, BUILTIN_PACKS[4], today)).toHaveLength(0);
-    expect(recommendedTopic(p, pack, today).topic.id).toBe(pack.topics[1].id);
+    expect(recommendedTopic(p, pack, today).topic?.id).toBe(pack.topics[1].id);
     expect(recommendedTopic(p, BUILTIN_PACKS[4], '2026-11-03').review).toBe(true);
   });
   it('preserves the streak before today’s lesson and ends it after a missed day', () => {

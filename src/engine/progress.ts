@@ -30,7 +30,8 @@ export function recommendedTopic(
   profile: Profile,
   pack: ContentPack,
   today = dayKey(),
-): { topic: Topic; review: boolean } {
+): { topic: Topic | null; review: boolean } {
+  if (!pack.topics.length) return { topic: null, review: false };
   const due = dueTopics(profile, pack, today);
   if (due.length) return { topic: due[0], review: true };
   const unseen = pack.topics.find((t) => !profile.topics[topicKey(pack.grade, t.id)]?.sessions);
@@ -51,7 +52,11 @@ export function gradeStats(profile: Profile, pack: ContentPack) {
     (sum, t) => sum + (profile.topics[topicKey(pack.grade, t.id)]?.level ?? 0),
     0,
   );
-  return { started, mastered, percent: Math.round((levels / (pack.topics.length * 3)) * 100) };
+  return {
+    started,
+    mastered,
+    percent: Math.round((levels / (Math.max(1, pack.topics.length) * 3)) * 100),
+  };
 }
 export const BADGES = [
   {

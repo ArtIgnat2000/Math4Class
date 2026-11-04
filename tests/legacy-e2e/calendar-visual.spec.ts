@@ -23,9 +23,13 @@ for (const [width, height] of [
         const page = await context.newPage();
         await page.goto('/#/topics');
         await page.locator('.topic-card').filter({ hasText: topic.title }).click();
-        await expect(page.getByRole('dialog').locator('.calendar-intro-seasons img')).toHaveCount(
+        await expect(page.getByRole('dialog').locator('.season-cycle-item img')).toHaveCount(4);
+        await expect(page.getByRole('img', { name: /Круг года/ })).toBeVisible();
+        await page.getByText('Посмотреть месяцы и римские цифры').click();
+        await expect(page.getByRole('dialog').locator('.calendar-season-months > div')).toHaveCount(
           4,
         );
+        await expect(page.getByRole('dialog').getByText(/IV = 4/)).toBeVisible();
         await page.getByRole('button', { name: 'Начать занятие' }).click();
         for (const selected of topic.tasks) {
           await page.evaluate((task) => {

@@ -8,6 +8,7 @@ import {
   type ReactNode,
 } from 'react';
 import { getPack } from '../content';
+import { taskApproved } from '../content/approved';
 import type { ContentPack, Grade } from '../engine/content';
 import { appDataSchema, createProfile, type AppData, type Profile } from '../engine/model';
 import { readData, writeData, STORAGE_KEY, type StorageStatus } from './storage';
@@ -85,7 +86,15 @@ export function AppProvider({ children }: { children: ReactNode }) {
     window.addEventListener('storage', syncTab);
     return () => window.removeEventListener('storage', syncTab);
   }, []);
-  const profile = data.profiles.find((p) => p.id === data.activeProfileId)!;
+  const storedProfile = data.profiles.find((p) => p.id === data.activeProfileId)!;
+  // Preserve archived progress, but never resume an old lesson containing
+  // exercises that have not been verified against the owner's photographs.
+  const session = storedProfile.activeSession;
+  const profile =
+    session &&
+    !session.entries.every(({ task }) => taskApproved(session.grade, session.topicId, task))
+      ? { ...storedProfile, activeSession: null }
+      : storedProfile;
   useEffect(() => {
     const media = window.matchMedia?.('(prefers-reduced-motion: reduce)');
     const apply = () =>
