@@ -124,7 +124,7 @@ test('complete a mixed lesson, correct a mistake and retain results after reload
   expect(stored.profiles[0].activeSession).toBeNull();
   await page.reload();
   await expect(page.getByRole('heading', { name: 'Ты стал на шаг увереннее!' })).toBeVisible();
-  await page.getByRole('button', { name: 'Отлично, на главную' }).click();
+  await page.getByRole('button', { name: 'Дальше' }).click();
   await expect(page.locator('.goal-ring strong')).toHaveText('5/5');
   await page.locator('.main-nav').getByRole('link', { name: 'Мои награды' }).click();
   await expect(

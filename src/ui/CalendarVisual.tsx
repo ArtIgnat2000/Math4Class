@@ -174,23 +174,110 @@ export function CalendarVisual({ topicId, taskId }: { topicId: string; taskId: s
   );
 }
 
+const seasonMonths = [
+  { name: 'Зима', image: 'winter', months: ['Декабрь', 'Январь', 'Февраль'] },
+  { name: 'Весна', image: 'spring', months: ['Март', 'Апрель', 'Май'] },
+  { name: 'Лето', image: 'summer', months: ['Июнь', 'Июль', 'Август'] },
+  { name: 'Осень', image: 'autumn', months: ['Сентябрь', 'Октябрь', 'Ноябрь'] },
+] as const;
+
 export function CalendarIntro() {
   return (
     <div className="calendar-intro">
-      <p>Год идёт по кругу: меняются месяцы и времена года.</p>
-      <div className="calendar-intro-seasons" role="img" aria-label="Зима, весна, лето и осень">
-        {seasons.map((image) => (
-          <CalendarToken
-            token={season(
-              ({ winter: 'Зима', spring: 'Весна', summer: 'Лето', autumn: 'Осень' } as const)[
-                image
-              ],
-              image,
-            )}
-            key={image}
+      <p>После зимы приходит весна, затем лето, осень — и снова зима.</p>
+      <div
+        className="season-cycle"
+        role="img"
+        aria-label="Круг года: зима, весна, лето, осень, затем снова зима"
+      >
+        <svg viewBox="0 0 320 320" aria-hidden="true" className="season-cycle-ring">
+          <circle cx="160" cy="160" r="112" fill="none" stroke="#d6e5ce" strokeWidth="15" />
+          <path
+            d="M 240 82 L 253 86 L 248 98"
+            fill="none"
+            stroke="#587d5a"
+            strokeWidth="5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
+          <path
+            d="M 239 239 L 233 252 L 221 247"
+            fill="none"
+            stroke="#587d5a"
+            strokeWidth="5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M 81 238 L 68 233 L 73 221"
+            fill="none"
+            stroke="#587d5a"
+            strokeWidth="5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M 82 81 L 87 68 L 99 73"
+            fill="none"
+            stroke="#587d5a"
+            strokeWidth="5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+        <span className="season-cycle-center">Год</span>
+        {seasonMonths.map(({ name, image }) => (
+          <span key={name} className={`season-cycle-item season-cycle-${image}`} aria-hidden="true">
+            <img src={`${import.meta.env.BASE_URL}illustrations/calendar/${image}.webp`} alt="" />
+            <strong>{name}</strong>
+          </span>
         ))}
       </div>
+      <details className="calendar-learn-more">
+        <summary>Посмотреть месяцы и римские цифры</summary>
+        <div className="calendar-season-months">
+          {seasonMonths.map(({ name, image, months }) => (
+            <div key={name}>
+              <img src={`${import.meta.env.BASE_URL}illustrations/calendar/${image}.webp`} alt="" />
+              <strong>{name}</strong>
+              <span>{months.join(' · ')}</span>
+            </div>
+          ))}
+        </div>
+        <p>
+          Римские цифры — ещё один способ записывать числа: I = 1, V = 5, X = 10. Например, IV = 4
+          (один перед пятью), IX = 9 (один перед десятью), XII = 12 (десять и два).
+        </p>
+        <div
+          className="calendar-roman-grid"
+          aria-label="Месяцы от января до декабря и их римские номера"
+        >
+          {[
+            ['I', 'Январь'],
+            ['II', 'Февраль'],
+            ['III', 'Март'],
+            ['IV', 'Апрель'],
+            ['V', 'Май'],
+            ['VI', 'Июнь'],
+            ['VII', 'Июль'],
+            ['VIII', 'Август'],
+            ['IX', 'Сентябрь'],
+            ['X', 'Октябрь'],
+            ['XI', 'Ноябрь'],
+            ['XII', 'Декабрь'],
+          ].map(([roman, name], index) => (
+            <div key={roman}>
+              <img
+                src={`${import.meta.env.BASE_URL}illustrations/calendar/${monthArt[name.toLocaleLowerCase('ru').slice(0, 3)]}`}
+                alt=""
+              />
+              <strong>{roman}</strong>
+              <span>{name}</span>
+              <small>{index + 1}</small>
+            </div>
+          ))}
+        </div>
+      </details>
     </div>
   );
 }

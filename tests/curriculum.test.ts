@@ -140,8 +140,8 @@ describe('School of Russia scope and backwards compatibility', () => {
     const legacy = parsePack(legacyExample);
     expect(legacy.curriculum).toBeUndefined();
     expect(legacy.sections).toBeUndefined();
-    expect(getPack(4, [legacy])).toBe(legacy);
-    expect(getPack(4, [])).toBe(pack);
+    expect(getPack(4, [legacy]).topics).toHaveLength(0);
+    expect(getPack(4, []).topics.reduce((n, t) => n + t.tasks.length, 0)).toBe(23);
     const data = createAppData();
     data.customPacks = [legacy];
     expect(appDataSchema.safeParse(data).success).toBe(true);

@@ -154,6 +154,18 @@ export function GradeSwitcher({
   return (
     <div className={`grade-switcher ${compact ? 'compact' : ''}`}>
       <span>Класс</span>
+      <select
+        className="grade-mobile-select"
+        aria-label="Класс обучения"
+        value={grade}
+        onChange={(event) => onChange(Number(event.target.value) as Grade)}
+      >
+        {GRADES.map((g) => (
+          <option key={g} value={g}>
+            {g} класс
+          </option>
+        ))}
+      </select>
       <div role="group" aria-label="Выбрать класс">
         {GRADES.map((g) => (
           <button

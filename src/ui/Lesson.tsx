@@ -7,9 +7,7 @@ import {
   ChevronRight,
   CircleCheck,
   Clock3,
-  Flag,
   Lightbulb,
-  RotateCcw,
   Star,
 } from 'lucide-react';
 import type { Grade, Task, Topic } from '../engine/content';
@@ -27,7 +25,7 @@ import { MassWordIntro, MassWordVisual } from './MassWordVisual';
 import { CalendarIntro, CalendarVisual } from './CalendarVisual';
 import { NumericKeypad } from './NumericKeypad';
 import { OrderAnswer } from './OrderAnswer';
-import { Brand, InfoNote, Modal, ProgressBar, Stars, TopicSymbol } from './shared';
+import { Brand, Modal, ProgressBar, Stars, TopicSymbol } from './shared';
 
 export function TopicDialog({
   topic,
@@ -676,66 +674,20 @@ export function Result({
           {result.topicTitle} · {result.grade} класс
         </p>
         <Stars count={result.stars} size={34} />
-        <div className="result-stats">
-          <div>
-            <span className="tone-sage">
-              <TargetIcon />
-            </span>
-            <strong>
-              {result.correct}
-              <small>/{result.total}</small>
-            </strong>
-            <p>с первого раза</p>
-          </div>
-          <div>
-            <span className="tone-peach">
-              <Star size={22} />
-            </span>
-            <strong>+{result.xp}</strong>
-            <p>очков опыта</p>
-          </div>
-          <div>
-            <span className="tone-lavender">
-              <Flag size={22} />
-            </span>
-            <strong>{result.total}</strong>
-            <p>заданий пройдено</p>
-          </div>
-        </div>
-        {result.recovered > 0 && (
-          <div className="recovery-note">
-            <RotateCcw size={19} />
-            <p>
-              Ты разобрался с {result.recovered} {result.recovered === 1 ? 'заданием' : 'заданиями'}{' '}
-              после ошибки. Это и есть настоящее обучение!
-            </p>
-          </div>
-        )}
-        <InfoNote icon="check">
-          {result.stars === 3
-            ? 'Уверенный шаг! Вернись к теме в другой день — так знания станут прочнее.'
-            : 'Не всё должно получаться сразу. К непростым заданиям мы вернёмся в повторении.'}
-        </InfoNote>
+        <p className="result-summary">
+          {result.correct} из {result.total} с первого раза
+        </p>
         <div className="result-actions">
           <button className="button primary" onClick={onHome}>
-            Отлично, на главную
+            Дальше
             <ArrowRight size={18} />
           </button>
           <button className="button secondary" onClick={onTopics}>
-            Выбрать другую тему
+            Все темы
           </button>
         </div>
         <p className="dialog-footnote">Завершённое занятие сохранено в этом браузере.</p>
       </main>
     </div>
-  );
-}
-function TargetIcon() {
-  return (
-    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
-      <circle cx="11" cy="11" r="8.5" stroke="currentColor" strokeWidth="1.5" />
-      <circle cx="11" cy="11" r="4.5" stroke="currentColor" strokeWidth="1.5" />
-      <circle cx="11" cy="11" r="1.5" fill="currentColor" />
-    </svg>
   );
 }

@@ -7809,3 +7809,144 @@ h1[tabindex='-1']:focus {
     height: 33px;
   }
 }
+
+.grade-mobile-select {
+  display: none;
+}
+@media (max-width: 599px) {
+  .grade-switcher > span,
+  .grade-switcher > div {
+    display: none;
+  }
+  .grade-switcher .grade-mobile-select {
+    display: block;
+    min-height: 44px;
+    border: 1px solid #c7d9bf;
+    border-radius: 10px;
+    padding: 6px 10px;
+    background: #f7faf2;
+    color: #304d39;
+    font: inherit;
+    font-weight: 700;
+  }
+}
+.result-summary {
+  font-size: clamp(19px, 4vw, 24px);
+  font-weight: 750;
+  margin: 12px auto 20px;
+  color: #36543d;
+}
+
+/* A real closed year cycle, not a row described as a circle. */
+.season-cycle {
+  position: relative;
+  width: min(100%, 320px);
+  aspect-ratio: 1;
+  margin: 10px auto;
+}
+.season-cycle-ring {
+  width: 100%;
+  height: 100%;
+}
+.season-cycle-center {
+  position: absolute;
+  inset: 43% 0 auto;
+  text-align: center;
+  font-size: 17px;
+  font-weight: 800;
+  color: #36543d;
+}
+.season-cycle-item {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 82px;
+  padding: 3px;
+  border-radius: 12px;
+  background: #fffefa;
+  color: #36543d;
+  font-size: 13px;
+}
+.season-cycle-item img {
+  width: 72px;
+  height: 54px;
+  object-fit: contain;
+}
+.season-cycle-winter {
+  top: 0;
+  left: calc(50% - 41px);
+}
+.season-cycle-spring {
+  top: calc(50% - 40px);
+  right: 0;
+}
+.season-cycle-summer {
+  bottom: 0;
+  left: calc(50% - 41px);
+}
+.season-cycle-autumn {
+  top: calc(50% - 40px);
+  left: 0;
+}
+.calendar-learn-more {
+  margin: 12px 0;
+  color: #36543d;
+}
+.calendar-learn-more summary {
+  cursor: pointer;
+  font-weight: 750;
+  padding: 10px;
+}
+.calendar-season-months {
+  display: grid;
+  gap: 7px;
+}
+.calendar-season-months > div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 8px;
+  border-radius: 9px;
+  background: #f2f7ed;
+}
+.calendar-season-months img {
+  width: 46px;
+  height: 40px;
+  object-fit: contain;
+}
+.calendar-season-months span {
+  font-size: 13px;
+}
+.calendar-learn-more > p {
+  font-size: 14px;
+  line-height: 1.5;
+}
+.calendar-roman-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+}
+.calendar-roman-grid > div {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+  padding: 4px;
+  border-radius: 8px;
+  background: #f3f7ed;
+  font-size: 12px;
+}
+.calendar-roman-grid img {
+  width: 38px;
+  height: 38px;
+  object-fit: contain;
+}
+.calendar-roman-grid strong {
+  min-width: 25px;
+  color: #33563d;
+}
+.calendar-roman-grid small {
+  margin-left: auto;
+  color: #5e725c;
+}

@@ -216,8 +216,10 @@ export default function App() {
       previous?.focus();
     };
   }, [mobileOpen]);
-  const onOpen = (topic: Topic, grade: Grade, mode: Session['mode'] = 'learn') =>
+  const onOpen = (topic: Topic, grade: Grade, mode: Session['mode'] = 'learn') => {
+    if (!pack.topics.some((visible) => visible.id === topic.id && grade === pack.grade)) return;
     setTopicDialog({ topic, grade, mode });
+  };
   const onStart = () => {
     if (!topicDialog) return;
     const { topic, grade, mode } = topicDialog;
@@ -261,6 +263,11 @@ export default function App() {
       installPrompt.current = null;
     } else setDialog('install');
   };
+  useEffect(() => {
+    if (route !== 'lesson' || profile.activeSession) return;
+    setRoute('learn');
+    window.location.hash = '/learn';
+  }, [route, profile.activeSession]);
   const dueCount = dueTopics(profile, pack, today).length;
   const lastResult = profile.history.at(-1);
   const focused =
