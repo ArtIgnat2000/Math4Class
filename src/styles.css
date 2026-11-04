@@ -7950,3 +7950,251 @@ h1[tabindex='-1']:focus {
   margin-left: auto;
   color: #5e725c;
 }
+
+/* Year → months pilot: child-controlled teaching before the approved exercise. */
+.year-month-pilot {
+  color: #36543d;
+}
+.year-month-pilot .pilot-step {
+  margin: 0 0 8px;
+  font-weight: 800;
+  font-size: 13px;
+  color: #718365;
+}
+.year-month-pilot h3 {
+  margin: 6px 0;
+  font-size: clamp(19px, 4.5vw, 24px);
+  line-height: 1.25;
+}
+.year-month-pilot section > p:not(.pilot-rule) {
+  font-size: 15px;
+  line-height: 1.4;
+}
+.pilot-seasons {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+  margin: 14px 0;
+}
+.pilot-seasons button {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  min-height: 94px;
+  padding: 5px;
+  border: 2px solid #d4dfc7;
+  border-radius: 12px;
+  background: #fffefa;
+  color: #36543d;
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+.pilot-seasons button[aria-pressed='true'] {
+  border-color: #63875e;
+  background: #ecf5e7;
+}
+.pilot-seasons button:focus-visible {
+  outline: 3px solid #476e49;
+  outline-offset: 2px;
+}
+.pilot-seasons img {
+  display: block;
+  width: 100%;
+  height: 56px;
+  object-fit: contain;
+}
+.pilot-months {
+  display: grid;
+  gap: 5px;
+  padding: 14px;
+  border-radius: 12px;
+  background: #eef5e9;
+  font-size: 16px;
+}
+.pilot-months span {
+  line-height: 1.5;
+}
+.year-month-pilot .calendar-visual {
+  margin: 12px 0;
+}
+.pilot-rule {
+  font-size: 17px;
+  line-height: 1.4;
+}
+.pilot-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
+}
+.pilot-actions .button {
+  min-height: 44px;
+}
+@media (max-width: 400px) {
+  .pilot-seasons {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .pilot-seasons button {
+    min-height: 85px;
+  }
+}
+
+/* Pilot: a quiet, crafted instrument dial rather than a collection of clip-art tiles. */
+.year-month-pilot .calendar-intro {
+  max-width: 560px;
+  margin-inline: auto;
+}
+.year-month-pilot .season-cycle {
+  width: min(100%, 300px, 36vh);
+  min-width: min(100%, 220px);
+  margin: 14px auto 20px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fffdf7 0 35%, #f6f2e7 69%, #fbfaf5 72%);
+  box-shadow:
+    0 12px 34px #29382c12,
+    inset 0 0 0 1px #c9b99a;
+}
+.year-month-pilot .season-cycle-center {
+  inset: 38% 33% auto;
+  padding: 10px 0;
+  border-top: 1px solid #c7ac78;
+  border-bottom: 1px solid #c7ac78;
+  color: #26372f;
+  font-size: 21px;
+  letter-spacing: 0.07em;
+}
+.year-month-pilot .season-cycle-item {
+  width: 72px;
+  padding: 3px;
+  border: 1px solid #d4c6a9;
+  border-radius: 10px;
+  background: #fffdf7;
+  box-shadow: 0 4px 12px #21372b18;
+  color: #263b30;
+  font-size: 12px;
+}
+.year-month-pilot .season-cycle-item img {
+  width: 62px;
+  height: 43px;
+}
+.year-month-pilot .season-cycle-winter,
+.year-month-pilot .season-cycle-summer {
+  left: calc(50% - 36px);
+}
+.year-month-pilot .season-cycle-spring,
+.year-month-pilot .season-cycle-autumn {
+  top: calc(50% - 34px);
+}
+.year-month-pilot .season-cycle-winter {
+  top: -8px;
+}
+.year-month-pilot .season-cycle-summer {
+  bottom: -8px;
+}
+.year-month-pilot .season-cycle-spring {
+  right: -8px;
+}
+.year-month-pilot .season-cycle-autumn {
+  left: -8px;
+}
+.calendar-reference-link {
+  display: block;
+  min-height: 44px;
+  width: 100%;
+  border: 1px solid #bdab86;
+  border-radius: 12px;
+  background: #faf6ec;
+  color: #293e32;
+  font: inherit;
+  font-weight: 750;
+  cursor: pointer;
+}
+.calendar-reference-link:focus-visible {
+  outline: 3px solid #345b49;
+  outline-offset: 2px;
+}
+.calendar-reference-page h3 {
+  margin: 14px 0 8px;
+}
+.year-month-pilot .calendar-reference-page .calendar-season-months {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.year-month-pilot .calendar-reference-page .calendar-season-months > div {
+  min-width: 0;
+  flex-wrap: wrap;
+  background: #f8f4e9;
+  border: 1px solid #e1d4b8;
+}
+.year-month-pilot .calendar-reference-page .calendar-roman-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.year-month-pilot .calendar-reference-page .calendar-roman-grid > div {
+  background: #f8f4e9;
+  border: 1px solid #e1d4b8;
+}
+@media (max-width: 400px) {
+  .year-month-pilot .calendar-reference-page .calendar-roman-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* A single visual language for the year: engraved diagram, not mixed stock art. */
+.year-month-pilot .season-cycle {
+  width: min(100%, 292px, 36vh);
+  background: radial-gradient(circle at 48% 38%, #294539, #162d27 75%);
+  box-shadow:
+    0 16px 28px #152b2338,
+    inset 0 0 0 1px #b8a57c;
+}
+.year-month-pilot .season-cycle-center {
+  inset: 39% 34% auto;
+  color: #f8f2e3;
+  border-color: #bba574;
+  font-weight: 650;
+  letter-spacing: 0.11em;
+}
+.year-month-pilot .season-cycle-item {
+  width: 70px;
+  padding: 4px 2px 6px;
+  background: #f8f5eb;
+  border: 1px solid #baaa85;
+  border-radius: 50% 50% 13px 13px;
+  box-shadow: 0 5px 12px #0d201d38;
+  color: #243a30;
+  font-size: 12px;
+}
+.year-month-pilot .season-cycle-symbol {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #e7e4d9;
+  margin-bottom: 3px;
+}
+.year-month-pilot .season-cycle-symbol svg {
+  width: 23px;
+  height: 23px;
+  stroke-width: 1.6;
+}
+.year-month-pilot .season-cycle-winter .season-cycle-symbol {
+  color: #426780;
+  background: #e4edf0;
+}
+.year-month-pilot .season-cycle-spring .season-cycle-symbol {
+  color: #9a5660;
+  background: #f2e6df;
+}
+.year-month-pilot .season-cycle-summer .season-cycle-symbol {
+  color: #9a6c2d;
+  background: #f3e9d0;
+}
+.year-month-pilot .season-cycle-autumn .season-cycle-symbol {
+  color: #8d593b;
+  background: #efe3d8;
+}
+.year-month-pilot .season-cycle-winter,
+.year-month-pilot .season-cycle-summer {
+  left: calc(50% - 35px);
+}

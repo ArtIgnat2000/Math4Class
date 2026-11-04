@@ -65,6 +65,9 @@ npm run content:check -- path/to/my-grade-4.json
 
 ## Документация
 
+- [`docs/LEARNING_VISION.md`](docs/LEARNING_VISION.md) — миссия, пять исследований, концепция и критерии плана.
+- [`docs/PILOT_EVALUATION.md`](docs/PILOT_EVALUATION.md) — реализованный пилот «год → месяцы», автопроверка и ещё не проведённая проба с детьми.
+
 - [`docs/SOURCE_AUDIT.md`](docs/SOURCE_AUDIT.md) — поштучная сверка видимых заданий с фото страниц 46–47.
 - [`docs/PRODUCT_RULES.md`](docs/PRODUCT_RULES.md) — управляемые владельцем правила и их статусы.
 - [`docs/SCHOOL_RUSSIA.md`](docs/SCHOOL_RUSSIA.md) — исторический банк и границы исходного покрытия.
