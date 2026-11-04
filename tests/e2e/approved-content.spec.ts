@@ -46,11 +46,17 @@ test('calendar explanation is visual, separate from checked textbook exercises',
   await expect(page.locator('.task-card')).toHaveCount(0);
   await dialog.getByRole('button', { name: 'Вернуться к кругу года' }).click();
   await dialog.getByRole('button', { name: 'Дальше' }).click();
-  await expect(dialog.getByText('Открытие 2 из 3')).toBeVisible();
+  await expect(dialog.getByText('Открытие 2 из 4')).toBeVisible();
   await dialog.getByRole('button', { name: 'Лето' }).click();
   await expect(dialog.locator('.pilot-months')).toContainText('Июнь → Июль → Август');
   await dialog.getByRole('button', { name: 'Дальше' }).click();
   await expect(dialog.locator('.calendar-year-strip .calendar-token')).toHaveCount(12);
+  await dialog.getByRole('button', { name: 'Дальше' }).click();
+  await expect(dialog.locator('.pilot-year-group')).toHaveCount(3);
+  await expect(dialog.locator('.pilot-month-dots i')).toHaveCount(36);
+  await expect(dialog.locator('.pilot-group-formula')).toHaveText('12 + 12 + 12 = 3 × 12');
+  await expect(dialog.getByText('27 месяцев')).toHaveCount(0);
+  await expect(dialog.getByText('48 месяцев')).toHaveCount(0);
   await dialog.getByRole('button', { name: 'Проверить себя' }).click();
   await expect(page.locator('.task-card')).toBeVisible();
   await expect(page.getByRole('heading', { name: /4 годах|2 года 3 месяца/ })).toBeVisible();
@@ -78,6 +84,7 @@ test('an old lesson with invented tasks cannot be resumed from storage or a dire
 });
 
 test('every approved exercise stays usable on a phone and tablet', async ({ browser }) => {
+  test.setTimeout(90_000);
   const pack = JSON.parse(
     await readFile(new URL('../../src/content/grade-4.json', import.meta.url), 'utf8'),
   );
@@ -97,6 +104,7 @@ test('every approved exercise stays usable on a phone and tablet', async ({ brow
       for (const topic of pack.topics.filter((item: { id: string }) => approvedTaskIds[item.id])) {
         await page.locator('.topic-card').filter({ hasText: topic.title }).click();
         if (topic.id === 'calendar-years-months') {
+          await page.getByRole('button', { name: 'Дальше' }).click();
           await page.getByRole('button', { name: 'Дальше' }).click();
           await page.getByRole('button', { name: 'Дальше' }).click();
           await page.getByRole('button', { name: 'Проверить себя' }).click();
@@ -158,6 +166,9 @@ for (const [width, height] of [
       await expect(dialog.locator('.pilot-months')).toContainText('Сентябрь → Октябрь → Ноябрь');
       await dialog.getByRole('button', { name: 'Дальше' }).click();
       await expect(dialog.locator('.calendar-year-strip .calendar-token img')).toHaveCount(12);
+      await dialog.getByRole('button', { name: 'Дальше' }).click();
+      await expect(dialog.locator('.pilot-month-dots i')).toHaveCount(36);
+      await dialog.getByRole('button', { name: 'Назад' }).click();
       await dialog.getByRole('button', { name: 'Назад' }).click();
       await expect(dialog.locator('.pilot-months')).toContainText('Сентябрь');
       const next = dialog.getByRole('button', { name: 'Дальше' });

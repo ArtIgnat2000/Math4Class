@@ -8427,3 +8427,72 @@ h1[tabindex='-1']:focus {
   background: #aa4b3c;
   transform: rotate(-35deg);
 }
+
+/* Three countable years; the fourth element is an extra month, not a fourth year. */
+.pilot-year-groups {
+  display: grid;
+  gap: 8px;
+  margin: 14px 0;
+}
+.pilot-year-group {
+  display: grid;
+  grid-template-columns: 70px minmax(0, 1fr) 98px;
+  align-items: center;
+  gap: 7px;
+  padding: 10px;
+  border: 1px solid #bad2cf;
+  border-radius: 12px;
+  background: #f1f8f5;
+  color: #243d36;
+  font-size: 13px;
+}
+.pilot-year-group strong {
+  font-size: 14px;
+}
+.pilot-month-dots {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 4px;
+}
+.pilot-month-dots i {
+  display: block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #43a5b5;
+  border: 1px solid #287b8b;
+}
+.pilot-group-formula {
+  margin: 12px 0;
+  padding: 12px;
+  border-radius: 10px;
+  background: #e8f3f1;
+  text-align: center;
+  color: #204a42;
+  font-size: clamp(20px, 5vw, 27px);
+  font-weight: 800;
+}
+.pilot-extra-month {
+  padding: 10px 12px;
+  border-left: 4px solid #e6a849;
+  background: #fff5df;
+}
+.pilot-example-note {
+  font-size: 12px !important;
+  color: #526255;
+}
+@media (max-width: 380px) {
+  .pilot-year-group {
+    grid-template-columns: 54px minmax(0, 1fr) 72px;
+    padding: 7px;
+    font-size: 11px;
+    gap: 4px;
+  }
+  .pilot-year-group strong {
+    font-size: 12px;
+  }
+  .pilot-month-dots i {
+    width: 9px;
+    height: 9px;
+  }
+}
