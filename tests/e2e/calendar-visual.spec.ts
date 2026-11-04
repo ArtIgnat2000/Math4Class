@@ -107,6 +107,19 @@ for (const topicId of ['calendar-months', 'calendar-seasons']) {
         }, task);
         await page.reload();
         const cards = page.locator('.illustrated-order li');
+        if (touch) {
+          const card = await cards.first().boundingBox();
+          const picture = await cards.first().locator('.calendar-token').boundingBox();
+          const caption = await cards.first().locator(':scope > strong').boundingBox();
+          expect(picture!.x + picture!.width).toBeLessThan(caption!.x);
+          expect(picture!.height).toBeGreaterThanOrEqual(card!.height - 20);
+          expect(
+            await cards
+              .first()
+              .locator('.calendar-token img')
+              .evaluate((image: HTMLImageElement) => image.naturalWidth),
+          ).toBeGreaterThan(0);
+        }
         const label = await cards.nth(0).locator('strong').first().textContent();
         const first = await cards.nth(0).boundingBox();
         const third = await cards.nth(2).boundingBox();

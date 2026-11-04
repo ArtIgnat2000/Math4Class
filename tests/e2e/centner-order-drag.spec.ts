@@ -49,6 +49,13 @@ for (const [width, height, touch] of [
           images[['80 кг', '1 ц', '9 ц', '1 т'].indexOf(label)],
         );
       }
+      if (width < 768) {
+        const picture = await cards.first().locator('.centner-order-picture').boundingBox();
+        const caption = await cards.first().locator(':scope > strong').boundingBox();
+        const card = await cards.first().boundingBox();
+        expect(picture!.x + picture!.width).toBeLessThan(caption!.x);
+        expect(picture!.height).toBeGreaterThanOrEqual(card!.height - 20);
+      }
       await page.getByRole('button', { name: 'Грузы и масса' }).click();
       const guide = page.getByRole('table', { name: 'Грузы и их масса' });
       await expect(guide.locator('thead th')).toHaveText(['Груз', 'Масса']);

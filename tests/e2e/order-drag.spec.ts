@@ -51,6 +51,13 @@ for (const [width, height, mobile] of [
           expect(Math.abs(box!.y - firstBox.y)).toBeLessThan(2);
         }
       }
+      if (width < 768) {
+        const pictured = rows.nth(0).locator('.order-mass-weights');
+        const image = await pictured.boundingBox();
+        const caption = await rows.nth(0).locator(':scope > strong').boundingBox();
+        expect(image!.x + image!.width).toBeLessThan(caption!.x);
+        expect(image!.height).toBeGreaterThanOrEqual(firstBox.height - 20);
+      }
       const previous = rows.nth(1).getByRole('button', {
         name: /Переместить на предыдущую позицию/,
       });
