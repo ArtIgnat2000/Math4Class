@@ -187,46 +187,90 @@ export function CalendarIntro({
   onReferenceChange,
 }: { onReferenceChange?: (open: boolean) => void } = {}) {
   const [referenceStep, setReferenceStep] = useState(-1);
+  const [selectedSeason, setSelectedSeason] = useState<number | null>(null);
+  const [selectedMonth, setSelectedMonth] = useState(0);
   const setReference = (step: number) => {
     setReferenceStep(step);
+    setSelectedSeason(null);
     onReferenceChange?.(step >= 0);
+  };
+  const openSeason = (index: number) => {
+    setSelectedSeason(index);
+    setSelectedMonth(0);
+    onReferenceChange?.(true);
+  };
+  const closeSeason = () => {
+    setSelectedSeason(null);
+    onReferenceChange?.(false);
   };
   return (
     <div className="calendar-intro">
-      {referenceStep < 0 ? (
+      {selectedSeason !== null ? (
+        <section
+          className="season-detail"
+          aria-label={`${seasonMonths[selectedSeason].name}: три месяца`}
+        >
+          <button type="button" className="calendar-reference-link" onClick={closeSeason}>
+            ← Вернуться к кругу года
+          </button>
+          <p className="season-detail-kicker">Один сезон · три месяца</p>
+          <h3>{seasonMonths[selectedSeason].name}</h3>
+          <p>Нажми месяц — увидишь его место в этом времени года.</p>
+          <div
+            className="season-detail-months"
+            role="group"
+            aria-label={`Месяцы: ${seasonMonths[selectedSeason].name}`}
+          >
+            {seasonMonths[selectedSeason].months.map((name, index) => (
+              <button
+                key={name}
+                type="button"
+                aria-pressed={selectedMonth === index}
+                onClick={() => setSelectedMonth(index)}
+              >
+                <span>{index + 1}</span>
+                <strong>{name}</strong>
+              </button>
+            ))}
+          </div>
+          <p className="season-detail-discovery" aria-live="polite">
+            <strong>{seasonMonths[selectedSeason].months[selectedMonth]}</strong> —{' '}
+            {selectedMonth + 1}-й месяц этого времени года.
+          </p>
+          <button
+            type="button"
+            className="season-detail-next"
+            onClick={() => openSeason((selectedSeason + 1) % seasonMonths.length)}
+          >
+            Дальше — {seasonMonths[(selectedSeason + 1) % seasonMonths.length].name} →
+          </button>
+        </section>
+      ) : referenceStep < 0 ? (
         <>
           <p>После зимы приходит весна, затем лето, осень — и снова зима.</p>
           <div
             className="season-cycle"
-            role="img"
-            aria-label="Круг года: зима, весна, лето, осень, затем снова зима"
+            role="group"
+            aria-label="Круг года: зима, весна, лето, осень, затем снова зима. Нажми на время года."
           >
-            <svg viewBox="0 0 320 320" aria-hidden="true" className="season-cycle-ring">
-              <circle cx="160" cy="160" r="89" fill="none" stroke="#bfae8e" strokeWidth="1" />
-              <path
-                d="M 223 97 l 10 2 -3 10 M 223 223 l -10 2 -2 -10 M 97 223 l -10 -2 3 -10 M 97 97 l 10 -2 2 10"
-                fill="none"
-                stroke="#9a8866"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            <span className="season-cycle-center">Год</span>
-            {seasonMonths.map(({ name, image }) => (
-              <span
+            <span className="season-cycle-direction" aria-hidden="true">
+              ↻
+            </span>
+            <span className="season-cycle-center season-cycle-center-elegant">Год</span>
+            {seasonMonths.map(({ name, image }, index) => (
+              <button
+                type="button"
                 key={name}
-                className={`season-cycle-item season-cycle-${image}`}
-                aria-hidden="true"
+                className={`season-cycle-choice season-cycle-${image}`}
+                onClick={() => openSeason(index)}
+                aria-label={`Открыть: ${name}`}
               >
-                <span className="season-cycle-symbol">
-                  {image === 'winter' && <Snowflake aria-hidden="true" />}
-                  {image === 'spring' && <Flower2 aria-hidden="true" />}
-                  {image === 'summer' && <Sun aria-hidden="true" />}
-                  {image === 'autumn' && <Leaf aria-hidden="true" />}
-                </span>
+                {image === 'winter' && <Snowflake aria-hidden="true" />}
+                {image === 'spring' && <Flower2 aria-hidden="true" />}
+                {image === 'summer' && <Sun aria-hidden="true" />}
+                {image === 'autumn' && <Leaf aria-hidden="true" />}
                 <strong>{name}</strong>
-              </span>
+              </button>
             ))}
           </div>
           <button type="button" className="calendar-reference-link" onClick={() => setReference(0)}>

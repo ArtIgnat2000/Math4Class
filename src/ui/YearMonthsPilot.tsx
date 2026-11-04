@@ -18,7 +18,7 @@ export function YearMonthsPilot({ onPractice }: { onPractice: () => void }) {
   return (
     <div className="year-month-pilot">
       <p className="pilot-step" aria-live="polite">
-        Открытие {step + 1} из 3
+        Открытие {step + 1} из 4
       </p>
       {step === 0 && (
         <section aria-label="Круг года">
@@ -59,6 +59,34 @@ export function YearMonthsPilot({ onPractice }: { onPractice: () => void }) {
           </p>
         </section>
       )}
+      {step === 3 && (
+        <section aria-label="Несколько лет — группы по двенадцать">
+          <h3>Каждый год — ещё 12 месяцев</h3>
+          <p>Посмотри: три года — три одинаковые группы.</p>
+          <div
+            className="pilot-year-groups"
+            role="img"
+            aria-label="Три года: три отдельные группы по двенадцать месяцев. Ещё один месяц добавлен отдельно."
+          >
+            {[1, 2, 3].map((year) => (
+              <div className="pilot-year-group" key={year}>
+                <strong>{year}-й год</strong>
+                <span className="pilot-month-dots" aria-hidden="true">
+                  {Array.from({ length: 12 }, (_, index) => (
+                    <i key={index} />
+                  ))}
+                </span>
+                <span>12 месяцев</span>
+              </div>
+            ))}
+          </div>
+          <p className="pilot-group-formula">12 + 12 + 12 = 3 × 12</p>
+          <p className="pilot-extra-month">
+            <strong>+ 1 месяц</strong> — добавим отдельно, если он есть в условии.
+          </p>
+          <p className="pilot-example-note">Это пример для объяснения, не задание учебника.</p>
+        </section>
+      )}
       {!(step === 0 && referenceOpen) && (
         <div className="pilot-actions">
           {step > 0 && (
@@ -66,7 +94,7 @@ export function YearMonthsPilot({ onPractice }: { onPractice: () => void }) {
               <ArrowLeft size={18} /> Назад
             </button>
           )}
-          {step < 2 ? (
+          {step < 3 ? (
             <button type="button" className="button primary" onClick={() => setStep(step + 1)}>
               Дальше <ArrowRight size={18} />
             </button>

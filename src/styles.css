@@ -8427,3 +8427,242 @@ h1[tabindex='-1']:focus {
   background: #aa4b3c;
   transform: rotate(-35deg);
 }
+
+/* Three countable years; the fourth element is an extra month, not a fourth year. */
+.pilot-year-groups {
+  display: grid;
+  gap: 8px;
+  margin: 14px 0;
+}
+.pilot-year-group {
+  display: grid;
+  grid-template-columns: 70px minmax(0, 1fr) 98px;
+  align-items: center;
+  gap: 7px;
+  padding: 10px;
+  border: 1px solid #bad2cf;
+  border-radius: 12px;
+  background: #f1f8f5;
+  color: #243d36;
+  font-size: 13px;
+}
+.pilot-year-group strong {
+  font-size: 14px;
+}
+.pilot-month-dots {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 4px;
+}
+.pilot-month-dots i {
+  display: block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #43a5b5;
+  border: 1px solid #287b8b;
+}
+.pilot-group-formula {
+  margin: 12px 0;
+  padding: 12px;
+  border-radius: 10px;
+  background: #e8f3f1;
+  text-align: center;
+  color: #204a42;
+  font-size: clamp(20px, 5vw, 27px);
+  font-weight: 800;
+}
+.pilot-extra-month {
+  padding: 10px 12px;
+  border-left: 4px solid #e6a849;
+  background: #fff5df;
+}
+.pilot-example-note {
+  font-size: 12px !important;
+  color: #526255;
+}
+@media (max-width: 380px) {
+  .pilot-year-group {
+    grid-template-columns: 54px minmax(0, 1fr) 72px;
+    padding: 7px;
+    font-size: 11px;
+    gap: 4px;
+  }
+  .pilot-year-group strong {
+    font-size: 12px;
+  }
+  .pilot-month-dots i {
+    width: 9px;
+    height: 9px;
+  }
+}
+
+/* Clickable quadrants: the ring is one continuous year, but no label overlaps its centre. */
+.season-cycle {
+  position: relative;
+  width: min(100%, 300px, 36vh);
+  min-width: min(100%, 220px);
+  margin: 14px auto 20px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fffdf7 0 35%, #f6f2e7 69%, #fbfaf5 72%);
+  box-shadow:
+    0 12px 34px #29382c12,
+    inset 0 0 0 1px #c9b99a;
+}
+.season-cycle-center {
+  position: absolute;
+  inset: 38% 33% auto;
+  padding: 10px 0;
+  border-top: 1px solid #c7ac78;
+  border-bottom: 1px solid #c7ac78;
+  color: #26372f;
+  font-size: 21px;
+  letter-spacing: 0.07em;
+  text-align: center;
+  font-weight: 800;
+}
+.season-cycle-choice {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  width: 82px;
+  height: 70px;
+  border: 0;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #fffdf7 0%, #f6f2e7 100%);
+  color: #18342e;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px #21372b18;
+  transition:
+    transform 150ms ease-out,
+    box-shadow 150ms ease-out,
+    background 150ms ease-out;
+}
+.season-cycle-choice svg {
+  width: 28px;
+  height: 28px;
+  stroke-width: 1.8;
+}
+.season-cycle-choice:hover {
+  transform: translate(-50%, -50%) scale(1.04);
+  box-shadow: 0 6px 16px #21372b28;
+  background: linear-gradient(135deg, #f6f2e7 0%, #fffdf7 100%);
+}
+.season-cycle-choice:active {
+  transform: translate(-50%, -50%) scale(0.97);
+}
+.season-cycle-choice:focus-visible {
+  outline: 3px solid #172f39;
+  outline-offset: 2px;
+}
+.season-cycle .season-cycle-winter {
+  top: 12%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.season-cycle .season-cycle-spring {
+  top: 50%;
+  left: 88%;
+  transform: translate(-50%, -50%);
+}
+.season-cycle .season-cycle-summer {
+  top: 88%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.season-cycle .season-cycle-autumn {
+  top: 50%;
+  left: 12%;
+  transform: translate(-50%, -50%);
+}
+.season-cycle .season-cycle-choice:hover {
+  transform: translate(-50%, -50%) scale(1.04);
+}
+.season-cycle .season-cycle-choice:active {
+  transform: translate(-50%, -50%) scale(0.97);
+}
+@media (prefers-reduced-motion: reduce) {
+  .season-cycle-choice {
+    transition: none;
+  }
+}
+.season-detail {
+  min-height: 320px;
+}
+.season-detail-kicker {
+  margin: 18px 0 3px;
+  color: #4a6856;
+  font-size: 13px !important;
+  font-weight: 700;
+}
+.season-detail h3 {
+  margin: 4px 0 8px;
+}
+.season-detail > p {
+  line-height: 1.4;
+}
+.season-detail-months {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 16px 0;
+}
+.season-detail-months button {
+  min-height: 78px;
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 4px;
+  border: 2px solid #c2d7cc;
+  border-radius: 12px;
+  background: #f2faf5;
+  color: #203d32;
+  font: inherit;
+  cursor: pointer;
+}
+.season-detail-months button span {
+  font-size: 22px;
+  font-weight: 800;
+}
+.season-detail-months button strong {
+  font-size: 13px;
+}
+.season-detail-months button[aria-pressed='true'] {
+  border-color: #2a735b;
+  background: #d9f1e5;
+}
+.season-detail-months button:focus-visible {
+  outline: 3px solid #193c32;
+  outline-offset: 2px;
+}
+.season-detail-discovery {
+  padding: 14px;
+  border-radius: 12px;
+  background: #e6f3ed;
+  color: #193c32;
+}
+.season-detail-end {
+  font-size: 13px !important;
+  color: #496151;
+}
+
+.season-detail-next {
+  min-height: 44px;
+  width: 100%;
+  border: 1px solid #438d75;
+  border-radius: 11px;
+  background: #e8f4eb;
+  color: #173d30;
+  font: inherit;
+  font-weight: 750;
+  cursor: pointer;
+}
+.season-detail-next:focus-visible {
+  outline: 3px solid #193c32;
+  outline-offset: 2px;
+}
