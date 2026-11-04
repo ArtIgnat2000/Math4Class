@@ -183,11 +183,17 @@ const seasonMonths = [
   { name: 'Осень', image: 'autumn', months: ['Сентябрь', 'Октябрь', 'Ноябрь'] },
 ] as const;
 
-export function CalendarIntro() {
-  const [showReference, setShowReference] = useState(false);
+export function CalendarIntro({
+  onReferenceChange,
+}: { onReferenceChange?: (open: boolean) => void } = {}) {
+  const [referenceStep, setReferenceStep] = useState(-1);
+  const setReference = (step: number) => {
+    setReferenceStep(step);
+    onReferenceChange?.(step >= 0);
+  };
   return (
     <div className="calendar-intro">
-      {!showReference ? (
+      {referenceStep < 0 ? (
         <>
           <p>После зимы приходит весна, затем лето, осень — и снова зима.</p>
           <div
@@ -196,31 +202,12 @@ export function CalendarIntro() {
             aria-label="Круг года: зима, весна, лето, осень, затем снова зима"
           >
             <svg viewBox="0 0 320 320" aria-hidden="true" className="season-cycle-ring">
-              <circle cx="160" cy="160" r="111" fill="none" stroke="#aa956f" strokeWidth="1" />
-              <circle
-                cx="160"
-                cy="160"
-                r="98"
-                fill="none"
-                stroke="#8b7858"
-                strokeWidth="1"
-                strokeDasharray="1 6"
-              />
-              <circle
-                cx="160"
-                cy="160"
-                r="110"
-                fill="none"
-                stroke="#d2b980"
-                strokeWidth="5"
-                strokeDasharray="159 14"
-                transform="rotate(-90 160 160)"
-              />
+              <circle cx="160" cy="160" r="89" fill="none" stroke="#bfae8e" strokeWidth="1" />
               <path
-                d="M 238 75 l 15 8 -14 5 M 245 237 l -8 16 -5 -14 M 82 245 l -15 -8 14 -5 M 75 83 l 8 -16 5 14"
+                d="M 223 97 l 10 2 -3 10 M 223 223 l -10 2 -2 -10 M 97 223 l -10 -2 3 -10 M 97 97 l 10 -2 2 10"
                 fill="none"
-                stroke="#d2b980"
-                strokeWidth="3"
+                stroke="#9a8866"
+                strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
@@ -242,68 +229,107 @@ export function CalendarIntro() {
               </span>
             ))}
           </div>
-          <button
-            type="button"
-            className="calendar-reference-link"
-            onClick={() => setShowReference(true)}
-          >
+          <button type="button" className="calendar-reference-link" onClick={() => setReference(0)}>
             Посмотреть месяцы и римские цифры →
           </button>
         </>
       ) : (
-        <div className="calendar-reference-page">
+        <div className="calendar-reference-page" aria-live="polite">
           <button
             type="button"
             className="calendar-reference-link"
-            onClick={() => setShowReference(false)}
+            onClick={() => setReference(-1)}
           >
             ← Вернуться к кругу года
           </button>
-          <h3>Месяцы года</h3>
-          <div className="calendar-season-months">
-            {seasonMonths.map(({ name, image, months }) => (
-              <div key={name}>
-                <img
-                  src={`${import.meta.env.BASE_URL}illustrations/calendar/${image}.webp`}
-                  alt=""
-                />
-                <strong>{name}</strong>
-                <span>{months.join(' · ')}</span>
+          {referenceStep === 0 ? (
+            <>
+              <h3>Четыре времени года</h3>
+              <p>У каждого времени года — свои три месяца. Рассмотри их по порядку.</p>
+              <div className="calendar-season-months">
+                {seasonMonths.map(({ name, months }) => (
+                  <div key={name}>
+                    <strong>{name}</strong>
+                    <span>{months.join(' · ')}</span>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-          <p>
-            Римские цифры — ещё один способ записывать числа: I = 1, V = 5, X = 10. Например, IV = 4
-            (один перед пятью), IX = 9 (один перед десятью), XII = 12 (десять и два).
-          </p>
-          <div
-            className="calendar-roman-grid"
-            aria-label="Месяцы от января до декабря и их римские номера"
-          >
-            {[
-              ['I', 'Январь'],
-              ['II', 'Февраль'],
-              ['III', 'Март'],
-              ['IV', 'Апрель'],
-              ['V', 'Май'],
-              ['VI', 'Июнь'],
-              ['VII', 'Июль'],
-              ['VIII', 'Август'],
-              ['IX', 'Сентябрь'],
-              ['X', 'Октябрь'],
-              ['XI', 'Ноябрь'],
-              ['XII', 'Декабрь'],
-            ].map(([roman, name], index) => (
-              <div key={roman}>
-                <img
-                  src={`${import.meta.env.BASE_URL}illustrations/calendar/${monthArt[name.toLocaleLowerCase('ru').slice(0, 3)]}`}
-                  alt=""
-                />
-                <strong>{roman}</strong>
-                <span>{name}</span>
-                <small>{index + 1}</small>
+            </>
+          ) : (
+            <>
+              <h3>{referenceStep === 1 ? 'От января до июня' : 'От июля до декабря'}</h3>
+              <div
+                className="roman-demo"
+                aria-label={
+                  referenceStep === 1
+                    ? 'IV равно четырём: пять минус один'
+                    : 'IX равно девяти: десять минус один'
+                }
+              >
+                <span className="roman-demo-symbol">{referenceStep === 1 ? 'IV' : 'IX'}</span>
+                <span className="roman-demo-equals">=</span>
+                <span className="roman-demo-number">{referenceStep === 1 ? '4' : '9'}</span>
+                <span className="roman-demo-caption">
+                  {referenceStep === 1 ? 'I перед V: 5 − 1' : 'I перед X: 10 − 1'}
+                </span>
+                <span className="roman-demo-dots" aria-hidden="true">
+                  {Array.from({ length: referenceStep === 1 ? 5 : 10 }, (_, index) => (
+                    <span key={index} className={index === 0 ? 'roman-dot-removed' : ''} />
+                  ))}
+                </span>
               </div>
-            ))}
+              <p className="roman-hint">
+                {referenceStep === 1
+                  ? 'I — один, V — пять. Найди апрель — четвёртый месяц.'
+                  : 'X — десять. После сентября идут октябрь, ноябрь и декабрь.'}
+              </p>
+              <div className="calendar-roman-grid" aria-label="Номера месяцев римскими цифрами">
+                {[
+                  ['I', 'Январь'],
+                  ['II', 'Февраль'],
+                  ['III', 'Март'],
+                  ['IV', 'Апрель'],
+                  ['V', 'Май'],
+                  ['VI', 'Июнь'],
+                  ['VII', 'Июль'],
+                  ['VIII', 'Август'],
+                  ['IX', 'Сентябрь'],
+                  ['X', 'Октябрь'],
+                  ['XI', 'Ноябрь'],
+                  ['XII', 'Декабрь'],
+                ]
+                  .slice(referenceStep === 1 ? 0 : 6, referenceStep === 1 ? 6 : 12)
+                  .map(([roman, name], index) => (
+                    <div key={roman}>
+                      <strong>{roman}</strong>
+                      <span>{name}</span>
+                      <small aria-label={`Номер ${index + (referenceStep === 1 ? 1 : 7)}`}>
+                        {index + (referenceStep === 1 ? 1 : 7)}
+                      </small>
+                    </div>
+                  ))}
+              </div>
+            </>
+          )}
+          <div className="calendar-reference-nav">
+            {referenceStep > 0 && (
+              <button
+                type="button"
+                className="button secondary"
+                onClick={() => setReference(referenceStep - 1)}
+              >
+                Назад
+              </button>
+            )}
+            {referenceStep < 2 && (
+              <button
+                type="button"
+                className="button primary"
+                onClick={() => setReference(referenceStep + 1)}
+              >
+                Дальше
+              </button>
+            )}
           </div>
         </div>
       )}

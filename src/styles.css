@@ -8198,3 +8198,232 @@ h1[tabindex='-1']:focus {
 .year-month-pilot .season-cycle-summer {
   left: calc(50% - 35px);
 }
+
+/* Four continuous seasons: colour transitions are part of one ring, not separate stickers. */
+.year-month-pilot .season-cycle {
+  width: min(100%, 310px, 38vh);
+  min-width: min(100%, 220px);
+  background: conic-gradient(
+    from -45deg,
+    #56afe0 0deg,
+    #69bce4 38deg,
+    #68c4b5 52deg,
+    #69d18a 90deg,
+    #9dd974 128deg,
+    #eed36a 142deg,
+    #ffd05a 180deg,
+    #ffad60 218deg,
+    #f78d60 232deg,
+    #f18b62 270deg,
+    #b69ac5 308deg,
+    #56afe0 322deg 360deg
+  );
+  border: 1px solid #b6aa8f;
+  box-shadow: 0 14px 28px #19392a28;
+}
+.year-month-pilot .season-cycle::before {
+  content: '';
+  position: absolute;
+  inset: 29%;
+  border-radius: 50%;
+  background: #fffdf6;
+  border: 1px solid #d5cbb5;
+  box-shadow: 0 2px 12px #1b352630;
+}
+.year-month-pilot .season-cycle-ring {
+  position: relative;
+}
+.year-month-pilot .season-cycle-center {
+  inset: 43% 30% auto;
+  padding: 0;
+  border: 0;
+  color: #26372f;
+  font-size: 22px;
+}
+.year-month-pilot .season-cycle-item {
+  width: 72px;
+  padding: 2px;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  color: #172d28;
+  text-shadow: 0 1px 2px #ffffffcc;
+  font-weight: 800;
+}
+.year-month-pilot .season-cycle-symbol {
+  background: #fffdf5e8 !important;
+  color: #253c33 !important;
+  border: 1px solid #ffffffb8;
+  width: 38px;
+  height: 38px;
+}
+.year-month-pilot .season-cycle-item strong {
+  background: #fffdf5dd;
+  padding: 1px 5px;
+  border-radius: 5px;
+}
+.year-month-pilot .season-cycle-winter {
+  top: 12px;
+}
+.year-month-pilot .season-cycle-summer {
+  bottom: 12px;
+}
+.year-month-pilot .season-cycle-spring {
+  right: 9px;
+}
+.year-month-pilot .season-cycle-autumn {
+  left: 9px;
+}
+.year-month-pilot .calendar-reference-page {
+  min-height: 330px;
+}
+.year-month-pilot .calendar-reference-page .calendar-season-months {
+  grid-template-columns: 1fr;
+}
+.year-month-pilot .calendar-reference-page .calendar-season-months > div {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 12px;
+  padding: 12px;
+  border-left: 4px solid #8d9e85;
+}
+.year-month-pilot .calendar-reference-page .calendar-season-months > div:nth-child(1) {
+  border-color: #38a7de;
+}
+.year-month-pilot .calendar-reference-page .calendar-season-months > div:nth-child(2) {
+  border-color: #51c676;
+}
+.year-month-pilot .calendar-reference-page .calendar-season-months > div:nth-child(3) {
+  border-color: #e5b63a;
+}
+.year-month-pilot .calendar-reference-page .calendar-season-months > div:nth-child(4) {
+  border-color: #ee8450;
+}
+.year-month-pilot .calendar-reference-page .calendar-roman-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.year-month-pilot .calendar-reference-page .calendar-roman-grid > div {
+  min-height: 48px;
+  padding: 6px 10px;
+}
+.calendar-reference-nav {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
+}
+.calendar-reference-nav .button {
+  min-height: 44px;
+}
+
+/* Roman numerals: one worked visual relationship, then six readable months. */
+.roman-demo {
+  display: grid;
+  grid-template-columns: auto auto auto 1fr;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border: 1px solid #b6cdd0;
+  border-radius: 14px;
+  background: #eaf5f7;
+  color: #243d42;
+}
+.roman-demo-symbol,
+.roman-demo-number {
+  display: grid;
+  place-items: center;
+  min-width: 50px;
+  min-height: 50px;
+  border-radius: 11px;
+  background: white;
+  font-size: 27px;
+  font-weight: 850;
+}
+.roman-demo-equals {
+  font-size: 24px;
+  font-weight: 800;
+}
+.roman-demo-caption {
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+.calendar-reference-page .roman-hint {
+  font-size: 14px;
+  line-height: 1.35;
+  margin: 10px 0;
+}
+.year-month-pilot .calendar-reference-page .calendar-roman-grid > div {
+  min-height: 60px;
+  display: grid;
+  grid-template-columns: 42px 1fr;
+  grid-template-rows: 1fr auto;
+  column-gap: 8px;
+  padding: 7px 9px;
+  background: #f7f9f2;
+}
+.year-month-pilot .calendar-reference-page .calendar-roman-grid strong {
+  grid-row: span 2;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  border-radius: 9px;
+  background: #dbeae4;
+  color: #214536;
+  font-size: 20px;
+}
+.year-month-pilot .calendar-reference-page .calendar-roman-grid span {
+  align-self: end;
+  font-size: 13px;
+  font-weight: 700;
+}
+.year-month-pilot .calendar-reference-page .calendar-roman-grid small {
+  align-self: start;
+  margin: 0;
+  font-size: 11px;
+}
+@media (max-width: 400px) {
+  .roman-demo {
+    gap: 6px;
+    padding: 8px;
+  }
+  .roman-demo-symbol,
+  .roman-demo-number {
+    min-width: 42px;
+    min-height: 44px;
+    font-size: 23px;
+  }
+  .roman-demo-caption {
+    font-size: 12px;
+  }
+}
+.roman-demo-dots {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  padding: 2px 4px;
+}
+.roman-demo-dots > span {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #48a2af;
+  border: 1px solid #297485;
+}
+.roman-demo-dots > .roman-dot-removed {
+  background: #e7edf0;
+  border-color: #96aeb4;
+  position: relative;
+}
+.roman-dot-removed::after {
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: -2px;
+  width: 16px;
+  height: 2px;
+  background: #aa4b3c;
+  transform: rotate(-35deg);
+}

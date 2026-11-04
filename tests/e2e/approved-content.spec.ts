@@ -35,8 +35,14 @@ test('calendar explanation is visual, separate from checked textbook exercises',
   );
   await dialog.getByText('Посмотреть месяцы и римские цифры').click();
   await expect(dialog.locator('.calendar-season-months > div')).toHaveCount(4);
-  await expect(dialog.getByText(/IV = 4/)).toBeVisible();
-  await expect(dialog.locator('.calendar-roman-grid > div')).toHaveCount(12);
+  await expect(dialog.locator('.calendar-roman-grid > div')).toHaveCount(0);
+  await dialog.getByRole('button', { name: 'Дальше' }).click();
+  await expect(dialog.locator('.roman-demo')).toContainText('IV');
+  await expect(dialog.locator('.roman-demo')).toContainText('5 − 1');
+  await expect(dialog.locator('.calendar-roman-grid > div')).toHaveCount(6);
+  await dialog.getByRole('button', { name: 'Дальше' }).click();
+  await expect(dialog.locator('.calendar-roman-grid > div')).toHaveCount(6);
+  await expect(dialog.getByText('Декабрь', { exact: true })).toBeVisible();
   await expect(page.locator('.task-card')).toHaveCount(0);
   await dialog.getByRole('button', { name: 'Вернуться к кругу года' }).click();
   await dialog.getByRole('button', { name: 'Дальше' }).click();

@@ -13,6 +13,7 @@ const groups = [
 export function YearMonthsPilot({ onPractice }: { onPractice: () => void }) {
   const [step, setStep] = useState(0);
   const [selected, setSelected] = useState(0);
+  const [referenceOpen, setReferenceOpen] = useState(false);
   const group = groups[selected];
   return (
     <div className="year-month-pilot">
@@ -22,7 +23,7 @@ export function YearMonthsPilot({ onPractice }: { onPractice: () => void }) {
       {step === 0 && (
         <section aria-label="Круг года">
           <h3>Куда год возвращается?</h3>
-          <CalendarIntro />
+          <CalendarIntro onReferenceChange={setReferenceOpen} />
         </section>
       )}
       {step === 1 && (
@@ -58,22 +59,24 @@ export function YearMonthsPilot({ onPractice }: { onPractice: () => void }) {
           </p>
         </section>
       )}
-      <div className="pilot-actions">
-        {step > 0 && (
-          <button type="button" className="button secondary" onClick={() => setStep(step - 1)}>
-            <ArrowLeft size={18} /> Назад
-          </button>
-        )}
-        {step < 2 ? (
-          <button type="button" className="button primary" onClick={() => setStep(step + 1)}>
-            Дальше <ArrowRight size={18} />
-          </button>
-        ) : (
-          <button type="button" className="button primary" onClick={onPractice}>
-            Проверить себя <ArrowRight size={18} />
-          </button>
-        )}
-      </div>
+      {!(step === 0 && referenceOpen) && (
+        <div className="pilot-actions">
+          {step > 0 && (
+            <button type="button" className="button secondary" onClick={() => setStep(step - 1)}>
+              <ArrowLeft size={18} /> Назад
+            </button>
+          )}
+          {step < 2 ? (
+            <button type="button" className="button primary" onClick={() => setStep(step + 1)}>
+              Дальше <ArrowRight size={18} />
+            </button>
+          ) : (
+            <button type="button" className="button primary" onClick={onPractice}>
+              Проверить себя <ArrowRight size={18} />
+            </button>
+          )}
+        </div>
+      )}
     </div>
   );
 }
