@@ -8666,3 +8666,145 @@ h1[tabindex='-1']:focus {
   outline: 3px solid #193c32;
   outline-offset: 2px;
 }
+
+/* Premium tactile finish for the month reference: luminous glass, not a flat table. */
+.year-month-pilot .calendar-reference-page {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(16px, 3vw, 26px);
+  border: 1px solid rgba(255, 255, 255, 0.78);
+  border-radius: 28px;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.88), rgba(236, 245, 246, 0.76));
+  box-shadow: 0 22px 48px rgba(36, 67, 76, 0.12), inset 0 1px rgba(255, 255, 255, 0.95);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  animation: reference-arrive 420ms cubic-bezier(0.34, 1.36, 0.64, 1) both;
+}
+.year-month-pilot .calendar-reference-page .calendar-roman-grid > div {
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: 17px;
+  background: linear-gradient(145deg, #fff, #edf3f3);
+  box-shadow: 5px 7px 14px rgba(78, 113, 124, 0.15), inset 0 1px 0 #fff;
+  transition: transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 220ms ease, border-color 220ms ease;
+}
+.year-month-pilot .calendar-reference-page .calendar-roman-grid > div:hover {
+  z-index: 1;
+  transform: translateY(-3px) scale(1.035);
+  border-color: rgba(88, 167, 174, 0.55);
+  box-shadow: 0 10px 24px rgba(60, 145, 155, 0.2), inset 0 1px 0 #fff;
+}
+.year-month-pilot .calendar-reference-page .calendar-roman-grid strong {
+  background: linear-gradient(145deg, #fff4d8, #f0c982);
+  color: #72501d;
+  font-family: Georgia, 'Times New Roman', serif;
+  text-shadow: 0 1px 0 rgba(255,255,255,.9);
+  box-shadow: inset 0 1px 2px rgba(255,255,255,.95), 0 3px 7px rgba(126, 92, 35, .14);
+  transition: transform 220ms ease, box-shadow 220ms ease;
+}
+.year-month-pilot .calendar-reference-page .calendar-roman-grid > div:hover strong {
+  transform: scale(1.08);
+  box-shadow: 0 0 18px rgba(238, 183, 79, .42), inset 0 1px 2px #fff;
+}
+@keyframes reference-arrive {
+  from { opacity: 0; transform: scale(.96) translateY(8px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .year-month-pilot .calendar-reference-page,
+  .year-month-pilot .calendar-reference-page .calendar-roman-grid > div,
+  .year-month-pilot .calendar-reference-page .calendar-roman-grid strong {
+    animation: none;
+    transition: none;
+  }
+}
+
+/* The regular calendar lesson uses CalendarIntro outside the year pilot. */
+.calendar-intro .calendar-reference-page {
+  padding: 18px;
+  border: 1px solid rgba(255,255,255,.8);
+  border-radius: 24px;
+  background: linear-gradient(145deg, rgba(255,255,255,.94), rgba(232,244,245,.9));
+  box-shadow: 0 18px 42px rgba(39,76,83,.14), inset 0 1px 0 #fff;
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  animation: reference-arrive 420ms cubic-bezier(.34,1.36,.64,1) both;
+}
+.calendar-intro .calendar-reference-page .calendar-roman-grid > div {
+  position: relative;
+  border: 1px solid rgba(255,255,255,.94);
+  border-radius: 14px;
+  background: linear-gradient(145deg,#fff,#edf3f3);
+  box-shadow: 4px 6px 12px rgba(78,113,124,.16), inset 0 1px 0 #fff;
+  transition: transform 220ms ease, box-shadow 220ms ease;
+}
+.calendar-intro .calendar-reference-page .calendar-roman-grid > div:hover {
+  transform: translateY(-3px) scale(1.035);
+  box-shadow: 0 10px 22px rgba(60,145,155,.22), inset 0 1px 0 #fff;
+}
+.calendar-intro .calendar-reference-page .calendar-roman-grid strong {
+  font-family: Georgia, 'Times New Roman', serif;
+  color: #72501d;
+  background: linear-gradient(145deg,#fff4d8,#f0c982);
+  border-radius: 9px;
+  padding: 5px;
+  box-shadow: inset 0 1px 2px #fff, 0 3px 7px rgba(126,92,35,.14);
+  transition: transform 220ms ease, box-shadow 220ms ease;
+}
+.calendar-intro .calendar-reference-page .calendar-roman-grid > div:hover strong {
+  transform: scale(1.08);
+  box-shadow: 0 0 16px rgba(238,183,79,.42), inset 0 1px 2px #fff;
+}
+@media (prefers-reduced-motion: reduce) {
+  .calendar-intro .calendar-reference-page,
+  .calendar-intro .calendar-reference-page .calendar-roman-grid > div,
+  .calendar-intro .calendar-reference-page .calendar-roman-grid strong { animation:none; transition:none; }
+}
+
+/* Season overview is the first reference page users actually see. */
+.calendar-reference-page .calendar-season-months {
+  gap: 10px;
+  margin: 16px 0 20px;
+}
+.calendar-reference-page .calendar-season-months > div {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(66px, auto) 1fr;
+  align-items: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: 10px 14px;
+  border: 1px solid rgba(255,255,255,.88);
+  border-left: 5px solid var(--season-accent, #54a9cf);
+  border-radius: 16px;
+  background: linear-gradient(110deg, rgba(255,255,255,.98), rgba(242,248,246,.9));
+  box-shadow: 0 5px 14px rgba(51,80,70,.09), inset 0 1px 0 #fff;
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+.calendar-reference-page .calendar-season-months > div:nth-child(1) { --season-accent: #36a8e1; }
+.calendar-reference-page .calendar-season-months > div:nth-child(2) { --season-accent: #51c884; }
+.calendar-reference-page .calendar-season-months > div:nth-child(3) { --season-accent: #f0b832; }
+.calendar-reference-page .calendar-season-months > div:nth-child(4) { --season-accent: #f18450; }
+.calendar-reference-page .calendar-season-months > div:hover {
+  transform: translateX(3px);
+  box-shadow: 0 9px 20px rgba(51,80,70,.14), inset 0 1px 0 #fff;
+}
+.calendar-reference-page .calendar-season-months > div strong {
+  color: #304a3a;
+  font-size: 15px;
+}
+.calendar-reference-page .calendar-season-months > div span {
+  color: #3e5748;
+  font-size: 13px;
+  line-height: 1.4;
+}
+@media (max-width: 440px) {
+  .calendar-reference-page .calendar-season-months > div {
+    grid-template-columns: 1fr;
+    gap: 3px;
+    padding: 9px 12px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .calendar-reference-page .calendar-season-months > div { transition: none; }
+}
