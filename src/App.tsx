@@ -13,6 +13,7 @@ import {
   Info,
   Menu,
   RotateCcw,
+  Share2,
   Settings2,
   ShieldCheck,
   Sprout,
@@ -77,6 +78,7 @@ export default function App() {
   const [updateAvailable, setUpdateAvailable] = useState(false);
   const [updateError, setUpdateError] = useState(false);
   const [offlineReady, setOfflineReady] = useState(false);
+  const [shareNotice, setShareNotice] = useState('');
   const updatePwa = useRef<((reloadPage?: boolean) => Promise<void>) | null>(null);
   const updating = useRef(false);
   const installPrompt = useRef<InstallPrompt | null>(null);
@@ -84,6 +86,32 @@ export default function App() {
     setRoute(next);
     setMobileOpen(false);
     window.location.hash = `/${next}`;
+  };
+  const shareApp = async () => {
+    const url = `${window.location.origin}${window.location.pathname}`;
+    const shareData = { title: 'Число — математика для детей', text: 'Учимся математике с интересом!', url };
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+        setShareNotice('Спасибо, что делитесь приложением!');
+      } else if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(url);
+        setShareNotice('Ссылка на приложение скопирована');
+      } else {
+        window.prompt('Скопируйте ссылку на приложение:', url);
+        setShareNotice('Поделитесь ссылкой на приложение');
+      }
+    } catch (error) {
+      if (error instanceof Error && error.name === 'AbortError') return;
+      try {
+        await navigator.clipboard.writeText(url);
+        setShareNotice('Ссылка на приложение скопирована');
+      } catch {
+        window.prompt('Скопируйте ссылку на приложение:', url);
+        setShareNotice('Поделитесь ссылкой на приложение');
+      }
+    }
+    window.setTimeout(() => setShareNotice(''), 3500);
   };
   useEffect(() => {
     const hashChanged = () => {
@@ -442,6 +470,12 @@ export default function App() {
                 </div>
                 <ChevronRight size={14} />
               </button>
+              <button className="share-app-button" onClick={() => void shareApp()}>
+                <Share2 size={18} strokeWidth={1.8} />
+                <span>Поделиться приложением</span>
+                <ChevronRight size={14} />
+              </button>
+              {shareNotice && <p className="share-app-notice" role="status">{shareNotice}</p>}
               <a
                 className={`parent-nav ${route === 'parents' ? 'active' : ''}`}
                 href="#/parents"

@@ -8808,3 +8808,36 @@ h1[tabindex='-1']:focus {
 @media (prefers-reduced-motion: reduce) {
   .calendar-reference-page .calendar-season-months > div { transition: none; }
 }
+.share-app-button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  margin-top: 8px;
+  padding: 11px 10px;
+  border: 1px solid #e2e9dc;
+  border-radius: 10px;
+  background: #fff;
+  color: #4a624c;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 700;
+  transition: background 160ms ease, border-color 160ms ease, transform 160ms ease;
+}
+.share-app-button span { flex: 1; }
+.share-app-button > svg:last-child { color: #7a8773; }
+.share-app-button:hover {
+  transform: translateY(-1px);
+  border-color: #b8c9ac;
+  background: #f4f8ef;
+}
+.share-app-button:focus-visible {
+  outline: 3px solid rgba(83, 129, 79, .32);
+  outline-offset: 2px;
+}
+.share-app-notice {
+  padding: 5px 10px 0;
+  color: #4c704b;
+  font-size: 10px;
+  line-height: 1.4;
+}
