@@ -11,7 +11,7 @@ const topics = BUILTIN_PACKS[4].topics;
 describe('card purpose and interface help', () => {
   it('explains the current step and distinguishes the unscored game', () => {
     render(<RomanNumeralsPilot onPractice={vi.fn()} />);
-    expect(screen.getByText('Объяснение')).toBeVisible();
+    expect(screen.getByText('Теория')).toBeVisible();
     const help = screen.getByRole('button', { name: 'Справка' });
     expect(help).toHaveAttribute('aria-expanded', 'false');
     fireEvent.click(help);
@@ -24,12 +24,12 @@ describe('card purpose and interface help', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Справка' }));
     expect(screen.getByText(/Знаки можно переставлять и убирать/)).toBeVisible();
     fireEvent.click(screen.getByRole('button', { name: 'К объяснению' }));
-    expect(screen.getByText('Объяснение')).toBeVisible();
+    expect(screen.getByText('Теория')).toBeVisible();
   });
 
   it('describes the year game separately', () => {
     render(<YearMonthsPilot onPractice={vi.fn()} />);
-    fireEvent.click(screen.getByRole('button', { name: 'Игра «Собери год»' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Играть — игра «Собери год»' }));
     expect(screen.getByText('Тренажёр')).toBeVisible();
     fireEvent.click(screen.getByRole('button', { name: 'Справка' }));
     expect(screen.getByText(/Расставь месяцы по порядку/)).toBeVisible();
@@ -49,7 +49,7 @@ describe('card purpose and interface help', () => {
         onExit={vi.fn()}
       />,
     );
-    expect(screen.getByText('Проверка')).toBeVisible();
+    expect(screen.getByText('Практика')).toBeVisible();
     const answer = screen.getByLabelText('Твой ответ');
     fireEvent.change(answer, { target: { value: '4' } });
     fireEvent.click(screen.getByRole('button', { name: 'Справка' }));
@@ -70,7 +70,7 @@ describe('card purpose and interface help', () => {
       <TopicDialog topic={topic} isDemo={false} mode="learn" onClose={vi.fn()} onStart={vi.fn()} />,
     );
     const dialog = screen.getByRole('dialog');
-    expect(within(dialog).getByText('Объяснение')).toBeVisible();
+    expect(within(dialog).getByText('Теория')).toBeVisible();
     fireEvent.click(within(dialog).getByRole('button', { name: 'Справка' }));
     expect(within(dialog).getByText(/Изучи правило/)).toBeVisible();
   });

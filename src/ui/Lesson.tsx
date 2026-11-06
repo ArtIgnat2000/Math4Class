@@ -1,5 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
-import { ArrowLeft, ArrowRight, BookOpen, Check, CircleCheck, Lightbulb, Star } from 'lucide-react';
+import {
+  ArrowLeft,
+  ArrowRight,
+  BookOpen,
+  Check,
+  CircleCheck,
+  Lightbulb,
+  Star,
+  X,
+} from 'lucide-react';
 import type { Task, Topic } from '../engine/content';
 import type { Answer, LessonResult, Session, TopicProgress } from '../engine/model';
 import { answerLabel, initialOrder, parseNumericAnswer } from '../engine/answers';
@@ -16,7 +25,8 @@ import { CalendarIntro, CalendarVisual } from './CalendarVisual';
 import { YearMonthsPilot } from './YearMonthsPilot';
 import { RomanNumeralsPilot } from './RomanNumeralsPilot';
 import { NumericKeypad } from './NumericKeypad';
-import { CardGuide } from './CardGuide';
+import { CardGuide, CardTitleContext } from './CardGuide';
+import { StepIndicator } from './StepIndicator';
 import { OrderAnswer } from './OrderAnswer';
 import { Brand, Modal, ProgressBar, Stars, TopicSymbol } from './shared';
 
@@ -77,14 +87,13 @@ function TaskReference({ topic, onClose }: { topic: Topic; onClose: () => void }
       onClose={onClose}
       className="topic-dialog mass-intro-dialog task-reference-dialog"
     >
-      {back}
       {topic.id === 'calendar-years-months' ? (
         <YearMonthsPilot onPractice={onClose} practiceLabel="Вернуться к заданию" />
       ) : topic.id === 'roman-numerals' ? (
         <RomanNumeralsPilot onPractice={onClose} practiceLabel="Вернуться к заданию" />
       ) : (
         <>
-          <CardGuide kind="Объяснение">
+          <CardGuide kind="Теория">
             Изучи рисунок или правило. Попробуй доступные кнопки, затем вернись к заданию.
           </CardGuide>
           {topic.id.startsWith('calendar-') ? (
@@ -102,6 +111,7 @@ function TaskReference({ topic, onClose }: { topic: Topic; onClose: () => void }
           )}
         </>
       )}
+      {back}
     </Modal>
   );
 }
@@ -144,7 +154,7 @@ export function TopicDialog({
   if (topic.id.startsWith('calendar-'))
     return (
       <Modal title={topic.title} onClose={onClose} className="topic-dialog mass-intro-dialog">
-        <CardGuide kind="Объяснение">
+        <CardGuide kind="Теория">
           Изучи рисунок и попробуй доступные кнопки. Когда будешь готов, начни занятие.
         </CardGuide>
         <CalendarIntro />
@@ -161,7 +171,7 @@ export function TopicDialog({
   if (topic.id === 'mass-word-problems')
     return (
       <Modal title={topic.title} onClose={onClose} className="topic-dialog mass-intro-dialog">
-        <CardGuide kind="Объяснение">
+        <CardGuide kind="Теория">
           Изучи рисунок и попробуй доступные кнопки. Когда будешь готов, начни занятие.
         </CardGuide>
         <MassWordIntro />
@@ -178,7 +188,7 @@ export function TopicDialog({
   if (topic.id === 'mass-conversion-comparison')
     return (
       <Modal title={topic.title} onClose={onClose} className="topic-dialog mass-intro-dialog">
-        <CardGuide kind="Объяснение">
+        <CardGuide kind="Теория">
           Изучи рисунок и попробуй доступные кнопки. Когда будешь готов, начни занятие.
         </CardGuide>
         <MassComparisonIntro />
@@ -195,7 +205,7 @@ export function TopicDialog({
   if (topic.id === 'mass-kg-g' || topic.id === 'mass-tonne-centner')
     return (
       <Modal title={topic.title} onClose={onClose} className="topic-dialog mass-intro-dialog">
-        <CardGuide kind="Объяснение">
+        <CardGuide kind="Теория">
           Изучи рисунок и попробуй доступные кнопки. Когда будешь готов, начни занятие.
         </CardGuide>
         {topic.id === 'mass-kg-g' ? <MassIntroVisual /> : <CentnerIntroVisual />}
@@ -211,7 +221,7 @@ export function TopicDialog({
     );
   return (
     <Modal title={topic.title} onClose={onClose} className="topic-dialog">
-      <CardGuide kind="Объяснение">
+      <CardGuide kind="Теория">
         Изучи правило и пример, если он показан. Затем начни занятие.
       </CardGuide>
       <div className="topic-dialog-overview">
@@ -374,7 +384,11 @@ function TaskArea({
   const controlsRef = useRef<HTMLDivElement>(null);
   const feedbackRef = useRef<HTMLDivElement>(null);
   const [referenceOpen, setReferenceOpen] = useState(false);
+  const [titleSlot, setTitleSlot] = useState<HTMLSpanElement | null>(null);
   const checked = session.feedback !== null;
+  const retryCount = session.entries.filter((item) => item.retry).length;
+  const currentStep = entry.retry ? session.cursor - session.initialCount : session.cursor;
+  const stepCount = entry.retry ? retryCount : session.initialCount;
   const divisionAnswer =
     typeof answer === 'object' && !Array.isArray(answer) ? answer : { quotient: '', remainder: '' };
   const canSubmit =
@@ -402,56 +416,48 @@ function TaskArea({
     >
       <div className="task-content">
         <div className="task-card-top">
-          <span
-            className="task-progress"
-            role="img"
-            aria-label={
-              entry.retry
-                ? 'Повторение'
-                : `Задание ${session.cursor + 1} из ${session.initialCount}`
-            }
-          >
-            <span className="task-progress-dots" aria-hidden="true">
-              {Array.from({ length: session.initialCount }, (_, index) => (
-                <i
-                  key={index}
-                  className={
-                    index < session.cursor
-                      ? 'is-done'
-                      : index === session.cursor
-                        ? 'is-current'
-                        : ''
-                  }
-                />
-              ))}
-            </span>
-            <b aria-hidden="true">
-              {entry.retry ? 'Повтор' : `${session.cursor + 1}/${session.initialCount}`}
-            </b>
-          </span>
+          <p className="task-card-title">
+            <span>{PILOT_TITLES[session.topicId] ?? session.topicTitle}</span>
+            <span ref={setTitleSlot} />
+          </p>
           <button
             type="button"
-            className="task-exit"
+            className="icon-button task-exit"
             onClick={onExit}
             aria-label="Сохранить и выйти"
             title="Сохранить и выйти"
           >
-            <ArrowLeft size={17} /> Выйти
+            <X size={21} aria-hidden="true" />
           </button>
         </div>
-        <CardGuide kind="Проверка">
-          {checked
-            ? 'Посмотри результат и нажми «Дальше» или заверши занятие.'
-            : task.type === 'number'
-              ? 'Реши задание, введи число и нажми «Проверить».'
-              : task.type === 'division'
-                ? 'Введи частное и остаток, затем нажми «Проверить».'
-                : task.type === 'order'
-                  ? 'Перетащи карточки или передвинь стрелками. Затем нажми «Проверить».'
-                  : task.type === 'compare'
-                    ? 'Выбери знак сравнения и нажми «Проверить».'
-                    : 'Выбери ответ и нажми «Проверить».'}
-        </CardGuide>
+        <CardTitleContext.Provider value={titleSlot}>
+          <CardGuide
+            kind="Практика"
+            leading={
+              <StepIndicator
+                count={stepCount}
+                current={currentStep}
+                label={
+                  entry.retry
+                    ? `Повторное задание ${currentStep + 1} из ${stepCount}`
+                    : `Задание ${currentStep + 1} из ${stepCount}`
+                }
+              />
+            }
+          >
+            {checked
+              ? 'Посмотри результат и нажми «Дальше» или заверши занятие.'
+              : task.type === 'number'
+                ? 'Реши задание, введи число и нажми «Проверить».'
+                : task.type === 'division'
+                  ? 'Введи частное и остаток, затем нажми «Проверить».'
+                  : task.type === 'order'
+                    ? 'Перетащи карточки или передвинь стрелками. Затем нажми «Проверить».'
+                    : task.type === 'compare'
+                      ? 'Выбери знак сравнения и нажми «Проверить».'
+                      : 'Выбери ответ и нажми «Проверить».'}
+          </CardGuide>
+        </CardTitleContext.Provider>
         <h1>{task.question}</h1>
         {session.topicId === 'mass-kg-g' && (
           <MassStory

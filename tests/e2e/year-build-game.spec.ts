@@ -21,7 +21,7 @@ async function openGame(page: Page) {
   await page.goto('/#/topics');
   await page.locator('.topic-card').filter({ hasText: 'Переводим годы в месяцы' }).click();
   const dialog = page.getByRole('dialog');
-  await dialog.getByRole('button', { name: 'Игра «Собери год»' }).click();
+  await dialog.getByRole('button', { name: 'Играть — игра «Собери год»' }).click();
   await expect(dialog.getByRole('heading', { name: 'Собери год' })).toHaveCount(1);
   await expect(dialog.locator('.year-game h3')).toHaveClass(/sr-only/);
   return dialog;

@@ -1,3 +1,4 @@
+import { StepIndicator } from './StepIndicator';
 import { CardGuide } from './CardGuide';
 import { useEffect, useId, useRef, useState } from 'react';
 import { ArrowLeft, ArrowRight, BookOpen, Minus, Plus, Puzzle, RotateCcw } from 'lucide-react';
@@ -66,31 +67,34 @@ export function YearMonthsPilot({
 
   return (
     <div className="year-month-pilot year-month-pilot-v2">
-      <div className="pilot-topline">
-        <div className="pilot-steps" role="img" aria-label={`Шаг ${step + 1} из 3`}>
-          {STEP_TITLES.map((title, index) => (
-            <i
-              key={title}
-              className={index < step ? 'is-done' : index === step ? 'is-current' : ''}
-            />
-          ))}
-        </div>
-        <button
-          type="button"
-          className="pilot-reference-toggle"
-          aria-label="Времена года"
-          title="Времена года"
-          aria-expanded={referenceOpen}
-          aria-controls={referenceId}
-          onClick={() => setReferenceOpen((open) => !open)}
-        >
-          <BookOpen size={20} aria-hidden="true" />
-        </button>
-      </div>
       <h3 ref={headingRef} tabIndex={-1} className="sr-only">
         {STEP_TITLES[step]}
       </h3>
-      <CardGuide kind="Объяснение">
+      <CardGuide
+        kind="Теория"
+        leading={
+          <div className="pilot-topline">
+            <StepIndicator
+              count={STEP_TITLES.length}
+              current={step}
+              label={`Шаг ${step + 1} из ${STEP_TITLES.length}`}
+            />
+          </div>
+        }
+        reference={
+          <button
+            type="button"
+            className="pilot-reference-toggle"
+            aria-label="Времена года"
+            title="Времена года"
+            aria-expanded={referenceOpen}
+            aria-controls={referenceId}
+            onClick={() => setReferenceOpen((open) => !open)}
+          >
+            <BookOpen size={20} aria-hidden="true" />
+          </button>
+        }
+      >
         {
           [
             'Нажимай «+ месяц», чтобы заполнить год. Можно нажать месяц на круге.',
@@ -143,7 +147,7 @@ export function YearMonthsPilot({
                       left: `${50 + 35.5 * Math.cos(angle)}%`,
                       top: `${50 + 35.5 * Math.sin(angle)}%`,
                     }}
-                    aria-label={`${item.full} — ${index + 1}-й месяц года`}
+                    aria-label={`${item.short} — ${item.full}, ${index + 1}-й месяц года`}
                     aria-pressed={selectedMonth === index}
                     onClick={() => setSelectedMonth(index)}
                   >
@@ -199,7 +203,7 @@ export function YearMonthsPilot({
             <button
               type="button"
               className="button tool-outline year-game-entry"
-              aria-label="Игра «Собери год»"
+              aria-label="Играть — игра «Собери год»"
               onClick={() => setGameOpen(true)}
             >
               <Puzzle size={18} aria-hidden="true" /> Играть

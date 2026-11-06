@@ -21,7 +21,7 @@ describe('interactive year → months explanation', () => {
     await user.click(screen.getByRole('button', { name: 'Пройти ещё раз' }));
     expect(container.querySelectorAll('.year-clock .year-sector.is-filled')).toHaveLength(0);
 
-    const april = screen.getByRole('button', { name: 'Апрель — 4-й месяц года' });
+    const april = screen.getByRole('button', { name: 'Апр — Апрель, 4-й месяц года' });
     april.focus();
     await user.keyboard('{Enter}');
     expect(april).toHaveAttribute('aria-pressed', 'true');
@@ -36,7 +36,7 @@ describe('interactive year → months explanation', () => {
     const user = userEvent.setup();
     const onPractice = vi.fn();
     const { container } = render(<YearMonthsPilot onPractice={onPractice} />);
-    await user.click(screen.getByRole('button', { name: 'Игра «Собери год»' }));
+    await user.click(screen.getByRole('button', { name: 'Играть — игра «Собери год»' }));
     expect(screen.getByRole('heading', { name: 'Собери год' })).toBeVisible();
     expect(
       within(screen.getByRole('group', { name: 'Круг года: места для месяцев' })).getAllByRole(
