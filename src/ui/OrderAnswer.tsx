@@ -125,10 +125,9 @@ export function OrderAnswer({
   };
   return (
     <div className={`order-answer ${illustrated ? 'illustrated-order' : ''}`}>
-      <p>Перетащи карточки в нужном порядке.</p>
       {illustrated && kind === 'centner' && (
         <button type="button" className="order-guide-button" onClick={() => setGuideOpen(true)}>
-          Грузы и масса
+          Грузы
         </button>
       )}
       <ol aria-label="Порядок величин">

@@ -1,16 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import {
-  ArrowLeft,
-  ArrowRight,
-  BookOpen,
-  Check,
-  ChevronRight,
-  CircleCheck,
-  Clock3,
-  Lightbulb,
-  Star,
-} from 'lucide-react';
-import type { Grade, Task, Topic } from '../engine/content';
+import { ArrowLeft, ArrowRight, BookOpen, Check, CircleCheck, Lightbulb, Star } from 'lucide-react';
+import type { Task, Topic } from '../engine/content';
 import type { Answer, LessonResult, Session, TopicProgress } from '../engine/model';
 import { answerLabel, initialOrder, parseNumericAnswer } from '../engine/answers';
 import { LEVEL_LABELS } from '../engine/progress';
@@ -28,9 +18,80 @@ import { NumericKeypad } from './NumericKeypad';
 import { OrderAnswer } from './OrderAnswer';
 import { Brand, Modal, ProgressBar, Stars, TopicSymbol } from './shared';
 
+/**
+ * A theory example is only safe when it does not spell out the answer of a task
+ * the child is about to face. Three approved topics currently reuse a textbook
+ * exercise as their example, so the example is withheld for them.
+ */
+export function safeTheoryExample(topic: Topic): string | null {
+  const example = topic.theory.example;
+  const numbers = new Set(example.match(/\d+/g) ?? []);
+  const leaks = topic.tasks.some(
+    (task) => typeof task.answer === 'number' && numbers.has(String(task.answer)),
+  );
+  return leaks ? null : example;
+}
+
+function TheoryCard({ topic }: { topic: Topic }) {
+  const example = safeTheoryExample(topic);
+  return (
+    <div className="theory-card">
+      <h3>{topic.theory.title}</h3>
+      <p>{topic.theory.text}</p>
+      {example && (
+        <>
+          <div className="theory-example">{example}</div>
+          <MathVisual expression={example} />
+        </>
+      )}
+    </div>
+  );
+}
+
+/** The same explanation, reachable from a task without restarting the session. */
+function TaskReference({ topic, onClose }: { topic: Topic; onClose: () => void }) {
+  // Always reachable, on every step of the explanation, so a child is never trapped.
+  const back = (
+    <button
+      type="button"
+      className="button secondary full-width task-reference-back"
+      onClick={onClose}
+    >
+      <ArrowLeft size={18} aria-hidden="true" /> К заданию
+    </button>
+  );
+  return (
+    <Modal
+      title={topic.title}
+      onClose={onClose}
+      className="topic-dialog mass-intro-dialog task-reference-dialog"
+    >
+      {back}
+      {topic.id === 'calendar-years-months' ? (
+        <YearMonthsPilot onPractice={onClose} practiceLabel="Вернуться к заданию" />
+      ) : (
+        <>
+          {topic.id.startsWith('calendar-') ? (
+            <CalendarIntro />
+          ) : topic.id === 'mass-kg-g' ? (
+            <MassIntroVisual />
+          ) : topic.id === 'mass-tonne-centner' ? (
+            <CentnerIntroVisual />
+          ) : topic.id === 'mass-conversion-comparison' ? (
+            <MassComparisonIntro />
+          ) : topic.id === 'mass-word-problems' ? (
+            <MassWordIntro />
+          ) : (
+            <TheoryCard topic={topic} />
+          )}
+        </>
+      )}
+    </Modal>
+  );
+}
+
 export function TopicDialog({
   topic,
-  grade,
   isDemo,
   mode,
   progress,
@@ -38,7 +99,6 @@ export function TopicDialog({
   onStart,
 }: {
   topic: Topic;
-  grade: Grade;
   isDemo: boolean;
   mode: Session['mode'];
   progress?: TopicProgress;
@@ -49,21 +109,15 @@ export function TopicDialog({
     return (
       <Modal
         title={topic.title}
-        eyebrow={`${grade} КЛАСС · СНАЧАЛА РАЗБЕРЁМСЯ`}
         onClose={onClose}
-        className="topic-dialog mass-intro-dialog"
+        className="topic-dialog mass-intro-dialog year-month-dialog"
       >
         <YearMonthsPilot onPractice={onStart} />
       </Modal>
     );
   if (topic.id.startsWith('calendar-'))
     return (
-      <Modal
-        title={topic.title}
-        eyebrow={`${grade} КЛАСС · ${mode === 'review' ? 'ПОВТОРЕНИЕ' : 'ИССЛЕДУЕМ КАЛЕНДАРЬ'}`}
-        onClose={onClose}
-        className="topic-dialog mass-intro-dialog"
-      >
+      <Modal title={topic.title} onClose={onClose} className="topic-dialog mass-intro-dialog">
         <CalendarIntro />
         <button data-autofocus className="button primary full-width" onClick={onStart}>
           {mode === 'review'
@@ -77,12 +131,7 @@ export function TopicDialog({
     );
   if (topic.id === 'mass-word-problems')
     return (
-      <Modal
-        title={topic.title}
-        eyebrow={`${grade} КЛАСС · ${mode === 'review' ? 'ПОВТОРЕНИЕ' : 'РЕШАЕМ ЗАДАЧИ НА МАССУ'}`}
-        onClose={onClose}
-        className="topic-dialog mass-intro-dialog"
-      >
+      <Modal title={topic.title} onClose={onClose} className="topic-dialog mass-intro-dialog">
         <MassWordIntro />
         <button data-autofocus className="button primary full-width" onClick={onStart}>
           {mode === 'review'
@@ -96,12 +145,7 @@ export function TopicDialog({
     );
   if (topic.id === 'mass-conversion-comparison')
     return (
-      <Modal
-        title={topic.title}
-        eyebrow={`${grade} КЛАСС · ${mode === 'review' ? 'ПОВТОРЕНИЕ' : 'СРАВНИВАЕМ МАССЫ'}`}
-        onClose={onClose}
-        className="topic-dialog mass-intro-dialog"
-      >
+      <Modal title={topic.title} onClose={onClose} className="topic-dialog mass-intro-dialog">
         <MassComparisonIntro />
         <button data-autofocus className="button primary full-width" onClick={onStart}>
           {mode === 'review'
@@ -115,12 +159,7 @@ export function TopicDialog({
     );
   if (topic.id === 'mass-kg-g' || topic.id === 'mass-tonne-centner')
     return (
-      <Modal
-        title={topic.title}
-        eyebrow={`${grade} КЛАСС · ${mode === 'review' ? 'ПОВТОРЕНИЕ' : 'ПОЗНАКОМИМСЯ С МАССОЙ'}`}
-        onClose={onClose}
-        className="topic-dialog mass-intro-dialog"
-      >
+      <Modal title={topic.title} onClose={onClose} className="topic-dialog mass-intro-dialog">
         {topic.id === 'mass-kg-g' ? <MassIntroVisual /> : <CentnerIntroVisual />}
         <button data-autofocus className="button primary full-width" onClick={onStart}>
           {mode === 'review'
@@ -133,44 +172,21 @@ export function TopicDialog({
       </Modal>
     );
   return (
-    <Modal
-      title={topic.title}
-      eyebrow={`${grade} КЛАСС · ${mode === 'review' ? 'ПОВТОРЯЕМ И ЗАКРЕПЛЯЕМ' : mode === 'practice' ? 'СВОБОДНАЯ ТРЕНИРОВКА' : 'НОВОЕ МАЛЕНЬКОЕ ОТКРЫТИЕ'}`}
-      onClose={onClose}
-      className="topic-dialog"
-    >
+    <Modal title={topic.title} onClose={onClose} className="topic-dialog">
       <div className="topic-dialog-overview">
         <TopicSymbol symbol={topic.symbol} color={topic.color} large />
         <div>
-          <p>{topic.description}</p>
           <span className="lesson-meta">
             <span>
               <BookOpen size={14} />
               {Math.min(topic.lessonSize, topic.tasks.length)} заданий
             </span>
-            <span>
-              <Clock3 size={14} />~{topic.minutes} минут
-            </span>
-            <span>Без таймера</span>
           </span>
         </div>
       </div>
-      <div className="theory-card">
-        <span className="theory-label">
-          <Lightbulb size={17} />
-          Сначала разберёмся
-        </span>
-        <h3>{topic.theory.title}</h3>
-        <p>{topic.theory.text}</p>
-        <div className="theory-example">
-          <span>Например</span>
-          {topic.theory.example}
-        </div>
-        <MathVisual expression={topic.theory.example} />
-      </div>
+      <TheoryCard topic={topic} />
       <div className="topic-dialog-level">
         <span>
-          <span className="eyebrow">ТВОЯ СТУПЕНЬ</span>
           <strong>{LEVEL_LABELS[progress?.level ?? 0]}</strong>
         </span>
         <div className="level-ladder">
@@ -193,10 +209,7 @@ export function TopicDialog({
             : 'Давай попробуем'}
         <ArrowRight size={18} />
       </button>
-      <p className="dialog-footnote">
-        {isDemo ? 'Демо-тема для знакомства с тренажёром. ' : ''}Если будет непросто — подсказка
-        рядом.
-      </p>
+      {isDemo && <p className="dialog-footnote">Демо-тема</p>}
     </Modal>
   );
 }
@@ -285,12 +298,14 @@ function Diagram({ diagram }: { diagram: NonNullable<Task['diagram']> }) {
 }
 function TaskArea({
   session,
+  topic,
   onSubmit,
   onHint,
   onNext,
   onExit,
 }: {
   session: Session;
+  topic?: Topic;
   onSubmit: (answer: Answer) => void;
   onHint: () => void;
   onNext: () => void;
@@ -317,6 +332,7 @@ function TaskArea({
     typeof window !== 'undefined' && window.matchMedia?.('(pointer: coarse)').matches;
   const controlsRef = useRef<HTMLDivElement>(null);
   const feedbackRef = useRef<HTMLDivElement>(null);
+  const [referenceOpen, setReferenceOpen] = useState(false);
   const checked = session.feedback !== null;
   const divisionAnswer =
     typeof answer === 'object' && !Array.isArray(answer) ? answer : { quotient: '', remainder: '' };
@@ -345,18 +361,41 @@ function TaskArea({
     >
       <div className="task-content">
         <div className="task-card-top">
-          <span>
-            {entry.retry
-              ? 'Повторение'
-              : `Задание ${session.cursor + 1} из ${session.initialCount}`}
+          <span
+            className="task-progress"
+            role="img"
+            aria-label={
+              entry.retry
+                ? 'Повторение'
+                : `Задание ${session.cursor + 1} из ${session.initialCount}`
+            }
+          >
+            <span className="task-progress-dots" aria-hidden="true">
+              {Array.from({ length: session.initialCount }, (_, index) => (
+                <i
+                  key={index}
+                  className={
+                    index < session.cursor
+                      ? 'is-done'
+                      : index === session.cursor
+                        ? 'is-current'
+                        : ''
+                  }
+                />
+              ))}
+            </span>
+            <b aria-hidden="true">
+              {entry.retry ? 'Повтор' : `${session.cursor + 1}/${session.initialCount}`}
+            </b>
           </span>
           <button
             type="button"
             className="task-exit"
             onClick={onExit}
             aria-label="Сохранить и выйти"
+            title="Сохранить и выйти"
           >
-            <ArrowLeft size={17} /> Сохранить и выйти
+            <ArrowLeft size={17} /> Выйти
           </button>
         </div>
         <h1>{task.question}</h1>
@@ -432,9 +471,7 @@ function TaskArea({
                   />
                 </label>
               </div>
-              <p id="division-help">
-                Введи два целых неотрицательных числа. Если остатка нет — напиши 0.
-              </p>
+              <p id="division-help">Нет остатка — введи 0.</p>
             </fieldset>
           )}
           {task.type === 'division' && !checked && (
@@ -460,11 +497,9 @@ function TaskArea({
                 value={typeof answer === 'string' ? answer : ''}
                 onChange={(e) => setAnswer(e.target.value)}
                 disabled={checked}
-                placeholder="Твой ответ"
-                aria-describedby="answer-help"
+                placeholder="Ответ"
               />
               {task.unit && <span>{task.unit}</span>}
-              <small id="answer-help">Можно писать с пробелами: 12 000</small>
             </div>
           )}
           {task.type === 'number' && !checked && (
@@ -546,18 +581,32 @@ function TaskArea({
             />
           )}
         </div>
-        {!checked && session.topicId !== 'mass-kg-g' && (
+        {!checked && (
           <div className="hint-area">
-            {session.hintOpen ? (
+            <div className="task-help-row">
+              {topic && (
+                <button
+                  className="hint-button"
+                  type="button"
+                  onClick={() => {
+                    onHint();
+                    setReferenceOpen(true);
+                  }}
+                >
+                  <BookOpen size={17} aria-hidden="true" /> Объяснение
+                </button>
+              )}
+              {session.topicId !== 'mass-kg-g' && !session.hintOpen && (
+                <button className="hint-button" type="button" onClick={onHint}>
+                  <Lightbulb size={17} aria-hidden="true" /> Подсказка
+                </button>
+              )}
+            </div>
+            {session.hintOpen && session.topicId !== 'mass-kg-g' && (
               <aside className="task-hint">
                 <Lightbulb size={20} />
                 <p>{task.hint}</p>
               </aside>
-            ) : (
-              <button className="hint-button" type="button" onClick={onHint}>
-                <Lightbulb size={17} />
-                Нужна подсказка?
-              </button>
             )}
           </div>
         )}
@@ -573,22 +622,18 @@ function TaskArea({
             {session.feedback?.correct ? <CircleCheck size={25} /> : <Lightbulb size={25} />}
           </span>
           <div>
-            <strong>
-              {session.feedback?.correct
-                ? entry.retry
-                  ? 'Вот теперь получилось!'
-                  : 'Всё верно. Отличная работа!'
-                : 'Почти! Давай разберёмся.'}
-            </strong>
+            <strong>{session.feedback?.correct ? 'Верно!' : 'Разберёмся.'}</strong>
             {!session.feedback?.correct && (
-              <span className="correct-answer-label">Правильный ответ: {answerLabel(task)}</span>
-            )}
-            <p>{task.explanation}</p>
-            {!session.feedback?.correct && !entry.retry && (
-              <small>Это задание ещё встретится — попробуешь снова.</small>
+              <>
+                <span className="correct-answer-label">Ответ: {answerLabel(task)}</span>
+                <p>{task.explanation}</p>
+              </>
             )}
           </div>
         </div>
+      )}
+      {referenceOpen && topic && (
+        <TaskReference topic={topic} onClose={() => setReferenceOpen(false)} />
       )}
       <div className="task-footer">
         <button className="button primary" type="submit" disabled={!checked && !canSubmit}>
@@ -605,12 +650,14 @@ function TaskArea({
 }
 export function Lesson({
   session,
+  topic,
   onChange,
   onSubmit,
   onNext,
   onExit,
 }: {
   session: Session;
+  topic?: Topic;
   onChange: (session: Session) => void;
   onSubmit: (answer: Answer) => void;
   onNext: () => void;
@@ -627,8 +674,6 @@ export function Lesson({
           <Brand small />
         </button>
         <span className="lesson-header-topic">
-          {session.grade} класс
-          <ChevronRight size={14} />
           <strong>{session.topicTitle}</strong>
         </span>
       </header>
@@ -640,6 +685,7 @@ export function Lesson({
         <TaskArea
           key={`${session.id}:${session.cursor}`}
           session={session}
+          topic={topic}
           onSubmit={onSubmit}
           onHint={() => onChange({ ...session, hintOpen: true })}
           onNext={onNext}
@@ -680,11 +726,8 @@ export function Result({
           <div className="result-ribbon left" />
           <div className="result-ribbon right" />
         </div>
-        <span className="eyebrow">ЕЩЁ ОДНО МАЛЕНЬКОЕ ОТКРЫТИЕ</span>
-        <h1>{result.stars === 3 ? 'Всё получилось!' : 'Ты стал на шаг увереннее!'}</h1>
-        <p className="result-topic">
-          {result.topicTitle} · {result.grade} класс
-        </p>
+        <h1>{result.stars === 3 ? 'Готово!' : 'Занятие завершено'}</h1>
+        <p className="result-topic">{result.topicTitle}</p>
         <Stars count={result.stars} size={34} />
         <p className="result-summary">
           {result.correct} из {result.total} с первого раза
@@ -698,7 +741,6 @@ export function Result({
             Все темы
           </button>
         </div>
-        <p className="dialog-footnote">Завершённое занятие сохранено в этом браузере.</p>
       </main>
     </div>
   );

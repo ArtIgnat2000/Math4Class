@@ -1,6 +1,16 @@
 import { useState } from 'react';
-import { Flower2, Leaf, Snowflake, Sun } from 'lucide-react';
-type Season = 'winter' | 'spring' | 'summer' | 'autumn';
+import {
+  CalendarModelLegend,
+  MonthSector,
+  SeasonIcon,
+  SeasonSector,
+  YearRing,
+  YearToken,
+  monthByName,
+  quantityFromLabel,
+  type CalendarSeason,
+} from './CalendarModel';
+type Season = CalendarSeason;
 type Token = {
   label: string;
   kind: 'month' | 'year' | 'season' | 'week' | 'days' | 'interval';
@@ -27,8 +37,8 @@ const yearMonthNames = [
   'Ноя',
   'Дек',
 ];
-// A month has the same recognizable subject wherever it appears, while the
-// whole pictured question changes with its dates, intervals and unknowns.
+// Days/weeks/intervals keep their own pictured units. Years, months and seasons
+// use the shared circle/sector model so the same unit looks the same everywhere.
 const monthArt: Record<string, string> = {
   янв: 'month-01.webp',
   фев: 'month-02.webp',
@@ -148,6 +158,58 @@ const scenes: Record<string, Record<string, Token[]>> = {
 };
 
 export function CalendarToken({ token }: { token: Token }) {
+  if (token.kind === 'year') {
+    const isQuestion = /[?]/.test(token.label) || /в годах|полных лет/i.test(token.label);
+    return (
+      <span className="calendar-token calendar-token-year">
+        {isQuestion ? (
+          <span className="calendar-question-chip">{token.label}</span>
+        ) : (
+          <YearToken label={token.label} />
+        )}
+      </span>
+    );
+  }
+  if (token.kind === 'season' && token.season) {
+    return (
+      <span className="calendar-token calendar-token-season">
+        <SeasonSector season={token.season} label={token.label} />
+      </span>
+    );
+  }
+  if (token.kind === 'month') {
+    const count = quantityFromLabel(token.label, 'month');
+    if (count !== null && count > 0) {
+      return (
+        <span className="calendar-token calendar-token-month calendar-token-month-count">
+          <span className="calendar-month-sector-group" aria-hidden="true">
+            {count <= 12 ? (
+              Array.from({ length: count }, (_, index) => (
+                <MonthSector key={index} label="" showLabel={false} />
+              ))
+            ) : (
+              <MonthSector label="" showLabel={false} />
+            )}
+          </span>
+          <strong>{token.label}</strong>
+        </span>
+      );
+    }
+    const isQuestion =
+      /[?]/.test(token.label) || /в месяцах|в годах|полных лет|всегда равно/i.test(token.label);
+    return (
+      <span className="calendar-token calendar-token-month">
+        {isQuestion ? (
+          <span className="calendar-question-chip">{token.label}</span>
+        ) : (
+          <MonthSector
+            label={token.label}
+            season={token.season ?? monthByName(token.label)?.season}
+          />
+        )}
+      </span>
+    );
+  }
   return (
     <span className={`calendar-token calendar-token-${token.kind}`}>
       <img
@@ -211,11 +273,20 @@ export function CalendarIntro({
           aria-label={`${seasonMonths[selectedSeason].name}: три месяца`}
         >
           <button type="button" className="calendar-reference-link" onClick={closeSeason}>
-            ← Вернуться к кругу года
+            ← К кругу года
           </button>
-          <p className="season-detail-kicker">Один сезон · три месяца</p>
           <h3>{seasonMonths[selectedSeason].name}</h3>
-          <p>Нажми месяц — увидишь его место в этом времени года.</p>
+          <p>Нажми месяц.</p>
+          <div className={`season-detail-model season-${seasonMonths[selectedSeason].image}`}>
+            <SeasonSector
+              season={seasonMonths[selectedSeason].image}
+              label={seasonMonths[selectedSeason].name}
+            />
+            <MonthSector
+              label={seasonMonths[selectedSeason].months[selectedMonth]}
+              season={seasonMonths[selectedSeason].image}
+            />
+          </div>
           <div
             className="season-detail-months"
             role="group"
@@ -235,46 +306,43 @@ export function CalendarIntro({
           </div>
           <p className="season-detail-discovery" aria-live="polite">
             <strong>{seasonMonths[selectedSeason].months[selectedMonth]}</strong> —{' '}
-            {selectedMonth + 1}-й месяц этого времени года.
+            {selectedMonth + 1}-й месяц {['зимы', 'весны', 'лета', 'осени'][selectedSeason]}.
           </p>
           <button
             type="button"
             className="season-detail-next"
             onClick={() => openSeason((selectedSeason + 1) % seasonMonths.length)}
           >
-            Дальше — {seasonMonths[(selectedSeason + 1) % seasonMonths.length].name} →
+            Дальше: {seasonMonths[(selectedSeason + 1) % seasonMonths.length].name} →
           </button>
         </section>
       ) : referenceStep < 0 ? (
         <>
-          <p>После зимы приходит весна, затем лето, осень — и снова зима.</p>
+          <p>Год — 12 месяцев. Четыре времени года идут по кругу.</p>
           <div
-            className="season-cycle"
+            className="season-cycle calendar-model-cycle"
             role="group"
             aria-label="Круг года: зима, весна, лето, осень, затем снова зима. Нажми на время года."
           >
-            <span className="season-cycle-direction" aria-hidden="true">
-              ↻
-            </span>
-            <span className="season-cycle-center season-cycle-center-elegant">Год</span>
-            {seasonMonths.map(({ name, image }, index) => (
-              <button
-                type="button"
-                key={name}
-                className={`season-cycle-choice season-cycle-${image}`}
-                onClick={() => openSeason(index)}
-                aria-label={`Открыть: ${name}`}
-              >
-                {image === 'winter' && <Snowflake aria-hidden="true" />}
-                {image === 'spring' && <Flower2 aria-hidden="true" />}
-                {image === 'summer' && <Sun aria-hidden="true" />}
-                {image === 'autumn' && <Leaf aria-hidden="true" />}
-                <strong>{name}</strong>
-              </button>
-            ))}
+            <YearRing label="Круг года: 12 месяцев и четыре времени года" centerLabel="год" />
+            <div className="season-cycle-buttons">
+              {seasonMonths.map(({ name, image }, index) => (
+                <button
+                  type="button"
+                  key={name}
+                  className={`season-cycle-choice season-cycle-${image} season-${image}`}
+                  onClick={() => openSeason(index)}
+                  aria-label={`Открыть: ${name}`}
+                >
+                  <SeasonIcon season={image} />
+                  <strong>{name}</strong>
+                </button>
+              ))}
+            </div>
           </div>
+          <CalendarModelLegend />
           <button type="button" className="calendar-reference-link" onClick={() => setReference(0)}>
-            Посмотреть месяцы и римские цифры →
+            Месяцы и римские цифры →
           </button>
         </>
       ) : (
@@ -284,16 +352,18 @@ export function CalendarIntro({
             className="calendar-reference-link"
             onClick={() => setReference(-1)}
           >
-            ← Вернуться к кругу года
+            ← К кругу года
           </button>
           {referenceStep === 0 ? (
             <>
               <h3>Четыре времени года</h3>
-              <p>У каждого времени года — свои три месяца. Рассмотри их по порядку.</p>
+              <p>В каждом времени года — 3 месяца.</p>
               <div className="calendar-season-months">
-                {seasonMonths.map(({ name, months }) => (
-                  <div key={name}>
-                    <strong>{name}</strong>
+                {seasonMonths.map(({ name, image, months }) => (
+                  <div key={name} className={`season-${image}`}>
+                    <strong>
+                      <SeasonIcon season={image} size={16} /> {name}
+                    </strong>
                     <span>{months.join(' · ')}</span>
                   </div>
                 ))}
@@ -324,8 +394,8 @@ export function CalendarIntro({
               </div>
               <p className="roman-hint">
                 {referenceStep === 1
-                  ? 'I — один, V — пять. Найди апрель — четвёртый месяц.'
-                  : 'X — десять. После сентября идут октябрь, ноябрь и декабрь.'}
+                  ? 'I — 1, V — 5. Апрель — 4-й месяц.'
+                  : 'X — 10. Дальше: октябрь, ноябрь, декабрь.'}
               </p>
               <div className="calendar-roman-grid" aria-label="Номера месяцев римскими цифрами">
                 {[

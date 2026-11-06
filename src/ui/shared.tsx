@@ -12,7 +12,6 @@ import {
   X,
 } from 'lucide-react';
 import { GRADES, type Grade, type Topic } from '../engine/content';
-import { LEVEL_LABELS } from '../engine/progress';
 import type { Profile, TopicProgress } from '../engine/model';
 
 export function Brand({ small = false }: { small?: boolean }) {
@@ -289,14 +288,12 @@ export function TopicSymbol({
 }
 export function TopicCard({
   topic,
-  index,
   progress,
   recommended = false,
   onOpen,
   review = false,
 }: {
   topic: Topic;
-  index: number;
   progress?: TopicProgress;
   recommended?: boolean;
   onOpen: () => void;
@@ -306,35 +303,17 @@ export function TopicCard({
     <button className={`topic-card ${recommended ? 'recommended' : ''}`} onClick={onOpen}>
       <span className="topic-card-top">
         <TopicSymbol symbol={topic.symbol} color={topic.color} />
-        {recommended ? (
+        {recommended && (
           <span className="recommend-pill">
-            {review ? 'Пора повторить' : 'Начни отсюда'}
-            <Sparkles size={10} />
+            {review ? 'Повторить' : 'Дальше'}
+            <Sparkles size={10} aria-hidden="true" />
           </span>
-        ) : (
-          <span className="topic-number">{String(index + 1).padStart(2, '0')}</span>
         )}
       </span>
       <strong>{topic.title}</strong>
-      <span className="topic-description">{topic.description}</span>
       <span className="topic-card-bottom">
-        <span>
-          {progress ? (
-            <>
-              <span className="topic-level">
-                <span className={`level-dot level-${progress.level}`} />
-                {LEVEL_LABELS[progress.level]}
-              </span>
-              <Stars count={progress.bestStars} size={11} />
-            </>
-          ) : (
-            <span className="task-count">
-              {Math.min(topic.lessonSize, topic.tasks.length)} заданий<span>·</span>
-              {topic.minutes} минут
-            </span>
-          )}
-        </span>
-        <span className="card-arrow">
+        {progress ? <Stars count={progress.bestStars} size={12} /> : <span />}
+        <span className="card-arrow" aria-hidden="true">
           <ArrowRight size={17} />
         </span>
       </span>

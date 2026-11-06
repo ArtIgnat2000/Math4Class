@@ -28,7 +28,7 @@ export function MassStory({
       <div className="mass-story-collapsed">
         {taskId && <MassQuestionVisual taskId={taskId} />}
         <button type="button" className="mass-story-return" onClick={() => setOpen(true)}>
-          Показать Бука
+          Бук
         </button>
       </div>
     );
@@ -45,27 +45,26 @@ export function MassStory({
         />
         <div className="mass-story-bubble">
           <strong>Бук</strong>
-          {correct != null && <p>{correct ? 'Верно!' : 'Посмотри разбор ответа ниже.'}</p>}
           <div className="mass-story-tools">
             <button
               type="button"
               aria-expanded={reference}
               onClick={() => setReference((value) => !value)}
             >
-              {reference ? 'Скрыть таблицу' : 'Таблица единиц'}
+              {reference ? 'Скрыть' : 'Таблица'}
             </button>
             {showWeightGuide && (
               <button type="button" onClick={() => setWeightsOpen(true)}>
-                Гири и вес
+                Гири
               </button>
             )}
             {onHint && correct == null && (
               <button type="button" aria-expanded={hintOpen} onClick={onHint} disabled={hintOpen}>
-                {hintOpen ? 'Подсказка открыта' : 'Подсказка'}
+                Подсказка
               </button>
             )}
             <button type="button" onClick={() => setOpen(false)}>
-              Скрыть Бука
+              Скрыть
             </button>
           </div>
         </div>
@@ -80,7 +79,7 @@ export function MassStory({
         <div className="mass-story-reference" aria-label="Справка по единицам массы">
           <strong>1 кг = 1 000 г</strong>
           <button type="button" className="mass-story-action" onClick={() => setFullTable(true)}>
-            Все единицы массы
+            Все единицы
           </button>
         </div>
       )}
@@ -99,7 +98,6 @@ export function MassStory({
           onClose={() => setFullTable(false)}
           className="mass-table-dialog"
         >
-          <p>Сравни величины в одной единице измерения.</p>
           <table className="mass-units-table" aria-label="Единицы массы">
             <tbody>
               <tr>

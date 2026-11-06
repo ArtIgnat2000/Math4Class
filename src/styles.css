@@ -6573,11 +6573,6 @@ h1[tabindex='-1']:focus {
   min-height: 40px;
   font-size: 18px;
 }
-@media (pointer: fine) {
-  .numeric-keypad {
-    display: none;
-  }
-}
 
 /* Ordering task keeps the illustrated masses in question order, not answer order. */
 .centner-order-scenes {
@@ -8477,10 +8472,6 @@ h1[tabindex='-1']:focus {
   border-left: 4px solid #e6a849;
   background: #fff5df;
 }
-.pilot-example-note {
-  font-size: 12px !important;
-  color: #526255;
-}
 @media (max-width: 380px) {
   .pilot-year-group {
     grid-template-columns: 54px minmax(0, 1fr) 72px;
@@ -8675,7 +8666,9 @@ h1[tabindex='-1']:focus {
   border: 1px solid rgba(255, 255, 255, 0.78);
   border-radius: 28px;
   background: linear-gradient(145deg, rgba(255, 255, 255, 0.88), rgba(236, 245, 246, 0.76));
-  box-shadow: 0 22px 48px rgba(36, 67, 76, 0.12), inset 0 1px rgba(255, 255, 255, 0.95);
+  box-shadow:
+    0 22px 48px rgba(36, 67, 76, 0.12),
+    inset 0 1px rgba(255, 255, 255, 0.95);
   -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
   animation: reference-arrive 420ms cubic-bezier(0.34, 1.36, 0.64, 1) both;
@@ -8685,30 +8678,49 @@ h1[tabindex='-1']:focus {
   border: 1px solid rgba(255, 255, 255, 0.9);
   border-radius: 17px;
   background: linear-gradient(145deg, #fff, #edf3f3);
-  box-shadow: 5px 7px 14px rgba(78, 113, 124, 0.15), inset 0 1px 0 #fff;
-  transition: transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 220ms ease, border-color 220ms ease;
+  box-shadow:
+    5px 7px 14px rgba(78, 113, 124, 0.15),
+    inset 0 1px 0 #fff;
+  transition:
+    transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 220ms ease,
+    border-color 220ms ease;
 }
 .year-month-pilot .calendar-reference-page .calendar-roman-grid > div:hover {
   z-index: 1;
   transform: translateY(-3px) scale(1.035);
   border-color: rgba(88, 167, 174, 0.55);
-  box-shadow: 0 10px 24px rgba(60, 145, 155, 0.2), inset 0 1px 0 #fff;
+  box-shadow:
+    0 10px 24px rgba(60, 145, 155, 0.2),
+    inset 0 1px 0 #fff;
 }
 .year-month-pilot .calendar-reference-page .calendar-roman-grid strong {
   background: linear-gradient(145deg, #fff4d8, #f0c982);
   color: #72501d;
   font-family: Georgia, 'Times New Roman', serif;
-  text-shadow: 0 1px 0 rgba(255,255,255,.9);
-  box-shadow: inset 0 1px 2px rgba(255,255,255,.95), 0 3px 7px rgba(126, 92, 35, .14);
-  transition: transform 220ms ease, box-shadow 220ms ease;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9);
+  box-shadow:
+    inset 0 1px 2px rgba(255, 255, 255, 0.95),
+    0 3px 7px rgba(126, 92, 35, 0.14);
+  transition:
+    transform 220ms ease,
+    box-shadow 220ms ease;
 }
 .year-month-pilot .calendar-reference-page .calendar-roman-grid > div:hover strong {
   transform: scale(1.08);
-  box-shadow: 0 0 18px rgba(238, 183, 79, .42), inset 0 1px 2px #fff;
+  box-shadow:
+    0 0 18px rgba(238, 183, 79, 0.42),
+    inset 0 1px 2px #fff;
 }
 @keyframes reference-arrive {
-  from { opacity: 0; transform: scale(.96) translateY(8px); }
-  to { opacity: 1; transform: scale(1) translateY(0); }
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
 @media (prefers-reduced-motion: reduce) {
   .year-month-pilot .calendar-reference-page,
@@ -8722,43 +8734,60 @@ h1[tabindex='-1']:focus {
 /* The regular calendar lesson uses CalendarIntro outside the year pilot. */
 .calendar-intro .calendar-reference-page {
   padding: 18px;
-  border: 1px solid rgba(255,255,255,.8);
+  border: 1px solid rgba(255, 255, 255, 0.8);
   border-radius: 24px;
-  background: linear-gradient(145deg, rgba(255,255,255,.94), rgba(232,244,245,.9));
-  box-shadow: 0 18px 42px rgba(39,76,83,.14), inset 0 1px 0 #fff;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.94), rgba(232, 244, 245, 0.9));
+  box-shadow:
+    0 18px 42px rgba(39, 76, 83, 0.14),
+    inset 0 1px 0 #fff;
   -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
-  animation: reference-arrive 420ms cubic-bezier(.34,1.36,.64,1) both;
+  animation: reference-arrive 420ms cubic-bezier(0.34, 1.36, 0.64, 1) both;
 }
 .calendar-intro .calendar-reference-page .calendar-roman-grid > div {
   position: relative;
-  border: 1px solid rgba(255,255,255,.94);
+  border: 1px solid rgba(255, 255, 255, 0.94);
   border-radius: 14px;
-  background: linear-gradient(145deg,#fff,#edf3f3);
-  box-shadow: 4px 6px 12px rgba(78,113,124,.16), inset 0 1px 0 #fff;
-  transition: transform 220ms ease, box-shadow 220ms ease;
+  background: linear-gradient(145deg, #fff, #edf3f3);
+  box-shadow:
+    4px 6px 12px rgba(78, 113, 124, 0.16),
+    inset 0 1px 0 #fff;
+  transition:
+    transform 220ms ease,
+    box-shadow 220ms ease;
 }
 .calendar-intro .calendar-reference-page .calendar-roman-grid > div:hover {
   transform: translateY(-3px) scale(1.035);
-  box-shadow: 0 10px 22px rgba(60,145,155,.22), inset 0 1px 0 #fff;
+  box-shadow:
+    0 10px 22px rgba(60, 145, 155, 0.22),
+    inset 0 1px 0 #fff;
 }
 .calendar-intro .calendar-reference-page .calendar-roman-grid strong {
   font-family: Georgia, 'Times New Roman', serif;
   color: #72501d;
-  background: linear-gradient(145deg,#fff4d8,#f0c982);
+  background: linear-gradient(145deg, #fff4d8, #f0c982);
   border-radius: 9px;
   padding: 5px;
-  box-shadow: inset 0 1px 2px #fff, 0 3px 7px rgba(126,92,35,.14);
-  transition: transform 220ms ease, box-shadow 220ms ease;
+  box-shadow:
+    inset 0 1px 2px #fff,
+    0 3px 7px rgba(126, 92, 35, 0.14);
+  transition:
+    transform 220ms ease,
+    box-shadow 220ms ease;
 }
 .calendar-intro .calendar-reference-page .calendar-roman-grid > div:hover strong {
   transform: scale(1.08);
-  box-shadow: 0 0 16px rgba(238,183,79,.42), inset 0 1px 2px #fff;
+  box-shadow:
+    0 0 16px rgba(238, 183, 79, 0.42),
+    inset 0 1px 2px #fff;
 }
 @media (prefers-reduced-motion: reduce) {
   .calendar-intro .calendar-reference-page,
   .calendar-intro .calendar-reference-page .calendar-roman-grid > div,
-  .calendar-intro .calendar-reference-page .calendar-roman-grid strong { animation:none; transition:none; }
+  .calendar-intro .calendar-reference-page .calendar-roman-grid strong {
+    animation: none;
+    transition: none;
+  }
 }
 
 /* Season overview is the first reference page users actually see. */
@@ -8774,20 +8803,34 @@ h1[tabindex='-1']:focus {
   gap: 10px;
   min-height: 52px;
   padding: 10px 14px;
-  border: 1px solid rgba(255,255,255,.88);
+  border: 1px solid rgba(255, 255, 255, 0.88);
   border-left: 5px solid var(--season-accent, #54a9cf);
   border-radius: 16px;
-  background: linear-gradient(110deg, rgba(255,255,255,.98), rgba(242,248,246,.9));
-  box-shadow: 0 5px 14px rgba(51,80,70,.09), inset 0 1px 0 #fff;
-  transition: transform 200ms ease, box-shadow 200ms ease;
+  background: linear-gradient(110deg, rgba(255, 255, 255, 0.98), rgba(242, 248, 246, 0.9));
+  box-shadow:
+    0 5px 14px rgba(51, 80, 70, 0.09),
+    inset 0 1px 0 #fff;
+  transition:
+    transform 200ms ease,
+    box-shadow 200ms ease;
 }
-.calendar-reference-page .calendar-season-months > div:nth-child(1) { --season-accent: #36a8e1; }
-.calendar-reference-page .calendar-season-months > div:nth-child(2) { --season-accent: #51c884; }
-.calendar-reference-page .calendar-season-months > div:nth-child(3) { --season-accent: #f0b832; }
-.calendar-reference-page .calendar-season-months > div:nth-child(4) { --season-accent: #f18450; }
+.calendar-reference-page .calendar-season-months > div:nth-child(1) {
+  --season-accent: #36a8e1;
+}
+.calendar-reference-page .calendar-season-months > div:nth-child(2) {
+  --season-accent: #51c884;
+}
+.calendar-reference-page .calendar-season-months > div:nth-child(3) {
+  --season-accent: #f0b832;
+}
+.calendar-reference-page .calendar-season-months > div:nth-child(4) {
+  --season-accent: #f18450;
+}
 .calendar-reference-page .calendar-season-months > div:hover {
   transform: translateX(3px);
-  box-shadow: 0 9px 20px rgba(51,80,70,.14), inset 0 1px 0 #fff;
+  box-shadow:
+    0 9px 20px rgba(51, 80, 70, 0.14),
+    inset 0 1px 0 #fff;
 }
 .calendar-reference-page .calendar-season-months > div strong {
   color: #304a3a;
@@ -8806,7 +8849,9 @@ h1[tabindex='-1']:focus {
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .calendar-reference-page .calendar-season-months > div { transition: none; }
+  .calendar-reference-page .calendar-season-months > div {
+    transition: none;
+  }
 }
 .share-app-button {
   display: flex;
@@ -8822,17 +8867,24 @@ h1[tabindex='-1']:focus {
   text-align: left;
   font-size: 11px;
   font-weight: 700;
-  transition: background 160ms ease, border-color 160ms ease, transform 160ms ease;
+  transition:
+    background 160ms ease,
+    border-color 160ms ease,
+    transform 160ms ease;
 }
-.share-app-button span { flex: 1; }
-.share-app-button > svg:last-child { color: #7a8773; }
+.share-app-button span {
+  flex: 1;
+}
+.share-app-button > svg:last-child {
+  color: #7a8773;
+}
 .share-app-button:hover {
   transform: translateY(-1px);
   border-color: #b8c9ac;
   background: #f4f8ef;
 }
 .share-app-button:focus-visible {
-  outline: 3px solid rgba(83, 129, 79, .32);
+  outline: 3px solid rgba(83, 129, 79, 0.32);
   outline-offset: 2px;
 }
 .share-app-notice {
@@ -8840,4 +8892,1194 @@ h1[tabindex='-1']:focus {
   color: #4c704b;
   font-size: 10px;
   line-height: 1.4;
+}
+
+/* Year → months, second pilot: the circle itself is built and reused as a group. */
+.year-month-pilot-v2 {
+  color: #2c4434;
+  font-size: 16px;
+  line-height: 1.45;
+}
+.year-month-pilot-v2 .pilot-topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 14px 0 4px;
+}
+.pilot-reference-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 44px;
+  padding: 6px 10px;
+  border: 1px solid #9aa992;
+  border-radius: 10px;
+  background: #f4f8ef;
+  color: #334d3a;
+  font-size: 14px;
+  font-weight: 750;
+}
+.pilot-reference-toggle[aria-expanded='true'] {
+  background: #e2eed9;
+  border-color: #526f49;
+}
+.year-month-pilot-v2 h3 {
+  margin: 4px 0 8px;
+  font-size: clamp(22px, 4vw, 26px);
+  line-height: 1.25;
+  outline: none;
+}
+.year-month-pilot-v2 .pilot-instruction {
+  font-size: 16px;
+  line-height: 1.45;
+  color: #3d5241;
+}
+.pilot-season-reference {
+  display: grid;
+  gap: 8px;
+  margin: 12px 0;
+  padding: 14px;
+  border: 1px solid #b7c6ae;
+  border-radius: 14px;
+  background: #f6faf2;
+}
+.pilot-season-reference > p {
+  font-size: 16px;
+}
+.season-reference-row {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 8px;
+  align-items: baseline;
+  padding: 8px 10px;
+  border-left: 5px solid var(--season-edge);
+  border-radius: 8px;
+  background: var(--season-fill);
+  font-size: 16px;
+}
+.season-reference-row span {
+  overflow-wrap: anywhere;
+}
+.year-build-layout {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  margin-top: 12px;
+}
+.year-clock {
+  position: relative;
+  width: min(100%, 280px, 38svh);
+  min-width: 220px;
+  aspect-ratio: 1;
+}
+.year-ring-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.year-sector {
+  fill: #eef3e9;
+  stroke: #74836c;
+  stroke-width: 1.4;
+}
+.year-sector.is-filled {
+  fill: var(--season-fill);
+  stroke: var(--season-edge);
+  stroke-width: 2;
+}
+.year-ring-center {
+  fill: #fdfefb;
+  stroke: #c6d2bd;
+  stroke-width: 1.5;
+}
+.year-clock-center {
+  position: absolute;
+  inset: 32% 25%;
+  display: grid;
+  place-content: center;
+  text-align: center;
+  pointer-events: none;
+}
+.year-clock-center strong {
+  font-size: clamp(32px, 8vw, 42px);
+  line-height: 1.05;
+  font-variant-numeric: tabular-nums;
+  color: #243d2e;
+}
+.year-clock-center span {
+  font-size: 16px;
+  font-weight: 750;
+}
+.year-clock-month {
+  position: absolute;
+  width: 44px;
+  height: 44px;
+  transform: translate(-50%, -50%);
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1.5px dashed #6f7f67;
+  border-radius: 50%;
+  background: #fdfefb;
+  color: #263d2e;
+  font-size: 14px;
+  font-weight: 800;
+}
+.year-clock-month.is-filled {
+  border: 2px solid var(--season-edge);
+  background: var(--season-fill);
+}
+.year-clock-month[aria-pressed='true'] {
+  outline: 3px solid #294d36;
+  outline-offset: 2px;
+}
+.year-clock-month:hover {
+  filter: brightness(0.96);
+}
+.year-build-controls {
+  display: grid;
+  gap: 10px;
+  width: min(100%, 340px);
+}
+.year-month-pilot-v2 .button {
+  min-height: 48px;
+  font-size: 16px;
+  border-radius: 12px;
+}
+.year-month-pilot-v2 .button.primary {
+  background: #3f6b4a;
+  color: #fff;
+}
+.year-month-pilot-v2 .button.primary:hover:not(:disabled) {
+  background: #355b40;
+}
+.year-month-pilot-v2 .button.secondary {
+  border-color: #879a7e;
+  color: #334d3a;
+}
+.year-add-button {
+  width: 100%;
+}
+.year-build-status {
+  min-height: 3.9em;
+  font-size: 16px;
+  line-height: 1.4;
+  text-align: center;
+}
+.year-build-status strong {
+  color: #244d32;
+}
+.season-winter {
+  --season-fill: #dbeafe;
+  --season-edge: #47759b;
+}
+.season-spring {
+  --season-fill: #dcfce7;
+  --season-edge: #4b7d55;
+}
+.season-summer {
+  --season-fill: #fef3c7;
+  --season-edge: #9a7426;
+}
+.season-autumn {
+  --season-fill: #ffedd5;
+  --season-edge: #a4603c;
+}
+.year-groups {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin: 16px 0 12px;
+}
+.year-groups-two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.year-group-card {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  padding: 10px 6px;
+  border: 1px solid #a9bda1;
+  border-radius: 14px;
+  background: #f4f9ef;
+  text-align: center;
+}
+.year-group-ring {
+  position: relative;
+  width: min(100%, 112px);
+  aspect-ratio: 1;
+}
+.year-group-ring > strong {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 26px;
+  color: #243d2e;
+}
+.year-group-card > span {
+  display: grid;
+  gap: 2px;
+  font-size: 16px;
+}
+.year-group-card > span > span {
+  color: #40563f;
+}
+.pilot-formula {
+  display: grid;
+  gap: 2px;
+  justify-items: center;
+  margin: 12px 0 8px;
+  padding: 12px 8px;
+  border-radius: 12px;
+  background: #e8f2e2;
+  color: #234a30;
+  font-size: clamp(20px, 4.6vw, 27px);
+  line-height: 1.3;
+  font-weight: 800;
+  overflow-wrap: anywhere;
+  text-align: center;
+}
+.pilot-meaning {
+  font-size: 16px;
+  text-align: center;
+  color: #3d5241;
+}
+.pilot-model-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 14px;
+}
+.pilot-model-controls .button {
+  flex: 1 1 150px;
+}
+.year-month-pilot-v2 .button:disabled {
+  opacity: 0.55;
+}
+.extra-months {
+  display: grid;
+  gap: 8px;
+  justify-items: center;
+  padding: 12px;
+  border: 2px dashed #a4603c;
+  border-radius: 14px;
+  background: #fff7ed;
+  font-size: 16px;
+}
+.extra-month-tokens {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+.extra-month-token {
+  padding: 8px 12px;
+  border: 1px solid #a4603c;
+  border-radius: 10px;
+  background: #ffedd5;
+  font-weight: 800;
+}
+.extra-month-empty {
+  color: #6b4b36;
+}
+.year-month-pilot-v2 .pilot-actions {
+  margin-top: 10px;
+}
+.year-month-pilot-v2 .pilot-actions .button {
+  flex: 1 1 140px;
+}
+@media (min-width: 640px) {
+  .year-build-layout {
+    grid-template-columns: minmax(240px, 300px) minmax(0, 1fr);
+    align-items: center;
+  }
+  .year-clock {
+    width: 100%;
+    max-width: 300px;
+  }
+  .year-build-status {
+    text-align: left;
+  }
+}
+@media (max-width: 360px) {
+  .year-month-pilot-v2 .pilot-topline {
+    flex-wrap: wrap;
+  }
+  .year-groups {
+    gap: 6px;
+  }
+  .year-group-card {
+    padding: 8px 3px;
+  }
+  .year-group-card > span {
+    font-size: 14px;
+  }
+  .year-group-ring > strong {
+    font-size: 22px;
+  }
+  .season-reference-row {
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .year-month-pilot-v2 *,
+  .year-month-pilot-v2 *::before,
+  .year-month-pilot-v2 *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+.pilot-season-reference[hidden] {
+  display: none;
+}
+.year-groups-two .year-group-ring {
+  max-width: 88px;
+}
+.year-groups-two .year-group-card {
+  padding-block: 8px;
+}
+.year-month-pilot-v2 .pilot-model-controls .button {
+  padding-inline: 10px;
+  gap: 6px;
+}
+@media (max-width: 639px) {
+  .year-month-pilot-v2 .pilot-actions {
+    position: sticky;
+    bottom: -23px;
+    padding: 10px 0 12px;
+    background: #fdfefb;
+    box-shadow: 0 -8px 12px #fdfefb;
+  }
+}
+.year-month-dialog .modal-close {
+  width: 44px;
+  height: 44px;
+  top: 8px;
+  right: 8px;
+}
+
+/* Shared calendar model: one circle/sector grammar for years, months and seasons. */
+:root {
+  --calendar-winter-fill: #60a5fa;
+  --calendar-winter-edge: #1d4ed8;
+  --calendar-spring-fill: #4ade80;
+  --calendar-spring-edge: #15803d;
+  --calendar-summer-fill: #facc15;
+  --calendar-summer-edge: #a16207;
+  --calendar-autumn-fill: #fb7185;
+  --calendar-autumn-edge: #be123c;
+}
+.season-winter {
+  --season-fill: var(--calendar-winter-fill);
+  --season-edge: var(--calendar-winter-edge);
+}
+.season-spring {
+  --season-fill: var(--calendar-spring-fill);
+  --season-edge: var(--calendar-spring-edge);
+}
+.season-summer {
+  --season-fill: var(--calendar-summer-fill);
+  --season-edge: var(--calendar-summer-edge);
+}
+.season-autumn {
+  --season-fill: var(--calendar-autumn-fill);
+  --season-edge: var(--calendar-autumn-edge);
+}
+/* A month without a season keeps its own cheerful grape colour: bright enough to
+   feel playful, still 4.05:1 on the light panels so it reads as a counted unit. */
+.season-unknown {
+  --season-fill: #8b5cf6;
+  --season-edge: #4c1d95;
+}
+.year-sector {
+  fill: #eef2f7;
+  stroke: #64748b;
+  stroke-width: 1.6;
+}
+.year-sector.is-filled {
+  fill: var(--season-fill);
+  stroke: var(--season-edge);
+  stroke-width: 2.4;
+}
+.year-ring-center-label {
+  fill: #1f2937;
+  font-size: 26px;
+  font-weight: 800;
+}
+.year-clock-month {
+  color: #111827;
+  border-color: #475569;
+}
+.year-clock-month.is-filled {
+  border-width: 2.5px;
+}
+.season-reference-row {
+  grid-template-columns: 108px 1fr;
+  align-items: center;
+  background: #f8fafc;
+  border-left-width: 8px;
+}
+.season-reference-row strong {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.calendar-model-legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  margin: 10px 0 2px;
+}
+.calendar-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 32px;
+  padding: 4px 9px;
+  border: 2px solid var(--season-edge);
+  border-radius: 999px;
+  background: var(--season-fill);
+  color: #111827;
+  font-size: 14px;
+  font-weight: 800;
+}
+.calendar-month-sector,
+.calendar-season-sector {
+  position: relative;
+  display: inline-grid;
+  justify-items: center;
+  gap: 2px;
+  min-width: 44px;
+  color: #111827;
+  text-align: center;
+}
+.calendar-month-sector svg,
+.calendar-season-sector svg {
+  display: block;
+  width: 52px;
+  height: 52px;
+}
+.month-sector-path,
+.season-sector-path {
+  fill: var(--season-fill);
+  stroke: var(--season-edge);
+  stroke-width: 3;
+}
+/* The month viewBox is tight, so a thinner stroke keeps the same visible weight. */
+.month-sector-path {
+  stroke-width: 1.6;
+}
+.calendar-month-sector strong,
+.calendar-season-sector strong {
+  font-size: 14px;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+.season-sector-icon {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #fff;
+  color: var(--season-edge);
+}
+.calendar-year-token {
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+}
+.calendar-year-rings {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+}
+.calendar-task-year-ring {
+  width: 68px;
+  height: 68px;
+}
+.calendar-year-token > strong {
+  font-size: 14px;
+  color: #1f2937;
+}
+.calendar-month-sector-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2px;
+  max-width: 220px;
+}
+.calendar-month-sector-group .calendar-month-sector {
+  min-width: 32px;
+}
+.calendar-month-sector-group .calendar-month-sector svg {
+  width: 34px;
+  height: 34px;
+}
+.calendar-question-chip {
+  display: inline-grid;
+  place-items: center;
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 2px dashed #64748b;
+  border-radius: 12px;
+  background: #f8fafc;
+  color: #1f2937;
+  font-size: 15px;
+  font-weight: 800;
+}
+.calendar-token-year,
+.calendar-token-month,
+.calendar-token-season {
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 100%;
+  border: 0;
+  background: none;
+  min-height: 0;
+  padding: 4px;
+}
+.calendar-visual:has(.calendar-year-token) {
+  gap: 12px;
+  padding: 10px;
+}
+.extra-month-token {
+  padding: 4px 8px;
+  border: 0;
+  background: none;
+}
+.extra-month-token .calendar-month-sector svg {
+  width: 48px;
+  height: 48px;
+}
+.extra-months {
+  border-color: #64748b;
+  background: #f8fafc;
+}
+.extra-month-empty {
+  color: #334155;
+}
+/* Intro cycle uses the shared ring, not four detached season cards. */
+.calendar-model-cycle {
+  aspect-ratio: auto;
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  width: min(100%, 320px);
+  min-width: 0;
+  margin: 14px auto;
+  padding: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+}
+.calendar-model-cycle .year-ring-svg {
+  width: min(100%, 280px);
+  height: auto;
+}
+.season-cycle-buttons {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  width: 100%;
+}
+.calendar-model-cycle .season-cycle-choice {
+  position: static;
+  left: auto;
+  right: auto;
+  top: auto;
+  bottom: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  width: auto;
+  min-height: 44px;
+  padding: 8px 10px;
+  border: 2px solid var(--season-edge);
+  border-radius: 12px;
+  background: var(--season-fill);
+  color: #111827;
+  box-shadow: none;
+  transform: none;
+  font-size: 15px;
+}
+.calendar-model-cycle .season-cycle-choice:hover,
+.calendar-model-cycle .season-cycle-choice:active {
+  transform: none;
+  filter: brightness(0.97);
+}
+.season-detail-model {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 18px;
+  margin: 12px 0;
+  padding: 12px;
+  border: 2px solid var(--season-edge);
+  border-radius: 16px;
+  background: #f8fafc;
+}
+.season-detail-model .calendar-season-sector svg,
+.season-detail-model .calendar-month-sector svg {
+  width: 76px;
+  height: 76px;
+}
+.season-detail-model .season-sector-icon {
+  top: 16px;
+  width: 32px;
+  height: 32px;
+}
+.calendar-reference-page .calendar-season-months > div {
+  border-left-color: var(--season-edge);
+  background: #f8fafc;
+}
+.calendar-reference-page .calendar-season-months > div strong {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.illustrated-order .calendar-token .calendar-month-sector svg,
+.illustrated-order .calendar-token .calendar-season-sector svg {
+  width: 84px;
+  height: 84px;
+}
+.illustrated-order .calendar-token .calendar-month-sector strong,
+.illustrated-order .calendar-token .calendar-season-sector strong {
+  display: none;
+}
+.illustrated-order .calendar-token .season-sector-icon {
+  top: 18px;
+  width: 34px;
+  height: 34px;
+}
+@media (max-width: 767px) {
+  .illustrated-order li > .calendar-token .calendar-month-sector,
+  .illustrated-order li > .calendar-token .calendar-season-sector {
+    align-self: center;
+    height: auto;
+  }
+  .illustrated-order li > .calendar-token .calendar-month-sector svg,
+  .illustrated-order li > .calendar-token .calendar-season-sector svg {
+    width: min(100%, 100px);
+    height: 100px;
+  }
+  .illustrated-order li > .calendar-token .season-sector-icon {
+    top: 22px;
+  }
+}
+@media (max-width: 599px) {
+  .calendar-task-year-ring {
+    width: 56px;
+    height: 56px;
+  }
+  .calendar-year-rings {
+    gap: 4px;
+  }
+  .calendar-visual:has(.calendar-year-token) {
+    gap: 8px;
+    padding: 8px 4px;
+  }
+  .calendar-month-sector-group .calendar-month-sector svg {
+    width: 30px;
+    height: 30px;
+  }
+  .calendar-question-chip {
+    font-size: 14px;
+    padding: 6px 9px;
+  }
+}
+@media (max-width: 360px) {
+  .season-reference-row {
+    grid-template-columns: 1fr;
+  }
+  .calendar-task-year-ring {
+    width: 48px;
+    height: 48px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .calendar-model-cycle *,
+  .calendar-month-sector,
+  .calendar-season-sector,
+  .calendar-year-token {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* «Собери год» — author's drag-and-drop game inside the explanation. */
+.year-game-entry {
+  width: 100%;
+  margin-top: 12px;
+  border: 2px solid #4c1d95;
+  background: #ede9fe;
+  color: #3b0764;
+  font-weight: 800;
+}
+.year-game-entry:hover {
+  background: #ddd6fe;
+  border-color: #4c1d95;
+}
+.year-game h3 {
+  margin: 4px 0 6px;
+}
+.year-game h3:focus {
+  outline: none;
+}
+.year-game-lead {
+  font-size: 16px;
+  line-height: 1.45;
+  color: #334155;
+}
+.year-game-progress {
+  display: flex;
+  gap: 4px;
+  margin: 12px 0 4px;
+}
+.year-game-progress i {
+  flex: 1 1 0;
+  height: 8px;
+  border-radius: 999px;
+  background: #e2e8f0;
+}
+.year-game-progress i.is-on {
+  background: #8b5cf6;
+}
+.year-game-count {
+  font-size: 14px;
+  font-weight: 800;
+  color: #4c1d95;
+}
+.year-game-layout {
+  display: grid;
+  gap: 14px;
+  justify-items: center;
+  margin-top: 8px;
+}
+.year-game-clock {
+  width: min(100%, 280px);
+  min-width: 0;
+}
+.year-game-slot {
+  border: 2px dashed #64748b;
+  background: #fff;
+  color: #334155;
+  font-size: 15px;
+  font-weight: 800;
+  transition:
+    transform 120ms ease-out,
+    box-shadow 120ms ease-out;
+}
+.year-game-slot.is-filled {
+  border-style: solid;
+  border-width: 2.5px;
+  border-color: var(--season-edge);
+  background: var(--season-fill);
+  color: #111827;
+  font-size: 13px;
+}
+.year-game-slot.is-hover {
+  transform: translate(-50%, -50%) scale(1.14);
+  border-color: #4c1d95;
+  box-shadow: 0 0 0 4px #ddd6fe;
+}
+.year-game-slot.is-hint {
+  border-style: solid;
+  border-color: #4c1d95;
+  box-shadow: 0 0 0 4px #ede9fe;
+}
+.year-game-slot.is-miss {
+  border-color: #b45309;
+  box-shadow: 0 0 0 4px #fef3c7;
+}
+.year-game-side {
+  width: 100%;
+  min-width: 0;
+}
+.year-game-tray-title {
+  font-size: 14px;
+  font-weight: 800;
+  color: #334155;
+  margin-bottom: 6px;
+}
+.year-game-tray {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-height: 48px;
+  padding: 8px;
+  border: 2px dashed #a78bfa;
+  border-radius: 14px;
+  background: #faf5ff;
+}
+.year-game-chip {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-width: 0;
+  min-height: 44px;
+  padding: 6px 9px;
+  white-space: nowrap;
+  border: 2px solid var(--season-edge);
+  border-radius: 11px;
+  background: var(--season-fill);
+  color: #111827;
+  font-size: 13px;
+  font-weight: 800;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: grab;
+}
+.year-game-chip:active {
+  cursor: grabbing;
+}
+.year-game-chip.is-selected {
+  box-shadow: 0 0 0 4px #c4b5fd;
+}
+.year-game-chip.is-dragging {
+  opacity: 0.35;
+}
+.year-game-ghost {
+  position: fixed;
+  z-index: 90;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 12px;
+  border: 2px solid var(--season-edge);
+  border-radius: 11px;
+  background: var(--season-fill);
+  color: #111827;
+  font-size: 13px;
+  font-weight: 800;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  box-shadow: 0 8px 20px #0f172a33;
+}
+.year-game-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+.year-game-tools .button {
+  flex: 1 1 110px;
+  min-width: 0;
+  min-height: 44px;
+  padding-inline: 10px;
+}
+.year-game-message {
+  margin-top: 12px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #f1f5f9;
+  color: #1f2937;
+  font-size: 15px;
+  line-height: 1.4;
+}
+.year-game-message.is-done {
+  background: #ede9fe;
+  border: 2px solid #4c1d95;
+  color: #3b0764;
+  font-weight: 800;
+}
+@media (min-width: 640px) {
+  .year-game-layout {
+    grid-template-columns: minmax(200px, 250px) minmax(0, 1fr);
+    align-items: start;
+    gap: 18px;
+  }
+}
+@media (max-width: 639px) {
+  /* The season colour already carries the cue; drop the icon so full month
+     names fit three per row on a narrow phone. */
+  .year-game-chip svg {
+    display: none;
+  }
+  .year-game-chip {
+    font-size: 12px;
+    padding: 6px 7px;
+  }
+  .year-game-clock {
+    width: min(100%, 240px);
+  }
+  .year-game-lead {
+    font-size: 14px;
+  }
+}
+/* Short phones: keep the circle and the box as close together as possible. */
+@media (max-width: 639px) and (max-height: 720px) {
+  /* 240px is the smallest circle whose twelve 44px places do not overlap. */
+  .year-game-clock {
+    width: min(100%, 240px);
+  }
+  .year-game-progress {
+    display: none;
+  }
+  .year-game h3 {
+    margin-bottom: 4px;
+  }
+  .year-game-lead {
+    margin-bottom: 6px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .year-game-slot,
+  .year-game-chip {
+    transition: none !important;
+  }
+  .year-game-slot.is-hover {
+    transform: translate(-50%, -50%);
+  }
+}
+
+/* CARD-01: cards carry the object, the action and the current state — not a second explanation. */
+.topic-card {
+  min-height: 0;
+  padding: 16px 18px 14px;
+}
+.topic-card > strong {
+  margin-top: 10px;
+  font-size: 16px;
+  line-height: 1.45;
+}
+.topic-card-bottom {
+  align-items: center;
+  padding-top: 12px;
+}
+.catalog-grid .topic-card,
+.catalog-section .topic-card {
+  min-height: 0;
+}
+.goal-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 16px 18px;
+}
+.goal-heading {
+  width: auto;
+}
+.goal-ring {
+  flex-shrink: 0;
+  width: 84px;
+  height: 84px;
+  margin: 0;
+}
+.stat-card {
+  min-height: 0;
+  padding: 16px;
+}
+.stat-card > .stat-icon {
+  margin-bottom: 10px;
+}
+.stat-card > strong > span {
+  display: inline;
+  margin-left: 4px;
+  font-size: 14px;
+}
+.badge-card p {
+  min-height: 0;
+  line-height: 1.5;
+}
+.badge-progress {
+  min-height: 0;
+  margin-top: 14px;
+}
+.year-group-ring > strong {
+  inset: auto 0 auto 0;
+  top: 50%;
+  transform: translateY(-65%);
+  font-size: 24px;
+  line-height: 1;
+}
+.year-group-ring > small {
+  position: absolute;
+  inset: auto 0 auto 0;
+  top: 50%;
+  transform: translateY(45%);
+  font-size: 11px;
+  line-height: 1;
+  color: #40563f;
+}
+.year-group-card > span {
+  font-size: 14px;
+}
+.install-card strong {
+  flex: 1;
+  font-size: 12px;
+}
+@media (max-width: 540px) {
+  .goal-card {
+    padding: 12px 14px;
+  }
+  .goal-ring {
+    width: 64px;
+    height: 64px;
+  }
+  .goal-ring strong {
+    font-size: 20px;
+  }
+  .goal-heading strong {
+    font-size: 12px;
+  }
+  .topic-card > strong {
+    font-size: 15px;
+  }
+  .year-group-ring > strong {
+    font-size: 20px;
+  }
+}
+
+/* CARD-02: graphic counters, and model tools kept apart from card navigation. */
+.pilot-steps {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 44px;
+}
+.pilot-steps i,
+.task-progress-dots i {
+  flex: 0 1 auto;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2px solid #6b7c65;
+}
+.pilot-steps i.is-done,
+.task-progress-dots i.is-done {
+  background: #4f7a52;
+  border-color: #4f7a52;
+}
+.pilot-steps i.is-current,
+.task-progress-dots i.is-current {
+  width: 13px;
+  height: 13px;
+  background: #2f6b3d;
+  border-color: #2f6b3d;
+  box-shadow: 0 0 0 3px #dcebda;
+}
+.task-card-top {
+  flex-wrap: nowrap;
+}
+.task-progress {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+  min-height: 44px;
+}
+.task-progress-dots {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+}
+.task-progress-dots i {
+  width: 7px;
+  height: 7px;
+  min-width: 4px;
+}
+.task-progress-dots i.is-current {
+  width: 11px;
+  height: 11px;
+  box-shadow: 0 0 0 2px #dcebda;
+}
+.task-progress b {
+  flex: 0 0 auto;
+  font-size: 12px;
+  color: #4c5f49;
+}
+.task-exit {
+  flex: 0 0 auto;
+}
+.task-help-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+}
+.task-reference-dialog .button.full-width {
+  margin-top: 14px;
+}
+
+/* Violet = change the model or play. Green/orange = move through the cards. */
+.model-tools {
+  margin-top: 14px;
+  padding: 10px;
+  border: 1px solid #ddd6fe;
+  border-radius: 14px;
+  background: #f7f5ff;
+}
+.model-tools .button.tool-add {
+  border-color: #6d28d9;
+  background: #6d28d9;
+  color: #ffffff;
+}
+.model-tools .button.tool-add:hover:not(:disabled) {
+  background: #5b21b6;
+}
+.model-tools .button.tool-remove,
+.model-tools .button.tool-outline {
+  border-color: #8b5cf6;
+  background: #ffffff;
+  color: #5b21b6;
+}
+.model-tools .button.tool-remove:hover:not(:disabled),
+.model-tools .button.tool-outline:hover:not(:disabled) {
+  background: #ede9fe;
+}
+.year-month-pilot-v2 .button.tool-add {
+  border-color: #6d28d9;
+  background: #6d28d9;
+  color: #ffffff;
+}
+.year-month-pilot-v2 .button.tool-remove,
+.year-month-pilot-v2 .button.tool-outline {
+  border-color: #8b5cf6;
+  background: #ffffff;
+  color: #5b21b6;
+}
+.pilot-actions {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid #dbe4d4;
+}
+.pilot-formula-result {
+  margin-top: 4px;
+  padding-top: 6px;
+  border-top: 2px solid #b8d3ae;
+  color: #14532d;
+  font-size: clamp(21px, 5vw, 29px);
+}
+@media (max-width: 400px) {
+  .model-tools {
+    padding: 8px;
+  }
+  .model-tools .button {
+    flex: 1 1 120px;
+    padding-inline: 8px;
+    font-size: 14px;
+  }
+}
+.task-reference-back {
+  margin-bottom: 12px;
 }

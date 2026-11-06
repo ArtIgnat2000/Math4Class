@@ -21,7 +21,7 @@ import {
   type TopicReference,
 } from '../engine/content';
 import { referenceLabel } from '../engine/references';
-import { dayKey, plural, recentDays } from '../engine/dates';
+import { dayKey, plural } from '../engine/dates';
 import type { Session } from '../engine/model';
 import { dueTopics, gradeStats, recommendedTopic, topicKey } from '../engine/progress';
 import { GradeSwitcher, InfoNote, PageHeading, TopicCard } from './shared';
@@ -39,8 +39,7 @@ function GoalCard({ today }: { today: string }) {
           <Target size={20} />
         </span>
         <span>
-          <strong>Маленькая цель</strong>
-          <small>на большой день</small>
+          <strong>Цель дня</strong>
         </span>
       </div>
       <div className="goal-ring">
@@ -62,38 +61,6 @@ function GoalCard({ today }: { today: string }) {
           <small>заданий</small>
         </div>
         {achieved && <span className="goal-done">✓</span>}
-      </div>
-      <p>
-        {achieved ? (
-          <>
-            Сегодняшний шаг сделан.
-            <br />
-            <strong>Ты молодец!</strong>
-          </>
-        ) : (
-          <>
-            Всего {Math.max(0, profile.goal - count)}{' '}
-            {plural(Math.max(0, profile.goal - count), ['задание', 'задания', 'заданий'])} до цели.
-            <br />
-            <strong>Тебе по силам!</strong>
-          </>
-        )}
-      </p>
-      <div className="week-dots" aria-label="Занятия за последние семь дней">
-        {recentDays(today, 7).map((d) => (
-          <span
-            key={d}
-            className={`${profile.daily[d]?.lessons ? 'day-done' : ''} ${d === today ? 'day-today' : ''}`}
-            title={`${new Date(`${d}T12:00:00`).toLocaleDateString('ru-RU')}: ${profile.daily[d]?.tasks ?? 0} заданий`}
-          >
-            <span>
-              {new Date(`${d}T12:00:00`)
-                .toLocaleDateString('ru-RU', { weekday: 'short' })
-                .slice(0, 2)}
-            </span>
-            <i>{profile.daily[d]?.lessons ? '✓' : ''}</i>
-          </span>
-        ))}
       </div>
     </aside>
   );
@@ -209,11 +176,10 @@ export function Learning({
           {!routeTopics.length && (
             <p role="status">Пока нет заданий, сверенных с учебником для этого класса.</p>
           )}
-          {routeTopics.map((topic, i) => (
+          {routeTopics.map((topic) => (
             <TopicCard
               key={topic.id}
               topic={topic}
-              index={i}
               progress={profile.topics[topicKey(pack.grade, topic.id)]}
               recommended={topic.id === next.topic?.id}
               review={next.review}
@@ -412,7 +378,6 @@ export function Catalog({ onOpen }: { onOpen: OpenTopic }) {
                   <TopicCard
                     key={topic.id}
                     topic={topic}
-                    index={pack.topics.indexOf(topic)}
                     progress={profile.topics[topicKey(pack.grade, topic.id)]}
                     onOpen={() => onOpen(topic, pack.grade)}
                   />
@@ -478,11 +443,10 @@ export function Review({
             </span>
           </div>
           <div className="topic-grid">
-            {due.map((topic, i) => (
+            {due.map((topic) => (
               <TopicCard
                 topic={topic}
                 key={topic.id}
-                index={i}
                 progress={profile.topics[topicKey(pack.grade, topic.id)]}
                 recommended
                 review
@@ -521,11 +485,10 @@ export function Review({
             </div>
           </div>
           <div className="topic-grid">
-            {mistakes.map((topic, i) => (
+            {mistakes.map((topic) => (
               <TopicCard
                 topic={topic}
                 key={topic.id}
-                index={i}
                 progress={profile.topics[topicKey(pack.grade, topic.id)]}
                 onOpen={() => onOpen(topic, pack.grade, 'review')}
               />
@@ -542,8 +505,7 @@ export function Review({
             <Target size={23} />
           </span>
           <span>
-            <strong>Хочется посчитать ещё?</strong>
-            <small>Короткая тренировка по знакомой теме</small>
+            <strong>Потренироваться</strong>
           </span>
           <ChevronRight size={20} />
         </button>
