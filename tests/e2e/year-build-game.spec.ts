@@ -22,7 +22,8 @@ async function openGame(page: Page) {
   await page.locator('.topic-card').filter({ hasText: 'Переводим годы в месяцы' }).click();
   const dialog = page.getByRole('dialog');
   await dialog.getByRole('button', { name: 'Игра «Собери год»' }).click();
-  await expect(dialog.getByRole('heading', { name: 'Собери год' })).toBeVisible();
+  await expect(dialog.getByRole('heading', { name: 'Собери год' })).toHaveCount(1);
+  await expect(dialog.locator('.year-game h3')).toHaveClass(/sr-only/);
   return dialog;
 }
 
@@ -47,7 +48,8 @@ test('a mouse builds the whole year, and the game never scores or saves progress
   const dialog = await openGame(page);
   await expect(dialog.locator('.year-game-progress')).toHaveCount(0);
   await expect(dialog.locator('.year-game-count')).toHaveCount(0);
-  await expect(dialog.getByText('Перетащи месяцы по порядку.')).toBeVisible();
+  await expect(dialog.locator('.year-game-lead')).toHaveClass(/sr-only/);
+  await expect(dialog.getByRole('status')).toContainText('Перетащи или нажми');
   await expect(dialog.locator('[data-year-slot]')).toHaveCount(12);
   await expect(dialog.locator('.year-game-chip')).toHaveCount(12);
   await expect(dialog.locator('.year-game-clock .year-sector.is-filled')).toHaveCount(0);

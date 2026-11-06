@@ -42,6 +42,21 @@ describe('compact card copy', () => {
     expect(container.querySelector('.pilot-step')).toBeNull();
   });
 
+  it('the explanation header keeps a single visible line of text', () => {
+    const { container } = render(<YearMonthsPilot onPractice={vi.fn()} />);
+    for (const step of [0, 1, 2]) {
+      // Only the dialog title stays visible; the step name and the instruction
+      // remain available to assistive technology instead of stacking up lines.
+      expect(container.querySelector('.year-month-pilot-v2 h3')).toHaveClass('sr-only');
+      expect(container.querySelector('.pilot-instruction')).toHaveClass('sr-only');
+      const toggle = screen.getByRole('button', { name: 'Времена года' });
+      expect(toggle).toHaveTextContent('');
+      expect(toggle).toHaveAttribute('title', 'Времена года');
+      expect(container.querySelector('.pilot-topline')!.textContent).toBe('');
+      if (step < 2) fireEvent.click(screen.getByRole('button', { name: 'Дальше' }));
+    }
+  });
+
   it('the game keeps one visible counter and short tray/origin labels', () => {
     const { container } = render(<YearBuildGame onExit={vi.fn()} />);
     expect(container.querySelector('.year-game-progress')).toBeNull();
@@ -49,7 +64,10 @@ describe('compact card copy', () => {
     expect(container.querySelector('.year-clock-center strong')).toHaveTextContent('0');
     expect(screen.getByText('Месяцы')).toBeInTheDocument();
     expect(screen.queryByText(/Авторское|Авторская/)).not.toBeInTheDocument();
-    expect(screen.getByText('Перетащи месяцы по порядку.')).toBeInTheDocument();
+    // The lead moved out of the header; the status line names both input paths.
+    expect(container.querySelector('.year-game-lead')).toHaveClass('sr-only');
+    expect(container.querySelector('.year-game h3')).toHaveClass('sr-only');
+    expect(screen.getByRole('status')).toHaveTextContent('Перетащи или нажми: месяц → место.');
   });
 
   it('task cards keep the exact approved question and only show a breakdown when it is needed', () => {

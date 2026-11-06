@@ -54,12 +54,12 @@ describe('interactive year → months explanation', () => {
 
   it('opens a short season reference without hiding navigation or changing progress', async () => {
     const user = userEvent.setup();
-    render(<YearMonthsPilot onPractice={vi.fn()} />);
+    const { container } = render(<YearMonthsPilot onPractice={vi.fn()} />);
     const toggle = screen.getByRole('button', { name: 'Времена года' });
     await user.click(toggle);
-    const reference = screen.getByLabelText('Времена года');
+    const reference = container.querySelector('.pilot-season-reference')!;
     expect(reference).toBeVisible();
-    expect(within(reference).getByText('Июнь, июль, август')).toBeVisible();
+    expect(within(reference as HTMLElement).getByText('Июнь, июль, август')).toBeVisible();
     expect(screen.getByRole('button', { name: 'Дальше' })).toBeVisible();
     await user.click(toggle);
     expect(reference).not.toBeVisible();
