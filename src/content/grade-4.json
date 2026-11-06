@@ -41,7 +41,8 @@
         "calendar-month-length",
         "calendar-leap-year",
         "calendar-years-months",
-        "calendar-word-problems"
+        "calendar-word-problems",
+        "roman-numerals"
       ]
     },
     {
@@ -1240,6 +1241,89 @@
           "hint": "Сначала умножь 5 на 12.",
           "explanation": "5 × 12 + 4 = 60 + 4 = 64 месяца.",
           "unit": "мес."
+        }
+      ]
+    },
+    {
+      "id": "roman-numerals",
+      "title": "Римские цифры",
+      "description": "Знаки I, V, X и числа до XX",
+      "category": "numbers",
+      "color": "lavender",
+      "symbol": "numbers",
+      "minutes": 7,
+      "lessonSize": 3,
+      "theory": {
+        "title": "Три знака",
+        "text": "I — один, V — пять, X — десять. Меньший знак справа прибавляют, слева — вычитают. Одинаковые знаки подряд пишут не больше трёх раз.",
+        "example": "V + I + I = VII = 7; I перед V даёт IV = 4; X + IV = XIV = 14."
+      },
+      "tasks": [
+        {
+          "id": "roman-four",
+          "type": "choice",
+          "question": "Какой месяц обозначен IV?",
+          "options": [
+            {
+              "id": "a",
+              "label": "Апрель"
+            },
+            {
+              "id": "b",
+              "label": "Июнь"
+            },
+            {
+              "id": "c",
+              "label": "Август"
+            }
+          ],
+          "answer": "a",
+          "hint": "IV означает 4.",
+          "explanation": "Четвёртый месяц года — апрель."
+        },
+        {
+          "id": "roman-nine",
+          "type": "choice",
+          "question": "Какой месяц обозначен IX?",
+          "options": [
+            {
+              "id": "a",
+              "label": "Июль"
+            },
+            {
+              "id": "b",
+              "label": "Сентябрь"
+            },
+            {
+              "id": "c",
+              "label": "Ноябрь"
+            }
+          ],
+          "answer": "b",
+          "hint": "IX означает 9.",
+          "explanation": "Девятый месяц — сентябрь."
+        },
+        {
+          "id": "roman-twelve",
+          "type": "choice",
+          "question": "Какой месяц обозначен XII?",
+          "options": [
+            {
+              "id": "a",
+              "label": "Октябрь"
+            },
+            {
+              "id": "b",
+              "label": "Ноябрь"
+            },
+            {
+              "id": "c",
+              "label": "Декабрь"
+            }
+          ],
+          "answer": "c",
+          "hint": "XII означает 12.",
+          "explanation": "Двенадцатый месяц года — декабрь."
         }
       ]
     },
