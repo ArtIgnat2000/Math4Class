@@ -17,6 +17,40 @@ function expectNoMonthNames(container: HTMLElement) {
   }
 }
 
+/** jsdom has no layout, so the board gets a real box to aim a drag at. */
+function giveBoardABox(drop: HTMLElement) {
+  vi.spyOn(drop, 'getBoundingClientRect').mockReturnValue({
+    left: 0,
+    top: 0,
+    width: 300,
+    height: 80,
+    right: 300,
+    bottom: 80,
+    x: 0,
+    y: 0,
+    toJSON: () => ({}),
+  } as DOMRect);
+}
+
+/**
+ * A real gesture with coordinates. jsdom has no PointerEvent, so fireEvent's
+ * pointer helpers drop clientX/clientY; a MouseEvent carrying the pointer
+ * fields delivers exactly what the component reads.
+ */
+function pointerAt(node: HTMLElement, type: string, x: number, y: number) {
+  const event = new MouseEvent(type, { bubbles: true, cancelable: true, clientX: x, clientY: y });
+  Object.defineProperty(event, 'pointerId', { value: 1 });
+  Object.defineProperty(event, 'pointerType', { value: 'touch' });
+  fireEvent(node, event);
+}
+
+function dragByHand(node: HTMLElement, x: number, y: number) {
+  Element.prototype.setPointerCapture = vi.fn();
+  pointerAt(node, 'pointerdown', 20, 300);
+  pointerAt(node, 'pointermove', x, y);
+  pointerAt(node, 'pointerup', x, y);
+}
+
 describe('roman numerals explanation', () => {
   it('keeps one visible header line, graphic steps and no answer leak on every step', () => {
     const { container } = render(<RomanNumeralsPilot onPractice={vi.fn()} />);
@@ -191,15 +225,75 @@ describe('roman building game', () => {
     expect(container.querySelector('.roman-build-drop')).not.toHaveClass('is-solved');
   });
 
-  it('accepts a dropped sign, erases it and shows a hint', () => {
+  it('drags a sign onto the board by hand, erases it and shows a hint', () => {
     const { container } = render(<RomanBuildGame onExit={vi.fn()} />);
     const drop = screen.getByRole('group', { name: 'Запись числа' });
-    fireEvent.drop(drop, { dataTransfer: { getData: () => 'I' } });
+    giveBoardABox(drop);
+    const tray = screen.getByRole('group', { name: 'Знаки' });
+    dragByHand(within(tray).getByRole('button', { name: 'Добавить I' }), 60, 40);
     expect(container.querySelector('.roman-build-value')).toHaveTextContent('= 1');
+    expect(container.querySelectorAll('[data-build-index]')).toHaveLength(1);
     fireEvent.click(screen.getByRole('button', { name: 'Убрать последний знак' }));
     expect(container.querySelector('.roman-build-value')).toBeNull();
     fireEvent.click(screen.getByRole('button', { name: 'Подсказка' }));
     expect(container.querySelector('.roman-build-hint')).toHaveTextContent('III');
     expectNoMonthNames(container);
+    expect(localStorage.getItem(STORAGE_KEY)).toBeNull();
+  });
+
+  it('reorders placed signs by hand and the value follows the position', () => {
+    const { container } = render(<RomanBuildGame onExit={vi.fn()} />);
+    const drop = screen.getByRole('group', { name: 'Запись числа' });
+    giveBoardABox(drop);
+    const tray = screen.getByRole('group', { name: 'Знаки' });
+    fireEvent.click(within(tray).getByRole('button', { name: 'Добавить V' }));
+    fireEvent.click(within(tray).getByRole('button', { name: 'Добавить I' }));
+    expect(container.querySelector('.roman-build-value')).toHaveTextContent('= 6');
+    // Drag the I from the right of V to the left: VI becomes IV.
+    const one = container.querySelector<HTMLElement>('[data-build-index="1"]')!;
+    dragByHand(one, 0, 40);
+    expect(container.querySelector('.roman-build-value')).toHaveTextContent('= 4');
+    expect(screen.getByRole('status')).toHaveTextContent('IV — это 4. Нужно 3.');
+  });
+
+  it('takes a placed sign back out by dragging it off the board', () => {
+    const { container } = render(<RomanBuildGame onExit={vi.fn()} />);
+    const drop = screen.getByRole('group', { name: 'Запись числа' });
+    giveBoardABox(drop);
+    const tray = screen.getByRole('group', { name: 'Знаки' });
+    fireEvent.click(within(tray).getByRole('button', { name: 'Добавить V' }));
+    fireEvent.click(within(tray).getByRole('button', { name: 'Добавить I' }));
+    const one = container.querySelector<HTMLElement>('[data-build-index="1"]')!;
+    // Released far below the board: the sign goes back to the tray.
+    dragByHand(one, 150, 300);
+    expect(container.querySelectorAll('[data-build-index]')).toHaveLength(1);
+    expect(container.querySelector('.roman-build-value')).toHaveTextContent('= 5');
+    expect(screen.getByRole('status')).toHaveTextContent('Знак I убран.');
+  });
+
+  it('moves and removes a placed sign with the keyboard alone', () => {
+    const { container } = render(<RomanBuildGame onExit={vi.fn()} />);
+    const tray = screen.getByRole('group', { name: 'Знаки' });
+    fireEvent.click(within(tray).getByRole('button', { name: 'Добавить V' }));
+    fireEvent.click(within(tray).getByRole('button', { name: 'Добавить I' }));
+    const one = container.querySelector<HTMLElement>('[data-build-index="1"]')!;
+    fireEvent.keyDown(one, { key: 'ArrowLeft' });
+    expect(container.querySelector('.roman-build-value')).toHaveTextContent('= 4');
+    const moved = container.querySelector<HTMLElement>('[data-build-index="0"]')!;
+    fireEvent.keyDown(moved, { key: 'Delete' });
+    expect(container.querySelector('.roman-build-value')).toHaveTextContent('= 5');
+  });
+
+  it('selects a sign and shifts or removes it without any dragging', () => {
+    const { container } = render(<RomanBuildGame onExit={vi.fn()} />);
+    const tray = screen.getByRole('group', { name: 'Знаки' });
+    fireEvent.click(within(tray).getByRole('button', { name: 'Добавить V' }));
+    fireEvent.click(within(tray).getByRole('button', { name: 'Добавить I' }));
+    fireEvent.click(container.querySelector<HTMLElement>('[data-build-index="1"]')!);
+    fireEvent.click(screen.getByRole('button', { name: 'Сдвинуть знак влево' }));
+    expect(container.querySelector('.roman-build-value')).toHaveTextContent('= 4');
+    // The sign stays selected, so it can be moved again or taken away.
+    fireEvent.click(screen.getByRole('button', { name: 'Убрать выбранный знак' }));
+    expect(container.querySelector('.roman-build-value')).toHaveTextContent('= 5');
   });
 });

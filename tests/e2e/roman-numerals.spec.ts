@@ -168,3 +168,85 @@ for (const [width, height] of [
     }
   });
 }
+
+test.describe('the constructor by hand', () => {
+  test.use({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+
+  test('a finger drags a sign in, reorders it and takes it back out', async ({ page }) => {
+    const cdp = await page.context().newCDPSession(page);
+    const touch = (type: 'touchStart' | 'touchMove' | 'touchEnd', x: number, y: number) =>
+      cdp.send('Input.dispatchTouchEvent', {
+        type,
+        touchPoints: type === 'touchEnd' ? [] : [{ x, y, radiusX: 12, radiusY: 12, force: 1 }],
+      });
+    const centre = (box: { x: number; y: number; width: number; height: number }) => ({
+      x: box.x + box.width / 2,
+      y: box.y + box.height / 2,
+    });
+
+    const dialog = await openLesson(page);
+    await dialog.getByRole('button', { name: 'Игра «Собери число»' }).click();
+    const drop = dialog.locator('.roman-build-drop');
+    const board = (await drop.boundingBox())!;
+
+    // 1. Carry V from the tray onto the board with a finger.
+    const v = centre((await dialog.getByRole('button', { name: 'Добавить V' }).boundingBox())!);
+    await touch('touchStart', v.x, v.y);
+    await touch('touchMove', board.x + board.width / 2, board.y + board.height / 2);
+    await expect(dialog.locator('.roman-build-ghost')).toBeVisible();
+    await touch('touchEnd', 0, 0);
+    await expect(dialog.locator('[data-build-index]')).toHaveCount(1);
+    await expect(dialog.locator('.roman-build-value')).toHaveText('= 5');
+
+    // 2. Carry I to the right end: VI is 6.
+    const i = centre((await dialog.getByRole('button', { name: 'Добавить I' }).boundingBox())!);
+    await touch('touchStart', i.x, i.y);
+    await touch('touchMove', board.x + board.width - 6, board.y + board.height / 2);
+    await touch('touchEnd', 0, 0);
+    await expect(dialog.locator('[data-build-index]')).toHaveCount(2);
+    await expect(dialog.locator('.roman-build-value')).toHaveText('= 6');
+
+    // 3. Drag the placed I to the left of V: the position changes the number to 4.
+    const placed = (await dialog.locator('[data-build-index="1"]').boundingBox())!;
+    const from = centre(placed);
+    await touch('touchStart', from.x, from.y);
+    await touch('touchMove', board.x + 4, board.y + board.height / 2);
+    await expect(dialog.locator('.roman-build-caret')).toBeVisible();
+    await touch('touchEnd', 0, 0);
+    await expect(dialog.locator('.roman-build-value')).toHaveText('= 4');
+    await expect(dialog.getByRole('status')).toContainText('IV — это 4.');
+
+    // 4. Drag that I off the board: it goes back, V remains.
+    const moved = (await dialog.locator('[data-build-index="0"]').boundingBox())!;
+    const start = centre(moved);
+    await touch('touchStart', start.x, start.y);
+    await touch('touchMove', start.x, board.y + board.height + 130);
+    await touch('touchEnd', 0, 0);
+    await expect(dialog.locator('[data-build-index]')).toHaveCount(1);
+    await expect(dialog.locator('.roman-build-value')).toHaveText('= 5');
+    await expect(dialog.getByRole('status')).toContainText('Знак I убран.');
+
+    // Nothing was scored, saved or turned into a checked session.
+    await expect(dialog.getByRole('button', { name: 'Проверить себя' })).toHaveCount(0);
+    expect(await page.evaluate((key) => localStorage.getItem(key), STORAGE_KEY)).toBeNull();
+    await cdp.detach();
+  });
+
+  test('a mouse drags a sign into the middle of the record', async ({ page }) => {
+    const dialog = await openLesson(page);
+    await dialog.getByRole('button', { name: 'Игра «Собери число»' }).click();
+    await dialog.getByRole('button', { name: 'Добавить V' }).click();
+    await dialog.getByRole('button', { name: 'Добавить I' }).click();
+    await expect(dialog.locator('.roman-build-value')).toHaveText('= 6');
+
+    const board = (await dialog.locator('.roman-build-drop').boundingBox())!;
+    const chip = (await dialog.locator('[data-build-index="1"]').boundingBox())!;
+    await page.mouse.move(chip.x + chip.width / 2, chip.y + chip.height / 2);
+    await page.mouse.down();
+    await page.mouse.move(board.x + 4, board.y + board.height / 2, { steps: 8 });
+    await expect(dialog.locator('.roman-build-ghost')).toBeVisible();
+    await page.mouse.up();
+    await expect(dialog.locator('.roman-build-value')).toHaveText('= 4');
+    expect(await page.evaluate((key) => localStorage.getItem(key), STORAGE_KEY)).toBeNull();
+  });
+});
