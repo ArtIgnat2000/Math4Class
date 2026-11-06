@@ -108,6 +108,20 @@ describe('roman clock game', () => {
     expect(dialSectorAtPoint(10, 10, null)).toBeNull();
   });
 
+  it('draws no hand over the number in the middle and outlines the aimed sector', () => {
+    const { container } = render(<RomanClockGame onExit={vi.fn()} />);
+    // Owner's correction 6 Nov 2026: the hand covered the task number and only got in the way.
+    expect(container.querySelectorAll('.roman-dial-hand')).toHaveLength(0);
+    expect(container.querySelectorAll('.roman-dial-svg line')).toHaveLength(0);
+    expect(screen.getByRole('status')).toHaveTextContent(
+      'Проведи пальцем по кругу или нажми сектор.',
+    );
+    const target = Number(container.querySelector('.roman-dial-center strong')!.textContent);
+    fireEvent.click(screen.getByRole('button', { name: `Сектор ${toRoman(target)}` }));
+    expect(container.querySelectorAll('.roman-dial-svg line')).toHaveLength(0);
+    expect(container.querySelectorAll('.year-sector.is-aim')).toHaveLength(1);
+  });
+
   it('accepts the right sector, explains a wrong one and never scores', () => {
     const { container } = render(<RomanClockGame onExit={vi.fn()} />);
     const target = Number(container.querySelector('.roman-dial-center strong')!.textContent);

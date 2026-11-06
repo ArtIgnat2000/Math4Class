@@ -108,6 +108,7 @@ export function RomanDial({
   children,
 }: {
   filledIndices?: number[];
+  /** Sector under the finger. Never drawn across the centre: it would cover the task number. */
   aim?: number | null;
   hintIndex?: number | null;
   missIndex?: number | null;
@@ -126,7 +127,9 @@ export function RomanDial({
               data-tone={tone}
               className={`year-sector season-${tone} ${
                 filledIndices.includes(index) ? 'is-filled' : ''
-              } ${hintIndex === index ? 'is-hint' : ''} ${missIndex === index ? 'is-miss' : ''}`}
+              } ${aim === index ? 'is-aim' : ''} ${hintIndex === index ? 'is-hint' : ''} ${
+                missIndex === index ? 'is-miss' : ''
+              }`}
             />
             <text x={point.x} y={point.y + 6} textAnchor="middle" className="roman-dial-label">
               {item.record}
@@ -135,15 +138,6 @@ export function RomanDial({
         );
       })}
       <circle cx="140" cy="140" r="58" className="year-ring-center" />
-      {aim !== null && aim !== undefined && (
-        <line
-          x1="140"
-          y1="140"
-          x2={dialLabelPoint(aim, 62).x}
-          y2={dialLabelPoint(aim, 62).y}
-          className="roman-dial-hand"
-        />
-      )}
       {children}
     </svg>
   );
