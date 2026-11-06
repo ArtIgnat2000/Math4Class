@@ -10308,11 +10308,6 @@ h1[tabindex='-1']:focus {
   stroke: #fdfefb;
   stroke-width: 3px;
 }
-.roman-dial-hand {
-  stroke: #6d28d9;
-  stroke-width: 7;
-  stroke-linecap: round;
-}
 .roman-dial-center {
   position: absolute;
   inset: 0;
@@ -10463,6 +10458,11 @@ h1[tabindex='-1']:focus {
   flex: 1 1 100%;
   min-height: 44px;
 }
+/* The finger's sector is outlined; nothing is drawn over the number in the middle. */
+.roman-dial .year-sector.is-aim {
+  stroke: #3f6b4a;
+  stroke-width: 3.5;
+}
 .roman-clock-game .year-sector.is-hint,
 .roman-dial .year-sector.is-hint {
   stroke: #6d28d9;
@@ -10488,7 +10488,6 @@ h1[tabindex='-1']:focus {
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .roman-dial-hand,
   .roman-sign-card,
   .roman-build-drop {
     transition: none;

@@ -82,7 +82,9 @@ test('the roman lesson teaches interactively and only then opens the approved ch
 test.describe('a touch device', () => {
   test.use({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
 
-  test('a finger moves the clock hand and the game never scores or saves', async ({ page }) => {
+  test('a finger picks a clock sector with no hand over the number and no scoring', async ({
+    page,
+  }) => {
     const cdp = await page.context().newCDPSession(page);
     const touch = (type: 'touchStart' | 'touchMove' | 'touchEnd', x: number, y: number) =>
       cdp.send('Input.dispatchTouchEvent', {
@@ -96,12 +98,14 @@ test.describe('a touch device', () => {
     await expect(sector).toBeInViewport();
     const dial = (await dialog.locator('.roman-dial').boundingBox())!;
     const place = (await sector.boundingBox())!;
-    // Start in the ring, then drag the hand onto the asked sector.
+    // Start in the ring, then drag onto the asked sector; no hand is drawn (MODEL-04).
     await touch('touchStart', dial.x + dial.width / 2, dial.y + 12);
     await touch('touchMove', place.x + place.width / 2, place.y + place.height / 2);
     await touch('touchEnd', 0, 0);
     await expect(dialog.getByRole('status')).toContainText('Верно!');
     await expect(dialog.locator('.year-sector.is-filled')).toHaveCount(1);
+    await expect(dialog.locator('.roman-dial-svg line')).toHaveCount(0);
+    await expect(dialog.locator('.roman-dial-center strong')).toBeVisible();
     await expect(dialog.getByRole('button', { name: 'Проверить себя' })).toHaveCount(0);
     expect(await page.evaluate((key) => localStorage.getItem(key), STORAGE_KEY)).toBeNull();
     await cdp.detach();

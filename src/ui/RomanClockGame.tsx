@@ -3,9 +3,9 @@ import { ArrowLeft, Lightbulb, RotateCcw } from 'lucide-react';
 import { CLOCK_NUMBERS, shuffledTargets, toRoman } from '../engine/roman';
 import { RomanDial, dialLabelPoint } from './RomanModel';
 
-const START_HINT = 'Веди стрелку пальцем или нажми сектор.';
+const START_HINT = 'Проведи пальцем по кругу или нажми сектор.';
 
-/** Sector under a point of the dial; the middle hole is not a place for the hand. */
+/** Sector under a point of the dial; the middle hole shows the task and is not a target. */
 export function dialSectorAtPoint(x: number, y: number, rect: DOMRect | null): number | null {
   if (!rect) return null;
   const radius = rect.width / 2;
