@@ -48,6 +48,9 @@ function TheoryCard({ topic }: { topic: Topic }) {
   );
 }
 
+/** Short dialog title: the full topic name stays in the catalog and lesson header. */
+const PILOT_DIALOG_TITLE = 'Годы в месяцы';
+
 /** The same explanation, reachable from a task without restarting the session. */
 function TaskReference({ topic, onClose }: { topic: Topic; onClose: () => void }) {
   // Always reachable, on every step of the explanation, so a child is never trapped.
@@ -62,7 +65,7 @@ function TaskReference({ topic, onClose }: { topic: Topic; onClose: () => void }
   );
   return (
     <Modal
-      title={topic.title}
+      title={topic.id === 'calendar-years-months' ? PILOT_DIALOG_TITLE : topic.title}
       onClose={onClose}
       className="topic-dialog mass-intro-dialog task-reference-dialog"
     >
@@ -108,7 +111,7 @@ export function TopicDialog({
   if (topic.id === 'calendar-years-months')
     return (
       <Modal
-        title={topic.title}
+        title={PILOT_DIALOG_TITLE}
         onClose={onClose}
         className="topic-dialog mass-intro-dialog year-month-dialog"
       >

@@ -49,7 +49,7 @@ function slotAtPoint(x: number, y: number): number | null {
   return Math.floor(fromTop / 30) % 12;
 }
 
-const START_HINT = 'Можно нажать: месяц → место.';
+const START_HINT = 'Перетащи или нажми: месяц → место.';
 
 /**
  * «Собери год» — an author's learning game inside the explanation, not a textbook
@@ -224,10 +224,10 @@ export function YearBuildGame({ onExit }: { onExit: () => void }) {
 
   return (
     <div className="year-game">
-      <h3 ref={headingRef} tabIndex={-1}>
+      <h3 ref={headingRef} tabIndex={-1} className="sr-only">
         Собери год
       </h3>
-      <p className="year-game-lead">Перетащи месяцы по порядку.</p>
+      <p className="year-game-lead sr-only">Перетащи месяцы по порядку.</p>
 
       <div className="year-game-layout">
         <div

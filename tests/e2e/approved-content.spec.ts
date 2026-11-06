@@ -286,6 +286,29 @@ for (const [width, height] of [
       const dialog = page.getByRole('dialog');
       await expect(dialog.getByRole('group', { name: 'Круг года: 12 месяцев' })).toBeVisible();
       await expect(dialog.getByRole('button', { name: 'Проверить себя' })).toHaveCount(0);
+      // CARD-02: one line of text in the header, on every step and every width.
+      for (const step of [1, 2, 3]) {
+        const header = await dialog.evaluate((node) => {
+          const title = node.querySelector('h2')!;
+          const style = getComputedStyle(title);
+          const visibleText = Array.from(
+            node.querySelectorAll<HTMLElement>(
+              '.pilot-topline, .year-month-pilot-v2 > h3, .pilot-instruction',
+            ),
+          ).filter((item) => !item.classList.contains('sr-only') && item.textContent?.trim());
+          return {
+            lines: Math.round(title.getBoundingClientRect().height / parseFloat(style.lineHeight)),
+            leftover: visibleText.map((item) => item.textContent?.trim()),
+            title: title.textContent,
+          };
+        });
+        expect(header.title).toBe('Годы в месяцы');
+        expect(header.lines, `header lines at ${width}px, step ${step}`).toBe(1);
+        expect(header.leftover, `extra header text at ${width}px, step ${step}`).toEqual([]);
+        if (step < 3) await dialog.getByRole('button', { name: 'Дальше' }).click();
+      }
+      await dialog.getByRole('button', { name: 'Назад' }).click();
+      await dialog.getByRole('button', { name: 'Назад' }).click();
       const next = dialog.getByRole('button', { name: 'Дальше' });
       await expect(next).toBeInViewport();
       expect((await next.boundingBox())!.height).toBeGreaterThanOrEqual(44);

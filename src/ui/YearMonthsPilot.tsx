@@ -77,15 +77,16 @@ export function YearMonthsPilot({
         <button
           type="button"
           className="pilot-reference-toggle"
+          aria-label="Времена года"
+          title="Времена года"
           aria-expanded={referenceOpen}
           aria-controls={referenceId}
           onClick={() => setReferenceOpen((open) => !open)}
         >
-          <BookOpen size={17} aria-hidden="true" />
-          Времена года
+          <BookOpen size={20} aria-hidden="true" />
         </button>
       </div>
-      <h3 ref={headingRef} tabIndex={-1}>
+      <h3 ref={headingRef} tabIndex={-1} className="sr-only">
         {STEP_TITLES[step]}
       </h3>
 
@@ -108,7 +109,7 @@ export function YearMonthsPilot({
 
       {step === 0 && (
         <section aria-label="Собери год из месяцев">
-          <p className="pilot-instruction">Нажимай «+ месяц» — заполняй круг.</p>
+          <p className="pilot-instruction sr-only">Нажимай «+ месяц» — заполняй круг.</p>
           <div className="year-build-layout">
             <div
               className="year-clock"
@@ -199,7 +200,7 @@ export function YearMonthsPilot({
 
       {step === 1 && (
         <section aria-label="Несколько лет — несколько групп по двенадцать">
-          <p className="pilot-instruction">1 год — 12 месяцев. Добавляй годы.</p>
+          <p className="pilot-instruction sr-only">1 год — 12 месяцев. Добавляй годы.</p>
           <div className="year-groups" aria-live="polite">
             {Array.from({ length: years }, (_, index) => (
               <YearGroup key={index} index={index + 1} />
@@ -241,7 +242,7 @@ export function YearMonthsPilot({
 
       {step === 2 && (
         <section aria-label="Целые годы и отдельные месяцы">
-          <p className="pilot-instruction">Добавляй месяцы к целым годам.</p>
+          <p className="pilot-instruction sr-only">Добавляй месяцы к целым годам.</p>
           <div className="year-groups year-groups-two">
             <YearGroup index={1} />
             <YearGroup index={2} />
