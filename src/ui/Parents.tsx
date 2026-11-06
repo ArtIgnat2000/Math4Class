@@ -277,10 +277,7 @@ export function Parents({ onProfiles }: { onProfiles: () => void }) {
                     {pack.topics.length} {plural(pack.topics.length, ['тема', 'темы', 'тем'])}
                   </span>
                   <small className={custom ? 'custom-pack-label' : ''}>
-                    {custom
-                      ? 'Ваши материалы'
-                      : (pack.curriculum?.series ??
-                        (pack.isDemo ? 'Демонабор' : 'Встроенный набор'))}
+                    {custom ? 'Ваши' : 'Встроенные'}
                   </small>
                 </div>
                 {custom && (

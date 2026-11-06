@@ -4,7 +4,7 @@ const root = `${import.meta.env.BASE_URL}illustrations/props/`;
 export function MassComparisonIntro() {
   return (
     <div className="comparison-intro" aria-label="Как сравнивать массы">
-      <p>Сначала вырази обе массы в одной единице. Потом сравни числа.</p>
+      <p>Вырази массы в одной единице. Сравни числа.</p>
       <div className="comparison-intro-anchors">
         <div>
           <img src={`${root}weight.webp`} alt="Гиря один килограмм" />
@@ -22,7 +22,6 @@ export function MassComparisonIntro() {
           <span>1 000 кг</span>
         </div>
       </div>
-      <p>Один и тот же вес можно записать по-разному.</p>
     </div>
   );
 }

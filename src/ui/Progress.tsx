@@ -25,6 +25,14 @@ import {
 import { dayKey, plural, recentDays } from '../engine/dates';
 import { GradeSwitcher, InfoNote, PageHeading, ProgressBar, Stars, TopicSymbol } from './shared';
 import type { OpenTopic } from './Learning';
+const BADGE_GOALS: Record<(typeof BADGES)[number]['id'], string> = {
+  first: '1 занятие',
+  ten: '10 верных ответов',
+  perfect: 'Без ошибок и подсказок',
+  recovery: '5 исправленных ошибок',
+  week: '7 дней подряд',
+  master: '5 тем на «Умею»',
+};
 const badgeIcons = {
   footprints: Footprints,
   check: CheckCheck,
@@ -55,41 +63,32 @@ export function Progress({ onOpen, today = dayKey() }: { onOpen: OpenTopic; toda
           <span className="stat-icon tone-sage">
             <BookOpen size={22} />
           </span>
-          <small>За всё время</small>
-          <strong>
-            {totals.lessons}
-            <span>{plural(totals.lessons, ['занятие', 'занятия', 'занятий'])}</span>
-          </strong>
+          <small>Занятия</small>
+          <strong>{totals.lessons}</strong>
         </div>
         <div className="stat-card">
           <span className="stat-icon tone-peach">
             <Target size={22} />
           </span>
           <small>С первого раза</small>
-          <strong>
-            {totals.tasks ? `${accuracy}%` : '—'}
-            <span>верных ответов</span>
-          </strong>
+          <strong>{totals.tasks ? `${accuracy}%` : '—'}</strong>
         </div>
         <div className="stat-card">
           <span className="stat-icon tone-butter">
             <Flame size={22} />
           </span>
-          <small>Твоя серия</small>
+          <small>Серия</small>
           <strong>
             {streak(profile, today)}
-            <span>{plural(streak(profile, today), ['день', 'дня', 'дней'])} подряд</span>
+            <span> дн.</span>
           </strong>
         </div>
         <div className="stat-card">
           <span className="stat-icon tone-lavender">
             <Star size={22} />
           </span>
-          <small>Собранный опыт</small>
-          <strong>
-            {totals.xp}
-            <span>очков за старание</span>
-          </strong>
+          <small>Опыт</small>
+          <strong>{totals.xp}</strong>
         </div>
       </div>
       <div className="progress-panels">
@@ -297,18 +296,15 @@ export function Rewards({ today = dayKey() }: { today?: string }) {
                 )}
               </span>
               <h3>{badge.title}</h3>
-              <p>{badge.description}</p>
+              <p>{BADGE_GOALS[badge.id]}</p>
               <div className="badge-progress">
                 {done ? (
-                  <span className="badge-earned">
-                    <Check size={13} />
-                    Получено!
-                  </span>
+                  <small>Получено</small>
                 ) : (
                   <>
                     <ProgressBar value={(value / badge.target) * 100} label={badge.description} />
                     <small>
-                      {Math.min(value, badge.target)} из {badge.target}
+                      {Math.min(value, badge.target)} / {badge.target}
                     </small>
                   </>
                 )}

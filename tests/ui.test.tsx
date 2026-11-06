@@ -156,6 +156,8 @@ describe('textbook lessons and compound answers', () => {
     expect(dialog.getByText(/16-е издание, стереотипное/)).toBeInTheDocument();
     expect(dialog.getByText(/35 тем/)).toBeInTheDocument();
     expect(dialog.getByText(/256 заданий в банке/)).toBeInTheDocument();
+    // The child cards no longer carry author labels, so provenance must stay here.
+    expect(dialog.getByText(/авторские материалы приложения/)).toBeInTheDocument();
     await user.keyboard('{Escape}');
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
@@ -209,7 +211,7 @@ describe('textbook lessons and compound answers', () => {
     expect(screen.getByLabelText('Остаток')).toHaveValue('2');
     expect(screen.getByLabelText('Остаток')).toBeDisabled();
     expect(screen.getByRole('status')).toHaveFocus();
-    expect(screen.getByRole('status')).toHaveTextContent('Всё верно. Отличная работа!');
+    expect(screen.getByRole('status')).toHaveTextContent('Верно!');
   });
   it.each([2, 4] as const)(
     'draws a true square divided into %s equal triangles with an accessible description',

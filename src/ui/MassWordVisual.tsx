@@ -122,7 +122,6 @@ export function MassWordVisual({ taskId }: { taskId: string }) {
 export function MassWordIntro() {
   return (
     <div className="word-mass-intro">
-      <p>Рассмотри, что дано, а затем выбери нужное действие.</p>
       <Scene label="Мешок муки, вагон с грузом и тетради — предметы задач на массу">
         <ObjectCard kind="sack" label="Мешки" />
         <ObjectCard kind="wagon" label="Вагоны" />

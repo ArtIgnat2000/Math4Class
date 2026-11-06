@@ -11,9 +11,9 @@ describe('Buk lesson scene', () => {
     );
     expect(container.querySelectorAll('.mass-object-weight img')).toHaveLength(3);
     expect(screen.queryByText(/Сколько граммов/)).not.toBeInTheDocument();
-    fireEvent.click(screen.getByRole('button', { name: 'Скрыть Бука' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Скрыть' }));
     expect(container.querySelectorAll('.mass-object-weight')).toHaveLength(3);
-    fireEvent.click(screen.getByRole('button', { name: 'Показать Бука' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Бук' }));
     expect(
       screen.getByRole('region', { name: 'Бук помогает с единицами массы' }),
     ).toBeInTheDocument();
@@ -23,10 +23,10 @@ describe('Buk lesson scene', () => {
     const { rerender } = render(
       <MassStory taskId="weighing" hint="Яблоки бывают разной массы." onHint={onHint} />,
     );
-    fireEvent.click(screen.getByRole('button', { name: 'Таблица единиц' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Таблица' }));
     expect(screen.getByText('1 кг = 1 000 г')).toBeInTheDocument();
     expect(onHint).not.toHaveBeenCalled();
-    fireEvent.click(screen.getByRole('button', { name: 'Все единицы массы' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Все единицы' }));
     expect(screen.getByRole('table', { name: 'Единицы массы' })).toHaveTextContent('1 ц = 100 кг');
     fireEvent.click(screen.getByRole('button', { name: 'Подсказка' }));
     expect(onHint).toHaveBeenCalledOnce();
@@ -35,6 +35,6 @@ describe('Buk lesson scene', () => {
     );
     expect(screen.getByText('Яблоки бывают разной массы.')).toBeInTheDocument();
     rerender(<MassStory taskId="weighing" correct={false} />);
-    expect(screen.getByText('Посмотри разбор ответа ниже.')).toBeInTheDocument();
+    expect(screen.queryByText('Посмотри разбор ответа ниже.')).not.toBeInTheDocument();
   });
 });

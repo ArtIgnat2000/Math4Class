@@ -89,7 +89,11 @@ export default function App() {
   };
   const shareApp = async () => {
     const url = `${window.location.origin}${window.location.pathname}`;
-    const shareData = { title: 'Число — математика для детей', text: 'Учимся математике с интересом!', url };
+    const shareData = {
+      title: 'Число — математика для детей',
+      text: 'Учимся математике с интересом!',
+      url,
+    };
     try {
       if (navigator.share) {
         await navigator.share(shareData);
@@ -352,6 +356,7 @@ export default function App() {
           {route === 'lesson' && profile.activeSession ? (
             <Lesson
               session={profile.activeSession}
+              topic={pack.topics.find((item) => item.id === profile.activeSession?.topicId)}
               onChange={(session) => updateProfile((p) => ({ ...p, activeSession: session }))}
               onSubmit={onSubmit}
               onNext={onNext}
@@ -464,10 +469,7 @@ export default function App() {
                 <span>
                   <Download size={18} />
                 </span>
-                <div>
-                  <strong>Учиться где удобно</strong>
-                  <small>Установить приложение</small>
-                </div>
+                <strong>Установить</strong>
                 <ChevronRight size={14} />
               </button>
               <button className="share-app-button" onClick={() => void shareApp()}>
@@ -475,7 +477,11 @@ export default function App() {
                 <span>Поделиться приложением</span>
                 <ChevronRight size={14} />
               </button>
-              {shareNotice && <p className="share-app-notice" role="status">{shareNotice}</p>}
+              {shareNotice && (
+                <p className="share-app-notice" role="status">
+                  {shareNotice}
+                </p>
+              )}
               <a
                 className={`parent-nav ${route === 'parents' ? 'active' : ''}`}
                 href="#/parents"
