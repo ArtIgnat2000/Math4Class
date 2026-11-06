@@ -16,6 +16,7 @@ import { CalendarIntro, CalendarVisual } from './CalendarVisual';
 import { YearMonthsPilot } from './YearMonthsPilot';
 import { RomanNumeralsPilot } from './RomanNumeralsPilot';
 import { NumericKeypad } from './NumericKeypad';
+import { CardGuide } from './CardGuide';
 import { OrderAnswer } from './OrderAnswer';
 import { Brand, Modal, ProgressBar, Stars, TopicSymbol } from './shared';
 
@@ -83,6 +84,9 @@ function TaskReference({ topic, onClose }: { topic: Topic; onClose: () => void }
         <RomanNumeralsPilot onPractice={onClose} practiceLabel="Вернуться к заданию" />
       ) : (
         <>
+          <CardGuide kind="Объяснение">
+            Изучи рисунок или правило. Попробуй доступные кнопки, затем вернись к заданию.
+          </CardGuide>
           {topic.id.startsWith('calendar-') ? (
             <CalendarIntro />
           ) : topic.id === 'mass-kg-g' ? (
@@ -140,6 +144,9 @@ export function TopicDialog({
   if (topic.id.startsWith('calendar-'))
     return (
       <Modal title={topic.title} onClose={onClose} className="topic-dialog mass-intro-dialog">
+        <CardGuide kind="Объяснение">
+          Изучи рисунок и попробуй доступные кнопки. Когда будешь готов, начни занятие.
+        </CardGuide>
         <CalendarIntro />
         <button data-autofocus className="button primary full-width" onClick={onStart}>
           {mode === 'review'
@@ -154,6 +161,9 @@ export function TopicDialog({
   if (topic.id === 'mass-word-problems')
     return (
       <Modal title={topic.title} onClose={onClose} className="topic-dialog mass-intro-dialog">
+        <CardGuide kind="Объяснение">
+          Изучи рисунок и попробуй доступные кнопки. Когда будешь готов, начни занятие.
+        </CardGuide>
         <MassWordIntro />
         <button data-autofocus className="button primary full-width" onClick={onStart}>
           {mode === 'review'
@@ -168,6 +178,9 @@ export function TopicDialog({
   if (topic.id === 'mass-conversion-comparison')
     return (
       <Modal title={topic.title} onClose={onClose} className="topic-dialog mass-intro-dialog">
+        <CardGuide kind="Объяснение">
+          Изучи рисунок и попробуй доступные кнопки. Когда будешь готов, начни занятие.
+        </CardGuide>
         <MassComparisonIntro />
         <button data-autofocus className="button primary full-width" onClick={onStart}>
           {mode === 'review'
@@ -182,6 +195,9 @@ export function TopicDialog({
   if (topic.id === 'mass-kg-g' || topic.id === 'mass-tonne-centner')
     return (
       <Modal title={topic.title} onClose={onClose} className="topic-dialog mass-intro-dialog">
+        <CardGuide kind="Объяснение">
+          Изучи рисунок и попробуй доступные кнопки. Когда будешь готов, начни занятие.
+        </CardGuide>
         {topic.id === 'mass-kg-g' ? <MassIntroVisual /> : <CentnerIntroVisual />}
         <button data-autofocus className="button primary full-width" onClick={onStart}>
           {mode === 'review'
@@ -195,6 +211,9 @@ export function TopicDialog({
     );
   return (
     <Modal title={topic.title} onClose={onClose} className="topic-dialog">
+      <CardGuide kind="Объяснение">
+        Изучи правило и пример, если он показан. Затем начни занятие.
+      </CardGuide>
       <div className="topic-dialog-overview">
         <TopicSymbol symbol={topic.symbol} color={topic.color} large />
         <div>
@@ -420,6 +439,19 @@ function TaskArea({
             <ArrowLeft size={17} /> Выйти
           </button>
         </div>
+        <CardGuide kind="Проверка">
+          {checked
+            ? 'Посмотри результат и нажми «Дальше» или заверши занятие.'
+            : task.type === 'number'
+              ? 'Реши задание, введи число и нажми «Проверить».'
+              : task.type === 'division'
+                ? 'Введи частное и остаток, затем нажми «Проверить».'
+                : task.type === 'order'
+                  ? 'Перетащи карточки или передвинь стрелками. Затем нажми «Проверить».'
+                  : task.type === 'compare'
+                    ? 'Выбери знак сравнения и нажми «Проверить».'
+                    : 'Выбери ответ и нажми «Проверить».'}
+        </CardGuide>
         <h1>{task.question}</h1>
         {session.topicId === 'mass-kg-g' && (
           <MassStory

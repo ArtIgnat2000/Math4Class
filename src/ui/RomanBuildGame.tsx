@@ -1,3 +1,4 @@
+import { CardGuide } from './CardGuide';
 import { Fragment, useEffect, useId, useRef, useState, type PointerEvent } from 'react';
 import { ArrowLeft, ChevronLeft, ChevronRight, Delete, Lightbulb, RotateCcw } from 'lucide-react';
 import {
@@ -199,6 +200,10 @@ export function RomanBuildGame({ onExit }: { onExit: () => void }) {
       <h3 ref={headingRef} tabIndex={-1} className="sr-only">
         Собери число
       </h3>
+      <CardGuide kind="Тренажёр">
+        Собери указанное число: перетащи знаки на табло или нажимай их. Знаки можно переставлять и
+        убирать. Игра не оценивается.
+      </CardGuide>
 
       <div className="roman-build-target" aria-live="polite">
         {finished ? (

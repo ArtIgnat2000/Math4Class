@@ -1,3 +1,4 @@
+import { CardGuide } from './CardGuide';
 import { useEffect, useId, useRef, useState, type PointerEvent } from 'react';
 import { ArrowLeft, Lightbulb, RotateCcw } from 'lucide-react';
 import { CLOCK_NUMBERS, shuffledTargets, toRoman } from '../engine/roman';
@@ -98,6 +99,10 @@ export function RomanClockGame({ onExit }: { onExit: () => void }) {
       <h3 ref={headingRef} tabIndex={-1} className="sr-only">
         Римские часы
       </h3>
+      <CardGuide kind="Тренажёр">
+        Найди на круге римскую запись числа в центре. Проведи пальцем к сектору или нажми его. Игра
+        не оценивается.
+      </CardGuide>
       <div className="roman-game-layout">
         <div
           className="roman-dial"

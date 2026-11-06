@@ -1,3 +1,4 @@
+import { CardGuide } from './CardGuide';
 import { useEffect, useId, useRef, useState } from 'react';
 import { ArrowLeft, ArrowRight, BookOpen, Clock, Minus, Plus, Puzzle } from 'lucide-react';
 import {
@@ -89,6 +90,15 @@ export function RomanNumeralsPilot({
       <h3 ref={headingRef} tabIndex={-1} className="sr-only">
         {STEP_TITLES[step]}
       </h3>
+      <CardGuide kind="Объяснение">
+        {
+          [
+            'Нажми знак и посмотри, сколько палочек он заменяет.',
+            'Добавляй или убирай знаки и наблюдай, как меняется число.',
+            'Перемещай I влево или вправо и посмотри, как меняется значение.',
+          ][step]
+        }
+      </CardGuide>
 
       <div
         id={referenceId}
