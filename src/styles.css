@@ -10556,3 +10556,59 @@ h1[tabindex='-1']:focus {
     animation: none;
   }
 }
+
+/* Card purpose and optional interface help; separate from the lesson header. */
+.card-guide {
+  margin: 0 0 8px;
+  color: #2c4434;
+}
+.card-guide-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.card-guide-kind {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+.card-guide-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 44px;
+  min-height: 46px;
+  padding: 6px 10px;
+  border: 1px solid #6d28d9;
+  border-radius: 12px;
+  background: #f5f3ff;
+  color: #5b21b6;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+.card-guide-toggle:focus-visible {
+  outline: 3px solid #334d3a;
+  outline-offset: 2px;
+}
+.card-guide-content {
+  padding: 10px 12px;
+  border-left: 3px solid #6d28d9;
+  background: #f5f3ff;
+  border-radius: 8px;
+  font-size: 16px;
+  line-height: 1.45;
+}
+.card-guide-content p {
+  margin: 0;
+}
+
+@media (max-width: 639px) {
+  /* A sticky footer can cover month buttons while the child is using the tray. */
+  .year-game .pilot-actions {
+    position: static;
+    box-shadow: none;
+  }
+}

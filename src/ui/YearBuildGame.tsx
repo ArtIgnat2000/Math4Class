@@ -1,3 +1,4 @@
+import { CardGuide } from './CardGuide';
 import { useEffect, useId, useRef, useState, type PointerEvent } from 'react';
 import { ArrowLeft, Lightbulb, RotateCcw } from 'lucide-react';
 import { CALENDAR_MONTHS as MONTHS, SeasonIcon, YearRing } from './CalendarModel';
@@ -227,6 +228,10 @@ export function YearBuildGame({ onExit }: { onExit: () => void }) {
       <h3 ref={headingRef} tabIndex={-1} className="sr-only">
         Собери год
       </h3>
+      <CardGuide kind="Тренажёр">
+        Расставь месяцы по порядку на круге: перетащи месяц или нажми его, а затем место на круге.
+        Игра не оценивается.
+      </CardGuide>
       <p className="year-game-lead sr-only">Перетащи месяцы по порядку.</p>
 
       <div className="year-game-layout">

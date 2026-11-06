@@ -1,3 +1,4 @@
+import { CardGuide } from './CardGuide';
 import { useEffect, useId, useRef, useState } from 'react';
 import { ArrowLeft, ArrowRight, BookOpen, Minus, Plus, Puzzle, RotateCcw } from 'lucide-react';
 import { plural } from '../engine/dates';
@@ -89,6 +90,15 @@ export function YearMonthsPilot({
       <h3 ref={headingRef} tabIndex={-1} className="sr-only">
         {STEP_TITLES[step]}
       </h3>
+      <CardGuide kind="Объяснение">
+        {
+          [
+            'Нажимай «+ месяц», чтобы заполнить год. Можно нажать месяц на круге.',
+            'Добавляй и убирай годы. Посмотри, как меняется число месяцев.',
+            'Добавляй и убирай отдельные месяцы. Посмотри, как меняется сумма.',
+          ][step]
+        }
+      </CardGuide>
 
       <div
         id={referenceId}
