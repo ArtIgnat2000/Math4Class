@@ -61,14 +61,17 @@ test('a task card can reopen the explanation without losing the answer or leakin
   await expect(page.locator('.task-card')).toBeVisible();
   await expect(page.locator('.lesson-shell').getByText('4 класс')).toHaveCount(0);
 
-  // The header holds the graphic counter and the exit on a single line.
-  const header = await page.locator('.task-card-top').evaluate((node) => {
-    const progress = node.querySelector('.task-progress')!.getBoundingClientRect();
+  // The title and exit form the first row; the counter and help share the second.
+  const header = await page.locator('.task-card').evaluate((node) => {
+    const title = node.querySelector('.task-card-title')!.getBoundingClientRect();
     const exit = node.querySelector('.task-exit')!.getBoundingClientRect();
-    return { height: node.getBoundingClientRect().height, sameRow: Math.abs(progress.y - exit.y) };
+    const progress = node.querySelector('.pilot-steps')!.getBoundingClientRect();
+    const help = node.querySelector('.card-guide-toggle')!.getBoundingClientRect();
+    return { title, exit, progress, help };
   });
-  expect(header.height).toBeLessThanOrEqual(56);
-  expect(header.sameRow).toBeLessThan(20);
+  expect(Math.abs(header.title.y - header.exit.y)).toBeLessThan(20);
+  expect(Math.abs(header.progress.y - header.help.y)).toBeLessThan(10);
+  expect(header.progress.y).toBeGreaterThan(header.title.y);
 
   await page
     .getByRole('group', { name: 'Цифровая клавиатура' })

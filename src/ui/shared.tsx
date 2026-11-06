@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef, type ReactNode } from 'react';
+import { useEffect, useId, useRef, useState, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import {
   ArrowRight,
@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { GRADES, type Grade, type Topic } from '../engine/content';
 import type { Profile, TopicProgress } from '../engine/model';
+import { CardTitleContext } from './CardGuide';
 
 export function Brand({ small = false }: { small?: boolean }) {
   return (
@@ -66,6 +67,7 @@ export function Modal({
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const titleId = useId();
+  const [titleSlot, setTitleSlot] = useState<HTMLSpanElement | null>(null);
   const closeRef = useRef(onClose);
   closeRef.current = onClose;
   useEffect(() => {
@@ -134,8 +136,11 @@ export function Modal({
           <X size={21} />
         </button>
         {eyebrow && <p className="eyebrow">{eyebrow}</p>}
-        <h2 id={titleId}>{title}</h2>
-        {children}
+        <h2 id={titleId}>
+          <span>{title}</span>
+          <span ref={setTitleSlot} />
+        </h2>
+        <CardTitleContext.Provider value={titleSlot}>{children}</CardTitleContext.Provider>
       </div>
     </div>,
     document.body,

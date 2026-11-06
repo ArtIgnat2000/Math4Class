@@ -19,7 +19,7 @@ test('purpose and help work on a small phone and portrait tablets', async ({ pag
     await page.goto('/#/topics');
     await page.locator('.topic-card').filter({ hasText: 'Римские цифры' }).first().click();
     const dialog = page.getByRole('dialog');
-    await expect(dialog.getByText('Объяснение', { exact: true })).toBeVisible();
+    await expect(dialog).toContainText('Теория');
     const help = dialog.getByRole('button', { name: 'Справка' });
     expect((await help.boundingBox())!.height).toBeGreaterThanOrEqual(44);
     await help.focus();
@@ -31,7 +31,7 @@ test('purpose and help work on a small phone and portrait tablets', async ({ pag
     );
     await help.click();
     await dialog.getByRole('button', { name: 'Игра «Собери число»' }).click();
-    await expect(dialog.getByText('Тренажёр')).toBeVisible();
+    await expect(dialog).toContainText('Тренажёр');
     await dialog.getByRole('button', { name: 'Справка' }).click();
     await expect(dialog.getByText(/Знаки можно переставлять и убирать/)).toBeVisible();
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(
@@ -41,13 +41,13 @@ test('purpose and help work on a small phone and portrait tablets', async ({ pag
     await dialog.getByRole('button', { name: 'Дальше' }).click();
     await dialog.getByRole('button', { name: 'Дальше' }).click();
     await dialog.getByRole('button', { name: 'Проверить себя' }).click();
-    await expect(page.getByText('Проверка', { exact: true })).toBeVisible();
+    await expect(page.locator('.task-card')).toContainText('Практика');
     await page.getByRole('button', { name: 'Справка' }).click();
     await expect(page.getByText(/Выбери ответ и нажми/)).toBeVisible();
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(
       size.width,
     );
-    await page.getByRole('button', { name: 'Выйти', exact: false }).click();
+    await page.getByRole('button', { name: 'Сохранить и выйти' }).click();
   }
 });
 

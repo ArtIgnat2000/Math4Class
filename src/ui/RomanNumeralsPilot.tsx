@@ -1,3 +1,4 @@
+import { StepIndicator } from './StepIndicator';
 import { CardGuide } from './CardGuide';
 import { useEffect, useId, useRef, useState } from 'react';
 import { ArrowLeft, ArrowRight, BookOpen, Clock, Minus, Plus, Puzzle } from 'lucide-react';
@@ -66,31 +67,34 @@ export function RomanNumeralsPilot({
 
   return (
     <div className="roman-pilot">
-      <div className="pilot-topline">
-        <div className="pilot-steps" role="img" aria-label={`Шаг ${step + 1} из 3`}>
-          {STEP_TITLES.map((title, index) => (
-            <i
-              key={title}
-              className={index < step ? 'is-done' : index === step ? 'is-current' : ''}
-            />
-          ))}
-        </div>
-        <button
-          type="button"
-          className="pilot-reference-toggle"
-          aria-label="Правила знаков"
-          title="Правила знаков"
-          aria-expanded={referenceOpen}
-          aria-controls={referenceId}
-          onClick={() => setReferenceOpen((open) => !open)}
-        >
-          <BookOpen size={20} aria-hidden="true" />
-        </button>
-      </div>
       <h3 ref={headingRef} tabIndex={-1} className="sr-only">
         {STEP_TITLES[step]}
       </h3>
-      <CardGuide kind="Объяснение">
+      <CardGuide
+        kind="Теория"
+        leading={
+          <div className="pilot-topline">
+            <StepIndicator
+              count={STEP_TITLES.length}
+              current={step}
+              label={`Шаг ${step + 1} из ${STEP_TITLES.length}`}
+            />
+          </div>
+        }
+        reference={
+          <button
+            type="button"
+            className="pilot-reference-toggle"
+            aria-label="Правила знаков"
+            title="Правила знаков"
+            aria-expanded={referenceOpen}
+            aria-controls={referenceId}
+            onClick={() => setReferenceOpen((open) => !open)}
+          >
+            <BookOpen size={20} aria-hidden="true" />
+          </button>
+        }
+      >
         {
           [
             'Нажми знак и посмотри, сколько палочек он заменяет.',

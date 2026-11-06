@@ -93,7 +93,7 @@ test('calendar explanation is interactive and separate from checked textbook exe
   expect(new Set(seasonFills).size).toBe(4);
   await dialog.getByRole('button', { name: 'Пройти ещё раз' }).click();
   await expect(dialog.locator('.year-clock .year-sector.is-filled')).toHaveCount(0);
-  await dialog.getByRole('button', { name: 'Апрель — 4-й месяц года' }).click();
+  await dialog.getByRole('button', { name: 'Апр — Апрель, 4-й месяц года' }).click();
   await expect(dialog.getByRole('status')).toContainText('Апрель — 4-й месяц');
   await expect(dialog.getByRole('status')).toContainText('Весна');
 
@@ -303,7 +303,8 @@ for (const [width, height] of [
             title: title.textContent,
           };
         });
-        expect(header.title).toBe('Годы в месяцы');
+        expect(header.title).toMatch(/^Годы в месяцы(?: · Теория)?$/);
+        await expect(dialog).toContainText('Теория');
         expect(header.lines, `header lines at ${width}px, step ${step}`).toBe(1);
         expect(header.leftover, `extra header text at ${width}px, step ${step}`).toEqual([]);
         if (step < 3) await dialog.getByRole('button', { name: 'Дальше' }).click();
