@@ -3,7 +3,7 @@ import { ChevronRight } from 'lucide-react';
 import type { ContentPack } from '../engine/content';
 import { plural } from '../engine/dates';
 import { Modal } from './shared';
-import { visiblePack } from '../content/approved';
+import { isAuthorTask, visiblePack } from '../content/approved';
 
 /** Textbook provenance belongs to the parent-facing materials section, not the child's route. */
 export function CurriculumInfo({ pack }: { pack: ContentPack }) {
@@ -17,7 +17,11 @@ export function CurriculumInfo({ pack }: { pack: ContentPack }) {
   };
   const taskCount = pack.topics.reduce((n, t) => n + t.tasks.length, 0);
   const verified = visiblePack(pack);
-  const verifiedCount = verified.topics.reduce((n, t) => n + t.tasks.length, 0);
+  const authorCount = verified.topics.reduce(
+    (n, t) => n + t.tasks.filter((task) => isAuthorTask(t.id, task.id)).length,
+    0,
+  );
+  const verifiedCount = verified.topics.reduce((n, t) => n + t.tasks.length, 0) - authorCount;
   return (
     <>
       <button className="text-button curriculum-parent-link" onClick={() => setOpen(true)}>
@@ -47,6 +51,14 @@ export function CurriculumInfo({ pack }: { pack: ContentPack }) {
             Детям доступны только сверенные упражнения: {verifiedCount} из {taskCount}. Остальные
             скрыты до поштучной проверки по учебнику; старый прогресс сохранён.
           </p>
+          {authorCount > 0 && (
+            <p className="small-note">
+              Отдельно доступны {authorCount}{' '}
+              {plural(authorCount, ['авторское задание', 'авторских задания', 'авторских заданий'])}{' '}
+              приложения — тема «Римские цифры». Владелец утвердил их условия и ответы 6 ноября 2026
+              года. Это не упражнения учебника: страницы и номера у них нет.
+            </p>
+          )}
           <div className="source-breakdown">
             {counts.page > 0 && (
               <p>

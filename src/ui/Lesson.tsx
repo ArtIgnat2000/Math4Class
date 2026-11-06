@@ -14,6 +14,7 @@ import { ComparisonChoicePicture, MassComparisonVisual } from './MassComparisonV
 import { MassWordIntro, MassWordVisual } from './MassWordVisual';
 import { CalendarIntro, CalendarVisual } from './CalendarVisual';
 import { YearMonthsPilot } from './YearMonthsPilot';
+import { RomanNumeralsPilot } from './RomanNumeralsPilot';
 import { NumericKeypad } from './NumericKeypad';
 import { OrderAnswer } from './OrderAnswer';
 import { Brand, Modal, ProgressBar, Stars, TopicSymbol } from './shared';
@@ -51,6 +52,12 @@ function TheoryCard({ topic }: { topic: Topic }) {
 /** Short dialog title: the full topic name stays in the catalog and lesson header. */
 const PILOT_DIALOG_TITLE = 'Годы в месяцы';
 
+/** Interactive explanations own a short one-line dialog title (CARD-02). */
+const PILOT_TITLES: Record<string, string> = {
+  'calendar-years-months': PILOT_DIALOG_TITLE,
+  'roman-numerals': 'Римские цифры',
+};
+
 /** The same explanation, reachable from a task without restarting the session. */
 function TaskReference({ topic, onClose }: { topic: Topic; onClose: () => void }) {
   // Always reachable, on every step of the explanation, so a child is never trapped.
@@ -65,13 +72,15 @@ function TaskReference({ topic, onClose }: { topic: Topic; onClose: () => void }
   );
   return (
     <Modal
-      title={topic.id === 'calendar-years-months' ? PILOT_DIALOG_TITLE : topic.title}
+      title={PILOT_TITLES[topic.id] ?? topic.title}
       onClose={onClose}
       className="topic-dialog mass-intro-dialog task-reference-dialog"
     >
       {back}
       {topic.id === 'calendar-years-months' ? (
         <YearMonthsPilot onPractice={onClose} practiceLabel="Вернуться к заданию" />
+      ) : topic.id === 'roman-numerals' ? (
+        <RomanNumeralsPilot onPractice={onClose} practiceLabel="Вернуться к заданию" />
       ) : (
         <>
           {topic.id.startsWith('calendar-') ? (
@@ -116,6 +125,16 @@ export function TopicDialog({
         className="topic-dialog mass-intro-dialog year-month-dialog"
       >
         <YearMonthsPilot onPractice={onStart} />
+      </Modal>
+    );
+  if (topic.id === 'roman-numerals')
+    return (
+      <Modal
+        title={PILOT_TITLES['roman-numerals']}
+        onClose={onClose}
+        className="topic-dialog mass-intro-dialog year-month-dialog roman-dialog"
+      >
+        <RomanNumeralsPilot onPractice={onStart} />
       </Modal>
     );
   if (topic.id.startsWith('calendar-'))
@@ -672,7 +691,7 @@ export function Lesson({
         <button
           className="brand-button"
           onClick={onExit}
-          aria-label="На главную, сохранить занятие"
+          aria-label="число. — на главную, сохранить занятие"
         >
           <Brand small />
         </button>

@@ -35,6 +35,32 @@ const approved: Record<string, { page: number; exercise: string; ids: string[] }
 
 export const approvedTaskIds = approved;
 
+/**
+ * Author's exercises approved by the owner one by one (SOURCE-03, AUTHOR-01).
+ * They are NOT textbook exercises: no page, no exercise number, and the app
+ * never attributes them to Moro. Approval is recorded in docs/PRODUCT_RULES.md.
+ */
+const authorApproved: Record<string, { approvedOn: string; decision: string; ids: string[] }> = {
+  'roman-numerals': {
+    approvedOn: '2026-11-06',
+    decision: 'Владелец утвердил три задания из банка как авторское дополнение',
+    ids: ['roman-four', 'roman-nine', 'roman-twelve'],
+  },
+};
+
+export const authorApprovedTaskIds = authorApproved;
+
+const authorSignatures: Record<string, string> = {
+  'roman-numerals/roman-four': 'Какой месяц обозначен IV?||"a"',
+  'roman-numerals/roman-nine': 'Какой месяц обозначен IX?||"b"',
+  'roman-numerals/roman-twelve': 'Какой месяц обозначен XII?||"c"',
+};
+
+/** True when the exercise is an approved author's addition, not a textbook one. */
+export function isAuthorTask(topicId: string, taskId: string): boolean {
+  return Boolean(authorApproved[topicId]?.ids.includes(taskId));
+}
+
 // Do not allow a stale allowlist to silently approve an edited exercise.
 // Values are a deliberately small snapshot of the question and its operands.
 const approvedSignatures: Record<string, string> = {
@@ -69,11 +95,14 @@ const approvedSignatures: Record<string, string> = {
 };
 
 export function taskApproved(grade: number, topicId: string, task: Task): boolean {
-  if (grade !== 4 || !approved[topicId]?.ids.includes(task.id)) return false;
-  return (
-    approvedSignatures[`${topicId}/${task.id}`] ===
-    `${task.question}|${task.expression ?? ''}|${JSON.stringify(task.answer)}`
-  );
+  if (grade !== 4) return false;
+  const signature = `${task.question}|${task.expression ?? ''}|${JSON.stringify(task.answer)}`;
+  if (approved[topicId]?.ids.includes(task.id))
+    return approvedSignatures[`${topicId}/${task.id}`] === signature;
+  // An edited author's exercise closes just like an edited textbook one.
+  if (authorApproved[topicId]?.ids.includes(task.id))
+    return authorSignatures[`${topicId}/${task.id}`] === signature;
+  return false;
 }
 
 export function visiblePack(pack: ContentPack): ContentPack {
