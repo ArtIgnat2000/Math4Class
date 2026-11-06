@@ -10431,6 +10431,67 @@ h1[tabindex='-1']:focus {
   font-weight: 800;
   color: #14532d;
 }
+/* The board is dragged by hand: finger and mouse share one pointer path. */
+.roman-build-slots {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-height: 56px;
+  width: 100%;
+}
+.roman-build-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 2px;
+  border: 0;
+  border-radius: 13px;
+  background: transparent;
+  cursor: grab;
+  /* Without this the page scrolls instead of the sign following the finger. */
+  touch-action: none;
+}
+.roman-build-chip:disabled {
+  cursor: default;
+}
+.roman-build-chip.is-selected {
+  box-shadow: 0 0 0 3px #6d28d9;
+}
+.roman-build-chip.is-dragging {
+  opacity: 0.35;
+}
+.roman-build-chip:focus-visible {
+  outline: 3px solid #334d3a;
+  outline-offset: 2px;
+}
+.roman-build-caret {
+  width: 4px;
+  align-self: stretch;
+  min-height: 40px;
+  border-radius: 3px;
+  background: #6d28d9;
+}
+.roman-build-ghost {
+  position: fixed;
+  z-index: 90;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  filter: drop-shadow(0 6px 10px rgb(15 23 42 / 0.28));
+}
+.roman-chip-tools {
+  display: flex;
+  flex: 1 1 100%;
+  gap: 8px;
+  justify-content: center;
+}
+.roman-chip-tools .button {
+  min-width: 64px;
+  min-height: 44px;
+}
 .roman-sign-tray {
   display: flex;
   flex-wrap: wrap;
@@ -10444,7 +10505,7 @@ h1[tabindex='-1']:focus {
   border-radius: 14px;
   background: transparent;
   cursor: grab;
-  touch-action: manipulation;
+  touch-action: none;
 }
 .roman-sign-button:disabled {
   opacity: 0.5;
@@ -10488,6 +10549,7 @@ h1[tabindex='-1']:focus {
   }
 }
 @media (prefers-reduced-motion: reduce) {
+  .roman-build-chip,
   .roman-sign-card,
   .roman-build-drop {
     transition: none;
