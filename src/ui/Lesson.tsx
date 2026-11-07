@@ -26,6 +26,8 @@ import { YearMonthsPilot } from './YearMonthsPilot';
 import { RomanNumeralsPilot } from './RomanNumeralsPilot';
 import { EquationPilot } from './EquationPilot';
 import { DividendPilot } from './DividendPilot';
+import { AreaPilot } from './AreaPilot';
+import { DecimalPilot } from './DecimalPilot';
 import { NumericKeypad } from './NumericKeypad';
 import { CardGuide, CardTitleContext } from './CardGuide';
 import { StepIndicator } from './StepIndicator';
@@ -71,6 +73,9 @@ const PILOT_TITLES: Record<string, string> = {
   'roman-numerals': 'Римские цифры',
   'equations-add-subtract': 'Уравнения',
   'division-restore-dividend': 'Деление с остатком',
+  'area-equal-parts': 'Площадь частей',
+  'multiply-divide-powers-ten': 'Умножаем и делим',
+  'place-value-calculations': 'Разряды',
 };
 
 /** The same explanation, reachable from a task without restarting the session. */
@@ -95,6 +100,14 @@ function TaskReference({ topic, onClose }: { topic: Topic; onClose: () => void }
         <YearMonthsPilot onPractice={onClose} practiceLabel="Вернуться к заданию" />
       ) : topic.id === 'roman-numerals' ? (
         <RomanNumeralsPilot onPractice={onClose} practiceLabel="Вернуться к заданию" />
+      ) : topic.id === 'multiply-divide-powers-ten' || topic.id === 'place-value-calculations' ? (
+        <DecimalPilot
+          kind={topic.id === 'multiply-divide-powers-ten' ? 'powers' : 'place'}
+          onPractice={onClose}
+          practiceLabel="Вернуться к заданию"
+        />
+      ) : topic.id === 'area-equal-parts' ? (
+        <AreaPilot onPractice={onClose} practiceLabel="Вернуться к заданию" />
       ) : topic.id === 'division-restore-dividend' ? (
         <DividendPilot onPractice={onClose} practiceLabel="Вернуться к заданию" />
       ) : topic.id === 'equations-add-subtract' ? (
@@ -157,6 +170,29 @@ export function TopicDialog({
         className="topic-dialog mass-intro-dialog year-month-dialog roman-dialog"
       >
         <RomanNumeralsPilot onPractice={onStart} />
+      </Modal>
+    );
+  if (topic.id === 'multiply-divide-powers-ten' || topic.id === 'place-value-calculations')
+    return (
+      <Modal
+        title={PILOT_TITLES[topic.id]}
+        onClose={onClose}
+        className="topic-dialog mass-intro-dialog year-month-dialog"
+      >
+        <DecimalPilot
+          kind={topic.id === 'multiply-divide-powers-ten' ? 'powers' : 'place'}
+          onPractice={onStart}
+        />
+      </Modal>
+    );
+  if (topic.id === 'area-equal-parts')
+    return (
+      <Modal
+        title={PILOT_TITLES[topic.id]}
+        onClose={onClose}
+        className="topic-dialog mass-intro-dialog year-month-dialog"
+      >
+        <AreaPilot onPractice={onStart} />
       </Modal>
     );
   if (topic.id === 'division-restore-dividend')
