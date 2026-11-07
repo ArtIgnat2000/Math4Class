@@ -297,3 +297,46 @@ describe('roman building game', () => {
     expect(container.querySelector('.roman-build-value')).toHaveTextContent('= 5');
   });
 });
+
+describe('editable roman theory board', () => {
+  it('supports selection, insertion, moving, removal, refusal and keyboard focus', () => {
+    const { container } = render(<RomanNumeralsPilot onPractice={vi.fn()} />);
+    fireEvent.click(screen.getByRole('button', { name: 'Дальше' }));
+    const result = () => container.querySelector('.pilot-formula-result');
+    fireEvent.click(screen.getByRole('button', { name: 'Добавить V' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Добавить I' }));
+    expect(result()).toHaveTextContent('XVI = 16');
+    fireEvent.click(screen.getByRole('button', { name: 'Знак I, место 3 из 3' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Сдвинуть знак влево' }));
+    expect(result()).toHaveTextContent('XIV = 14');
+    expect(container.querySelector('.pilot-formula')).toHaveTextContent('10 + (5 − 1)');
+    fireEvent.click(screen.getByRole('button', { name: 'Убрать знак' }));
+    expect(result()).toHaveTextContent('XV = 15');
+    fireEvent.click(screen.getByRole('button', { name: 'Знак X, место 1 из 2' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Добавить I' }));
+    expect(result()).toHaveTextContent('XIV = 14');
+    const first = screen.getByRole('button', { name: 'Знак X, место 1 из 3' });
+    fireEvent.keyDown(first, { key: 'Delete' });
+    expect(result()).toHaveTextContent('IV = 4');
+    expect(screen.getByRole('button', { name: 'Знак I, место 1 из 2' })).toHaveFocus();
+    fireEvent.keyDown(screen.getByRole('button', { name: 'Знак I, место 1 из 2' }), {
+      key: 'ArrowRight',
+    });
+    expect(result()).toHaveTextContent('VI = 6');
+    expect(screen.getByRole('button', { name: 'Знак I, место 2 из 2' })).toHaveFocus();
+    fireEvent.click(screen.getByRole('button', { name: 'Добавить V' }));
+    expect(result()).toHaveTextContent('VI = 6');
+    expect(screen.getByRole('status')).not.toBeEmptyDOMElement();
+  });
+
+  it('updates the value when a selected sign is removed', () => {
+    const { container } = render(<RomanNumeralsPilot onPractice={vi.fn()} />);
+    fireEvent.click(screen.getByRole('button', { name: 'Дальше' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Добавить I' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Знак I, место 2 из 2' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Сдвинуть знак влево' }));
+    expect(container.querySelector('.pilot-formula-result')).toHaveTextContent('IX = 9');
+    fireEvent.click(screen.getByRole('button', { name: 'Убрать знак' }));
+    expect(container.querySelector('.pilot-formula-result')).toHaveTextContent('X = 10');
+  });
+});

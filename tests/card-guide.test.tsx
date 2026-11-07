@@ -18,7 +18,7 @@ describe('card purpose and interface help', () => {
     expect(help).toHaveAttribute('aria-expanded', 'true');
     expect(screen.getByText(/Нажми знак и посмотри/)).toBeVisible();
     fireEvent.click(screen.getByRole('button', { name: 'Дальше' }));
-    expect(screen.getByText(/Добавляй или убирай знаки/)).toBeVisible();
+    expect(screen.getByText(/Перетаскивай, добавляй и переставляй знаки/)).toBeVisible();
     fireEvent.click(screen.getByRole('button', { name: 'Игра «Собери число»' }));
     expect(screen.getByText('Тренажёр')).toBeVisible();
     fireEvent.click(screen.getByRole('button', { name: 'Справка' }));
