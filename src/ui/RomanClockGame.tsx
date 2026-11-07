@@ -103,6 +103,7 @@ export function RomanClockGame({ onExit }: { onExit: () => void }) {
         Найди на круге римскую запись числа в центре. Проведи пальцем к сектору или нажми его. Игра
         не оценивается.
       </CardGuide>
+      <p className="trainer-instruction">Найди на круге римскую запись числа в центре.</p>
       <div className="roman-game-layout">
         <div
           className="roman-dial"

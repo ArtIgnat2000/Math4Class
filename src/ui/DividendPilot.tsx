@@ -74,8 +74,11 @@ function DividendGame({ type, onExit }: { type: 'match' | 'build'; onExit: () =>
       </CardGuide>
       {type === 'match' ? (
         <>
+          <p className="equation-prompt">Сколько всего было предметов?</p>
+          <p className="trainer-instruction" hidden={solved}>
+            Сосчитай предметы в группах и остаток. Нажми ответ.
+          </p>
           <Groups scene={scene} revealTotal={solved} />
-          <p className="equation-prompt">Сколько всего?</p>
           <div className="model-tools equation-choices" role="group" aria-label="Выбери делимое">
             {[model.dividend - 1, model.dividend, model.dividend + 1].map((value) => (
               <button

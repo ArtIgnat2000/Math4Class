@@ -210,7 +210,7 @@ export function RomanBuildGame({ onExit }: { onExit: () => void }) {
           <strong className="roman-build-done">Готово!</strong>
         ) : (
           <>
-            <span className="roman-build-caption">Собери</span>
+            <span className="roman-build-caption">Запиши римскими цифрами</span>
             <strong>{target}</strong>
             {hint && <span className="roman-build-hint">{toRoman(target)}</span>}
           </>
