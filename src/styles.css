@@ -11085,3 +11085,31 @@ h1[tabindex='-1']:focus {
   font-weight: 700;
   line-height: 1.35;
 }
+
+/* The remainder trainer names both the goal and the exact first action. */
+.dividend-game-instruction {
+  margin: 8px 0;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: #f1f6ec;
+  color: #253e2d;
+  font-size: 16px;
+  line-height: 1.4;
+  text-align: center;
+}
+.dividend-game-instruction p {
+  margin: 0;
+}
+.dividend-game-instruction p + p {
+  margin-top: 4px;
+}
+@media (max-width: 400px) {
+  .dividend-game .pilot-actions {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .dividend-game .pilot-actions .button {
+    width: 100%;
+    min-width: 0;
+  }
+}

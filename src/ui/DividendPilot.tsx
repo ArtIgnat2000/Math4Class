@@ -1,10 +1,19 @@
 import { useEffect, useId, useRef, useState } from 'react';
 import { ArrowLeft, ArrowRight, BookOpen, Lightbulb, Puzzle, RotateCcw } from 'lucide-react';
 import { dividendModel, DIVIDEND_SCENES, type DividendScene } from '../engine/dividend-model';
+import { plural } from '../engine/dates';
 import { CardGuide } from './CardGuide';
 import { StepIndicator } from './StepIndicator';
 
-function Groups({ scene, revealTotal = true }: { scene: DividendScene; revealTotal?: boolean }) {
+function Groups({
+  scene,
+  revealTotal = true,
+  building = false,
+}: {
+  scene: DividendScene;
+  revealTotal?: boolean;
+  building?: boolean;
+}) {
   const { groups, dividend } = dividendModel(scene);
   return (
     <div
@@ -22,9 +31,13 @@ function Groups({ scene, revealTotal = true }: { scene: DividendScene; revealTot
       </div>
       <div className="dividend-labels">
         <span>
-          {scene.quotient} группы по {scene.divisor}
+          {building
+            ? `В группах: ${scene.quotient} по ${scene.divisor} = ${groups}`
+            : `${scene.quotient} группы по ${scene.divisor}`}
         </span>
-        <span>Остаток: {scene.remainder}</span>
+        <span>
+          {building ? 'Добавлено вне групп' : 'Остаток'}: {scene.remainder}
+        </span>
       </div>
     </div>
   );
@@ -57,7 +70,7 @@ function DividendGame({ type, onExit }: { type: 'match' | 'build'; onExit: () =>
       <CardGuide kind="Тренажёр">
         {type === 'match'
           ? 'Посмотри на группы и остаток. Выбери всё число. Игра не оценивается.'
-          : 'Добавь остаток к группам. Остаток меньше делителя. Игра не оценивается.'}
+          : 'По условию добавь оставшиеся предметы кнопкой «+ 1». Нажми «Готово»: узнаешь, сколько было всего. Это делимое. Игра не оценивается.'}
       </CardGuide>
       {type === 'match' ? (
         <>
@@ -85,8 +98,18 @@ function DividendGame({ type, onExit }: { type: 'match' | 'build'; onExit: () =>
         </>
       ) : (
         <>
-          <p className="equation-prompt">Собери остаток {scene.remainder}</p>
-          <Groups scene={{ ...scene, remainder }} />
+          <p className="equation-prompt">Найдём делимое: сколько всего было предметов?</p>
+          <div className="dividend-game-instruction" hidden={solved}>
+            <p>
+              Добавь вне групп:{' '}
+              <strong>
+                {scene.remainder} {plural(scene.remainder, ['предмет', 'предмета', 'предметов'])}
+              </strong>
+              .
+            </p>
+            <p>«+ 1» — добавить, «− 1» — убрать. Потом «Готово».</p>
+          </div>
+          <Groups scene={{ ...scene, remainder }} revealTotal={solved} building />
           <div
             className="model-tools equation-choices"
             role="group"
@@ -95,6 +118,7 @@ function DividendGame({ type, onExit }: { type: 'match' | 'build'; onExit: () =>
             <button
               type="button"
               className="button tool-outline"
+              aria-label="− 1 — убрать предмет из остатка"
               onClick={() => {
                 if (remainder === 0) {
                   setMessage('В остатке пока нет предметов.');
@@ -102,7 +126,11 @@ function DividendGame({ type, onExit }: { type: 'match' | 'build'; onExit: () =>
                 }
                 setRemainder(remainder - 1);
                 setSolved(false);
-                setMessage('Убрали один предмет.');
+                setMessage(
+                  remainder - 1 === scene.remainder
+                    ? 'Теперь нажми «Готово».'
+                    : 'Убрали один предмет.',
+                );
               }}
             >
               − 1
@@ -110,14 +138,19 @@ function DividendGame({ type, onExit }: { type: 'match' | 'build'; onExit: () =>
             <button
               type="button"
               className="button tool-outline"
+              aria-label="+ 1 — добавить предмет в остаток"
               onClick={() => {
                 if (remainder + 1 >= scene.divisor) {
-                  setMessage('Остаток должен быть меньше делителя.');
+                  setMessage('Остаток должен быть меньше делителя: иначе получится ещё группа.');
                   return;
                 }
                 setRemainder(remainder + 1);
                 setSolved(false);
-                setMessage('Добавили один предмет.');
+                setMessage(
+                  remainder + 1 === scene.remainder
+                    ? 'Теперь нажми «Готово».'
+                    : 'Добавили один предмет.',
+                );
               }}
             >
               + 1
@@ -129,8 +162,10 @@ function DividendGame({ type, onExit }: { type: 'match' | 'build'; onExit: () =>
                 setSolved(remainder === scene.remainder);
                 setMessage(
                   remainder === scene.remainder
-                    ? `${model.groups} + ${remainder} = ${model.dividend}.`
-                    : 'Сравни остаток с числом в задании.',
+                    ? `${model.groups} + ${remainder} = ${model.dividend}. Это делимое.`
+                    : remainder < scene.remainder
+                      ? `Добавь ещё ${scene.remainder - remainder}.`
+                      : `Убери ${remainder - scene.remainder}.`,
                 );
               }}
             >
@@ -150,7 +185,15 @@ function DividendGame({ type, onExit }: { type: 'match' | 'build'; onExit: () =>
             setMessage(
               type === 'match'
                 ? 'Умножь делитель на частное и прибавь остаток.'
-                : 'Остаток меньше делителя и не входит в группы.',
+                : solved
+                  ? round < DIVIDEND_SCENES.length - 1
+                    ? 'Делимое найдено. Нажми «Дальше».'
+                    : 'Делимое найдено. Можно начать ещё раз.'
+                  : remainder > scene.remainder
+                    ? `Вне групп должно быть ${scene.remainder}. Нажимай «− 1».`
+                    : remainder === scene.remainder
+                      ? 'Остаток собран. Нажми «Готово».'
+                      : `Вне групп должно быть ${scene.remainder}. Нажимай «+ 1».`,
             )
           }
         >
@@ -161,9 +204,6 @@ function DividendGame({ type, onExit }: { type: 'match' | 'build'; onExit: () =>
         </button>
       </div>
       <div className="pilot-actions">
-        <button type="button" className="button secondary" onClick={onExit}>
-          <ArrowLeft size={18} aria-hidden="true" /> К объяснению
-        </button>
         {solved &&
           (round < DIVIDEND_SCENES.length - 1 ? (
             <button
@@ -183,6 +223,9 @@ function DividendGame({ type, onExit }: { type: 'match' | 'build'; onExit: () =>
               <RotateCcw size={18} aria-hidden="true" /> Ещё раз
             </button>
           ))}
+        <button type="button" className="button secondary" onClick={onExit}>
+          <ArrowLeft size={18} aria-hidden="true" /> К объяснению
+        </button>
       </div>
     </div>
   );
