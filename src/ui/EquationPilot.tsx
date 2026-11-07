@@ -129,6 +129,7 @@ function EquationGame({ type, onExit }: { type: 'match' | 'sequence'; onExit: ()
       ) : (
         <>
           <p className="equation-prompt">Собери решение по порядку</p>
+          <p className="trainer-instruction">Нажми: уравнение, действие, значение x.</p>
           <div className="equation-sequence" aria-label="Собранное решение" role="group">
             {sequence.length ? (
               sequence.map((index) => <span key={index}>{cards[index]}</span>)

@@ -32,7 +32,7 @@ describe('card purpose and interface help', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Играть — игра «Собери год»' }));
     expect(screen.getByText('Тренажёр')).toBeVisible();
     fireEvent.click(screen.getByRole('button', { name: 'Справка' }));
-    expect(screen.getByText(/Расставь месяцы по порядку/)).toBeVisible();
+    expect(screen.getByText(/Расставь месяцы по порядку на круге: перетащи/)).toBeVisible();
   });
 
   it('keeps the answer and does not mark interface help as assisted', () => {

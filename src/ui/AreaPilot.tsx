@@ -24,7 +24,7 @@ function AreaDiagram({
     <div
       className="area-diagram"
       role="img"
-      aria-label={`Квадрат со стороной ${side} см, разделён на ${parts} равных треугольника. Выделено частей: ${selected.length}.`}
+      aria-label={`Квадрат со стороной ${side} см, разделён на ${parts} равных треугольника. Выделено частей: ${selected.length}.${parts === 4 && selected.length ? ` Выделены: ${selected.map((index) => NAMES[index].toLowerCase()).join(', ')}.` : ''}`}
     >
       <svg viewBox="-5 -5 110 110" aria-hidden="true" focusable="false">
         {parts === 4 ? (
@@ -81,10 +81,18 @@ function AreaGame({ type, onExit }: { type: 'part' | 'half'; onExit: () => void 
           ? 'Раздели площадь на четыре равные части и выбери площадь одной. Игра не оценивается.'
           : 'Выбери две из четырёх равных частей. Нажми ещё раз, чтобы убрать. Игра не оценивается.'}
       </CardGuide>
+      <p className="equation-prompt area-game-goal">
+        {type === 'part' ? 'Найди площадь выделенного треугольника.' : 'Собери половину квадрата.'}
+      </p>
+      <p className="trainer-instruction" hidden={solved}>
+        {type === 'part'
+          ? 'Квадрат разделён на 4 равные части. Нажми ответ под рисунком.'
+          : 'Нажми названия двух частей, затем «Готово». Повторное нажатие убирает часть.'}
+      </p>
       <AreaDiagram side={side} parts={4} selected={type === 'part' ? [0] : selected} />
       {type === 'part' ? (
         <>
-          <p className="equation-prompt">Площадь квадрата: {model.whole} см²</p>
+          <p className="equation-prompt area-game-whole">Весь квадрат: {model.whole} см²</p>
           <div
             className="model-tools equation-choices"
             role="group"
@@ -99,8 +107,8 @@ function AreaGame({ type, onExit }: { type: 'part' | 'half'; onExit: () => void 
                   setSolved(value === model.part);
                   setMessage(
                     value === model.part
-                      ? `${model.whole} : 4 = ${model.part} см².`
-                      : 'Раздели всю площадь на четыре равные части.',
+                      ? `${model.whole} : 4 = ${model.part} см² — площадь части.`
+                      : `Раздели ${model.whole} см² на 4 равные части и выбери ответ.`,
                   );
                 }}
               >
@@ -111,7 +119,6 @@ function AreaGame({ type, onExit }: { type: 'part' | 'half'; onExit: () => void 
         </>
       ) : (
         <>
-          <p className="equation-prompt">Выдели половину квадрата</p>
           <div className="model-tools area-part-buttons" role="group" aria-label="Части квадрата">
             {NAMES.map((name, i) => (
               <button
@@ -148,7 +155,8 @@ function AreaGame({ type, onExit }: { type: 'part' | 'half'; onExit: () => void 
         </>
       )}
       <p className="equation-message" role="status">
-        {message || (type === 'part' ? 'Выбери площадь.' : `Выбрано: ${selected.length} из 4.`)}
+        {message ||
+          (type === 'part' ? 'Нажми площадь одной части.' : `Выбрано: ${selected.length} из 4.`)}
       </p>
       <div className="model-tools equation-game-tools" role="group" aria-label="Помощь в игре">
         <button
@@ -156,9 +164,13 @@ function AreaGame({ type, onExit }: { type: 'part' | 'half'; onExit: () => void 
           className="button tool-outline"
           onClick={() =>
             setMessage(
-              type === 'part'
-                ? 'Площадь квадрата раздели на четыре.'
-                : 'Половина — две из четырёх равных частей.',
+              solved
+                ? round === 0
+                  ? 'Ответ найден. Нажми «Дальше».'
+                  : 'Ответ найден. Можно начать ещё раз.'
+                : type === 'part'
+                  ? 'Площадь квадрата раздели на четыре.'
+                  : 'Половина — две из четырёх равных частей.',
             )
           }
         >
@@ -169,9 +181,6 @@ function AreaGame({ type, onExit }: { type: 'part' | 'half'; onExit: () => void 
         </button>
       </div>
       <div className="pilot-actions">
-        <button type="button" className="button secondary" onClick={onExit}>
-          <ArrowLeft size={18} aria-hidden="true" /> К объяснению
-        </button>
         {solved &&
           (round === 0 ? (
             <button
@@ -191,6 +200,9 @@ function AreaGame({ type, onExit }: { type: 'part' | 'half'; onExit: () => void 
               <RotateCcw size={18} aria-hidden="true" /> Ещё раз
             </button>
           ))}
+        <button type="button" className="button secondary" onClick={onExit}>
+          <ArrowLeft size={18} aria-hidden="true" /> К объяснению
+        </button>
       </div>
     </div>
   );
