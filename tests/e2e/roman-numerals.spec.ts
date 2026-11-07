@@ -288,3 +288,100 @@ test('both games return to the same roman model and focus on each step', async (
   }
   expect(await page.evaluate((key) => localStorage.getItem(key), STORAGE_KEY)).toBeNull();
 });
+
+test.describe('the theory board by hand', () => {
+  test.use({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+  test('drags a sign in, changes its place and removes it, without saving', async ({ page }) => {
+    const dialog = await openLesson(page);
+    await dialog.getByRole('button', { name: 'Дальше' }).click();
+    const cdp = await page.context().newCDPSession(page);
+    const touch = (type: 'touchStart' | 'touchMove' | 'touchEnd', x: number, y: number) =>
+      cdp.send('Input.dispatchTouchEvent', {
+        type,
+        touchPoints: type === 'touchEnd' ? [] : [{ x, y, radiusX: 10, radiusY: 10, force: 1 }],
+      });
+    const center = (b: { x: number; y: number; width: number; height: number }) => ({
+      x: b.x + b.width / 2,
+      y: b.y + b.height / 2,
+    });
+    const board = dialog.getByRole('group', { name: 'Табло римских цифр' });
+    const box = (await board.boundingBox())!;
+    const i = center((await dialog.getByRole('button', { name: 'Добавить I' }).boundingBox())!);
+    await touch('touchStart', i.x, i.y);
+    await touch('touchMove', box.x + box.width - 8, box.y + box.height / 2);
+    await expect(dialog.locator('.roman-build-ghost')).toBeVisible();
+    await touch('touchEnd', 0, 0);
+    await expect(dialog.locator('.pilot-formula-result')).toHaveText('XI = 11');
+    const chip = center((await dialog.locator('[data-theory-index="1"]').boundingBox())!);
+    await touch('touchStart', chip.x, chip.y);
+    await touch('touchMove', box.x + 8, box.y + box.height / 2);
+    await expect(dialog.locator('.roman-build-caret')).toBeVisible();
+    await touch('touchEnd', 0, 0);
+    await expect(dialog.locator('.pilot-formula-result')).toHaveText('IX = 9');
+    await expect(dialog.locator('.pilot-formula')).toContainText('10 − 1');
+    const placed = center((await dialog.locator('[data-theory-index="0"]').boundingBox())!);
+    await touch('touchStart', placed.x, placed.y);
+    await touch('touchMove', placed.x, box.y + box.height + 60);
+    await touch('touchEnd', 0, 0);
+    await expect(dialog.locator('.pilot-formula-result')).toHaveText('X = 10');
+    expect(await page.evaluate((key) => localStorage.getItem(key), STORAGE_KEY)).toBeNull();
+    await cdp.detach();
+  });
+});
+
+test('theory board supports keyboard editing and remains accessible', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 568 });
+  const dialog = await openLesson(page);
+  await dialog.getByRole('button', { name: 'Дальше' }).click();
+  await dialog.getByRole('button', { name: 'Добавить I' }).click();
+  const sign = dialog.getByRole('button', { name: 'Знак I, место 2 из 2' });
+  await sign.focus();
+  await page.keyboard.press('ArrowLeft');
+  await expect(dialog.locator('.pilot-formula-result')).toHaveText('IX = 9');
+  await expect(dialog.getByRole('button', { name: 'Знак I, место 1 из 2' })).toBeFocused();
+  await page.keyboard.press('Delete');
+  await expect(dialog.locator('.pilot-formula-result')).toHaveText('X = 10');
+  await expect(dialog.getByRole('button', { name: 'Знак X, место 1 из 1' })).toBeFocused();
+  const { default: AxeBuilder } = await import('@axe-core/playwright');
+  const { violations } = await new AxeBuilder({ page }).include('.roman-pilot').analyze();
+  expect(violations).toEqual([]);
+});
+
+for (const [width, height] of [
+  [320, 568],
+  [390, 844],
+  [768, 1024],
+  [820, 1180],
+] as const) {
+  test(`editable theory tiles fit and are usable at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height });
+    const dialog = await openLesson(page);
+    await dialog.getByRole('button', { name: 'Дальше' }).click();
+    await dialog.getByRole('button', { name: 'Добавить V' }).click();
+    for (let i = 0; i < 3; i++) await dialog.getByRole('button', { name: 'Добавить I' }).click();
+    await expect(dialog.locator('.pilot-formula-result')).toHaveText('XVIII = 18');
+    const boxes = await dialog.locator('[data-theory-index]').evaluateAll((nodes) =>
+      nodes.map((node) => {
+        const box = node.getBoundingClientRect();
+        return { x: box.x, y: box.y, width: box.width, height: box.height };
+      }),
+    );
+    expect(boxes).toHaveLength(5);
+    expect(new Set(boxes.map((box) => Math.round(box.y))).size).toBe(1);
+    for (const box of boxes) {
+      expect(box.width).toBeGreaterThanOrEqual(44);
+      expect(box.height).toBeGreaterThanOrEqual(44);
+      expect(box.x).toBeGreaterThanOrEqual(0);
+      expect(box.x + box.width).toBeLessThanOrEqual(width);
+    }
+    await dialog.locator('[data-theory-index="2"]').click();
+    for (const name of ['Сдвинуть знак влево', 'Сдвинуть знак вправо']) {
+      const button = dialog.getByRole('button', { name });
+      await expect(button).toBeVisible();
+      expect((await button.boundingBox())!.height).toBeGreaterThanOrEqual(44);
+    }
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(
+      width,
+    );
+  });
+}

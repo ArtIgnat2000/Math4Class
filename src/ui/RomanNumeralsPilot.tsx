@@ -1,20 +1,14 @@
 import { StepIndicator } from './StepIndicator';
 import { CardGuide } from './CardGuide';
 import { useEffect, useId, useRef, useState } from 'react';
-import { ArrowLeft, ArrowRight, BookOpen, Clock, Minus, Plus, Puzzle } from 'lucide-react';
-import {
-  ROMAN_MAX,
-  ROMAN_SIGNS,
-  appendSign,
-  romanValue,
-  toRoman,
-  type RomanSign,
-} from '../engine/roman';
-import { RomanRecord, RomanSignCard, RomanTile, signTone } from './RomanModel';
+import { ArrowLeft, ArrowRight, BookOpen, Clock, Puzzle } from 'lucide-react';
+import { ROMAN_SIGNS, romanValue, toRoman, type RomanSign } from '../engine/roman';
+import { RomanRecord, RomanSignCard, RomanTile } from './RomanModel';
 import { RomanClockGame } from './RomanClockGame';
 import { RomanBuildGame } from './RomanBuildGame';
+import { RomanTheoryBoard } from './RomanTheoryBoard';
 
-const STEP_TITLES = ['Три знака', 'Складывай справа', 'Меньший слева'];
+const STEP_TITLES = ['Три знака', 'Собери запись', 'Меньший слева'];
 
 /**
  * An author's explanation of roman numerals I–XX, built by the lesson standard:
@@ -31,8 +25,7 @@ export function RomanNumeralsPilot({
 }) {
   const [step, setStep] = useState(0);
   const [openSign, setOpenSign] = useState<RomanSign | null>(null);
-  const [record, setRecord] = useState('X');
-  const [note, setNote] = useState<string | null>(null);
+  const [board, setBoard] = useState<RomanSign[]>(['X']);
   const [base, setBase] = useState<'V' | 'X'>('V');
   const [left, setLeft] = useState(true);
   const [decade, setDecade] = useState(false);
@@ -46,7 +39,6 @@ export function RomanNumeralsPilot({
     headingRef.current?.focus();
   }, [step, game]);
 
-  const built = romanValue(record);
   const pair = left ? `I${base}` : `${base}I`;
   const pairRecord = decade ? `X${pair}` : pair;
   const pairValue = romanValue(pairRecord);
@@ -54,16 +46,6 @@ export function RomanNumeralsPilot({
 
   if (game === 'clock') return <RomanClockGame onExit={() => setGame(null)} />;
   if (game === 'build') return <RomanBuildGame onExit={() => setGame(null)} />;
-
-  const add = (next: RomanSign) => {
-    const result = appendSign(record, next);
-    if (result.issue) {
-      setNote(result.message);
-      return;
-    }
-    setRecord(result.record);
-    setNote(null);
-  };
 
   return (
     <div className="roman-pilot">
@@ -98,7 +80,7 @@ export function RomanNumeralsPilot({
         {
           [
             'Нажми знак и посмотри, сколько палочек он заменяет.',
-            'Добавляй или убирай знаки и наблюдай, как меняется число.',
+            'Перетаскивай, добавляй и переставляй знаки. Смотри, как меняется число.',
             'Перемещай I влево или вправо и посмотри, как меняется значение.',
           ][step]
         }
@@ -148,54 +130,9 @@ export function RomanNumeralsPilot({
       {step === 1 && (
         <section aria-label="Запись числа знаками">
           <p className="pilot-instruction sr-only">
-            Добавляй знаки: меньший справа прибавляется. Запись доведена до числа.
+            Добавляй, убирай и переставляй знаки. Следи, как меняется число.
           </p>
-          <RomanRecord record={record} />
-          <div className="pilot-formula" aria-live="polite">
-            <span>
-              {[...record]
-                .map((item) => ROMAN_SIGNS.find((s) => s.sign === item)?.value)
-                .join(' + ')}
-            </span>
-            <strong className="pilot-formula-result">
-              {record} = {built}
-            </strong>
-          </div>
-          <div
-            className="pilot-model-controls model-tools"
-            role="group"
-            aria-label="Инструменты модели"
-          >
-            <button
-              type="button"
-              className="button tool-remove"
-              disabled={record.length === 0}
-              aria-label="Убрать знак"
-              onClick={() => {
-                setRecord((prev) => prev.slice(0, -1));
-                setNote(null);
-              }}
-            >
-              <Minus size={18} aria-hidden="true" /> Убрать
-            </button>
-            {ROMAN_SIGNS.map((item) => (
-              <button
-                type="button"
-                key={item.sign}
-                className={`button tool-add roman-add tone-${signTone(item.sign)}`}
-                aria-label={`Добавить ${item.sign}`}
-                onClick={() => add(item.sign)}
-              >
-                <Plus size={16} aria-hidden="true" /> {item.sign}
-              </button>
-            ))}
-          </div>
-          <p className="roman-status" role="status">
-            {note ??
-              (built === ROMAN_MAX
-                ? `XX — это ${ROMAN_MAX}. Дальше пока не считаем.`
-                : 'Меньший знак справа прибавляют.')}
-          </p>
+          <RomanTheoryBoard board={board} onChange={setBoard} />
         </section>
       )}
 

@@ -90,6 +90,20 @@ export function romanIssueText(issue: RomanIssue, record = ''): string {
   return 'Меньший знак справа прибавляют, слева — вычитают. Попробуй короче.';
 }
 
+/** Show subtraction as bigger minus smaller, rather than adding every tile. */
+export function romanCalculation(record: string): string | null {
+  if (romanIssue(record)) return null;
+  const values = [...record].map((sign) => SIGN_VALUE[sign]);
+  const parts: string[] = [];
+  for (let index = 0; index < values.length; index++) {
+    if (index + 1 < values.length && values[index] < values[index + 1]) {
+      parts.push(`(${values[index + 1]} − ${values[index]})`);
+      index++;
+    } else parts.push(String(values[index]));
+  }
+  return parts.join(' + ');
+}
+
 export type RomanAppend = {
   record: string;
   value: number | null;

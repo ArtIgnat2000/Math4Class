@@ -11113,3 +11113,34 @@ h1[tabindex='-1']:focus {
     min-width: 0;
   }
 }
+
+/* Free editing in the explanation uses the same draggable tiles as the game. */
+.roman-theory-instruction {
+  margin: 0 0 6px;
+  color: #334155;
+  font-size: 0.85rem;
+  text-align: center;
+}
+.roman-theory-editor .roman-add {
+  touch-action: none;
+}
+.roman-theory-shift {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 6px;
+}
+.roman-theory-shift .button {
+  min-height: 44px;
+}
+@media (max-width: 400px) {
+  /* Keep five I–XX tiles on one row: drop positions use horizontal gaps. */
+  .roman-theory-editor .roman-build-drop {
+    padding: 4px;
+  }
+  .roman-theory-editor .roman-build-slots {
+    gap: 0;
+  }
+}

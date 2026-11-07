@@ -5,6 +5,7 @@ import {
   ROMAN_MAX,
   ROMAN_NUMBERS,
   appendSign,
+  romanCalculation,
   romanIssue,
   romanIssueText,
   romanSigns,
@@ -44,6 +45,14 @@ describe('roman numerals I–XX', () => {
     expect(romanValue('XI')).toBe(11);
     expect(romanValue('IX')).toBe(9);
     expect(romanValue('XIX')).toBe(19);
+  });
+
+  it('explains addition and subtraction without claiming an invalid record has a value', () => {
+    expect(romanCalculation('XVI')).toBe('10 + 5 + 1');
+    expect(romanCalculation('XIV')).toBe('10 + (5 − 1)');
+    expect(romanCalculation('IX')).toBe('(10 − 1)');
+    expect(romanCalculation('IIV')).toBeNull();
+    expect(romanCalculation('')).toBeNull();
   });
 
   it('explains why a record is wrong instead of just rejecting it', () => {
