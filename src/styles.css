@@ -10,7 +10,7 @@
   --muted: #74806b;
   --line: #e5e9df;
   --orange: #ac603f;
-  --orange-dark: #b95e38;
+  --orange-dark: #994d2e;
   --forest: #4a6c4c;
   --card: #fff;
   color-scheme: only light;
@@ -3681,9 +3681,6 @@ h1[tabindex='-1']:focus {
   .topic-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-  .learning-page .topic-grid > .topic-card:last-child {
-    display: none;
-  }
   .progress-panels,
   .parents-columns,
   .data-actions {
@@ -3952,9 +3949,6 @@ h1[tabindex='-1']:focus {
   }
   .topic-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-  .learning-page .topic-grid > .topic-card:last-child {
-    display: none;
   }
   .topic-card > strong {
     font-size: 15px;
@@ -11057,4 +11051,37 @@ h1[tabindex='-1']:focus {
   .decimal-pilot .pilot-formula {
     margin-block: 4px;
   }
+}
+
+/* The next step is named on the home and result screens, including on phones. */
+.hero-copy > p.hero-next-topic {
+  color: #304d39;
+  font-size: 16px;
+  line-height: 1.45;
+  max-width: 320px;
+  margin-bottom: 16px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: #eaf0e3;
+}
+@media (max-width: 680px) {
+  .hero-magic {
+    display: none;
+  }
+}
+.hero-next-topic strong {
+  font-weight: 800;
+}
+.result-next {
+  color: #304d39;
+  font-size: 16px;
+  line-height: 1.45;
+  margin: 0 auto;
+  max-width: 440px;
+}
+.topic-completed {
+  color: #435c40;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.35;
 }

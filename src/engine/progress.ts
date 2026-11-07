@@ -26,20 +26,28 @@ export function dueTopics(profile: Profile, pack: ContentPack, today = dayKey())
       ),
     );
 }
+/** Only visible topics are eligible; start after the last lesson, then wrap once. */
+export function untriedTopics(profile: Profile, pack: ContentPack, afterTopicId?: string): Topic[] {
+  const index = pack.topics.findIndex((topic) => topic.id === afterTopicId);
+  const ordered =
+    index < 0 ? pack.topics : [...pack.topics.slice(index + 1), ...pack.topics.slice(0, index + 1)];
+  return ordered.filter((topic) => !profile.topics[topicKey(pack.grade, topic.id)]?.sessions);
+}
 export function recommendedTopic(
   profile: Profile,
   pack: ContentPack,
   today = dayKey(),
 ): { topic: Topic | null; review: boolean } {
+  const last = [...profile.history].reverse().find((result) => result.grade === pack.grade);
+  const unseen = untriedTopics(profile, pack, last?.topicId)[0];
+  if (unseen) return { topic: unseen, review: false };
   if (!pack.topics.length) return { topic: null, review: false };
   const due = dueTopics(profile, pack, today);
-  if (due.length) return { topic: due[0], review: true };
-  const unseen = pack.topics.find((t) => !profile.topics[topicKey(pack.grade, t.id)]?.sessions);
   const ready = pack.topics.find((t) => {
     const p = profile.topics[topicKey(pack.grade, t.id)];
     return p && p.level < 3 && p.lastDay < today;
   });
-  return { topic: unseen ?? ready ?? pack.topics[0], review: false };
+  return { topic: due[0] ?? ready ?? pack.topics[0], review: true };
 }
 export function gradeStats(profile: Profile, pack: ContentPack) {
   const started = pack.topics.filter(

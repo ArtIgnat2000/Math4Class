@@ -25,7 +25,8 @@ import type { Grade, Topic } from './engine/content';
 import type { Answer, Session } from './engine/model';
 import { createSession, finishSession, nextTask, submitAnswer } from './engine/lesson';
 import { dayKey } from './engine/dates';
-import { dueTopics, streak, topicKey } from './engine/progress';
+import { dueTopics, streak, topicKey, untriedTopics } from './engine/progress';
+import { getPack } from './content';
 import { Learning, Catalog, Review } from './ui/Learning';
 import { Progress, Rewards } from './ui/Progress';
 import { Parents, ConfirmDialog } from './ui/Parents';
@@ -63,7 +64,8 @@ interface InstallPrompt extends Event {
   userChoice: Promise<{ outcome: string }>;
 }
 export default function App() {
-  const { profile, pack, updateProfile, storageStatus, acknowledgeStorage } = useApp();
+  const { data, profile, pack, setGrade, updateProfile, storageStatus, acknowledgeStorage } =
+    useApp();
   const [route, setRoute] = useState<Route>(readRoute);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [today, setToday] = useState(dayKey);
@@ -302,6 +304,10 @@ export default function App() {
   }, [route, profile.activeSession]);
   const dueCount = dueTopics(profile, pack, today).length;
   const lastResult = profile.history.at(-1);
+  const resultPack = lastResult ? getPack(lastResult.grade, data.customPacks) : pack;
+  const nextLesson = lastResult
+    ? untriedTopics(profile, resultPack, lastResult.topicId)[0]
+    : undefined;
   const focused =
     (route === 'lesson' && !!profile.activeSession) || (route === 'result' && !!lastResult);
   const storageMessages = {
@@ -366,8 +372,21 @@ export default function App() {
             lastResult && (
               <Result
                 result={lastResult}
-                onHome={() => navigate('learn')}
-                onTopics={() => navigate('topics')}
+                nextTopic={nextLesson}
+                hasTopics={resultPack.topics.length > 0}
+                onNext={() => {
+                  if (!nextLesson) return;
+                  if (profile.grade !== lastResult.grade) setGrade(lastResult.grade);
+                  setTopicDialog({ topic: nextLesson, grade: lastResult.grade, mode: 'learn' });
+                }}
+                onHome={() => {
+                  if (profile.grade !== lastResult.grade) setGrade(lastResult.grade);
+                  navigate('learn');
+                }}
+                onTopics={() => {
+                  if (profile.grade !== lastResult.grade) setGrade(lastResult.grade);
+                  navigate('topics');
+                }}
               />
             )
           )}

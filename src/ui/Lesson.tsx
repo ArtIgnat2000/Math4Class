@@ -821,10 +821,16 @@ export function Lesson({
 }
 export function Result({
   result,
+  nextTopic,
+  hasTopics,
+  onNext,
   onHome,
   onTopics,
 }: {
   result: LessonResult;
+  nextTopic?: Topic;
+  hasTopics: boolean;
+  onNext: () => void;
   onHome: () => void;
   onTopics: () => void;
 }) {
@@ -856,9 +862,20 @@ export function Result({
         <p className="result-summary">
           {result.correct} из {result.total} с первого раза
         </p>
+        <p className="result-next">
+          {nextTopic ? (
+            <>
+              Следующая тема: <strong>{nextTopic.title}</strong>
+            </>
+          ) : hasTopics ? (
+            'Ты познакомился со всеми доступными темами.'
+          ) : (
+            'Пока нет доступных тем.'
+          )}
+        </p>
         <div className="result-actions">
-          <button className="button primary" onClick={onHome}>
-            Дальше
+          <button className="button primary" onClick={nextTopic ? onNext : onHome}>
+            {nextTopic ? 'Дальше' : 'На главную'}
             <ArrowRight size={18} />
           </button>
           <button className="button secondary" onClick={onTopics}>

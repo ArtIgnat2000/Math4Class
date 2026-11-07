@@ -211,7 +211,7 @@ export function ProgressBar({
 }
 export function Stars({ count = 0, size = 14 }: { count?: number; size?: number }) {
   return (
-    <span className="stars" aria-label={`${count} из 3 звёзд`}>
+    <span className="stars" role="img" aria-label={`${count} из 3 звёзд`}>
       {[1, 2, 3].map((s) => (
         <Star key={s} size={size} className={s <= count ? 'filled' : ''} />
       ))}
@@ -317,7 +317,14 @@ export function TopicCard({
       </span>
       <strong>{topic.title}</strong>
       <span className="topic-card-bottom">
-        {progress ? <Stars count={progress.bestStars} size={12} /> : <span />}
+        {progress?.sessions ? (
+          <span className="topic-completed">
+            <span>Занятие завершено</span>
+            <Stars count={progress.bestStars} size={12} />
+          </span>
+        ) : (
+          <span />
+        )}
         <span className="card-arrow" aria-hidden="true">
           <ArrowRight size={17} />
         </span>
