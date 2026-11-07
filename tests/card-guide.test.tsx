@@ -65,7 +65,7 @@ describe('card purpose and interface help', () => {
   });
 
   it('also labels ordinary theory cards', () => {
-    const topic = topics.find((item) => item.id === 'equations-add-subtract')!;
+    const topic = topics.find((item) => item.id === 'multiply-divide-powers-ten')!;
     render(
       <TopicDialog topic={topic} isDemo={false} mode="learn" onClose={vi.fn()} onStart={vi.fn()} />,
     );

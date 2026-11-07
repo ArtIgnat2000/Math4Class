@@ -12,7 +12,9 @@ test('the numeric keypad is on screen for a mouse too, and still fits an iPad', 
   await page.setViewportSize({ width: 1440, height: 1000 });
   const dialog = await openTopic(page, 'Уравнения: сложение и вычитание');
   await expect(dialog.getByText('4 класс')).toHaveCount(0);
-  await dialog.getByRole('button', { name: 'Давай попробуем' }).click();
+  await dialog.getByRole('button', { name: 'Дальше' }).click();
+  await dialog.getByRole('button', { name: 'Дальше' }).click();
+  await dialog.getByRole('button', { name: 'Проверить себя' }).click();
   await expect(page.locator('.task-card')).toBeVisible();
 
   const pad = page.getByRole('group', { name: 'Цифровая клавиатура' });

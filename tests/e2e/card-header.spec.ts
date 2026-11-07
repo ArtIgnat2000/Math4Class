@@ -113,7 +113,9 @@ test('portrait tablet keeps the question, keypad and check on screen', async ({ 
       .filter({ hasText: 'Уравнения: сложение и вычитание' })
       .first()
       .click();
-    await page.getByRole('dialog').getByRole('button', { name: 'Давай попробуем' }).click();
+    await page.getByRole('dialog').getByRole('button', { name: 'Дальше' }).click();
+    await page.getByRole('dialog').getByRole('button', { name: 'Дальше' }).click();
+    await page.getByRole('dialog').getByRole('button', { name: 'Проверить себя' }).click();
     const geometry = await page.evaluate(() => ({
       scrollHeight: document.documentElement.scrollHeight,
       bottom: document.querySelector('.task-card')!.getBoundingClientRect().bottom,

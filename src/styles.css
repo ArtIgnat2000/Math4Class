@@ -10771,3 +10771,143 @@ h1[tabindex='-1']:focus {
   flex: 1 1 0;
   max-width: 130px;
 }
+
+/* Equation model: a whole divided into two proportional parts. */
+.equation-line {
+  margin: 12px 0 8px;
+  text-align: center;
+  color: #2c4434;
+  font-weight: 800;
+  font-size: clamp(23px, 6vw, 32px);
+  line-height: 1.25;
+}
+.equation-model {
+  max-width: 440px;
+  margin: 8px auto;
+  color: #2c4434;
+}
+.equation-whole {
+  padding: 7px;
+  border: 2px solid #4f7a52;
+  border-radius: 12px 12px 3px 3px;
+  background: #e6f2e2;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 800;
+}
+.equation-parts {
+  display: flex;
+  gap: 4px;
+  margin-top: 4px;
+}
+.equation-part {
+  flex-basis: 0;
+  min-width: 0;
+  padding: 12px 2px;
+  border: 2px solid #1d4ed8;
+  border-radius: 6px 6px 12px 12px;
+  background: #dbeafe;
+  color: #1e3a8a;
+  font-weight: 800;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+.equation-part.is-unknown {
+  border-color: #6d28d9;
+  background: #ede9fe;
+  color: #5b21b6;
+}
+.equation-labels {
+  display: flex;
+  justify-content: space-around;
+  color: #40563f;
+  font-size: 14px;
+}
+.equation-pilot .pilot-formula {
+  margin: 8px 0;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.equation-pilot .pilot-formula-result {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+.equation-message,
+.equation-prompt {
+  margin: 8px 0;
+  text-align: center;
+  color: #2c4434;
+  font-size: 16px;
+}
+.equation-prompt {
+  font-weight: 800;
+}
+.equation-model-tools,
+.equation-entries,
+.equation-game-tools,
+.equation-choices,
+.equation-card-tray {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.equation-pilot .model-tools {
+  margin-top: 8px;
+}
+.equation-pilot .model-tools .button {
+  border: 2px solid #8b5cf6;
+  flex: 1 1 auto;
+}
+.equation-choices .button {
+  min-width: 44px;
+}
+.equation-sequence {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px;
+  border: 2px dashed #4f7a52;
+  border-radius: 12px;
+  color: #2c4434;
+}
+.equation-sequence span {
+  padding: 4px;
+  font-weight: 700;
+}
+.equation-entries .button,
+.equation-game-tools .button {
+  flex: 1 1 0 !important;
+  min-width: 0;
+  padding-inline: 6px;
+  gap: 6px;
+}
+.equation-card-tray .button[aria-disabled='true'] {
+  opacity: 0.6;
+}
+@media (max-height: 650px) {
+  .equation-pilot .equation-line {
+    margin: 4px 0;
+  }
+  .equation-pilot .equation-whole {
+    padding: 4px;
+  }
+  .equation-pilot .equation-part {
+    padding-block: 6px;
+  }
+  .equation-pilot .equation-message {
+    margin: 4px 0;
+  }
+  .equation-pilot .model-tools {
+    margin-top: 4px;
+    padding: 6px;
+  }
+  .equation-pilot .pilot-actions {
+    margin-top: 4px;
+    padding-top: 6px;
+  }
+}

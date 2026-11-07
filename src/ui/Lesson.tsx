@@ -24,6 +24,7 @@ import { MassWordIntro, MassWordVisual } from './MassWordVisual';
 import { CalendarIntro, CalendarVisual } from './CalendarVisual';
 import { YearMonthsPilot } from './YearMonthsPilot';
 import { RomanNumeralsPilot } from './RomanNumeralsPilot';
+import { EquationPilot } from './EquationPilot';
 import { NumericKeypad } from './NumericKeypad';
 import { CardGuide, CardTitleContext } from './CardGuide';
 import { StepIndicator } from './StepIndicator';
@@ -67,6 +68,7 @@ const PILOT_DIALOG_TITLE = 'Годы в месяцы';
 const PILOT_TITLES: Record<string, string> = {
   'calendar-years-months': PILOT_DIALOG_TITLE,
   'roman-numerals': 'Римские цифры',
+  'equations-add-subtract': 'Уравнения',
 };
 
 /** The same explanation, reachable from a task without restarting the session. */
@@ -91,6 +93,8 @@ function TaskReference({ topic, onClose }: { topic: Topic; onClose: () => void }
         <YearMonthsPilot onPractice={onClose} practiceLabel="Вернуться к заданию" />
       ) : topic.id === 'roman-numerals' ? (
         <RomanNumeralsPilot onPractice={onClose} practiceLabel="Вернуться к заданию" />
+      ) : topic.id === 'equations-add-subtract' ? (
+        <EquationPilot onPractice={onClose} practiceLabel="Вернуться к заданию" />
       ) : (
         <>
           <CardGuide kind="Теория">
@@ -149,6 +153,16 @@ export function TopicDialog({
         className="topic-dialog mass-intro-dialog year-month-dialog roman-dialog"
       >
         <RomanNumeralsPilot onPractice={onStart} />
+      </Modal>
+    );
+  if (topic.id === 'equations-add-subtract')
+    return (
+      <Modal
+        title={PILOT_TITLES[topic.id]}
+        onClose={onClose}
+        className="topic-dialog mass-intro-dialog year-month-dialog equation-dialog"
+      >
+        <EquationPilot onPractice={onStart} />
       </Modal>
     );
   if (topic.id.startsWith('calendar-'))
