@@ -9,14 +9,19 @@ await inflate(
   fileURLToPath(new URL('../bin/al2023.tar.br', import.meta.resolve('@sparticuz/chromium'))),
 );
 process.env.LD_LIBRARY_PATH = `${join(tmpdir(), 'al2023', 'lib')}:${process.env.LD_LIBRARY_PATH ?? ''}`;
+const port = Number(process.env.PLAYWRIGHT_PORT ?? 4173);
+if (!Number.isInteger(port) || port < 1 || port > 65535) throw new Error('Invalid PLAYWRIGHT_PORT');
+const baseURL = `http://127.0.0.1:${port}`;
 export default defineConfig({
   testDir: './tests/e2e',
-  fullyParallel: false,
+  // Split tests, not whole files, between isolated CI shards. Each shard still
+  // uses one worker to keep Chromium stable in the sandbox.
+  fullyParallel: true,
   workers: 1,
   retries: process.env.CI ? 1 : 0,
   timeout: 45_000,
   use: {
-    baseURL: 'http://127.0.0.1:4173',
+    baseURL,
     viewport: { width: 1440, height: 1000 },
     headless: true,
     reducedMotion: 'reduce',
@@ -27,8 +32,8 @@ export default defineConfig({
     },
   },
   webServer: {
-    command: 'npm run preview -- --port 4173',
-    url: 'http://127.0.0.1:4173',
+    command: `npm run preview -- --port ${port} --strictPort`,
+    url: baseURL,
     reuseExistingServer: !process.env.CI,
   },
 });
