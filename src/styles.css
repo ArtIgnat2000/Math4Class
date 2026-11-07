@@ -11144,3 +11144,30 @@ h1[tabindex='-1']:focus {
     gap: 0;
   }
 }
+
+/* A trainer's objective and next action must be visible without opening help. */
+.trainer-instruction {
+  margin: 4px 0 8px;
+  color: #334155;
+  font-size: 0.9rem;
+  line-height: 1.35;
+  text-align: center;
+}
+.trainer-instruction[hidden] {
+  display: none;
+}
+.area-game .area-game-goal {
+  margin: 4px 0;
+}
+.area-game .area-game-whole {
+  margin: 4px 0;
+}
+@media (max-width: 400px) {
+  .area-game .pilot-actions {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .area-game .pilot-actions .button {
+    width: 100%;
+  }
+}

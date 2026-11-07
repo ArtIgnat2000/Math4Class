@@ -233,6 +233,7 @@ export function YearBuildGame({ onExit }: { onExit: () => void }) {
         Игра не оценивается.
       </CardGuide>
       <p className="year-game-lead sr-only">Перетащи месяцы по порядку.</p>
+      <p className="trainer-instruction">Расставь месяцы по порядку на круге года.</p>
 
       <div className="year-game-layout">
         <div

@@ -85,6 +85,7 @@ function DecimalGame({
       </CardGuide>
       {type === 'match' ? (
         <>
+          <p className="trainer-instruction">Вычисли и нажми ответ под примером.</p>
           <Places scene={scene} showResult={false} />
           <p className="equation-prompt">
             {formatDecimal(scene.left)} {scene.operation} {formatDecimal(scene.right)} = ?
@@ -113,6 +114,8 @@ function DecimalGame({
         </>
       ) : (
         <>
+          <p className="equation-prompt">Собери число из разрядов</p>
+          <p className="trainer-instruction">Читай разряды слева направо. Нажимай нужные цифры.</p>
           <div className="decimal-decomposition" aria-label="Разряды числа">
             {model.digits.map((digit, i) => (
               <span key={names[i]}>
