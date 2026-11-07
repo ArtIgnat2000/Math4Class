@@ -197,7 +197,11 @@ test('every approved exercise stays usable on a phone and tablet', async ({ brow
       await page.goto('/#/topics');
       for (const topic of pack.topics.filter((item: { id: string }) => approvedTaskIds[item.id])) {
         await page.locator('.topic-card').filter({ hasText: topic.title }).click();
-        if (topic.id === 'calendar-years-months' || topic.id === 'equations-add-subtract') {
+        if (
+          ['calendar-years-months', 'equations-add-subtract', 'division-restore-dividend'].includes(
+            topic.id,
+          )
+        ) {
           await page.getByRole('button', { name: 'Дальше' }).click();
           await page.getByRole('button', { name: 'Дальше' }).click();
           await page.getByRole('button', { name: 'Проверить себя' }).click();

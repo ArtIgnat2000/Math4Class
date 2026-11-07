@@ -10911,3 +10911,35 @@ h1[tabindex='-1']:focus {
     padding-top: 6px;
   }
 }
+
+.dividend-model {
+  border: 2px solid #3f6b4a;
+  border-radius: 16px;
+  padding: 12px;
+  background: #e6f2e2;
+}
+.dividend-groups {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.dividend-groups span {
+  border: 2px solid #3f6b4a;
+  border-radius: 10px;
+  padding: 6px;
+  color: #2f5d3f;
+  background: #fff;
+  font-size: 1rem;
+}
+.dividend-groups .dividend-remainder {
+  border-style: dashed;
+  color: #5b21b6;
+}
+.dividend-labels {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px 12px;
+  font-size: 0.9rem;
+  color: #253e2d;
+}
