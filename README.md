@@ -17,6 +17,7 @@ npm ci
 npm run dev          # http://localhost:5173, сервер слушает 0.0.0.0
 npm run check        # TypeScript, проверка контента, unit/UI-тесты, production-сборка
 npm run test:e2e     # сборка + браузерные сценарии, офлайн-PWA, WCAG AA, адаптивность
+npm run test:e2e:built -- tests/e2e/equation-pilot.spec.ts # целевой тест существующей сборки
 npm run preview     # production-сборка на http://localhost:4173
 ```
 
@@ -65,6 +66,7 @@ npm run content:check -- path/to/my-grade-4.json
 
 ## Документация
 
+- [`docs/CI_PIPELINE.md`](docs/CI_PIPELINE.md) — быстрые локальные проверки, полный параллельный CI и безопасная публикация.
 - [`docs/TEXTBOOK_COVERAGE_REPORT.md`](docs/TEXTBOOK_COVERAGE_REPORT.md) — текущий отчёт по изданиям, страницам и номерам упражнений.
 - [`docs/TEXTBOOK_COVERAGE.md`](docs/TEXTBOOK_COVERAGE.md) — как проводить ручной и автоматический контроль охвата; отчёт обновляется командой `npm run coverage:report`.
 - [`docs/LESSON_MODERNIZATION.md`](docs/LESSON_MODERNIZATION.md) — состояние и план модернизации доступных уроков.

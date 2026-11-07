@@ -1,11 +1,19 @@
 name: Checks
 on:
-  push:
   pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
 permissions:
   contents: read
+concurrency:
+  group: checks-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+env:
+  E2E_SHARDS: '4'
 jobs:
-  check:
+  build:
+    name: Build and unit checks
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -18,10 +26,84 @@ jobs:
       - run: npm run format:check
       - run: npm run check
       - run: npm audit --omit=dev
-      - run: npx playwright test
+      - run: npm run test:e2e:shards:check
+      - name: Save the build for browser checks and publication
+        uses: actions/upload-artifact@v4
+        with:
+          name: checked-build
+          path: dist/
+          if-no-files-found: error
+          retention-days: 1
+  e2e:
+    name: Browser tests (${{ matrix.shard }}/4)
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - uses: actions/download-artifact@v4
+        with:
+          name: checked-build
+          path: dist/
+      - name: Run browser test shard
+        run: npx playwright test --shard=${{ matrix.shard }}/${E2E_SHARDS}
       - uses: actions/upload-artifact@v4
         if: failure()
         with:
-          name: browser-failures
+          name: browser-failures-${{ matrix.shard }}
           path: test-results/
           retention-days: 7
+  check:
+    name: check
+    needs: [build, e2e]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Require every check and every browser shard
+        env:
+          BUILD_RESULT: ${{ needs.build.result }}
+          E2E_RESULT: ${{ needs.e2e.result }}
+        run: test "$BUILD_RESULT" = success && test "$E2E_RESULT" = success
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: [check]
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    concurrency:
+      group: pages
+      cancel-in-progress: true
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Download the exact build tested in this run
+        uses: actions/download-artifact@v4
+        with:
+          name: checked-build
+          path: dist/
+      - name: Do not publish an obsolete main commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: test "$(gh api "repos/${GITHUB_REPOSITORY}/git/ref/heads/main" --jq '.object.sha')" = "$GITHUB_SHA"
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
