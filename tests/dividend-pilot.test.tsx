@@ -53,6 +53,8 @@ describe('division with remainder explanation', () => {
     expect(screen.getByRole('status')).toHaveTextContent('4 × 3 + 1 = 13');
     await user.click(screen.getByRole('button', { name: 'К объяснению' }));
     await user.click(screen.getByRole('button', { name: /игра «Собери остаток»/ }));
+    await user.click(screen.getByRole('button', { name: '− 1' }));
+    expect(screen.getByRole('status')).toHaveTextContent('В остатке пока нет предметов');
     for (let i = 0; i < 4; i++) await user.click(screen.getByRole('button', { name: '+ 1' }));
     expect(screen.getByRole('status')).toHaveTextContent('Остаток должен быть меньше делителя');
     await user.click(screen.getByRole('button', { name: 'Заново' }));

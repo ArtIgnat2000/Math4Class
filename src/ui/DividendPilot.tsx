@@ -96,7 +96,11 @@ function DividendGame({ type, onExit }: { type: 'match' | 'build'; onExit: () =>
               type="button"
               className="button tool-outline"
               onClick={() => {
-                setRemainder(Math.max(0, remainder - 1));
+                if (remainder === 0) {
+                  setMessage('В остатке пока нет предметов.');
+                  return;
+                }
+                setRemainder(remainder - 1);
                 setSolved(false);
                 setMessage('Убрали один предмет.');
               }}
