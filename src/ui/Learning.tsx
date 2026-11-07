@@ -23,7 +23,13 @@ import {
 import { referenceLabel } from '../engine/references';
 import { dayKey, plural } from '../engine/dates';
 import type { Session } from '../engine/model';
-import { dueTopics, gradeStats, recommendedTopic, topicKey } from '../engine/progress';
+import {
+  dueTopics,
+  gradeStats,
+  recommendedTopic,
+  topicKey,
+  untriedTopics,
+} from '../engine/progress';
 import { GradeSwitcher, InfoNote, PageHeading, TopicCard } from './shared';
 
 export type OpenTopic = (topic: Topic, grade: Grade, mode?: Session['mode']) => void;
@@ -80,18 +86,8 @@ export function Learning({
   const next = recommendedTopic(profile, pack, today);
   const stats = gradeStats(profile, pack);
   const active = profile.activeSession;
-  // Show the next untried step first; completed topics stay in the catalog.
-  const routeTopics = [
-    ...(next.topic ? [next.topic] : []),
-    ...pack.topics.filter(
-      (topic) =>
-        topic.id !== next.topic?.id && !profile.topics[topicKey(pack.grade, topic.id)]?.sessions,
-    ),
-    ...pack.topics.filter(
-      (topic) =>
-        topic.id !== next.topic?.id && !!profile.topics[topicKey(pack.grade, topic.id)]?.sessions,
-    ),
-  ].slice(0, 3);
+  const last = [...profile.history].reverse().find((result) => result.grade === pack.grade);
+  const routeTopics = untriedTopics(profile, pack, last?.topicId).slice(0, 3);
   return (
     <div className="page learning-page">
       <PageHeading
@@ -108,15 +104,28 @@ export function Learning({
               {profile.grade} КЛАСС · ШАГ ЗА ШАГОМ
             </span>
             <h2>
-              Большие открытия
-              <br />
-              начинаются
-              <br />с маленьких чисел<span>.</span>
+              {active
+                ? 'Продолжим занятие'
+                : next.topic
+                  ? next.review
+                    ? 'Повторим вместе'
+                    : 'Следующее открытие'
+                  : 'Новые темы появятся'}
+              <span>.</span>
             </h2>
-            <p>
-              Разбирайся, пробуй и удивляйся.
-              <br />
-              Математика обязательно получится!
+            <p className="hero-next-topic">
+              {active ? (
+                <>
+                  Продолжим: <strong>{active.topicTitle}</strong>
+                </>
+              ) : next.topic ? (
+                <>
+                  {next.review ? 'Можно повторить' : 'Следующая тема'}:{' '}
+                  <strong>{next.topic.title}</strong>
+                </>
+              ) : (
+                'Новые темы появятся после проверки материалов.'
+              )}
             </p>
             <button
               className="button primary hero-button"
@@ -132,7 +141,7 @@ export function Learning({
                 : !next.topic
                   ? 'Ожидаем проверенные задания'
                   : next.review
-                    ? 'Время повторить'
+                    ? 'Повторить тему'
                     : 'Начать занятие'}
               <ArrowRight size={18} />
             </button>
@@ -174,7 +183,11 @@ export function Learning({
         </div>
         <div className="topic-grid">
           {!routeTopics.length && (
-            <p role="status">Пока нет заданий, сверенных с учебником для этого класса.</p>
+            <p role="status">
+              {pack.topics.length
+                ? 'Ты познакомился со всеми доступными темами. Их можно найти в разделе «Все темы» или повторить.'
+                : 'Пока нет заданий, сверенных с учебником для этого класса.'}
+            </p>
           )}
           {routeTopics.map((topic) => (
             <TopicCard
@@ -182,14 +195,7 @@ export function Learning({
               topic={topic}
               progress={profile.topics[topicKey(pack.grade, topic.id)]}
               recommended={topic.id === next.topic?.id}
-              review={next.review}
-              onOpen={() =>
-                onOpen(
-                  topic,
-                  pack.grade,
-                  topic.id === next.topic?.id && next.review ? 'review' : 'learn',
-                )
-              }
+              onOpen={() => onOpen(topic, pack.grade, 'learn')}
             />
           ))}
         </div>

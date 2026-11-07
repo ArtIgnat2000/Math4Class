@@ -25,6 +25,7 @@ import {
   recommendedTopic,
   streak,
   topicKey,
+  untriedTopics,
 } from '../src/engine/progress';
 const pack = BUILTIN_PACKS[4];
 const topic = pack.topics.find((t) => t.id === 'large-numbers')!;
@@ -224,14 +225,39 @@ describe('lesson state machine', () => {
   });
 });
 describe('recommendations and calendars', () => {
-  it('recommends the first new topic, then due reviews', () => {
+  it('prioritizes untried topics even when review is due', () => {
     const fresh = createProfile();
     const first = pack.topics[0];
     expect(recommendedTopic(fresh, pack, today)).toMatchObject({ topic: first, review: false });
     const p = finishSession(fresh, solve(createSession(first, 4)), today).profile;
     expect(dueTopics(p, BUILTIN_PACKS[4], today)).toHaveLength(0);
     expect(recommendedTopic(p, pack, today).topic?.id).toBe(pack.topics[1].id);
-    expect(recommendedTopic(p, BUILTIN_PACKS[4], '2026-11-03').review).toBe(true);
+    expect(dueTopics(p, BUILTIN_PACKS[4], '2026-11-03').map((t) => t.id)).toContain(first.id);
+    expect(recommendedTopic(p, pack, '2026-11-03')).toMatchObject({
+      topic: pack.topics[1],
+      review: false,
+    });
+  });
+  it('finds the next untried visible topic after the current one, wraps, and handles exhausted packs', () => {
+    const smallPack = { ...pack, topics: pack.topics.slice(0, 3) };
+    let profile = createProfile();
+    profile = finishSession(profile, solve(createSession(smallPack.topics[1], 4)), today).profile;
+    expect(untriedTopics(profile, smallPack, smallPack.topics[1].id).map((t) => t.id)).toEqual([
+      smallPack.topics[2].id,
+      smallPack.topics[0].id,
+    ]);
+    expect(untriedTopics(profile, smallPack, 'removed-topic')[0].id).toBe(smallPack.topics[0].id);
+    profile = finishSession(profile, solve(createSession(smallPack.topics[2], 4)), today).profile;
+    profile = finishSession(profile, solve(createSession(smallPack.topics[0], 4)), today).profile;
+    expect(untriedTopics(profile, smallPack, smallPack.topics[0].id)).toEqual([]);
+    expect(recommendedTopic(profile, smallPack, today).review).toBe(true);
+    expect(recommendedTopic(profile, { ...smallPack, topics: [] }, today)).toEqual({
+      topic: null,
+      review: false,
+    });
+    expect(untriedTopics(profile, { ...smallPack, grade: 3 }, smallPack.topics[0].id)).toHaveLength(
+      3,
+    );
   });
   it('preserves the streak before today’s lesson and ends it after a missed day', () => {
     let p = finishSession(createProfile(), solve(createSession(topic, 4)), today).profile;
