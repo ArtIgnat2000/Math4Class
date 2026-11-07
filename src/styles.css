@@ -10725,3 +10725,49 @@ h1[tabindex='-1']:focus {
   outline: 3px solid #334d3a;
   outline-offset: 2px;
 }
+
+/* A second year trainer: match whole groups and loose months to a count. */
+.year-match-prompt {
+  margin: 12px 0 0;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 750;
+}
+.year-match-game .year-groups {
+  margin: 8px 0;
+}
+.year-match-extra {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 0;
+  font-weight: 700;
+}
+.year-match-choices {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+.year-match-choices .button {
+  flex: 1 1 0;
+  min-width: 44px;
+}
+.year-match-game .year-game-message {
+  min-height: 2.8em;
+  margin: 8px 0;
+}
+.year-game-entries .button,
+.year-match-game .model-tools .button.tool-outline {
+  margin-top: 0;
+  border: 2px solid #8b5cf6;
+}
+.year-match-game .year-groups {
+  display: flex;
+  justify-content: center;
+}
+.year-match-game .year-group-card {
+  flex: 1 1 0;
+  max-width: 130px;
+}

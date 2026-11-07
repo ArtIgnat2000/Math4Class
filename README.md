@@ -65,6 +65,12 @@ npm run content:check -- path/to/my-grade-4.json
 
 ## Документация
 
+- [`docs/TEXTBOOK_COVERAGE_REPORT.md`](docs/TEXTBOOK_COVERAGE_REPORT.md) — текущий отчёт по изданиям, страницам и номерам упражнений.
+- [`docs/TEXTBOOK_COVERAGE.md`](docs/TEXTBOOK_COVERAGE.md) — как проводить ручной и автоматический контроль охвата; отчёт обновляется командой `npm run coverage:report`.
+- [`docs/LESSON_MODERNIZATION.md`](docs/LESSON_MODERNIZATION.md) — состояние и план модернизации доступных уроков.
+- [`docs/LESSON_WORKFLOW.md`](docs/LESSON_WORKFLOW.md) — маршрут и шаблон ТЗ для нового урока и модернизации.
+- [`docs/LESSON_STANDARD.md`](docs/LESSON_STANDARD.md) — обязательный стандарт урока, дизайна и игр.
+- [`docs/DEVELOPMENT_STANDARD.md`](docs/DEVELOPMENT_STANDARD.md) — стандарт работы и ограничения пилота.
 - [`docs/LEARNING_VISION.md`](docs/LEARNING_VISION.md) — миссия, пять исследований, концепция и критерии плана.
 - [`docs/PILOT_EVALUATION.md`](docs/PILOT_EVALUATION.md) — реализованный пилот «год → месяцы», автопроверка и ещё не проведённая проба с детьми.
 

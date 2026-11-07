@@ -1,0 +1,317 @@
+{
+  "version": 1,
+  "books": [
+    {
+      "id": "moro-math-grade4-part1-2026-ed16",
+      "title": "Математика. 4 класс. Часть 1",
+      "authors": [
+        "М. И. Моро",
+        "М. А. Бантова",
+        "Г. В. Бельтюкова",
+        "С. И. Волкова",
+        "С. В. Степанова"
+      ],
+      "publisher": "Просвещение",
+      "year": 2026,
+      "edition": "16-е издание, стереотипное",
+      "grade": 4,
+      "part": 1,
+      "source": "Фотографии обложки, выходных данных и страниц 46–47; docs/SOURCE_AUDIT.md",
+      "printedPageCount": null,
+      "pages": [
+        {
+          "number": 46,
+          "pdfPage": null,
+          "inventoryComplete": false,
+          "inventoryEvidence": "",
+          "materials": [
+            {
+              "key": "theory",
+              "kind": "theory",
+              "label": "Таблица единиц массы",
+              "review": "unreviewed",
+              "topicIds": [],
+              "evidence": ""
+            },
+            {
+              "key": "215",
+              "kind": "exercise",
+              "label": "№ 215",
+              "review": "unreviewed",
+              "expectedParts": null,
+              "taskRefs": [],
+              "evidence": ""
+            },
+            {
+              "key": "216",
+              "kind": "exercise",
+              "label": "№ 216",
+              "review": "unreviewed",
+              "expectedParts": null,
+              "taskRefs": [],
+              "evidence": ""
+            },
+            {
+              "key": "217",
+              "kind": "exercise",
+              "label": "№ 217",
+              "review": "unreviewed",
+              "expectedParts": null,
+              "taskRefs": [],
+              "evidence": ""
+            },
+            {
+              "key": "218",
+              "kind": "exercise",
+              "label": "№ 218",
+              "review": "unreviewed",
+              "expectedParts": null,
+              "taskRefs": [],
+              "evidence": ""
+            },
+            {
+              "key": "219",
+              "kind": "exercise",
+              "label": "№ 219",
+              "review": "unreviewed",
+              "expectedParts": null,
+              "taskRefs": [
+                {
+                  "topicId": "equations-add-subtract",
+                  "taskId": "add-left",
+                  "parts": []
+                },
+                {
+                  "topicId": "equations-add-subtract",
+                  "taskId": "add-right",
+                  "parts": []
+                },
+                {
+                  "topicId": "equations-add-subtract",
+                  "taskId": "minuend",
+                  "parts": []
+                },
+                {
+                  "topicId": "equations-add-subtract",
+                  "taskId": "subtrahend",
+                  "parts": []
+                }
+              ],
+              "evidence": ""
+            },
+            {
+              "key": "220",
+              "kind": "exercise",
+              "label": "№ 220",
+              "review": "unreviewed",
+              "expectedParts": null,
+              "taskRefs": [
+                {
+                  "topicId": "multiply-divide-powers-ten",
+                  "taskId": "power-1",
+                  "parts": []
+                },
+                {
+                  "topicId": "multiply-divide-powers-ten",
+                  "taskId": "power-2",
+                  "parts": []
+                },
+                {
+                  "topicId": "multiply-divide-powers-ten",
+                  "taskId": "power-3",
+                  "parts": []
+                },
+                {
+                  "topicId": "multiply-divide-powers-ten",
+                  "taskId": "power-4",
+                  "parts": []
+                }
+              ],
+              "evidence": ""
+            },
+            {
+              "key": "221",
+              "kind": "exercise",
+              "label": "№ 221",
+              "review": "unreviewed",
+              "expectedParts": null,
+              "taskRefs": [
+                {
+                  "topicId": "area-equal-parts",
+                  "taskId": "square-1",
+                  "parts": []
+                }
+              ],
+              "evidence": ""
+            },
+            {
+              "key": "222",
+              "kind": "exercise",
+              "label": "№ 222",
+              "review": "unreviewed",
+              "expectedParts": null,
+              "taskRefs": [],
+              "evidence": ""
+            }
+          ],
+          "scope": "instructional",
+          "exclusionEvidence": ""
+        },
+        {
+          "number": 47,
+          "pdfPage": null,
+          "inventoryComplete": false,
+          "inventoryEvidence": "",
+          "materials": [
+            {
+              "key": "theory",
+              "kind": "theory",
+              "label": "Год, месяцы и сезоны",
+              "review": "unreviewed",
+              "topicIds": [],
+              "evidence": ""
+            },
+            {
+              "key": "223",
+              "kind": "exercise",
+              "label": "№ 223",
+              "review": "unreviewed",
+              "expectedParts": null,
+              "taskRefs": [],
+              "evidence": ""
+            },
+            {
+              "key": "224",
+              "kind": "exercise",
+              "label": "№ 224",
+              "review": "unreviewed",
+              "expectedParts": null,
+              "taskRefs": [],
+              "evidence": ""
+            },
+            {
+              "key": "225",
+              "kind": "exercise",
+              "label": "№ 225",
+              "review": "unreviewed",
+              "expectedParts": null,
+              "taskRefs": [],
+              "evidence": ""
+            },
+            {
+              "key": "226",
+              "kind": "exercise",
+              "label": "№ 226",
+              "review": "unreviewed",
+              "expectedParts": null,
+              "taskRefs": [
+                {
+                  "topicId": "division-restore-dividend",
+                  "taskId": "restore-1",
+                  "parts": []
+                },
+                {
+                  "topicId": "division-restore-dividend",
+                  "taskId": "restore-2",
+                  "parts": []
+                },
+                {
+                  "topicId": "division-restore-dividend",
+                  "taskId": "restore-3",
+                  "parts": []
+                },
+                {
+                  "topicId": "division-restore-dividend",
+                  "taskId": "restore-4",
+                  "parts": []
+                }
+              ],
+              "evidence": ""
+            },
+            {
+              "key": "227",
+              "kind": "exercise",
+              "label": "№ 227",
+              "review": "unreviewed",
+              "expectedParts": null,
+              "taskRefs": [
+                {
+                  "topicId": "place-value-calculations",
+                  "taskId": "place-1",
+                  "parts": []
+                },
+                {
+                  "topicId": "place-value-calculations",
+                  "taskId": "place-2",
+                  "parts": []
+                },
+                {
+                  "topicId": "place-value-calculations",
+                  "taskId": "place-3",
+                  "parts": []
+                },
+                {
+                  "topicId": "place-value-calculations",
+                  "taskId": "place-4",
+                  "parts": []
+                },
+                {
+                  "topicId": "place-value-calculations",
+                  "taskId": "place-5",
+                  "parts": []
+                },
+                {
+                  "topicId": "place-value-calculations",
+                  "taskId": "place-6",
+                  "parts": []
+                },
+                {
+                  "topicId": "place-value-calculations",
+                  "taskId": "place-7",
+                  "parts": []
+                },
+                {
+                  "topicId": "place-value-calculations",
+                  "taskId": "place-8",
+                  "parts": []
+                }
+              ],
+              "evidence": ""
+            },
+            {
+              "key": "228",
+              "kind": "exercise",
+              "label": "№ 228",
+              "review": "unreviewed",
+              "expectedParts": null,
+              "taskRefs": [],
+              "evidence": ""
+            },
+            {
+              "key": "lower",
+              "kind": "exercise",
+              "label": "Задания под чертой",
+              "review": "unreviewed",
+              "expectedParts": null,
+              "taskRefs": [
+                {
+                  "topicId": "calendar-years-months",
+                  "taskId": "four-years",
+                  "parts": []
+                },
+                {
+                  "topicId": "calendar-years-months",
+                  "taskId": "two-three",
+                  "parts": []
+                }
+              ],
+              "evidence": ""
+            }
+          ],
+          "scope": "instructional",
+          "exclusionEvidence": ""
+        }
+      ]
+    }
+  ]
+}

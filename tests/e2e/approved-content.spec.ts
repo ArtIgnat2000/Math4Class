@@ -118,11 +118,14 @@ test('calendar explanation is interactive and separate from checked textbook exe
   await expect(dialog.locator('.pilot-formula-result')).toHaveText('= 36 месяцев');
   await expect(dialog.getByText('48 месяцев')).toHaveCount(0);
   // Model tools and card navigation must not look alike.
-  const controls = await dialog.locator('.model-tools').boundingBox();
+  const controls = dialog.locator('.model-tools');
   const navigation = await dialog.locator('.pilot-actions').boundingBox();
-  expect(controls && navigation && navigation.y).toBeGreaterThan(
-    (controls?.y ?? 0) + (controls?.height ?? 0),
-  );
+  expect(navigation).not.toBeNull();
+  for (const control of await controls.all()) {
+    const box = await control.boundingBox();
+    expect(box).not.toBeNull();
+    expect(navigation!.y).toBeGreaterThan(box!.y + box!.height);
+  }
   const addColor = await dialog
     .locator('.model-tools .tool-add')
     .evaluate((node) => getComputedStyle(node).backgroundColor);
