@@ -118,11 +118,14 @@ test('calendar explanation is interactive and separate from checked textbook exe
   await expect(dialog.locator('.pilot-formula-result')).toHaveText('= 36 месяцев');
   await expect(dialog.getByText('48 месяцев')).toHaveCount(0);
   // Model tools and card navigation must not look alike.
-  const controls = await dialog.locator('.model-tools').boundingBox();
+  const controls = dialog.locator('.model-tools');
   const navigation = await dialog.locator('.pilot-actions').boundingBox();
-  expect(controls && navigation && navigation.y).toBeGreaterThan(
-    (controls?.y ?? 0) + (controls?.height ?? 0),
-  );
+  expect(navigation).not.toBeNull();
+  for (const control of await controls.all()) {
+    const box = await control.boundingBox();
+    expect(box).not.toBeNull();
+    expect(navigation!.y).toBeGreaterThan(box!.y + box!.height);
+  }
   const addColor = await dialog
     .locator('.model-tools .tool-add')
     .evaluate((node) => getComputedStyle(node).backgroundColor);
@@ -155,7 +158,9 @@ test('an old lesson with invented tasks cannot be resumed from storage or a dire
 }) => {
   await page.goto('/#/topics');
   await page.locator('.topic-card').filter({ hasText: 'Уравнения: сложение и вычитание' }).click();
-  await page.getByRole('button', { name: 'Давай попробуем' }).click();
+  await page.getByRole('dialog').getByRole('button', { name: 'Дальше' }).click();
+  await page.getByRole('dialog').getByRole('button', { name: 'Дальше' }).click();
+  await page.getByRole('dialog').getByRole('button', { name: 'Проверить себя' }).click();
   await expect(page.locator('.task-card')).toBeVisible();
   await page.evaluate(() => {
     const key = 'chislo:data:v1';
@@ -192,7 +197,16 @@ test('every approved exercise stays usable on a phone and tablet', async ({ brow
       await page.goto('/#/topics');
       for (const topic of pack.topics.filter((item: { id: string }) => approvedTaskIds[item.id])) {
         await page.locator('.topic-card').filter({ hasText: topic.title }).click();
-        if (topic.id === 'calendar-years-months') {
+        if (
+          [
+            'calendar-years-months',
+            'equations-add-subtract',
+            'division-restore-dividend',
+            'area-equal-parts',
+            'multiply-divide-powers-ten',
+            'place-value-calculations',
+          ].includes(topic.id)
+        ) {
           await page.getByRole('button', { name: 'Дальше' }).click();
           await page.getByRole('button', { name: 'Дальше' }).click();
           await page.getByRole('button', { name: 'Проверить себя' }).click();

@@ -44,7 +44,7 @@ export function RomanNumeralsPilot({
 
   useEffect(() => {
     headingRef.current?.focus();
-  }, [step]);
+  }, [step, game]);
 
   const built = romanValue(record);
   const pair = left ? `I${base}` : `${base}I`;

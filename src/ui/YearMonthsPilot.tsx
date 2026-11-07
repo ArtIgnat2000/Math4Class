@@ -11,6 +11,7 @@ import {
   YearRing,
 } from './CalendarModel';
 import { YearBuildGame } from './YearBuildGame';
+import { YearMatchGame } from './YearMatchGame';
 
 const SEASONS = CALENDAR_SEASONS.map((item) => ({
   name: item.name,
@@ -46,13 +47,13 @@ export function YearMonthsPilot({
   const [years, setYears] = useState(1);
   const [extra, setExtra] = useState(0);
   const [referenceOpen, setReferenceOpen] = useState(false);
-  const [gameOpen, setGameOpen] = useState(false);
+  const [game, setGame] = useState<'build' | 'match' | null>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const referenceId = useId();
   const statusId = useId();
   useEffect(() => {
     headingRef.current?.focus();
-  }, [step]);
+  }, [step, game]);
 
   const month = selectedMonth === null ? null : MONTHS[selectedMonth];
   const season = month ? SEASONS.find((item) => item.className === month.season) : null;
@@ -63,7 +64,8 @@ export function YearMonthsPilot({
   const mixedTotal = 24 + extra;
   const totalWord = (value: number) => plural(value, ['месяц', 'месяца', 'месяцев']);
 
-  if (gameOpen) return <YearBuildGame onExit={() => setGameOpen(false)} />;
+  if (game === 'build') return <YearBuildGame onExit={() => setGame(null)} />;
+  if (game === 'match') return <YearMatchGame onExit={() => setGame(null)} />;
 
   return (
     <div className="year-month-pilot year-month-pilot-v2">
@@ -199,16 +201,6 @@ export function YearMonthsPilot({
               </p>
             </div>
           </div>
-          <div className="model-tools year-game-tools" role="group" aria-label="Инструменты модели">
-            <button
-              type="button"
-              className="button tool-outline year-game-entry"
-              aria-label="Играть — игра «Собери год»"
-              onClick={() => setGameOpen(true)}
-            >
-              <Puzzle size={18} aria-hidden="true" /> Играть
-            </button>
-          </div>
         </section>
       )}
 
@@ -309,6 +301,29 @@ export function YearMonthsPilot({
           </div>
         </section>
       )}
+
+      <div
+        className="model-tools roman-game-entries year-game-entries"
+        role="group"
+        aria-label="Игры"
+      >
+        <button
+          type="button"
+          className="button tool-outline year-game-entry"
+          aria-label="Играть — игра «Собери год»"
+          onClick={() => setGame('build')}
+        >
+          <Puzzle size={18} aria-hidden="true" /> Собери год
+        </button>
+        <button
+          type="button"
+          className="button tool-outline"
+          aria-label="Считай — игра «Считаем месяцы»"
+          onClick={() => setGame('match')}
+        >
+          <Puzzle size={18} aria-hidden="true" /> Считай
+        </button>
+      </div>
 
       <div className="pilot-actions">
         {step > 0 && (

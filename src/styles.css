@@ -10725,3 +10725,336 @@ h1[tabindex='-1']:focus {
   outline: 3px solid #334d3a;
   outline-offset: 2px;
 }
+
+/* A second year trainer: match whole groups and loose months to a count. */
+.year-match-prompt {
+  margin: 12px 0 0;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 750;
+}
+.year-match-game .year-groups {
+  margin: 8px 0;
+}
+.year-match-extra {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 0;
+  font-weight: 700;
+}
+.year-match-choices {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+.year-match-choices .button {
+  flex: 1 1 0;
+  min-width: 44px;
+}
+.year-match-game .year-game-message {
+  min-height: 2.8em;
+  margin: 8px 0;
+}
+.year-game-entries .button,
+.year-match-game .model-tools .button.tool-outline {
+  margin-top: 0;
+  border: 2px solid #8b5cf6;
+}
+.year-match-game .year-groups {
+  display: flex;
+  justify-content: center;
+}
+.year-match-game .year-group-card {
+  flex: 1 1 0;
+  max-width: 130px;
+}
+
+/* Equation model: a whole divided into two proportional parts. */
+.equation-line {
+  margin: 12px 0 8px;
+  text-align: center;
+  color: #2c4434;
+  font-weight: 800;
+  font-size: clamp(23px, 6vw, 32px);
+  line-height: 1.25;
+}
+.equation-model {
+  max-width: 440px;
+  margin: 8px auto;
+  color: #2c4434;
+}
+.equation-whole {
+  padding: 7px;
+  border: 2px solid #4f7a52;
+  border-radius: 12px 12px 3px 3px;
+  background: #e6f2e2;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 800;
+}
+.equation-parts {
+  display: flex;
+  gap: 4px;
+  margin-top: 4px;
+}
+.equation-part {
+  flex-basis: 0;
+  min-width: 0;
+  padding: 12px 2px;
+  border: 2px solid #1d4ed8;
+  border-radius: 6px 6px 12px 12px;
+  background: #dbeafe;
+  color: #1e3a8a;
+  font-weight: 800;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+.equation-part.is-unknown {
+  border-color: #6d28d9;
+  background: #ede9fe;
+  color: #5b21b6;
+}
+.equation-labels {
+  display: flex;
+  justify-content: space-around;
+  color: #40563f;
+  font-size: 14px;
+}
+.equation-pilot .pilot-formula {
+  margin: 8px 0;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.equation-pilot .pilot-formula-result {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+.equation-message,
+.equation-prompt {
+  margin: 8px 0;
+  text-align: center;
+  color: #2c4434;
+  font-size: 16px;
+}
+.equation-prompt {
+  font-weight: 800;
+}
+.equation-model-tools,
+.equation-entries,
+.equation-game-tools,
+.equation-choices,
+.equation-card-tray {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.equation-pilot .model-tools {
+  margin-top: 8px;
+}
+.equation-pilot .model-tools .button {
+  border: 2px solid #8b5cf6;
+  flex: 1 1 auto;
+}
+.equation-choices .button {
+  min-width: 44px;
+}
+.equation-sequence {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px;
+  border: 2px dashed #4f7a52;
+  border-radius: 12px;
+  color: #2c4434;
+}
+.equation-sequence span {
+  padding: 4px;
+  font-weight: 700;
+}
+.equation-entries .button,
+.equation-game-tools .button {
+  flex: 1 1 0 !important;
+  min-width: 0;
+  padding-inline: 6px;
+  gap: 6px;
+}
+.equation-card-tray .button[aria-disabled='true'] {
+  opacity: 0.6;
+}
+@media (max-height: 650px) {
+  .equation-pilot .equation-line {
+    margin: 4px 0;
+  }
+  .equation-pilot .equation-whole {
+    padding: 4px;
+  }
+  .equation-pilot .equation-part {
+    padding-block: 6px;
+  }
+  .equation-pilot .equation-message {
+    margin: 4px 0;
+  }
+  .equation-pilot .model-tools {
+    margin-top: 4px;
+    padding: 6px;
+  }
+  .equation-pilot .pilot-actions {
+    margin-top: 4px;
+    padding-top: 6px;
+  }
+}
+
+.dividend-model {
+  border: 2px solid #3f6b4a;
+  border-radius: 16px;
+  padding: 12px;
+  background: #e6f2e2;
+}
+.dividend-groups {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.dividend-groups span {
+  border: 2px solid #3f6b4a;
+  border-radius: 10px;
+  padding: 6px;
+  color: #2f5d3f;
+  background: #fff;
+  font-size: 1rem;
+}
+.dividend-groups .dividend-remainder {
+  border-style: dashed;
+  color: #5b21b6;
+}
+.dividend-labels {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px 12px;
+  font-size: 0.9rem;
+  color: #253e2d;
+}
+
+.area-diagram {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  color: #253e2d;
+  font-weight: 700;
+}
+.area-diagram svg {
+  display: block;
+  width: min(34vw, 132px);
+  height: auto;
+}
+.area-piece {
+  fill: #e6f2e2;
+  stroke: #315c3d;
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+.area-piece.selected {
+  fill: #c4b5fd;
+  stroke: #5b21b6;
+}
+.area-part-buttons {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+}
+
+@media (max-height: 650px) {
+  .area-diagram svg {
+    width: 84px;
+  }
+  .area-part-buttons .button {
+    padding-inline: 3px;
+  }
+}
+
+.decimal-places {
+  border: 2px solid #3f6b4a;
+  border-radius: 16px;
+  padding: 8px;
+  background: #e6f2e2;
+}
+.decimal-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 4px;
+  text-align: center;
+}
+.decimal-grid strong {
+  padding: 4px;
+  border: 2px solid #4f7a52;
+  border-radius: 8px;
+  background: #fff;
+  color: #2f5d3f;
+}
+.decimal-grid strong.decimal-output {
+  border-color: #5b21b6;
+  color: #5b21b6;
+  background: #f5f3ff;
+}
+.decimal-place-name {
+  color: #253e2d;
+  font-size: 0.7rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.decimal-legend {
+  margin-top: 4px;
+  color: #253e2d;
+  text-align: center;
+  font-size: 0.8rem;
+}
+.decimal-decomposition {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  justify-content: center;
+}
+.decimal-decomposition span {
+  border: 2px solid #4f7a52;
+  border-radius: 8px;
+  padding: 5px;
+  background: #e6f2e2;
+  color: #253e2d;
+  font-size: 0.85rem;
+}
+.decimal-assembled {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  color: #2f5d3f;
+  font-weight: 800;
+  font-size: 1.35rem;
+}
+.decimal-assembled span {
+  min-width: 1.4em;
+  padding: 2px;
+  text-align: center;
+  border-bottom: 2px solid #4f7a52;
+}
+
+@media (max-height: 650px) {
+  .decimal-places {
+    padding: 5px;
+  }
+  .decimal-grid strong {
+    padding-block: 2px;
+  }
+  .decimal-pilot .pilot-formula {
+    margin-block: 4px;
+  }
+}

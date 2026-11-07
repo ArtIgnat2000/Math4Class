@@ -250,3 +250,41 @@ test.describe('the constructor by hand', () => {
     expect(await page.evaluate((key) => localStorage.getItem(key), STORAGE_KEY)).toBeNull();
   });
 });
+
+test('both games return to the same roman model and focus on each step', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 568 });
+  const dialog = await openLesson(page);
+  const noMonths = async () => {
+    const visible = await dialog.innerText();
+    const labels = await dialog
+      .locator('[aria-label]')
+      .evaluateAll((nodes) => nodes.map((node) => node.getAttribute('aria-label')).join(' '));
+    for (const month of MONTHS)
+      expect(`${visible} ${labels}`.toLowerCase()).not.toContain(month.toLowerCase());
+  };
+  for (let step = 1; step <= 3; step++) {
+    if (step === 1) await dialog.getByRole('button', { name: 'X 10 — знак X, это 10' }).click();
+    if (step === 2) await dialog.getByRole('button', { name: 'Добавить I' }).click();
+    if (step === 3) await dialog.getByRole('button', { name: 'I справа' }).click();
+    const state =
+      step === 1
+        ? await dialog.locator('.roman-stick-bundle i').count()
+        : await dialog.locator('.pilot-formula-result').textContent();
+    await noMonths();
+    for (const name of ['Римские часы', 'Собери число']) {
+      await dialog.getByRole('button', { name: `Игра «${name}»` }).click();
+      await noMonths();
+      await dialog.getByRole('button', { name: 'К объяснению' }).click();
+      await expect(dialog.getByLabel(`Шаг ${step} из 3`)).toBeVisible();
+      await expect(dialog.locator('.roman-pilot h3')).toBeFocused();
+      expect(
+        step === 1
+          ? await dialog.locator('.roman-stick-bundle i').count()
+          : await dialog.locator('.pilot-formula-result').textContent(),
+      ).toEqual(state);
+      await noMonths();
+    }
+    if (step < 3) await dialog.getByRole('button', { name: 'Дальше' }).click();
+  }
+  expect(await page.evaluate((key) => localStorage.getItem(key), STORAGE_KEY)).toBeNull();
+});

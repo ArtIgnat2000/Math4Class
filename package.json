@@ -1,6 +1,6 @@
 {
   "name": "chislo-primary-math",
-  "version": "0.9.1",
+  "version": "0.10.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -10,12 +10,14 @@
     "typecheck": "tsc -b",
     "test": "vitest run",
     "test:watch": "vitest",
-    "check": "npm run typecheck && npm run content:check && npm test && npm run build",
+    "check": "npm run typecheck && npm run content:check && npm run coverage:check && npm test && npm run build",
     "test:e2e": "npm run build && playwright test",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "content:check": "node --experimental-strip-types scripts/check-content.mjs",
-    "content:schema": "node --experimental-strip-types scripts/content-schema.mjs"
+    "content:schema": "node --experimental-strip-types scripts/content-schema.mjs",
+    "coverage:report": "node --experimental-strip-types scripts/textbook-coverage.mjs --write",
+    "coverage:check": "node --experimental-strip-types scripts/textbook-coverage.mjs --check"
   },
   "dependencies": {
     "@fontsource-variable/manrope": "^5.2.8",

@@ -12,7 +12,9 @@ test('the numeric keypad is on screen for a mouse too, and still fits an iPad', 
   await page.setViewportSize({ width: 1440, height: 1000 });
   const dialog = await openTopic(page, 'Уравнения: сложение и вычитание');
   await expect(dialog.getByText('4 класс')).toHaveCount(0);
-  await dialog.getByRole('button', { name: 'Давай попробуем' }).click();
+  await dialog.getByRole('button', { name: 'Дальше' }).click();
+  await dialog.getByRole('button', { name: 'Дальше' }).click();
+  await dialog.getByRole('button', { name: 'Проверить себя' }).click();
   await expect(page.locator('.task-card')).toBeVisible();
 
   const pad = page.getByRole('group', { name: 'Цифровая клавиатура' });
@@ -82,10 +84,17 @@ test('a task card can reopen the explanation without losing the answer or leakin
     .click();
   await page.getByRole('button', { name: 'Объяснение' }).click();
   const reference = page.getByRole('dialog');
-  await expect(reference.getByRole('group', { name: 'Инструменты модели' })).toBeVisible();
+  await expect(reference.getByRole('group', { name: 'Игры' })).toBeVisible();
   await expect(reference.getByText(/Авторское объяснение/)).toHaveCount(0);
   await expect(reference.getByText('48 месяцев')).toHaveCount(0);
   await expect(reference.getByText('27 месяцев')).toHaveCount(0);
+  await reference.getByRole('button', { name: 'Считай — игра «Считаем месяцы»' }).click();
+  const game = reference.locator('.year-match-game');
+  await game.getByRole('button', { name: '12', exact: true }).click();
+  await game.getByRole('button', { name: 'Дальше' }).click();
+  await game.getByRole('button', { name: '25', exact: true }).click();
+  await expect(game).not.toContainText(/\b(?:27|48)\b/);
+  await game.getByRole('button', { name: 'К объяснению' }).click();
   await reference.getByRole('button', { name: 'К заданию' }).click();
   await expect(page.getByRole('dialog')).toHaveCount(0);
   await expect(page.getByLabel('Твой ответ')).toHaveValue('4');
