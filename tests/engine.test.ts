@@ -64,11 +64,11 @@ describe('mass story opening', () => {
 });
 
 describe('content contract', () => {
-  it('validates all 45 topics and their 304 tasks', () => {
+  it('validates all 47 topics and their 310 tasks', () => {
     const packs = Object.values(BUILTIN_PACKS);
-    expect(packs.reduce((n, p) => n + p.topics.length, 0)).toBe(45);
+    expect(packs.reduce((n, p) => n + p.topics.length, 0)).toBe(47);
     expect(packs.reduce((n, p) => n + p.topics.reduce((s, t) => s + t.tasks.length, 0), 0)).toBe(
-      304,
+      310,
     );
     for (const pack of packs)
       for (const t of pack.topics)

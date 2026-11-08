@@ -5,6 +5,8 @@ import type { ContentPack, Task } from '../engine/content';
 // The photographed pages are not distributed with the app. Every entry is
 // reviewed in docs/SOURCE_AUDIT.md; references alone never grant access.
 const approved: Record<string, { page: number; exercise: string; ids: string[] }> = {
+  'clock-day-hours': { page: 48, exercise: '230', ids: ['night', 'morning', 'afternoon'] },
+  'clock-spoken-time': { page: 48, exercise: '231', ids: ['quarter', 'half', 'before'] },
   'equations-add-subtract': {
     page: 46,
     exercise: '219',
@@ -63,7 +65,23 @@ export function isAuthorTask(topicId: string, taskId: string): boolean {
 
 // Do not allow a stale allowlist to silently approve an edited exercise.
 // Values are a deliberately small snapshot of the question and its operands.
+const clockChoiceSignatures: Record<string, string> = {
+  quarter:
+    '[{"id":"a","label":"4 ч 15 мин"},{"id":"b","label":"4 ч 30 мин"},{"id":"c","label":"5 ч 15 мин"}]',
+  half: '[{"id":"a","label":"12 ч 30 мин"},{"id":"b","label":"1 ч 30 мин"},{"id":"c","label":"12 ч 15 мин"}]',
+  before:
+    '[{"id":"a","label":"6 ч 45 мин"},{"id":"b","label":"7 ч 15 мин"},{"id":"c","label":"7 ч 45 мин"}]',
+};
 const approvedSignatures: Record<string, string> = {
+  'clock-spoken-time/quarter':
+    'Как сказать по-другому: четверть пятого? Выбери время по 12-часовым часам.||"a"',
+  'clock-spoken-time/half':
+    'Как сказать по-другому: половина первого? Выбери время по 12-часовым часам.||"a"',
+  'clock-spoken-time/before':
+    'Как сказать по-другому: без четверти семь? Выбери время по 12-часовым часам.||"a"',
+  'clock-day-hours/night': 'Сколько времени прошло от начала суток, если сейчас 2 ч ночи?||2',
+  'clock-day-hours/morning': 'Сколько времени прошло от начала суток, если сейчас 9 ч утра?||9',
+  'clock-day-hours/afternoon': 'Сколько времени прошло от начала суток, если сейчас 3 ч дня?||15',
   'equations-add-subtract/add-left': 'Найди x: 100 + x = 370.||270',
   'equations-add-subtract/add-right': 'Найди x: x + 330 = 500.||170',
   'equations-add-subtract/minuend': 'Найди x: x − 270 = 630.||900',
@@ -97,8 +115,14 @@ const approvedSignatures: Record<string, string> = {
 export function taskApproved(grade: number, topicId: string, task: Task): boolean {
   if (grade !== 4) return false;
   const signature = `${task.question}|${task.expression ?? ''}|${JSON.stringify(task.answer)}`;
-  if (approved[topicId]?.ids.includes(task.id))
+  if (approved[topicId]?.ids.includes(task.id)) {
+    if (
+      topicId === 'clock-spoken-time' &&
+      (task.type !== 'choice' || JSON.stringify(task.options) !== clockChoiceSignatures[task.id])
+    )
+      return false;
     return approvedSignatures[`${topicId}/${task.id}`] === signature;
+  }
   // An edited author's exercise closes just like an edited textbook one.
   if (authorApproved[topicId]?.ids.includes(task.id))
     return authorSignatures[`${topicId}/${task.id}`] === signature;

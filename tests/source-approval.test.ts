@@ -8,13 +8,13 @@ import {
 } from '../src/content/approved';
 
 describe('approved textbook exercise gate', () => {
-  it('releases 23 checked textbook exercises and 3 separately approved author ones', () => {
+  it('releases 29 checked textbook exercises and 3 separately approved author ones', () => {
     const pack = getPack(4, []);
-    expect(pack.topics).toHaveLength(7);
-    expect(pack.topics.reduce((sum, topic) => sum + topic.tasks.length, 0)).toBe(26);
+    expect(pack.topics).toHaveLength(9);
+    expect(pack.topics.reduce((sum, topic) => sum + topic.tasks.length, 0)).toBe(32);
     const textbook = pack.topics.filter((topic) => !authorApprovedTaskIds[topic.id]);
     const author = pack.topics.filter((topic) => authorApprovedTaskIds[topic.id]);
-    expect(textbook.reduce((sum, topic) => sum + topic.tasks.length, 0)).toBe(23);
+    expect(textbook.reduce((sum, topic) => sum + topic.tasks.length, 0)).toBe(29);
     expect(author.map((topic) => topic.id)).toEqual(['roman-numerals']);
     expect(author[0].tasks).toHaveLength(3);
     for (const topic of textbook) {

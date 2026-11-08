@@ -114,9 +114,9 @@ describe('textbook lessons and compound answers', () => {
         <Catalog onOpen={vi.fn()} />
       </AppProvider>,
     );
-    expect(container.querySelectorAll('.topic-card')).toHaveLength(7);
+    expect(container.querySelectorAll('.topic-card')).toHaveLength(9);
     await user.selectOptions(screen.getByLabelText('Раздел учебника'), 'calendar');
-    expect(container.querySelectorAll('.topic-card')).toHaveLength(2);
+    expect(container.querySelectorAll('.topic-card')).toHaveLength(4);
     await user.selectOptions(screen.getByLabelText('Материалы'), 'intro');
     expect(screen.getByRole('heading', { name: 'Такой темы пока нет' })).toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: 'Показать все темы' }));
@@ -130,7 +130,7 @@ describe('textbook lessons and compound answers', () => {
     expect(container.querySelectorAll('.topic-card')).toHaveLength(0);
     await user.click(screen.getByRole('button', { name: '4 класс' }));
     expect(screen.getByLabelText('Материалы')).toHaveValue('all');
-    expect(container.querySelectorAll('.topic-card')).toHaveLength(7);
+    expect(container.querySelectorAll('.topic-card')).toHaveLength(9);
   });
   it('keeps textbook provenance in Parents, not on the child home', async () => {
     const user = userEvent.setup();
@@ -150,12 +150,12 @@ describe('textbook lessons and compound answers', () => {
       screen.getByRole('button', { name: 'Об источнике встроенных материалов 4 класса' }),
     );
     const dialog = within(screen.getByRole('dialog'));
-    expect(dialog.getByText('20 тем по фотографиям страниц.')).toBeInTheDocument();
+    expect(dialog.getByText('22 тем по фотографиям страниц.')).toBeInTheDocument();
     expect(dialog.getByText('7 тем по оглавлению.')).toBeInTheDocument();
     expect(dialog.getByText(/М. А. Бантова/)).toBeInTheDocument();
     expect(dialog.getByText(/16-е издание, стереотипное/)).toBeInTheDocument();
-    expect(dialog.getByText(/36 тем/)).toBeInTheDocument();
-    expect(dialog.getByText(/259 заданий в банке/)).toBeInTheDocument();
+    expect(dialog.getByText(/38 тем/)).toBeInTheDocument();
+    expect(dialog.getByText(/265 заданий в банке/)).toBeInTheDocument();
     // Author's exercises are counted apart from the checked textbook ones.
     expect(dialog.getByText(/3 авторских задания приложения/)).toBeInTheDocument();
     expect(dialog.getByText(/6 ноября 2026/)).toBeInTheDocument();
