@@ -24,6 +24,7 @@ import {
 } from '../engine/progress';
 import { dayKey, plural, recentDays } from '../engine/dates';
 import { GradeSwitcher, InfoNote, PageHeading, ProgressBar, Stars, TopicSymbol } from './shared';
+import { RewardCollection } from './RewardCollection';
 import type { OpenTopic } from './Learning';
 const BADGE_GOALS: Record<(typeof BADGES)[number]['id'], string> = {
   first: '1 занятие',
@@ -266,9 +267,10 @@ export function Rewards({ today = dayKey() }: { today?: string }) {
             {unlocked}
             <span>/{BADGES.length}</span>
           </strong>
-          <small>наград открыто</small>
+          <small>значков открыто</small>
         </span>
       </section>
+      <RewardCollection />
       <div className="section-heading">
         <h2>Коллекция маленьких побед</h2>
         <span className="soft-tag">
