@@ -176,6 +176,7 @@ export const topicSchema = z
       'fraction',
       'puzzle',
       'brackets',
+      'clock',
     ]),
     isDemo: z.boolean().optional(),
     challenge: z.boolean().optional(),

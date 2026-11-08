@@ -270,6 +270,18 @@ export function TopicSymbol({
         </svg>
       ) : symbol === 'brackets' ? (
         <span className="bracket-symbol">(a)</span>
+      ) : symbol === 'clock' ? (
+        <svg viewBox="0 0 40 40" fill="none">
+          <circle cx="20" cy="20" r="14" fill="currentColor" opacity=".17" />
+          <circle cx="20" cy="20" r="14" stroke="currentColor" strokeWidth="1.8" />
+          <path
+            d="M20 20v-8M20 20l6 4"
+            stroke="currentColor"
+            strokeWidth="2.2"
+            strokeLinecap="round"
+          />
+          <circle cx="20" cy="20" r="1.8" fill="currentColor" />
+        </svg>
       ) : symbol === 'puzzle' ? (
         <svg viewBox="0 0 40 40" fill="none">
           <path

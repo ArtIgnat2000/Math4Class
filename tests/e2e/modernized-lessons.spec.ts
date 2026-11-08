@@ -56,6 +56,8 @@ for (const topic of topics)
     [820, 1180],
   ] as const) {
     test(`${topic.id}: interactive explanation and games at ${width}px`, async ({ browser }) => {
+      // Nine axe analyses plus the practice round; the widest viewport needs more than 45 s.
+      test.setTimeout(120_000);
       const context = await browser.newContext({
         viewport: { width, height },
         isMobile: true,

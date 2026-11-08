@@ -46,6 +46,19 @@ const authorApproved: Record<string, { approvedOn: string; decision: string; ids
     decision: 'Владелец утвердил три задания из банка как авторское дополнение',
     ids: ['roman-four', 'roman-nine', 'roman-twelve'],
   },
+  'clock-time': {
+    approvedOn: '2026-11-08',
+    decision:
+      'Владелец запросил урок о времени словами и утвердил шесть заданий как авторское дополнение',
+    ids: [
+      'half-fifth',
+      'quarter-to-eight',
+      'five-to-six',
+      'seven-forty',
+      'twenty-past-eight',
+      'quarter-compare',
+    ],
+  },
 };
 
 export const authorApprovedTaskIds = authorApproved;
@@ -54,6 +67,12 @@ const authorSignatures: Record<string, string> = {
   'roman-numerals/roman-four': 'Какой месяц обозначен IV?||"a"',
   'roman-numerals/roman-nine': 'Какой месяц обозначен IX?||"b"',
   'roman-numerals/roman-twelve': 'Какой месяц обозначен XII?||"c"',
+  'clock-time/half-fifth': 'Что означает «половина шестого»?||"a"',
+  'clock-time/quarter-to-eight': 'Как назвать время 7:45 словами?||"a"',
+  'clock-time/five-to-six': 'Часы показывают 5:55. Как сказать это словами?||"a"',
+  'clock-time/seven-forty': 'Сейчас 7:40. Сколько минут осталось до 8 часов?||20',
+  'clock-time/twenty-past-eight': 'Как сказать 8:20 словами?||"a"',
+  'clock-time/quarter-compare': 'Какое время наступит раньше?||"<"',
 };
 
 /** True when the exercise is an approved author's addition, not a textbook one. */

@@ -9,6 +9,8 @@ for (const [width, height] of [
   [820, 1180],
 ] as const) {
   test(`equation model and both games work at ${width}px`, async ({ browser }) => {
+    // Six axe analyses plus the practice round; the widest viewport needs more than 45 s.
+    test.setTimeout(120_000);
     const context = await browser.newContext({
       viewport: { width, height },
       hasTouch: true,

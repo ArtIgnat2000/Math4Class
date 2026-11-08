@@ -93,6 +93,8 @@ test('a mouse builds the whole year, and the game never scores or saves progress
 test('a finger drags a month to the circle even when the box starts below the fold', async ({
   browser,
 }) => {
+  // Real CDP touch drags are slow in this sandbox; the default budget is too tight.
+  test.setTimeout(120_000);
   const context = await browser.newContext({
     viewport: { width: 320, height: 568 },
     isMobile: true,

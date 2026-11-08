@@ -114,7 +114,7 @@ describe('textbook lessons and compound answers', () => {
         <Catalog onOpen={vi.fn()} />
       </AppProvider>,
     );
-    expect(container.querySelectorAll('.topic-card')).toHaveLength(7);
+    expect(container.querySelectorAll('.topic-card')).toHaveLength(8);
     await user.selectOptions(screen.getByLabelText('Раздел учебника'), 'calendar');
     expect(container.querySelectorAll('.topic-card')).toHaveLength(2);
     await user.selectOptions(screen.getByLabelText('Материалы'), 'intro');
@@ -130,7 +130,7 @@ describe('textbook lessons and compound answers', () => {
     expect(container.querySelectorAll('.topic-card')).toHaveLength(0);
     await user.click(screen.getByRole('button', { name: '4 класс' }));
     expect(screen.getByLabelText('Материалы')).toHaveValue('all');
-    expect(container.querySelectorAll('.topic-card')).toHaveLength(7);
+    expect(container.querySelectorAll('.topic-card')).toHaveLength(8);
   });
   it('keeps textbook provenance in Parents, not on the child home', async () => {
     const user = userEvent.setup();
@@ -154,11 +154,11 @@ describe('textbook lessons and compound answers', () => {
     expect(dialog.getByText('7 тем по оглавлению.')).toBeInTheDocument();
     expect(dialog.getByText(/М. А. Бантова/)).toBeInTheDocument();
     expect(dialog.getByText(/16-е издание, стереотипное/)).toBeInTheDocument();
-    expect(dialog.getByText(/36 тем/)).toBeInTheDocument();
-    expect(dialog.getByText(/259 заданий в банке/)).toBeInTheDocument();
+    expect(dialog.getByText(/37 тем/)).toBeInTheDocument();
+    expect(dialog.getByText(/265 заданий в банке/)).toBeInTheDocument();
     // Author's exercises are counted apart from the checked textbook ones.
-    expect(dialog.getByText(/3 авторских задания приложения/)).toBeInTheDocument();
-    expect(dialog.getByText(/6 ноября 2026/)).toBeInTheDocument();
+    expect(dialog.getByText(/9 авторских заданий приложения/)).toBeInTheDocument();
+    expect(dialog.getByText(/8 ноября 2026/)).toBeInTheDocument();
     // The child cards no longer carry author labels, so provenance must stay here.
     expect(dialog.getByText(/авторские материалы приложения/)).toBeInTheDocument();
     await user.keyboard('{Escape}');

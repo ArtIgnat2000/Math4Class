@@ -24,6 +24,7 @@ import { MassWordIntro, MassWordVisual } from './MassWordVisual';
 import { CalendarIntro, CalendarVisual } from './CalendarVisual';
 import { YearMonthsPilot } from './YearMonthsPilot';
 import { RomanNumeralsPilot } from './RomanNumeralsPilot';
+import { ClockPilot } from './ClockPilot';
 import { EquationPilot } from './EquationPilot';
 import { DividendPilot } from './DividendPilot';
 import { AreaPilot } from './AreaPilot';
@@ -71,6 +72,7 @@ const PILOT_DIALOG_TITLE = 'Годы в месяцы';
 const PILOT_TITLES: Record<string, string> = {
   'calendar-years-months': PILOT_DIALOG_TITLE,
   'roman-numerals': 'Римские цифры',
+  'clock-time': 'Время на часах',
   'equations-add-subtract': 'Уравнения',
   'division-restore-dividend': 'Деление с остатком',
   'area-equal-parts': 'Площадь частей',
@@ -100,6 +102,8 @@ function TaskReference({ topic, onClose }: { topic: Topic; onClose: () => void }
         <YearMonthsPilot onPractice={onClose} practiceLabel="Вернуться к заданию" />
       ) : topic.id === 'roman-numerals' ? (
         <RomanNumeralsPilot onPractice={onClose} practiceLabel="Вернуться к заданию" />
+      ) : topic.id === 'clock-time' ? (
+        <ClockPilot onPractice={onClose} practiceLabel="Вернуться к заданию" />
       ) : topic.id === 'multiply-divide-powers-ten' || topic.id === 'place-value-calculations' ? (
         <DecimalPilot
           kind={topic.id === 'multiply-divide-powers-ten' ? 'powers' : 'place'}
@@ -170,6 +174,16 @@ export function TopicDialog({
         className="topic-dialog mass-intro-dialog year-month-dialog roman-dialog"
       >
         <RomanNumeralsPilot onPractice={onStart} />
+      </Modal>
+    );
+  if (topic.id === 'clock-time')
+    return (
+      <Modal
+        title={PILOT_TITLES['clock-time']}
+        onClose={onClose}
+        className="topic-dialog mass-intro-dialog year-month-dialog clock-dialog"
+      >
+        <ClockPilot onPractice={onStart} />
       </Modal>
     );
   if (topic.id === 'multiply-divide-powers-ten' || topic.id === 'place-value-calculations')

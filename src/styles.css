@@ -8889,12 +8889,12 @@ h1[tabindex='-1']:focus {
 }
 
 /* Year → months, second pilot: the circle itself is built and reused as a group. */
-:is(.year-month-pilot-v2, .roman-pilot) {
+:is(.year-month-pilot-v2, .roman-pilot, .clock-pilot, .clock-game) {
   color: #2c4434;
   font-size: 16px;
   line-height: 1.45;
 }
-:is(.year-month-pilot-v2, .roman-pilot) .pilot-topline {
+:is(.year-month-pilot-v2, .roman-pilot, .clock-pilot, .clock-game) .pilot-topline {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -8918,13 +8918,13 @@ h1[tabindex='-1']:focus {
   background: #e2eed9;
   border-color: #526f49;
 }
-:is(.year-month-pilot-v2, .roman-pilot) h3 {
+:is(.year-month-pilot-v2, .roman-pilot, .clock-pilot, .clock-game) h3 {
   margin: 4px 0 8px;
   font-size: clamp(22px, 4vw, 26px);
   line-height: 1.25;
   outline: none;
 }
-:is(.year-month-pilot-v2, .roman-pilot) .pilot-instruction {
+:is(.year-month-pilot-v2, .roman-pilot, .clock-pilot, .clock-game) .pilot-instruction {
   font-size: 16px;
   line-height: 1.45;
   color: #3d5241;
@@ -9036,20 +9036,23 @@ h1[tabindex='-1']:focus {
   gap: 10px;
   width: min(100%, 340px);
 }
-:is(.year-month-pilot-v2, .roman-pilot, .year-game, .roman-game) .button {
+:is(.year-month-pilot-v2, .roman-pilot, .year-game, .roman-game, .clock-pilot, .clock-game)
+  .button {
   min-height: 48px;
   font-size: 16px;
   border-radius: 12px;
 }
-:is(.year-month-pilot-v2, .roman-pilot, .year-game, .roman-game) .button.primary {
+:is(.year-month-pilot-v2, .roman-pilot, .year-game, .roman-game, .clock-pilot, .clock-game)
+  .button.primary {
   background: #3f6b4a;
   color: #fff;
 }
-:is(.year-month-pilot-v2, .roman-pilot, .year-game, .roman-game)
+:is(.year-month-pilot-v2, .roman-pilot, .year-game, .roman-game, .clock-pilot, .clock-game)
   .button.primary:hover:not(:disabled) {
   background: #355b40;
 }
-:is(.year-month-pilot-v2, .roman-pilot, .year-game, .roman-game) .button.secondary {
+:is(.year-month-pilot-v2, .roman-pilot, .year-game, .roman-game, .clock-pilot, .clock-game)
+  .button.secondary {
   border-color: #879a7e;
   color: #334d3a;
 }
@@ -9151,7 +9154,8 @@ h1[tabindex='-1']:focus {
 .pilot-model-controls .button {
   flex: 1 1 150px;
 }
-:is(.year-month-pilot-v2, .roman-pilot, .year-game, .roman-game) .button:disabled {
+:is(.year-month-pilot-v2, .roman-pilot, .year-game, .roman-game, .clock-pilot, .clock-game)
+  .button:disabled {
   opacity: 0.55;
 }
 .extra-months {
@@ -9180,10 +9184,13 @@ h1[tabindex='-1']:focus {
 .extra-month-empty {
   color: #6b4b36;
 }
-:is(.year-month-pilot-v2, .roman-pilot, .year-game, .roman-game) .pilot-actions {
+:is(.year-month-pilot-v2, .roman-pilot, .year-game, .roman-game, .clock-pilot, .clock-game)
+  .pilot-actions {
   margin-top: 10px;
 }
-:is(.year-month-pilot-v2, .roman-pilot, .year-game, .roman-game) .pilot-actions .button {
+:is(.year-month-pilot-v2, .roman-pilot, .year-game, .roman-game, .clock-pilot, .clock-game)
+  .pilot-actions
+  .button {
   flex: 1 1 140px;
 }
 @media (min-width: 640px) {
@@ -9200,7 +9207,7 @@ h1[tabindex='-1']:focus {
   }
 }
 @media (max-width: 360px) {
-  :is(.year-month-pilot-v2, .roman-pilot) .pilot-topline {
+  :is(.year-month-pilot-v2, .roman-pilot, .clock-pilot, .clock-game) .pilot-topline {
     flex-wrap: wrap;
   }
   .year-groups {
@@ -9221,9 +9228,11 @@ h1[tabindex='-1']:focus {
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  :is(.year-month-pilot-v2, .roman-pilot, .year-game, .roman-game) *,
-  :is(.year-month-pilot-v2, .roman-pilot, .year-game, .roman-game) *::before,
-  :is(.year-month-pilot-v2, .roman-pilot, .year-game, .roman-game) *::after {
+  :is(.year-month-pilot-v2, .roman-pilot, .year-game, .roman-game, .clock-pilot, .clock-game) *,
+  :is(.year-month-pilot-v2, .roman-pilot, .year-game, .roman-game, .clock-pilot, .clock-game)
+    *::before,
+  :is(.year-month-pilot-v2, .roman-pilot, .year-game, .roman-game, .clock-pilot, .clock-game)
+    *::after {
     animation: none !important;
     transition: none !important;
   }
@@ -9237,12 +9246,15 @@ h1[tabindex='-1']:focus {
 .year-groups-two .year-group-card {
   padding-block: 8px;
 }
-:is(.year-month-pilot-v2, .roman-pilot, .year-game, .roman-game) .pilot-model-controls .button {
+:is(.year-month-pilot-v2, .roman-pilot, .year-game, .roman-game, .clock-pilot, .clock-game)
+  .pilot-model-controls
+  .button {
   padding-inline: 10px;
   gap: 6px;
 }
 @media (max-width: 639px) {
-  :is(.year-month-pilot-v2, .roman-pilot, .year-game, .roman-game) .pilot-actions {
+  :is(.year-month-pilot-v2, .roman-pilot, .year-game, .roman-game, .clock-pilot, .clock-game)
+    .pilot-actions {
     position: sticky;
     bottom: -23px;
     padding: 10px 0 12px;
@@ -10042,13 +10054,16 @@ h1[tabindex='-1']:focus {
 .model-tools .button.tool-outline:hover:not(:disabled) {
   background: #ede9fe;
 }
-:is(.year-month-pilot-v2, .roman-pilot, .year-game, .roman-game) .button.tool-add {
+:is(.year-month-pilot-v2, .roman-pilot, .year-game, .roman-game, .clock-pilot, .clock-game)
+  .button.tool-add {
   border-color: #6d28d9;
   background: #6d28d9;
   color: #ffffff;
 }
-:is(.year-month-pilot-v2, .roman-pilot, .year-game, .roman-game) .button.tool-remove,
-:is(.year-month-pilot-v2, .roman-pilot, .year-game, .roman-game) .button.tool-outline {
+:is(.year-month-pilot-v2, .roman-pilot, .year-game, .roman-game, .clock-pilot, .clock-game)
+  .button.tool-remove,
+:is(.year-month-pilot-v2, .roman-pilot, .year-game, .roman-game, .clock-pilot, .clock-game)
+  .button.tool-outline {
   border-color: #8b5cf6;
   background: #ffffff;
   color: #5b21b6;
@@ -10088,7 +10103,7 @@ h1[tabindex='-1']:focus {
   line-height: 1.3;
   letter-spacing: -0.4px;
 }
-:is(.year-month-pilot-v2, .roman-pilot) .pilot-topline {
+:is(.year-month-pilot-v2, .roman-pilot, .clock-pilot, .clock-game) .pilot-topline {
   margin: 10px 0 12px;
 }
 .pilot-reference-toggle {
@@ -11169,5 +11184,366 @@ h1[tabindex='-1']:focus {
   }
   .area-game .pilot-actions .button {
     width: 100%;
+  }
+}
+
+/* Time lesson: green is the part of the hour that has passed, amber is what is
+   left before the next hour. Both are labelled, so meaning never rests on colour alone. */
+.clock-pilot,
+.clock-game {
+  display: block;
+}
+.clock-dial {
+  position: relative;
+  width: min(100%, 300px);
+  margin: 8px auto 0;
+}
+.clock-dial svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.clock-face {
+  fill: #fffdf7;
+  stroke: #dfe6d8;
+  stroke-width: 2;
+}
+.clock-arc-passed {
+  stroke: #15803d;
+  stroke-width: 9;
+}
+.clock-arc-left {
+  stroke: #d97706;
+  stroke-width: 7;
+}
+.clock-tick {
+  stroke: #c3cebb;
+  stroke-width: 2;
+}
+.clock-tick.is-major {
+  stroke: #8ea389;
+  stroke-width: 3;
+}
+.clock-number {
+  fill: #2c4434;
+  font-size: 19px;
+  font-weight: 800;
+}
+.clock-hand {
+  stroke-linecap: round;
+}
+.clock-hand-hour {
+  stroke: #2f6b3d;
+  stroke-width: 9;
+}
+.clock-hand-minute {
+  stroke: #1d4ed8;
+  stroke-width: 6;
+}
+.clock-pivot {
+  fill: #2c4434;
+  stroke: #fffdf7;
+  stroke-width: 2;
+}
+.clock-picks {
+  position: absolute;
+  inset: 0;
+}
+.clock-pick {
+  position: absolute;
+  width: 44px;
+  height: 44px;
+  margin: -22px 0 0 -22px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.clock-pick:hover {
+  background: #15803d1f;
+}
+.clock-pick:focus-visible {
+  outline: 3px solid #334d3a;
+  outline-offset: 2px;
+  background: #15803d1f;
+}
+.clock-pick:disabled {
+  cursor: default;
+}
+.clock-progress {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+.clock-progress-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 32px;
+  padding: 4px 10px;
+  border: 1px solid #dfe6d8;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #2c4434;
+  font-size: 14px;
+  font-weight: 700;
+}
+.clock-progress-item i {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+.clock-progress-item.is-passed i {
+  background: #15803d;
+}
+.clock-progress-item.is-left i {
+  background: #d97706;
+}
+.clock-readout {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: 10px;
+  margin: 12px 0 0;
+  text-align: center;
+}
+.clock-readout strong {
+  font-size: 22px;
+  line-height: 1.25;
+  color: #244d32;
+}
+.clock-readout span {
+  font-size: 16px;
+  font-weight: 700;
+  color: #5b6b57;
+}
+.clock-status {
+  min-height: 2.8em;
+  margin: 10px 0 0;
+  color: #334155;
+  font-size: 16px;
+  line-height: 1.4;
+  text-align: center;
+}
+.clock-form-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 4px;
+}
+.clock-form-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-height: 68px;
+  padding: 10px 6px;
+  border: 2px solid #cfdcc6;
+  border-radius: 16px;
+  background: #f7fbf3;
+  color: #2c4434;
+  font: inherit;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.clock-form-card strong {
+  font-size: 18px;
+  font-weight: 800;
+}
+.clock-form-card span {
+  font-size: 14px;
+  font-weight: 700;
+  color: #4c5f49;
+}
+.clock-form-card.is-active {
+  border-color: #2f6b3d;
+  background: #e6f2e2;
+  box-shadow: 0 0 0 3px #2f6b3d;
+}
+.clock-form-card:focus-visible {
+  outline: 3px solid #334d3a;
+  outline-offset: 2px;
+}
+.clock-step-words {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 10px;
+  margin: 6px 0 0;
+  color: #4c5f49;
+  font-size: 15px;
+  font-weight: 700;
+}
+.clock-step-words strong {
+  font-size: 20px;
+  color: #244d32;
+}
+.clock-choices {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+}
+.clock-choice {
+  min-height: 48px;
+  padding: 10px 14px;
+  border: 2px solid #d3e0ca;
+  border-radius: 14px;
+  background: #ffffff;
+  color: #22392c;
+  font: inherit;
+  font-size: 17px;
+  font-weight: 750;
+  text-align: left;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.clock-choice:hover {
+  border-color: #7f9a75;
+  background: #f6faf2;
+}
+.clock-choice:focus-visible {
+  outline: 3px solid #334d3a;
+  outline-offset: 2px;
+}
+.clock-choice.is-correct {
+  border-color: #2f6b3d;
+  background: #dcfce7;
+  color: #14532d;
+  box-shadow: 0 0 0 3px #2f6b3d;
+}
+.clock-choice.is-miss {
+  border-color: #be123c;
+  border-style: dashed;
+  background: #fff1f2;
+}
+.clock-target {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  margin: 6px 0 10px;
+  text-align: center;
+}
+.clock-target span {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #5b6b57;
+  text-transform: uppercase;
+}
+.clock-target strong {
+  font-size: clamp(22px, 5vw, 26px);
+  line-height: 1.25;
+  color: #244d32;
+}
+.clock-hour-picker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 12px;
+}
+.clock-hour-picker .button {
+  flex: 0 1 130px;
+  min-height: 44px;
+}
+.clock-hour-picker strong {
+  min-width: 56px;
+  color: #244d32;
+  font-size: 22px;
+  text-align: center;
+}
+.clock-phrase {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 62px;
+  margin: 12px 0 4px;
+  padding: 8px;
+  border-radius: 14px;
+  background: #f8fafc;
+}
+.clock-phrase.is-done {
+  background: #dcfce7;
+}
+.clock-phrase-empty {
+  color: #5b6b57;
+  font-size: 15px;
+}
+.clock-phrase-word {
+  min-height: 40px;
+  padding: 6px 12px;
+  border: 2px solid #2f6b3d;
+  border-radius: 11px;
+  background: #e6f2e2;
+  color: #14532d;
+  font: inherit;
+  font-size: 17px;
+  font-weight: 800;
+  cursor: pointer;
+}
+.clock-phrase-word:focus-visible {
+  outline: 3px solid #334d3a;
+  outline-offset: 2px;
+}
+.clock-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+.clock-chip {
+  min-height: 44px;
+  padding: 8px 14px;
+  border: 2px solid #d8d3f0;
+  border-radius: 12px;
+  background: #f5f3ff;
+  color: #4c1d95;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 750;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.clock-chip:hover:not(:disabled) {
+  background: #ede9fe;
+}
+.clock-chip.is-used {
+  opacity: 0.35;
+}
+.clock-chip.is-miss {
+  border-color: #be123c;
+  background: #fff1f2;
+  color: #9f1239;
+}
+.clock-chip:focus-visible {
+  outline: 3px solid #334d3a;
+  outline-offset: 2px;
+}
+.clock-reference p {
+  margin: 0;
+}
+@media (max-width: 639px) {
+  .clock-pilot,
+  .clock-game {
+    padding-bottom: 88px;
+  }
+}
+@media (max-width: 360px) {
+  .clock-dial {
+    width: min(100%, 244px);
+  }
+  .clock-form-card span {
+    font-size: 12.5px;
+  }
+  .clock-choice {
+    font-size: 16px;
   }
 }
