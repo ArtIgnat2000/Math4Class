@@ -78,6 +78,7 @@ npm run content:check -- path/to/my-grade-4.json
 
 - [`docs/SOURCE_AUDIT.md`](docs/SOURCE_AUDIT.md) — поштучная сверка видимых заданий с фото страниц 46–47.
 - [`docs/PRODUCT_RULES.md`](docs/PRODUCT_RULES.md) — управляемые владельцем правила и их статусы.
+- [`docs/REWARDS.md`](docs/REWARDS.md) — коллекция скинов и вещей: откуда перенесена, как открывается за пройденные занятия и что проверяют тесты.
 - [`docs/SCHOOL_RUSSIA.md`](docs/SCHOOL_RUSSIA.md) — исторический банк и границы исходного покрытия.
 - [`docs/CONCEPT.md`](docs/CONCEPT.md) — концепция, педагогический цикл и границы первой версии.
 - [`docs/CONTENT.md`](docs/CONTENT.md) — договорённость между автором и движком, все типы заданий.

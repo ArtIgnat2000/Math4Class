@@ -28,7 +28,21 @@ export default defineConfig({
     screenshot: 'only-on-failure',
     launchOptions: {
       executablePath: await chromium.executablePath(),
-      args: chromium.args.filter((arg) => arg !== '--single-process'),
+      // The bundled Chromium spins the browser process at ~200 % CPU after a
+      // long mouse-drag test when the GPU thread runs in-process through
+      // swiftshader; the next browser.newContext() then never answers. These
+      // tests draw SVG and CSS only, so software rendering without a GPU thread
+      // is enough and keeps the whole suite stable.
+      args: [
+        ...chromium.args.filter(
+          (arg) =>
+            !['--single-process', '--in-process-gpu', '--ignore-gpu-blocklist'].includes(arg) &&
+            !arg.startsWith('--use-gl') &&
+            !arg.startsWith('--use-angle') &&
+            !arg.startsWith('--enable-unsafe-swiftshader'),
+        ),
+        '--disable-gpu',
+      ],
     },
   },
   webServer: {

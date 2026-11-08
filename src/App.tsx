@@ -26,6 +26,7 @@ import type { Answer, Session } from './engine/model';
 import { createSession, finishSession, nextTask, submitAnswer } from './engine/lesson';
 import { dayKey } from './engine/dates';
 import { dueTopics, streak, topicKey, untriedTopics } from './engine/progress';
+import { rewardsForLesson } from './engine/rewards';
 import { getPack } from './content';
 import { Learning, Catalog, Review } from './ui/Learning';
 import { Progress, Rewards } from './ui/Progress';
@@ -373,6 +374,10 @@ export default function App() {
               <Result
                 result={lastResult}
                 nextTopic={nextLesson}
+                bonus={{
+                  lesson: profile.totals.lessons,
+                  items: rewardsForLesson(profile.totals.lessons),
+                }}
                 hasTopics={resultPack.topics.length > 0}
                 onNext={() => {
                   if (!nextLesson) return;

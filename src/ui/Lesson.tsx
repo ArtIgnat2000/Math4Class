@@ -5,6 +5,7 @@ import {
   BookOpen,
   Check,
   CircleCheck,
+  Gift,
   Lightbulb,
   Star,
   X,
@@ -32,6 +33,7 @@ import { AreaPilot } from './AreaPilot';
 import { DecimalPilot } from './DecimalPilot';
 import { NumericKeypad } from './NumericKeypad';
 import { CardGuide, CardTitleContext } from './CardGuide';
+import type { RewardItem } from '../engine/rewards';
 import { StepIndicator } from './StepIndicator';
 import { OrderAnswer } from './OrderAnswer';
 import { Brand, Modal, ProgressBar, Stars, TopicSymbol } from './shared';
@@ -851,6 +853,7 @@ export function Result({
   result,
   nextTopic,
   hasTopics,
+  bonus,
   onNext,
   onHome,
   onTopics,
@@ -858,10 +861,18 @@ export function Result({
   result: LessonResult;
   nextTopic?: Topic;
   hasTopics: boolean;
+  /** Награды, открывшиеся именно на этом занятии (engine/rewards.ts). */
+  bonus?: { lesson: number; items: RewardItem[] } | null;
   onNext: () => void;
   onHome: () => void;
   onTopics: () => void;
 }) {
+  const bonusTitles =
+    bonus?.items
+      .slice(0, 2)
+      .map((item) => item.title)
+      .join(', ') ?? '';
+  const bonusMore = bonus ? bonus.items.length - 2 : 0;
   return (
     <div className="lesson-shell result-shell">
       <header className="lesson-header">
@@ -890,6 +901,15 @@ export function Result({
         <p className="result-summary">
           {result.correct} из {result.total} с первого раза
         </p>
+        {bonus && bonus.items.length > 0 && (
+          <p className="result-bonus" role="status">
+            <Gift size={16} aria-hidden="true" />
+            <span>
+              {bonus.items.length === 1 ? 'Награда' : 'Награды'}: <strong>{bonusTitles}</strong>
+              {bonusMore > 0 ? ` +${bonusMore}` : ''}
+            </span>
+          </p>
+        )}
         <p className="result-next">
           {nextTopic ? (
             <>
