@@ -38,8 +38,22 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,svg,png,webp,woff2,json}'],
+        // The reward collection is 102 pictures (~1,2 МБ). Pre-caching all of
+        // them would slow every install and every browser test down, although a
+        // child opens only a few shelves per visit: cache them on first view.
+        globIgnores: ['rewards/**'],
         navigateFallback: 'index.html',
         cleanupOutdatedCaches: true,
+        runtimeCaching: [
+          {
+            urlPattern: /\/rewards\/[^/]+\.webp$/,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'reward-art',
+              expiration: { maxEntries: 120, maxAgeSeconds: 60 * 60 * 24 * 90 },
+            },
+          },
+        ],
       },
       devOptions: { enabled: false },
     }),
