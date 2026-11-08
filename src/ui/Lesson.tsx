@@ -23,6 +23,8 @@ import { ComparisonChoicePicture, MassComparisonVisual } from './MassComparisonV
 import { MassWordIntro, MassWordVisual } from './MassWordVisual';
 import { CalendarIntro, CalendarVisual } from './CalendarVisual';
 import { YearMonthsPilot } from './YearMonthsPilot';
+import { ClockPilot } from './ClockPilot';
+import { SpokenClockPilot } from './SpokenClockPilot';
 import { RomanNumeralsPilot } from './RomanNumeralsPilot';
 import { EquationPilot } from './EquationPilot';
 import { DividendPilot } from './DividendPilot';
@@ -70,6 +72,8 @@ const PILOT_DIALOG_TITLE = 'Годы в месяцы';
 /** Interactive explanations own a short one-line dialog title (CARD-02). */
 const PILOT_TITLES: Record<string, string> = {
   'calendar-years-months': PILOT_DIALOG_TITLE,
+  'clock-day-hours': 'Время суток',
+  'clock-spoken-time': 'Время словами',
   'roman-numerals': 'Римские цифры',
   'equations-add-subtract': 'Уравнения',
   'division-restore-dividend': 'Деление с остатком',
@@ -96,7 +100,11 @@ function TaskReference({ topic, onClose }: { topic: Topic; onClose: () => void }
       onClose={onClose}
       className="topic-dialog mass-intro-dialog task-reference-dialog"
     >
-      {topic.id === 'calendar-years-months' ? (
+      {topic.id === 'clock-spoken-time' ? (
+        <SpokenClockPilot onPractice={onClose} practiceLabel="Вернуться к заданию" />
+      ) : topic.id === 'clock-day-hours' ? (
+        <ClockPilot onPractice={onClose} practiceLabel="Вернуться к заданию" />
+      ) : topic.id === 'calendar-years-months' ? (
         <YearMonthsPilot onPractice={onClose} practiceLabel="Вернуться к заданию" />
       ) : topic.id === 'roman-numerals' ? (
         <RomanNumeralsPilot onPractice={onClose} practiceLabel="Вернуться к заданию" />
@@ -152,6 +160,26 @@ export function TopicDialog({
   onClose: () => void;
   onStart: () => void;
 }) {
+  if (topic.id === 'clock-spoken-time')
+    return (
+      <Modal
+        title={PILOT_TITLES[topic.id]}
+        onClose={onClose}
+        className="topic-dialog mass-intro-dialog year-month-dialog"
+      >
+        <SpokenClockPilot onPractice={onStart} />
+      </Modal>
+    );
+  if (topic.id === 'clock-day-hours')
+    return (
+      <Modal
+        title={PILOT_TITLES[topic.id]}
+        onClose={onClose}
+        className="topic-dialog mass-intro-dialog year-month-dialog"
+      >
+        <ClockPilot onPractice={onStart} />
+      </Modal>
+    );
   if (topic.id === 'calendar-years-months')
     return (
       <Modal

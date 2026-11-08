@@ -51,8 +51,8 @@ test('only source-checked tasks appear and unverified grades have no lessons', a
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/#/topics');
   // 6 textbook topics plus the roman lesson with 3 owner-approved author exercises.
-  await expect(page.locator('.topic-card')).toHaveCount(7);
-  await expect(page.getByRole('status').filter({ hasText: '26 заданий' })).toBeVisible();
+  await expect(page.locator('.topic-card')).toHaveCount(9);
+  await expect(page.getByRole('status').filter({ hasText: '32 задания' })).toBeVisible();
   await expect(page.getByText('Килограмм и грамм', { exact: true })).toHaveCount(0);
   await expect(page.getByText('Многозначные числа', { exact: true })).toHaveCount(0);
   await page.getByRole('combobox', { name: 'Класс обучения' }).selectOption('1');
@@ -177,7 +177,7 @@ test('an old lesson with invented tasks cannot be resumed from storage or a dire
 });
 
 test('every approved exercise stays usable on a phone and tablet', async ({ browser }) => {
-  test.setTimeout(90_000);
+  test.setTimeout(240_000);
   const pack = JSON.parse(
     await readFile(new URL('../../src/content/grade-4.json', import.meta.url), 'utf8'),
   );
@@ -200,6 +200,8 @@ test('every approved exercise stays usable on a phone and tablet', async ({ brow
         if (
           [
             'calendar-years-months',
+            'clock-day-hours',
+            'clock-spoken-time',
             'equations-add-subtract',
             'division-restore-dividend',
             'area-equal-parts',

@@ -16,7 +16,7 @@
       "edition": "16-е издание, стереотипное",
       "grade": 4,
       "part": 1,
-      "source": "Фотографии обложки, выходных данных и страниц 46–47; docs/SOURCE_AUDIT.md",
+      "source": "Фотографии обложки, выходных данных и страниц 46–47; docs/SOURCE_AUDIT.md; фотография страницы 48 IMG_0014.png, издание подтверждено владельцем 7 ноября 2026",
       "printedPageCount": null,
       "pages": [
         {
@@ -305,6 +305,144 @@
                   "parts": []
                 }
               ],
+              "evidence": ""
+            }
+          ],
+          "scope": "instructional",
+          "exclusionEvidence": ""
+        },
+        {
+          "number": 48,
+          "pdfPage": null,
+          "inventoryComplete": false,
+          "inventoryEvidence": "",
+          "materials": [
+            {
+              "key": "theory",
+              "kind": "theory",
+              "label": "Время от 0 до 24 часов; показания стрелочных часов",
+              "review": "unreviewed",
+              "topicIds": [],
+              "evidence": ""
+            },
+            {
+              "key": "229",
+              "kind": "exercise",
+              "label": "№ 229 — распорядок дня",
+              "review": "unreviewed",
+              "expectedParts": null,
+              "taskRefs": [],
+              "evidence": ""
+            },
+            {
+              "key": "230",
+              "kind": "exercise",
+              "label": "№ 230 — время от начала суток",
+              "review": "complete",
+              "expectedParts": ["2 ч ночи", "9 ч утра", "3 ч дня"],
+              "taskRefs": [
+                {
+                  "topicId": "clock-day-hours",
+                  "taskId": "night",
+                  "parts": ["2 ч ночи"]
+                },
+                {
+                  "topicId": "clock-day-hours",
+                  "taskId": "morning",
+                  "parts": ["9 ч утра"]
+                },
+                {
+                  "topicId": "clock-day-hours",
+                  "taskId": "afternoon",
+                  "parts": ["3 ч дня"]
+                }
+              ],
+              "evidence": "7 ноября 2026: сверка фотографии IMG_0014.png; docs/SOURCE_AUDIT.md, № 230"
+            },
+            {
+              "key": "231",
+              "kind": "exercise",
+              "label": "№ 231 — способы назвать время",
+              "review": "partial",
+              "expectedParts": [
+                "1: 16 ч",
+                "1: 20 ч",
+                "1: 21 ч 40 мин",
+                "2: четверть пятого",
+                "2: половина первого",
+                "2: без четверти семь"
+              ],
+              "taskRefs": [
+                {
+                  "topicId": "clock-spoken-time",
+                  "taskId": "quarter",
+                  "parts": ["2: четверть пятого"]
+                },
+                {
+                  "topicId": "clock-spoken-time",
+                  "taskId": "half",
+                  "parts": ["2: половина первого"]
+                },
+                {
+                  "topicId": "clock-spoken-time",
+                  "taskId": "before",
+                  "parts": ["2: без четверти семь"]
+                }
+              ],
+              "evidence": "7 ноября 2026: сверка фотографии IMG_0014.png; docs/SOURCE_AUDIT.md, № 231, часть 2"
+            },
+            {
+              "key": "232",
+              "kind": "exercise",
+              "label": "№ 232 — перевод единиц времени",
+              "review": "unreviewed",
+              "expectedParts": null,
+              "taskRefs": [],
+              "evidence": ""
+            },
+            {
+              "key": "233",
+              "kind": "exercise",
+              "label": "№ 233 — пары уравнений",
+              "review": "unreviewed",
+              "expectedParts": null,
+              "taskRefs": [],
+              "evidence": ""
+            },
+            {
+              "key": "234",
+              "kind": "exercise",
+              "label": "№ 234 — масса свежих и сушёных яблок",
+              "review": "unreviewed",
+              "expectedParts": null,
+              "taskRefs": [],
+              "evidence": ""
+            },
+            {
+              "key": "235",
+              "kind": "exercise",
+              "label": "№ 235 — масло в бутылках",
+              "review": "unreviewed",
+              "expectedParts": null,
+              "taskRefs": [],
+              "evidence": ""
+            },
+            {
+              "key": "236",
+              "kind": "exercise",
+              "label": "№ 236 — выражения",
+              "review": "unreviewed",
+              "expectedParts": null,
+              "taskRefs": [],
+              "evidence": ""
+            },
+            {
+              "key": "lower",
+              "kind": "exercise",
+              "label": "Задание под чертой — электронные часы",
+              "review": "unreviewed",
+              "expectedParts": null,
+              "taskRefs": [],
               "evidence": ""
             }
           ],

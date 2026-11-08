@@ -11171,3 +11171,112 @@ h1[tabindex='-1']:focus {
     width: 100%;
   }
 }
+
+/* Shared analogue clock: the hands stop inside the number ring. */
+.clock-dial-model {
+  display: block;
+  width: min(100%, 240px);
+  height: auto;
+  aspect-ratio: 1;
+}
+.clock-pilot .clock-dial-model {
+  margin: 0.5rem auto;
+}
+.clock-readout {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  color: #173d59;
+}
+.clock-readout strong {
+  font-size: 2rem;
+  letter-spacing: 0.03em;
+}
+
+/* In the clock trainers, checking and its result belong next to the choices. */
+.clock-game .clock-dial-model {
+  width: min(100%, 190px);
+  margin: 4px auto;
+}
+.clock-game .clock-check {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  min-height: 48px;
+  margin-top: 8px;
+}
+.clock-game .clock-feedback {
+  display: grid;
+  gap: 2px;
+  margin: 8px 0;
+  padding: 8px 12px;
+  border: 2px solid #aab7bd;
+  border-radius: 12px;
+  background: #f8faf9;
+  color: #25323a;
+  text-align: center;
+}
+.clock-game .clock-feedback.is-correct {
+  border-color: #177443;
+  background: #effaf2;
+  color: #14532d;
+}
+.clock-game .clock-feedback.is-retry {
+  border-color: #a16207;
+  background: #fff9e8;
+  color: #713f12;
+}
+.clock-game .clock-hint {
+  color: #25323a;
+  text-align: center;
+}
+.clock-game .model-tools .button[aria-pressed='true'] {
+  border-color: #5b21b6;
+  background: #5b21b6;
+  color: #fff;
+  box-shadow: inset 0 0 0 2px #fff;
+}
+@media (max-height: 650px) {
+  .clock-game .clock-dial-model {
+    width: min(100%, 160px);
+  }
+  .clock-game .clock-feedback {
+    margin: 4px 0;
+    padding: 4px 8px;
+  }
+}
+.clock-game.equation-pilot .equation-choices .button {
+  flex: 1 1 0;
+  min-width: 0;
+  padding-inline: 4px;
+}
+.clock-game.equation-pilot .model-tools .button.tool-outline[aria-pressed='true'],
+.clock-game.equation-pilot
+  .model-tools
+  .button.tool-outline[aria-pressed='true']:hover:not(:disabled) {
+  border-color: #5b21b6;
+  background: #5b21b6;
+  color: #fff;
+}
+.clock-pilot.equation-pilot .model-tools .button.tool-outline[aria-pressed='true'],
+.clock-pilot.equation-pilot
+  .model-tools
+  .button.tool-outline[aria-pressed='true']:hover:not(:disabled) {
+  border-color: #5b21b6;
+  background: #5b21b6;
+  color: #fff;
+  box-shadow: inset 0 0 0 2px #fff;
+}
+.clock-game .clock-next {
+  width: 100%;
+  min-height: 48px;
+}
+.spoken-clock-words {
+  margin: 6px 0;
+  color: #173d59;
+  font-size: 1.2rem;
+  font-weight: 800;
+  text-align: center;
+}
