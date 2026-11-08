@@ -11359,3 +11359,23 @@ h1[tabindex='-1']:focus {
   min-height: 44px;
   white-space: normal;
 }
+
+/* Keep game titles legible on phones without changing other lesson menus. */
+.spoken-clock-pilot .spoken-game-entries .button svg {
+  flex: none;
+}
+.spoken-clock-pilot .spoken-game-entries .button span {
+  min-width: 0;
+  white-space: normal;
+}
+@media (max-width: 620px) {
+  .spoken-clock-pilot .spoken-game-entries {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .spoken-clock-pilot .spoken-game-entries .button {
+    width: 100%;
+    min-height: 48px;
+    padding: 8px 6px;
+  }
+}

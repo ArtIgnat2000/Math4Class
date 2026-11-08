@@ -91,7 +91,7 @@ export function Learning({
   return (
     <div className="page learning-page">
       <PageHeading
-        title={profile.name === 'Исследователь' ? 'Твой день открытий' : `Привет, ${profile.name}!`}
+        title="Твой день открытий"
         description="Маленькие шаги сегодня — большие возможности завтра."
       >
         <GradeSwitcher grade={profile.grade} onChange={setGrade} />

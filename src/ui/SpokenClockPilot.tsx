@@ -253,21 +253,21 @@ export function SpokenClockPilot({
         </button>
       </div>
       <div
-        className="model-tools roman-game-entries equation-entries"
+        className="model-tools roman-game-entries equation-entries spoken-game-entries"
         role="group"
         aria-label="Игры"
       >
         <button type="button" className="button tool-outline" onClick={() => setGame('match')}>
-          <Puzzle size={18} aria-hidden="true" /> Узнай время
+          <Puzzle size={18} aria-hidden="true" /> <span>Узнай время</span>
         </button>
         <button type="button" className="button tool-outline" onClick={() => setGame('reverse')}>
-          <Puzzle size={18} aria-hidden="true" /> Назови словами
+          <Puzzle size={18} aria-hidden="true" /> <span>Назови словами</span>
         </button>
         <button type="button" className="button tool-outline" onClick={() => setGame('minutes')}>
-          <Puzzle size={18} aria-hidden="true" /> Поверни стрелку
+          <Puzzle size={18} aria-hidden="true" /> <span>Поверни стрелку</span>
         </button>
         <button type="button" className="button tool-outline" onClick={() => setGame('route')}>
-          <Puzzle size={18} aria-hidden="true" /> Маршрут по часу
+          <Puzzle size={18} aria-hidden="true" /> <span>Маршрут по часу</span>
         </button>
       </div>
       <div className="pilot-actions">

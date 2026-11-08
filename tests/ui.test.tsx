@@ -5,7 +5,7 @@ import { AppProvider } from '../src/state/AppContext';
 import { ProfilesDialog } from '../src/ui/Profiles';
 import { Catalog, Learning } from '../src/ui/Learning';
 import { Parents } from '../src/ui/Parents';
-import { appDataSchema } from '../src/engine/model';
+import { appDataSchema, createAppData } from '../src/engine/model';
 import { STORAGE_KEY } from '../src/state/storage';
 import { BUILTIN_PACKS } from '../src/content';
 import { Lesson } from '../src/ui/Lesson';
@@ -26,6 +26,29 @@ describe('child-facing UI', () => {
     await user.click(screen.getByRole('button', { name: '1 класс' }));
     expect(screen.getByText(/Пока нет заданий, сверенных с учебником/)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: '1 класс' })).toHaveAttribute('aria-pressed', 'true');
+  });
+  it('uses a neutral home heading without changing a saved profile', () => {
+    const data = createAppData();
+    data.profiles[0].name = 'маме 35';
+    data.profiles[0].totals = {
+      tasks: 3,
+      correct: 2,
+      lessons: 1,
+      xp: 10,
+      recovered: 0,
+      perfect: 0,
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    render(
+      <AppProvider>
+        <Learning today="2026-11-02" onOpen={vi.fn()} onNavigate={vi.fn()} onResume={vi.fn()} />
+      </AppProvider>,
+    );
+    expect(screen.getByRole('heading', { name: 'Твой день открытий' })).toBeVisible();
+    expect(screen.queryByRole('heading', { name: /маме 35/i })).not.toBeInTheDocument();
+    expect(appDataSchema.parse(JSON.parse(localStorage.getItem(STORAGE_KEY)!)).profiles[0]).toEqual(
+      data.profiles[0],
+    );
   });
   it('filters content and provides a useful empty state', async () => {
     const user = userEvent.setup();
