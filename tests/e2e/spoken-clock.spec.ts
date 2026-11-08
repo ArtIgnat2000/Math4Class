@@ -76,3 +76,67 @@ test('spoken-time minute trainer can be operated by keyboard', async ({ page }) 
   await page.keyboard.press('Enter');
   await expect(dialog.getByText('четверть седьмого')).toBeVisible();
 });
+
+test('game titles fit their buttons on phones and remain usable at every step', async ({
+  page,
+}) => {
+  test.setTimeout(120_000);
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  for (const [width, height] of [
+    [320, 568],
+    [375, 812],
+    [390, 844],
+    [430, 932],
+    [480, 800],
+    [520, 800],
+    [521, 800],
+    [580, 818],
+    [581, 818],
+    [585, 818],
+    [620, 900],
+    [621, 900],
+    [768, 1024],
+    [820, 1180],
+    [1200, 900],
+  ] as const) {
+    await page.setViewportSize({ width, height });
+    await page.goto('/#/topics');
+    await page.locator('.topic-card').filter({ hasText: 'Как называют время словами' }).click();
+    const dialog = page.getByRole('dialog');
+    const games = dialog.getByRole('group', { name: 'Игры' });
+    for (let step = 0; step < 3; step++) {
+      const buttons = games.getByRole('button');
+      await expect(buttons).toHaveCount(4);
+      for (const button of await buttons.all()) {
+        const box = (await button.boundingBox())!;
+        const label = (await button.locator('span').boundingBox())!;
+        const icon = (await button.locator('svg').boundingBox())!;
+        expect(box.width).toBeGreaterThanOrEqual(44);
+        expect(box.height).toBeGreaterThanOrEqual(44);
+        for (const child of [label, icon]) {
+          expect(child.x).toBeGreaterThanOrEqual(box.x);
+          expect(child.x + child.width).toBeLessThanOrEqual(box.x + box.width);
+          expect(child.y).toBeGreaterThanOrEqual(box.y);
+          expect(child.y + child.height).toBeLessThanOrEqual(box.y + box.height);
+        }
+        expect(
+          await button.locator('span').evaluate((el) => el.scrollWidth <= el.clientWidth),
+        ).toBe(true);
+      }
+      if (width <= 620) {
+        const rows = await buttons.evaluateAll((elements) =>
+          elements.map((el) => (el as HTMLElement).offsetTop),
+        );
+        expect(rows[0]).toBe(rows[1]);
+        expect(rows[2]).toBe(rows[3]);
+        expect(rows[2]).toBeGreaterThan(rows[0]);
+      }
+      if (step < 2) await dialog.getByRole('button', { name: 'Дальше' }).click();
+    }
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(
+      width,
+    );
+    expect((await new AxeBuilder({ page }).include('.modal').analyze()).violations).toEqual([]);
+    await dialog.getByRole('button', { name: 'Закрыть окно' }).click();
+  }
+});
