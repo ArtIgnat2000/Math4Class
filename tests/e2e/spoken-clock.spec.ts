@@ -26,6 +26,15 @@ for (const [width, height] of [
     await expect(dialog.getByText('четверть седьмого')).toBeVisible();
     await dialog.getByRole('button', { name: 'К объяснению' }).click();
     await expect(dialog.getByText('четверть восьмого')).toBeVisible();
+    await dialog.getByRole('button', { name: 'Назови словами' }).click();
+    await expect(dialog.getByRole('img', { name: /длинная показывает 30 минут/ })).toBeVisible();
+    await dialog.getByRole('button', { name: 'четверть седьмого' }).click();
+    await expect(dialog.getByRole('status')).toContainText('Попробуй ещё');
+    await dialog.getByRole('button', { name: 'половина пятого' }).click();
+    await expect(dialog.getByRole('status')).toContainText('Верно');
+    expect((await new AxeBuilder({ page }).include('.modal').analyze()).violations).toEqual([]);
+    await dialog.getByRole('button', { name: 'К объяснению' }).click();
+    await expect(dialog.getByText('четверть восьмого')).toBeVisible();
     await dialog.getByRole('button', { name: 'Поверни стрелку' }).click();
     const buttons = dialog.getByRole('group', { name: 'Минуты' }).getByRole('button');
     for (const button of await buttons.all()) {

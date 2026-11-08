@@ -5,13 +5,15 @@ import {
   SPOKEN_CLOCK_GAMES,
   SPOKEN_CLOCK_SCENES,
   spokenMinuteChoices,
+  spokenWordOptions,
 } from '../engine/clock';
 import { ClockDial } from './ClockDial';
+import { ClockRouteGame } from './ClockRouteGame';
 import { CardGuide } from './CardGuide';
 import { StepIndicator } from './StepIndicator';
 
-type GameKind = 'match' | 'minutes';
-function SpokenGame({ kind, onExit }: { kind: GameKind; onExit: () => void }) {
+type GameKind = 'match' | 'minutes' | 'reverse' | 'route';
+function SpokenGame({ kind, onExit }: { kind: Exclude<GameKind, 'route'>; onExit: () => void }) {
   const [round, setRound] = useState(0);
   const [minute, setMinute] = useState(0);
   const [result, setResult] = useState<'correct' | 'retry' | null>(null);
@@ -45,8 +47,8 @@ function SpokenGame({ kind, onExit }: { kind: GameKind; onExit: () => void }) {
     setHint(false);
     setMessage(
       ok
-        ? `${scene.explanation} — ${scene.answer}.`
-        : kind === 'match'
+        ? `${scene.explanation} — ${kind === 'reverse' ? scene.words : scene.answer}.`
+        : kind !== 'minutes'
           ? 'Посмотри, сколько минут прошло или осталось до часа.'
           : 'Посмотри на длинную стрелку и попробуй другое положение.',
     );
@@ -54,26 +56,57 @@ function SpokenGame({ kind, onExit }: { kind: GameKind; onExit: () => void }) {
   return (
     <div className="year-game equation-pilot clock-pilot clock-game spoken-clock-pilot">
       <h3 className="sr-only" ref={heading} tabIndex={-1}>
-        {kind === 'match' ? 'Узнай время' : 'Поверни стрелку'}
+        {kind === 'match'
+          ? 'Узнай время'
+          : kind === 'reverse'
+            ? 'Назови словами'
+            : 'Поверни стрелку'}
       </h3>
       <CardGuide kind="Тренажёр">
         {kind === 'match'
           ? 'Прочитай время словами и выбери запись цифрами.'
-          : 'Выбери минуты и проверь положение длинной стрелки.'}
+          : kind === 'reverse'
+            ? 'Посмотри на часы и выбери название времени.'
+            : 'Выбери минуты и проверь положение длинной стрелки.'}
       </CardGuide>
       <p className="trainer-instruction">
         {kind === 'match'
           ? 'Как записать время цифрами?'
-          : 'Поверни длинную стрелку: выбери минуты.'}
+          : kind === 'reverse'
+            ? 'Как назвать время на часах? Выбери слова.'
+            : 'Поверни длинную стрелку: выбери минуты.'}
       </p>
-      <p className="spoken-clock-words">{scene.words}</p>
+      {kind !== 'reverse' && <p className="spoken-clock-words">{scene.words}</p>}
+      {kind === 'reverse' && (
+        <ClockDial
+          time={scene.time}
+          label={`Короткая стрелка между ${scene.time.hour} и ${scene.time.hour + 1}, длинная показывает ${scene.time.minute} минут.`}
+        />
+      )}
       {kind === 'minutes' && (
         <ClockDial
           time={{ hour: scene.time.hour, minute }}
           label={`Короткая стрелка ${minute === 0 ? `на ${scene.time.hour}` : `между ${scene.time.hour} и ${scene.time.hour + 1}`}, длинная показывает ${minute} минут.`}
         />
       )}
-      {kind === 'match' ? (
+      {kind === 'reverse' ? (
+        <div
+          className="model-tools equation-choices spoken-word-choices"
+          role="group"
+          aria-label="Выбери название времени"
+        >
+          {spokenWordOptions(round).map((option) => (
+            <button
+              className="button tool-outline"
+              type="button"
+              key={option}
+              onClick={() => check(option === scene.words)}
+            >
+              {option}
+            </button>
+          ))}
+        </div>
+      ) : kind === 'match' ? (
         <div
           className="model-tools equation-choices"
           role="group"
@@ -175,13 +208,14 @@ export function SpokenClockPilot({
   useEffect(() => {
     heading.current?.focus();
   }, [step, game]);
+  if (game === 'route') return <ClockRouteGame onExit={() => setGame(null)} />;
   if (game) return <SpokenGame kind={game} onExit={() => setGame(null)} />;
   const scene = SPOKEN_CLOCK_SCENES[step][variant[step]];
   const model = clockModel(scene.time);
   return (
     <div className="year-month-pilot-v2 equation-pilot clock-pilot spoken-clock-pilot">
       <h3 className="sr-only" ref={heading} tabIndex={-1}>
-        {['Четверть часа', 'Половина часа', 'Минуты до часа'][step]}
+        {['Минуты после часа', 'Половина часа', 'Минуты до часа'][step]}
       </h3>
       <CardGuide
         kind="Теория"
@@ -195,10 +229,12 @@ export function SpokenClockPilot({
         label={`Часы: ${model.digital}. ${scene.words}; выделено ${scene.explanation}.`}
       />
       <p className="spoken-clock-words">{scene.words}</p>
+      <p className="spoken-clock-also">или {scene.also}</p>
       <p className="clock-readout" role="status">
         <strong>{model.digital}</strong>
         <span>{scene.explanation}</span>
       </p>
+      <p className="spoken-clock-insight">{scene.insight}</p>
       <div
         className="model-tools equation-model-tools"
         role="group"
@@ -207,7 +243,11 @@ export function SpokenClockPilot({
         <button
           type="button"
           className="button tool-outline"
-          onClick={() => setVariant((values) => values.map((v, i) => (i === step ? 1 - v : v)))}
+          onClick={() =>
+            setVariant((values) =>
+              values.map((v, i) => (i === step ? (v + 1) % SPOKEN_CLOCK_SCENES[i].length : v)),
+            )
+          }
         >
           Другой пример
         </button>
@@ -220,8 +260,14 @@ export function SpokenClockPilot({
         <button type="button" className="button tool-outline" onClick={() => setGame('match')}>
           <Puzzle size={18} aria-hidden="true" /> Узнай время
         </button>
+        <button type="button" className="button tool-outline" onClick={() => setGame('reverse')}>
+          <Puzzle size={18} aria-hidden="true" /> Назови словами
+        </button>
         <button type="button" className="button tool-outline" onClick={() => setGame('minutes')}>
           <Puzzle size={18} aria-hidden="true" /> Поверни стрелку
+        </button>
+        <button type="button" className="button tool-outline" onClick={() => setGame('route')}>
+          <Puzzle size={18} aria-hidden="true" /> Маршрут по часу
         </button>
       </div>
       <div className="pilot-actions">

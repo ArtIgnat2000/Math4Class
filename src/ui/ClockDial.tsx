@@ -6,10 +6,12 @@ export function ClockDial({
   time,
   label,
   highlight,
+  route,
 }: {
   time: ClockTime;
   label: string;
   highlight?: 'passed' | 'remaining';
+  route?: { startMinute: number; elapsed: number; remaining: number };
 }) {
   const { hourAngle, minuteAngle } = clockModel(time);
   const arc = highlight ? clockMinuteArc(time.minute, highlight) : null;
@@ -43,6 +45,32 @@ export function ClockDial({
             strokeWidth="6"
           />
         ))}
+      {route &&
+        (
+          [
+            { start: route.startMinute, length: route.elapsed, kind: 'passed', color: '#00637a' },
+            {
+              start: route.startMinute + route.elapsed,
+              length: route.remaining,
+              kind: 'remaining',
+              color: '#985400',
+            },
+          ] as const
+        ).map((segment) => {
+          if (segment.length <= 0) return null;
+          const a = point(segment.start);
+          const b = point(segment.start + segment.length);
+          return (
+            <path
+              key={segment.kind}
+              data-route-arc={segment.kind}
+              d={`M ${a.x} ${a.y} A 114 114 0 ${segment.length > 30 ? 1 : 0} 1 ${b.x} ${b.y}`}
+              fill="none"
+              stroke={segment.color}
+              strokeWidth="6"
+            />
+          );
+        })}
       {Array.from({ length: 60 }, (_, index) => (
         <rect
           key={index}
