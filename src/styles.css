@@ -11630,3 +11630,85 @@ h1[tabindex='-1']:focus {
     margin-top: 14px;
   }
 }
+
+/* QR-код и ссылка на приложение: второй способ поделиться, рядом с обычной кнопкой. */
+.share-dialog .share-qr {
+  display: flex;
+  justify-content: center;
+  margin-top: 18px;
+  padding: 12px;
+  border: 1px solid #e2e9dc;
+  border-radius: 16px;
+  background: #fff;
+}
+.share-qr-code {
+  width: 100%;
+  max-width: 232px;
+  height: auto;
+}
+.share-link-label {
+  display: block;
+  margin-top: 20px;
+  color: #4a5c42;
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.share-link {
+  width: 100%;
+  min-height: 44px;
+  margin-top: 8px;
+  padding: 11px 12px;
+  border: 1px solid #d9e2d2;
+  border-radius: 10px;
+  background: #f7faf3;
+  color: #2f4433;
+  font-family: inherit;
+  font-size: 12px;
+  line-height: 1.5;
+}
+.share-link:focus-visible {
+  outline: 3px solid rgba(83, 129, 79, 0.32);
+  outline-offset: 2px;
+}
+.share-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+.share-actions .button {
+  flex: 1 1 160px;
+  min-height: 44px;
+}
+.share-status {
+  margin-top: 12px;
+  color: #4c704b;
+  font-size: 12px;
+  line-height: 1.6;
+}
+.share-install {
+  margin-top: 18px;
+  padding-top: 4px;
+  border-top: 1px solid #e8eee2;
+}
+.share-dialog > .button.full-width {
+  margin-top: 18px;
+}
+@media (max-width: 420px) {
+  .share-dialog .share-qr {
+    padding: 10px;
+  }
+  .share-dialog .modal-intro {
+    font-size: 12px;
+    line-height: 1.9;
+  }
+}
+.share-dialog .share-qr:focus {
+  outline: none;
+}
+.share-dialog .share-qr:focus-visible {
+  outline: 3px solid rgba(83, 129, 79, 0.32);
+  outline-offset: 2px;
+}

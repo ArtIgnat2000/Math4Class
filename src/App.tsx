@@ -12,6 +12,7 @@ import {
   House,
   Info,
   Menu,
+  QrCode,
   RotateCcw,
   Share2,
   Settings2,
@@ -32,6 +33,7 @@ import { Learning, Catalog, Review } from './ui/Learning';
 import { Progress, Rewards } from './ui/Progress';
 import { Parents, ConfirmDialog } from './ui/Parents';
 import { ProfilesDialog } from './ui/Profiles';
+import { ShareDialog } from './ui/ShareDialog';
 import { Lesson, Result, TopicDialog } from './ui/Lesson';
 import { Brand, InfoNote, Modal, ProfileButton, StatPills } from './ui/shared';
 import { version } from '../package.json';
@@ -71,7 +73,7 @@ export default function App() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [today, setToday] = useState(dayKey);
   const [online, setOnline] = useState(navigator.onLine);
-  const [dialog, setDialog] = useState<'profiles' | 'concept' | 'install' | null>(null);
+  const [dialog, setDialog] = useState<'profiles' | 'concept' | 'install' | 'share' | null>(null);
   const [topicDialog, setTopicDialog] = useState<{
     topic: Topic;
     grade: Grade;
@@ -501,6 +503,11 @@ export default function App() {
                 <span>Поделиться приложением</span>
                 <ChevronRight size={14} />
               </button>
+              <button className="share-app-button" onClick={() => setDialog('share')}>
+                <QrCode size={18} strokeWidth={1.8} />
+                <span>Показать QR-код</span>
+                <ChevronRight size={14} />
+              </button>
               {shareNotice && (
                 <p className="share-app-notice" role="status">
                   {shareNotice}
@@ -653,6 +660,7 @@ export default function App() {
           </button>
         </Modal>
       )}
+      {dialog === 'share' && <ShareDialog onClose={() => setDialog(null)} />}
       {dialog === 'install' && (
         <Modal
           title="Число всегда под рукой"
