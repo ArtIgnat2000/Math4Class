@@ -1,4 +1,5 @@
 import type { RefObject } from 'react';
+import { displayIndexFromRaw, rawIndexFromDisplay } from '../engine/number-input';
 
 type Key = 'backspace' | 'minus' | 'decimal' | `${number}`;
 
@@ -21,8 +22,10 @@ export function NumericKeypad({
   function press(key: Key) {
     if (disabled) return;
     const input = inputRef.current;
-    const start = input?.selectionStart ?? value.length;
-    const end = input?.selectionEnd ?? value.length;
+    // В поле показаны пробелы между разрядами — курсор переводим в ответ без пробелов.
+    const shown = input?.value ?? value;
+    const start = rawIndexFromDisplay(shown, input?.selectionStart ?? shown.length);
+    const end = rawIndexFromDisplay(shown, input?.selectionEnd ?? shown.length);
     let next: string;
     let caret: number;
     if (key === 'backspace') {
@@ -41,8 +44,10 @@ export function NumericKeypad({
     if (next.length > 32) return;
     onChange(next);
     requestAnimationFrame(() => {
-      input?.focus({ preventScroll: true });
-      input?.setSelectionRange(caret, caret);
+      const field = inputRef.current;
+      const position = displayIndexFromRaw(next, caret);
+      field?.focus({ preventScroll: true });
+      field?.setSelectionRange(position, position);
     });
   }
   return (
