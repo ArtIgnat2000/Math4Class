@@ -31,6 +31,7 @@ import { EquationPilot } from './EquationPilot';
 import { DividendPilot } from './DividendPilot';
 import { AreaPilot } from './AreaPilot';
 import { DecimalPilot } from './DecimalPilot';
+import { NumericInput } from './NumericInput';
 import { NumericKeypad } from './NumericKeypad';
 import { CardGuide, CardTitleContext } from './CardGuide';
 import type { RewardItem } from '../engine/rewards';
@@ -594,33 +595,27 @@ function TaskArea({
               <div className="division-fields">
                 <label htmlFor="quotient-answer">
                   Неполное частное
-                  <input
-                    ref={inputRef}
+                  <NumericInput
+                    inputRef={inputRef}
                     onFocus={() => setActiveNumericField('quotient')}
                     id="quotient-answer"
-                    type="text"
                     inputMode={touchKeyboard ? 'none' : 'numeric'}
-                    autoComplete="off"
-                    maxLength={32}
                     value={divisionAnswer.quotient}
-                    onChange={(e) => setAnswer({ ...divisionAnswer, quotient: e.target.value })}
-                    aria-describedby="division-help"
+                    onChange={(value) => setAnswer({ ...divisionAnswer, quotient: value })}
+                    describedBy="division-help"
                     placeholder="Частное"
                   />
                 </label>
                 <label htmlFor="remainder-answer">
                   Остаток
-                  <input
-                    ref={remainderRef}
+                  <NumericInput
+                    inputRef={remainderRef}
                     onFocus={() => setActiveNumericField('remainder')}
                     id="remainder-answer"
-                    type="text"
                     inputMode={touchKeyboard ? 'none' : 'numeric'}
-                    autoComplete="off"
-                    maxLength={32}
                     value={divisionAnswer.remainder}
-                    onChange={(e) => setAnswer({ ...divisionAnswer, remainder: e.target.value })}
-                    aria-describedby="division-help"
+                    onChange={(value) => setAnswer({ ...divisionAnswer, remainder: value })}
+                    describedBy="division-help"
                     placeholder="Остаток"
                   />
                 </label>
@@ -641,15 +636,12 @@ function TaskArea({
               <label className="sr-only" htmlFor="numeric-answer">
                 Твой ответ
               </label>
-              <input
-                ref={inputRef}
+              <NumericInput
+                inputRef={inputRef}
                 id="numeric-answer"
-                type="text"
                 inputMode={touchKeyboard ? 'none' : 'decimal'}
-                autoComplete="off"
-                maxLength={32}
                 value={typeof answer === 'string' ? answer : ''}
-                onChange={(e) => setAnswer(e.target.value)}
+                onChange={setAnswer}
                 disabled={checked}
                 placeholder="Ответ"
               />
