@@ -1,8 +1,13 @@
 # Сторонние компоненты и изображения
 
-Приложение использует React / React DOM, Vite, TypeScript, Zod, Lucide, Vite PWA / Workbox.
+Приложение использует React / React DOM, Vite, TypeScript, Zod, Lucide, Vite PWA / Workbox,
+`qrcode.react`.
 Версии и полный список зафиксированы в `package-lock.json`; условия лицензирования — в пакетах.
 Lucide — ISC. React, Zod и большая часть инфраструктуры — MIT. Workbox — MIT.
+`qrcode.react` (Paul O'Shannessy) — ISC; в нём используется генератор QR-кодов
+«QR Code Generator» под MIT. Пакет рисует QR-код в SVG прямо в браузере: сетевых запросов
+для картинки нет, код работает офлайн. Проверено: код, показанный в приложении, читается
+декодером и содержит адрес опубликованной сборки.
 
 Шрифт **Manrope**, автор Mikhail Sharanda, поставляется локально через `@fontsource-variable/manrope`,
 SIL Open Font License 1.1. Текст лицензии включён в публикацию:
