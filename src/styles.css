@@ -2711,6 +2711,116 @@ h1[tabindex='-1']:focus {
   font-weight: 750;
   margin-bottom: 5px;
 }
+.time-units-card {
+  margin: 16px 0;
+  padding: 14px;
+  border: 1px solid #ead8ea;
+  border-radius: 16px;
+  background: #fffafd;
+}
+.time-units-table-wrap {
+  width: 100%;
+}
+.time-units-table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  color: #342d38;
+  font-size: 15px;
+  line-height: 1.45;
+  text-align: left;
+}
+.time-units-table th,
+.time-units-table td {
+  padding: 9px 10px;
+  border: 1px solid #e7dce8;
+  vertical-align: top;
+  overflow-wrap: anywhere;
+}
+.time-units-unit-column {
+  width: 34%;
+}
+.time-units-figures {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+}
+.time-units-figure {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-align: left;
+  font-size: 12px;
+  line-height: 1.2;
+}
+.time-units-figure img {
+  display: block;
+  flex: 0 0 auto;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  object-fit: cover;
+  background: #f7f1e4;
+}
+.time-units-figures.paired {
+  gap: 2px;
+}
+.time-units-figures.paired .time-units-figure {
+  min-width: 0;
+  flex-direction: column;
+  gap: 2px;
+  text-align: center;
+  font-size: 10px;
+}
+.time-units-figures.paired .time-units-figure img {
+  width: 32px;
+  height: 32px;
+}
+.time-units-table thead th {
+  background: #f3eaf4;
+  color: #514057;
+  font-weight: 750;
+}
+.time-units-table tbody th {
+  width: 34%;
+  background: #faf5fa;
+  font-weight: 700;
+}
+@media (max-width: 480px) {
+  .time-units-card {
+    padding: 12px;
+  }
+  .time-units-unit-column {
+    width: 42%;
+  }
+  .time-units-figures:not(.paired) .time-units-figure {
+    flex-direction: column;
+    gap: 2px;
+    text-align: center;
+    font-size: 11px;
+  }
+  .time-units-figures:not(.paired) .time-units-figure img {
+    width: 30px;
+    height: 30px;
+  }
+  .time-units-figures.paired .time-units-figure {
+    flex: 1 1 0;
+    font-size: 9px;
+    white-space: nowrap;
+  }
+  .time-units-figures.paired .time-units-figure img {
+    width: 27px;
+    height: 27px;
+  }
+  .time-units-table {
+    font-size: 13px;
+  }
+  .time-units-table th,
+  .time-units-table td {
+    padding: 8px 6px;
+  }
+}
 .topic-dialog-level {
   display: flex;
   align-items: center;

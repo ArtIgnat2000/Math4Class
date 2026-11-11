@@ -31,6 +31,7 @@ import { EquationPilot } from './EquationPilot';
 import { DividendPilot } from './DividendPilot';
 import { AreaPilot } from './AreaPilot';
 import { DecimalPilot } from './DecimalPilot';
+import { TimeUnitsTable } from './TimeUnitsTable';
 import { NumericInput } from './NumericInput';
 import { NumericKeypad } from './NumericKeypad';
 import { CardGuide, CardTitleContext } from './CardGuide';
@@ -75,6 +76,7 @@ const PILOT_DIALOG_TITLE = 'Годы в месяцы';
 /** Interactive explanations own a short one-line dialog title (CARD-02). */
 const PILOT_TITLES: Record<string, string> = {
   'calendar-years-months': PILOT_DIALOG_TITLE,
+  'time-units-table': 'Единицы времени',
   'clock-day-hours': 'Время суток',
   'clock-spoken-time': 'Время словами',
   'roman-numerals': 'Римские цифры',
@@ -103,7 +105,15 @@ function TaskReference({ topic, onClose }: { topic: Topic; onClose: () => void }
       onClose={onClose}
       className="topic-dialog mass-intro-dialog task-reference-dialog"
     >
-      {topic.id === 'clock-spoken-time' ? (
+      {topic.id === 'time-units-table' ? (
+        <>
+          <CardGuide kind="Теория">
+            В обычном году 365 суток, в високосном — 366. В месяце 30 или 31 сутки; в феврале — 28
+            или 29.
+          </CardGuide>
+          <TimeUnitsTable />
+        </>
+      ) : topic.id === 'clock-spoken-time' ? (
         <SpokenClockPilot onPractice={onClose} practiceLabel="Вернуться к заданию" />
       ) : topic.id === 'clock-day-hours' ? (
         <ClockPilot onPractice={onClose} practiceLabel="Вернуться к заданию" />
@@ -244,6 +254,24 @@ export function TopicDialog({
         className="topic-dialog mass-intro-dialog year-month-dialog equation-dialog"
       >
         <EquationPilot onPractice={onStart} />
+      </Modal>
+    );
+  if (topic.id === 'time-units-table')
+    return (
+      <Modal title={topic.title} onClose={onClose} className="topic-dialog mass-intro-dialog">
+        <CardGuide kind="Теория">
+          В обычном году 365 суток, в високосном — 366. В месяце 30 или 31 сутки; в феврале — 28 или
+          29.
+        </CardGuide>
+        <TimeUnitsTable />
+        <button className="button primary full-width" onClick={onStart}>
+          {mode === 'review'
+            ? 'Начать повторение'
+            : mode === 'practice'
+              ? 'Потренироваться'
+              : 'Начать занятие'}
+          <ArrowRight size={18} />
+        </button>
       </Modal>
     );
   if (topic.id.startsWith('calendar-'))

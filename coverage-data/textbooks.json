@@ -448,6 +448,68 @@
           ],
           "scope": "instructional",
           "exclusionEvidence": ""
+        },
+        {
+          "number": 51,
+          "pdfPage": null,
+          "scope": "instructional",
+          "exclusionEvidence": "",
+          "inventoryComplete": false,
+          "inventoryEvidence": "",
+          "materials": [
+            {
+              "key": "theory",
+              "kind": "theory",
+              "label": "Таблица единиц времени",
+              "review": "complete",
+              "topicIds": ["time-units-table"],
+              "evidence": "11 ноября 2026: сверка фотографии страницы 51, предоставленной владельцем; таблица единиц времени перенесена в доступную справку."
+            },
+            {
+              "key": "254",
+              "kind": "exercise",
+              "label": "№ 254 — оставшаяся часть суток и путь за 10 минут",
+              "review": "complete",
+              "expectedParts": ["8 часов утра", "2 шага в секунду по 40 см в течение 10 минут"],
+              "taskRefs": [
+                {
+                  "topicId": "time-units-table",
+                  "taskId": "day-remaining",
+                  "parts": ["8 часов утра"]
+                },
+                {
+                  "topicId": "time-units-table",
+                  "taskId": "stride-distance",
+                  "parts": ["2 шага в секунду по 40 см в течение 10 минут"]
+                }
+              ],
+              "evidence": "11 ноября 2026: условия № 254 сверены по фотографии страницы 51; ответы и перевод единиц проверены."
+            },
+            {
+              "key": "255",
+              "kind": "exercise",
+              "label": "№ 255 — задача о грузе самолёта, вне темы единиц времени",
+              "review": "unreviewed",
+              "expectedParts": null,
+              "taskRefs": [],
+              "evidence": "11 ноября 2026: задача просмотрена на фотографии страницы 51; она относится к массе, поэтому не включена в первый модуль по единицам времени."
+            },
+            {
+              "key": "258",
+              "kind": "exercise",
+              "label": "№ 258 — время до звонка будильника",
+              "review": "complete",
+              "expectedParts": ["сон с 9 часов вечера; будильник на 10 часов утра следующего дня"],
+              "taskRefs": [
+                {
+                  "topicId": "time-units-table",
+                  "taskId": "doctor-alarm",
+                  "parts": ["сон с 9 часов вечера; будильник на 10 часов утра следующего дня"]
+                }
+              ],
+              "evidence": "11 ноября 2026: условие № 258 сверено по фотографии страницы 51; переход через полночь и ответ проверены."
+            }
+          ]
         }
       ]
     }
