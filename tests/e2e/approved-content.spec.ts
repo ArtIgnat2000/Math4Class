@@ -50,9 +50,9 @@ async function looseMonthLegibility(page: import('@playwright/test').Page, selec
 test('only source-checked tasks appear and unverified grades have no lessons', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/#/topics');
-  // 6 textbook topics plus the roman lesson with 3 owner-approved author exercises.
-  await expect(page.locator('.topic-card')).toHaveCount(9);
-  await expect(page.getByRole('status').filter({ hasText: '32 задания' })).toBeVisible();
+  // Source-checked topics plus the roman and time-unit topics with approved additions.
+  await expect(page.locator('.topic-card')).toHaveCount(10);
+  await expect(page.getByRole('status').filter({ hasText: '40 заданий' })).toBeVisible();
   await expect(page.getByText('Килограмм и грамм', { exact: true })).toHaveCount(0);
   await expect(page.getByText('Многозначные числа', { exact: true })).toHaveCount(0);
   await page.getByRole('combobox', { name: 'Класс обучения' }).selectOption('1');

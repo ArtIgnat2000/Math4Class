@@ -18,7 +18,8 @@ const newTopics = pack.topics.filter(
     !t.isDemo &&
     t.id !== 'roman-numerals' &&
     t.id !== 'clock-day-hours' &&
-    t.id !== 'clock-spoken-time',
+    t.id !== 'clock-spoken-time' &&
+    t.id !== 'time-units-table',
 );
 
 // A small independent test-only arithmetic parser, not an app feature or eval.
@@ -84,13 +85,13 @@ describe('School of Russia scope and backwards compatibility', () => {
     ]);
     expect(pack.curriculum?.coverage).toContain('не полный курс');
     expect(pack.isDemo).toBe(false);
-    expect(pack.topics).toHaveLength(38);
+    expect(pack.topics).toHaveLength(39);
     expect(newTopics).toHaveLength(27);
     expect(newTopics.every((t) => t.tasks.length === 8 && t.lessonSize === 5)).toBe(true);
-    expect(pack.topics.reduce((n, t) => n + t.tasks.length, 0)).toBe(265);
+    expect(pack.topics.reduce((n, t) => n + t.tasks.length, 0)).toBe(273);
   });
-  it('separates 22 page-based, 7 contents-based and 8 introductory topics', () => {
-    expect(pack.topics.filter((t) => t.reference?.kind === 'page')).toHaveLength(22);
+  it('separates 23 page-based, 7 contents-based and 8 introductory topics', () => {
+    expect(pack.topics.filter((t) => t.reference?.kind === 'page')).toHaveLength(23);
     const outline = pack.topics.filter((t) => t.reference?.kind === 'contents');
     expect(outline.map((t) => t.reference?.pages)).toEqual([
       [76],
@@ -113,8 +114,8 @@ describe('School of Russia scope and backwards compatibility', () => {
       'expressions',
     ]);
     expect(intro.every((t) => t.reference?.kind === 'intro')).toBe(true);
-    expect(pack.sections?.map((s) => s.topicIds.length)).toEqual([4, 9, 10, 7, 8]);
-    expect(new Set(pack.sections?.flatMap((s) => s.topicIds)).size).toBe(38);
+    expect(pack.sections?.map((s) => s.topicIds.length)).toEqual([4, 10, 10, 7, 8]);
+    expect(new Set(pack.sections?.flatMap((s) => s.topicIds)).size).toBe(39);
   });
   it('rejects unknown, duplicate or missing section membership', () => {
     const sections = pack.sections!;
@@ -148,7 +149,7 @@ describe('School of Russia scope and backwards compatibility', () => {
     expect(legacy.curriculum).toBeUndefined();
     expect(legacy.sections).toBeUndefined();
     expect(getPack(4, [legacy]).topics).toHaveLength(0);
-    expect(getPack(4, []).topics.reduce((n, t) => n + t.tasks.length, 0)).toBe(32);
+    expect(getPack(4, []).topics.reduce((n, t) => n + t.tasks.length, 0)).toBe(40);
     const data = createAppData();
     data.customPacks = [legacy];
     expect(appDataSchema.safeParse(data).success).toBe(true);

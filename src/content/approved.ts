@@ -4,8 +4,13 @@ import type { ContentPack, Task } from '../engine/content';
 // Mathematics grade 4, part 1, 16th stereot. ed., Prosveshchenie 2026.
 // The photographed pages are not distributed with the app. Every entry is
 // reviewed in docs/SOURCE_AUDIT.md; references alone never grant access.
-const approved: Record<string, { page: number; exercise: string; ids: string[] }> = {
+const approved: Record<string, { page: number; exercise: string | string[]; ids: string[] }> = {
   'clock-day-hours': { page: 48, exercise: '230', ids: ['night', 'morning', 'afternoon'] },
+  'time-units-table': {
+    page: 51,
+    exercise: ['254', '258'],
+    ids: ['day-remaining', 'stride-distance', 'doctor-alarm'],
+  },
   'clock-spoken-time': { page: 48, exercise: '231', ids: ['quarter', 'half', 'before'] },
   'equations-add-subtract': {
     page: 46,
@@ -43,6 +48,12 @@ export const approvedTaskIds = approved;
  * never attributes them to Moro. Approval is recorded in docs/PRODUCT_RULES.md.
  */
 const authorApproved: Record<string, { approvedOn: string; decision: string; ids: string[] }> = {
+  'time-units-table': {
+    approvedOn: '2026-11-11',
+    decision:
+      'Владелец попросил добавить таблицу единиц времени и задачи по присланной фотографии страниц 50–51; задания на перевод единиц составлены как авторские дополнения',
+    ids: ['century-years', 'hours-minutes', 'minutes-seconds', 'year-days', 'month-length'],
+  },
   'roman-numerals': {
     approvedOn: '2026-11-06',
     decision: 'Владелец утвердил три задания из банка как авторское дополнение',
@@ -53,6 +64,11 @@ const authorApproved: Record<string, { approvedOn: string; decision: string; ids
 export const authorApprovedTaskIds = authorApproved;
 
 const authorSignatures: Record<string, string> = {
+  'time-units-table/century-years': 'Сколько лет в 4 веках?||400',
+  'time-units-table/hours-minutes': 'Сколько минут в 2 ч 15 мин?||135',
+  'time-units-table/minutes-seconds': 'Сколько секунд в 3 минутах?||180',
+  'time-units-table/year-days': 'Сколько суток в обычном, не високосном году?||365',
+  'time-units-table/month-length': 'Какое утверждение о числе суток в месяце верное?||"b"',
   'roman-numerals/roman-four': 'Какой месяц обозначен IV?||"a"',
   'roman-numerals/roman-nine': 'Какой месяц обозначен IX?||"b"',
   'roman-numerals/roman-twelve': 'Какой месяц обозначен XII?||"c"',
@@ -110,6 +126,12 @@ const approvedSignatures: Record<string, string> = {
   'place-value-calculations/place-8': 'Вычисли по разрядам.|43 546 − 40 000 − 40|3506',
   'calendar-years-months/four-years': 'Сколько месяцев в 4 годах?||48',
   'calendar-years-months/two-three': 'Вырази 2 года 3 месяца в месяцах.||27',
+  'time-units-table/day-remaining':
+    'Сейчас 8 часов утра. Во сколько раз оставшаяся часть суток больше прошедшей?||2',
+  'time-units-table/stride-distance':
+    'Мальчик делает 2 шага в секунду, каждый по 40 см. Какое расстояние он пройдёт за 10 минут? Ответ дай в метрах.||480',
+  'time-units-table/doctor-alarm':
+    'Врач лёг спать в 9 часов вечера. На следующий день ему нужно быть в больнице к 11 часам утра, поэтому будильник он поставил на 10 утра. Через сколько часов прозвонит будильник?||13',
 };
 
 export function taskApproved(grade: number, topicId: string, task: Task): boolean {

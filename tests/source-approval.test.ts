@@ -8,31 +8,26 @@ import {
 } from '../src/content/approved';
 
 describe('approved textbook exercise gate', () => {
-  it('releases 29 checked textbook exercises and 3 separately approved author ones', () => {
+  it('releases checked textbook tasks alongside explicitly approved authored practice', () => {
     const pack = getPack(4, []);
-    expect(pack.topics).toHaveLength(9);
-    expect(pack.topics.reduce((sum, topic) => sum + topic.tasks.length, 0)).toBe(32);
-    const textbook = pack.topics.filter((topic) => !authorApprovedTaskIds[topic.id]);
-    const author = pack.topics.filter((topic) => authorApprovedTaskIds[topic.id]);
-    expect(textbook.reduce((sum, topic) => sum + topic.tasks.length, 0)).toBe(29);
-    expect(author.map((topic) => topic.id)).toEqual(['roman-numerals']);
-    expect(author[0].tasks).toHaveLength(3);
-    for (const topic of textbook) {
-      expect(topic.reference?.kind).toBe('page');
-      expect(topic.reference?.pages).toContain(approvedTaskIds[topic.id].page);
-      for (const task of topic.tasks) {
-        expect(taskApproved(4, topic.id, task)).toBe(true);
-        expect(isAuthorTask(topic.id, task.id)).toBe(false);
+    expect(pack.topics).toHaveLength(10);
+    expect(pack.topics.reduce((sum, topic) => sum + topic.tasks.length, 0)).toBe(40);
+    const tasks = pack.topics.flatMap((topic) => topic.tasks.map((task) => ({ topic, task })));
+    expect(tasks.filter(({ topic, task }) => !isAuthorTask(topic.id, task.id))).toHaveLength(32);
+    expect(tasks.filter(({ topic, task }) => isAuthorTask(topic.id, task.id))).toHaveLength(8);
+    for (const { topic, task } of tasks) {
+      expect(taskApproved(4, topic.id, task)).toBe(true);
+      if (!isAuthorTask(topic.id, task.id)) {
+        expect(topic.reference?.kind).toBe('page');
+        expect(topic.reference?.pages).toContain(approvedTaskIds[topic.id].page);
       }
     }
-    // An author's addition carries no page and is never labelled as the textbook's.
-    expect(author[0].reference).toBeUndefined();
-    for (const task of author[0].tasks) {
-      expect(taskApproved(4, author[0].id, task)).toBe(true);
-      expect(isAuthorTask(author[0].id, task.id)).toBe(true);
-      expect(approvedTaskIds[author[0].id]).toBeUndefined();
-    }
+    const roman = pack.topics.find((topic) => topic.id === 'roman-numerals')!;
+    expect(roman.reference).toBeUndefined();
+    expect(roman.tasks).toHaveLength(3);
+    for (const task of roman.tasks) expect(isAuthorTask(roman.id, task.id)).toBe(true);
     expect(authorApprovedTaskIds['roman-numerals'].approvedOn).toBe('2026-11-06');
+    expect(authorApprovedTaskIds['time-units-table'].approvedOn).toBe('2026-11-11');
     for (const grade of [1, 2, 3] as const) expect(getPack(grade, []).topics).toHaveLength(0);
     expect(
       getPack(4, [{ ...BUILTIN_PACKS[4], topics: [BUILTIN_PACKS[4].topics[0]] }]).topics,

@@ -82,13 +82,18 @@ function taskVerified(
   if (bookId !== auditedBookId || grade !== 4) return false;
   const source = approvedTaskIds[ref.topicId];
   const exercise = item.key === 'lower' ? 'нижние задания' : item.key;
+  const approvedExercises = source
+    ? Array.isArray(source.exercise)
+      ? source.exercise
+      : [source.exercise]
+    : [];
   const task = pack?.topics
     .find((topic) => topic.id === ref.topicId)
     ?.tasks.find((t) => t.id === ref.taskId);
   return (
     !!source &&
     source.page === page &&
-    source.exercise === exercise &&
+    approvedExercises.includes(exercise) &&
     source.ids.includes(ref.taskId) &&
     !!task &&
     taskApproved(grade, ref.topicId, task)
