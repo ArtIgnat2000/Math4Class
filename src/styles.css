@@ -2750,9 +2750,24 @@ h1[tabindex='-1']:focus {
   display: flex;
   align-items: center;
   gap: 6px;
+  min-height: 44px;
+  padding: 2px 4px;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
   text-align: left;
   font-size: 12px;
   line-height: 1.2;
+  cursor: pointer;
+}
+.time-units-figure:hover {
+  background: #f3eaf4;
+}
+.time-units-figure:focus-visible {
+  outline: 3px solid #8d65c9;
+  outline-offset: 1px;
 }
 .time-units-figure img {
   display: block;
@@ -2787,6 +2802,60 @@ h1[tabindex='-1']:focus {
   background: #faf5fa;
   font-weight: 700;
 }
+.time-units-detail-row > td {
+  padding: 12px 14px;
+  background: #fff;
+}
+.time-units-detail {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.time-units-detail img {
+  display: block;
+  flex: 0 0 104px;
+  width: 104px;
+  height: 104px;
+  border-radius: 16px;
+  object-fit: cover;
+  background: #f7f1e4;
+}
+.time-units-detail strong {
+  display: block;
+  margin-bottom: 4px;
+  color: #514057;
+}
+.time-units-detail p {
+  margin: 0;
+  color: #514657;
+  font-size: 14px;
+  line-height: 1.45;
+}
+.time-units-dialog > h2 {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: clamp(17px, 3.5vw, 21px);
+  line-height: 1.25;
+}
+.time-units-dialog > h2 > span:first-child {
+  min-width: 0;
+  flex: 0 1 auto;
+}
+.time-units-dialog > h2 > span:nth-child(2) {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 5px;
+}
+.time-units-dialog .card-guide-title-help {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
+  border-radius: 50%;
+}
 @media (max-width: 480px) {
   .time-units-card {
     padding: 12px;
@@ -2812,6 +2881,21 @@ h1[tabindex='-1']:focus {
   .time-units-figures.paired .time-units-figure img {
     width: 27px;
     height: 27px;
+  }
+  .time-units-detail-row > td {
+    padding: 10px;
+  }
+  .time-units-detail {
+    gap: 10px;
+  }
+  .time-units-detail img {
+    flex-basis: 76px;
+    width: 76px;
+    height: 76px;
+    border-radius: 12px;
+  }
+  .time-units-detail p {
+    font-size: 13px;
   }
   .time-units-table {
     font-size: 13px;
@@ -11018,6 +11102,13 @@ h1[tabindex='-1']:focus {
   font-weight: 700;
   line-height: 1.3;
   letter-spacing: -0.4px;
+}
+.topic-dialog.time-units-dialog > h2 {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: clamp(17px, 3.5vw, 21px);
+  line-height: 1.25;
 }
 .task-card .task-card-top .task-exit {
   width: 46px;

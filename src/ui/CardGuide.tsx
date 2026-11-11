@@ -11,11 +11,13 @@ export function CardGuide({
   children,
   leading,
   reference,
+  inlineHelp = false,
 }: {
   kind: 'Теория' | 'Тренажёр' | 'Практика';
   children: string;
   leading?: ReactNode;
   reference?: ReactNode;
+  inlineHelp?: boolean;
 }) {
   const [open, setOpen] = useState(false);
   const [fits, setFits] = useState(false);
@@ -38,7 +40,8 @@ export function CardGuide({
         heading.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
       const width = probe.getBoundingClientRect().width;
       probe.remove();
-      setFits(available > 0 && width > 0 && width + 4 <= available);
+      const actionWidth = inlineHelp ? 50 : 0;
+      setFits(available > 0 && width > 0 && width + actionWidth + 4 <= available);
     };
     measure();
     const observer = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(measure);
@@ -50,31 +53,46 @@ export function CardGuide({
       observer?.disconnect();
       window.removeEventListener('resize', measure);
     };
-  }, [titleSlot, kind]);
+  }, [titleSlot, kind, inlineHelp]);
+
+  const helpButton = (
+    <button
+      type="button"
+      className={`card-guide-toggle ${inlineHelp ? 'card-guide-title-help' : ''}`}
+      aria-label="Справка"
+      title="Справка"
+      aria-expanded={open}
+      aria-controls={id}
+      onClick={() => setOpen((value) => !value)}
+    >
+      <CircleHelp size={20} aria-hidden="true" />
+    </button>
+  );
 
   return (
     <div className="card-guide">
-      {titleSlot && fits && createPortal(<> · {kind}</>, titleSlot)}
-      <div className="card-guide-bar">
-        <div className="card-guide-leading">
-          {leading}
-          {!fits && <span className="card-guide-kind">{kind}</span>}
+      {titleSlot &&
+        fits &&
+        createPortal(
+          <>
+            {' · '}
+            {kind}
+            {inlineHelp && helpButton}
+          </>,
+          titleSlot,
+        )}
+      {!(titleSlot && fits && inlineHelp) && (
+        <div className="card-guide-bar">
+          <div className="card-guide-leading">
+            {leading}
+            {!fits && <span className="card-guide-kind">{kind}</span>}
+          </div>
+          <div className="card-guide-buttons">
+            {reference}
+            {!inlineHelp || !titleSlot || !fits ? helpButton : null}
+          </div>
         </div>
-        <div className="card-guide-buttons">
-          {reference}
-          <button
-            type="button"
-            className="card-guide-toggle"
-            aria-label="Справка"
-            title="Справка: как пользоваться карточкой"
-            aria-expanded={open}
-            aria-controls={id}
-            onClick={() => setOpen((value) => !value)}
-          >
-            <CircleHelp size={19} aria-hidden="true" /> <span>Справка</span>
-          </button>
-        </div>
-      </div>
+      )}
       <div id={id} className="card-guide-content" hidden={!open}>
         <p>{children}</p>
       </div>

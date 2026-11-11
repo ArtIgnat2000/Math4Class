@@ -103,13 +103,13 @@ function TaskReference({ topic, onClose }: { topic: Topic; onClose: () => void }
     <Modal
       title={PILOT_TITLES[topic.id] ?? topic.title}
       onClose={onClose}
-      className="topic-dialog mass-intro-dialog task-reference-dialog"
+      className={`topic-dialog mass-intro-dialog task-reference-dialog ${topic.id === 'time-units-table' ? 'time-units-dialog' : ''}`}
     >
       {topic.id === 'time-units-table' ? (
         <>
-          <CardGuide kind="Теория">
-            В обычном году 365 суток, в високосном — 366. В месяце 30 или 31 сутки; в феврале — 28
-            или 29.
+          <CardGuide kind="Теория" inlineHelp>
+            Нажми на картинку единицы времени, чтобы открыть её крупнее и прочитать короткое
+            пояснение.
           </CardGuide>
           <TimeUnitsTable />
         </>
@@ -258,10 +258,14 @@ export function TopicDialog({
     );
   if (topic.id === 'time-units-table')
     return (
-      <Modal title={topic.title} onClose={onClose} className="topic-dialog mass-intro-dialog">
-        <CardGuide kind="Теория">
-          В обычном году 365 суток, в високосном — 366. В месяце 30 или 31 сутки; в феврале — 28 или
-          29.
+      <Modal
+        title={PILOT_TITLES[topic.id] ?? topic.title}
+        onClose={onClose}
+        className="topic-dialog mass-intro-dialog time-units-dialog"
+      >
+        <CardGuide kind="Теория" inlineHelp>
+          Нажми на картинку единицы времени, чтобы открыть её крупнее и прочитать короткое
+          пояснение.
         </CardGuide>
         <TimeUnitsTable />
         <button className="button primary full-width" onClick={onStart}>

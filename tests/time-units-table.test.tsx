@@ -35,11 +35,10 @@ describe('time-units table topic', () => {
       ]),
     );
     await userEvent.click(screen.getByRole('button', { name: 'Справка' }));
-    expect(screen.getByText(/В обычном году 365 суток/)).toBeVisible();
-    expect(screen.getByText(/в феврале — 28 или 29/)).toBeVisible();
+    expect(screen.getByText(/открыть её крупнее/)).toBeVisible();
     expect(screen.getByRole('button', { name: 'Начать занятие' })).toBeInTheDocument();
   });
-  it('shows the full set of time relations in a labelled, accessible table', () => {
+  it('shows concise relations and expandable explanations for each time unit', async () => {
     render(<TimeUnitsTable />);
     const table = screen.getByRole('table', { name: 'Соотношения между единицами времени' });
     const rows = within(table).getAllByRole('row');
@@ -47,12 +46,22 @@ describe('time-units table topic', () => {
     expect(table).toHaveTextContent('1 век = 100 лет');
     expect(table).toHaveTextContent('1 год = 12 месяцев');
     expect(table).toHaveTextContent('30 или 31 сутки');
-    expect(table).not.toHaveTextContent('365');
-    expect(table).not.toHaveTextContent('феврале');
+    expect(document.querySelector('#time-unit-detail-year')).toHaveAttribute('hidden');
+    expect(document.querySelector('#time-unit-detail-month')).toHaveAttribute('hidden');
     expect(table).toHaveTextContent('1 сутки = 24 часа');
     expect(table).toHaveTextContent('1 час = 60 минут');
     expect(table).toHaveTextContent('1 минута = 60 секунд');
     expect(table).toHaveTextContent('Секунда');
+
+    const yearToggle = screen.getByRole('button', { name: 'Показать пояснение: Год' });
+    await userEvent.click(yearToggle);
+    expect(yearToggle).toHaveAttribute('aria-expanded', 'true');
+    expect(screen.getByText(/в нём 365 суток, а в високосном году — 366/)).toBeVisible();
+    expect(document.querySelector('#time-unit-detail-year')).not.toHaveAttribute('hidden');
+
+    await userEvent.click(screen.getByRole('button', { name: 'Показать пояснение: Секунда' }));
+    expect(screen.getByText(/Секундомер помогает отмерять секунды/)).toBeVisible();
+    expect(document.querySelector('#time-unit-detail-year')).toHaveAttribute('hidden');
   });
 
   it('keeps textbook-checked questions distinct from the five approved additions', () => {
