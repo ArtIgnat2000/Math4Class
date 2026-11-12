@@ -38,6 +38,23 @@ const approved: Record<string, { page: number; exercise: string | string[]; ids:
     exercise: 'нижние задания',
     ids: ['four-years', 'two-three'],
   },
+  // Page 74 is the test table: ten numbered questions without exercise numbers.
+  'page-74-test': {
+    page: 74,
+    exercise: 'тест',
+    ids: [
+      'test-1',
+      'test-2',
+      'test-3',
+      'test-4',
+      'test-5',
+      'test-6',
+      'test-7',
+      'test-8',
+      'test-9',
+      'test-10',
+    ],
+  },
 };
 
 export const approvedTaskIds = approved;
@@ -132,11 +149,28 @@ const approvedSignatures: Record<string, string> = {
     'Мальчик делает 2 шага в секунду, каждый по 40 см. Какое расстояние он пройдёт за 10 минут? Ответ дай в метрах.||480',
   'time-units-table/doctor-alarm':
     'Врач лёг спать в 9 часов вечера. На следующий день ему нужно быть в больнице к 11 часам утра, поэтому будильник он поставил на 10 утра. Через сколько часов прозвонит будильник?||13',
+  'page-74-test/test-1': 'Какое число надо прибавить к числу 5 300, чтобы получить 6 000?||"b"',
+  'page-74-test/test-2': 'Из какого числа вычли 800, если получили 700?||"a"',
+  'page-74-test/test-3': 'Значение какого выражения равно 2 800?||"b"',
+  'page-74-test/test-4': 'Укажи значение числового выражения.|(600 + 240) : 7 + 80|"b"',
+  'page-74-test/test-5':
+    'Какой знак сравнения надо поставить в кружок, чтобы получить верное неравенство?||3 800 − (1 900 − 900)|3 800 − 1 900|">"',
+  'page-74-test/test-6':
+    'Выбери верное выражение для решения задачи: «Оля сорвала 15 тюльпанов. Несколько тюльпанов она поставила в 2 вазы, по 3 тюльпана в каждую, а остальные связала в букет. Сколько тюльпанов в букете?»||"b"',
+  'page-74-test/test-7': 'Укажи правильно вычисленную сумму чисел 48 679 и 32 976.||"b"',
+  'page-74-test/test-8': 'Укажи правильно вычисленную разность чисел 72 435 и 25 796.||"b"',
+  'page-74-test/test-9':
+    'Какое число надо записать в окошко, чтобы стало верным равенство 8 200 + □ = 10 000 − 1 000?||"b"',
+  'page-74-test/test-10': 'Какой может быть длина нового чертёжного карандаша?||"c"',
 };
 
 export function taskApproved(grade: number, topicId: string, task: Task): boolean {
   if (grade !== 4) return false;
-  const signature = `${task.question}|${task.expression ?? ''}|${JSON.stringify(task.answer)}`;
+  // A compared inequality is itself the condition: lock both sides, not only the sign.
+  const signature =
+    task.type === 'compare'
+      ? `${task.question}|${task.expression ?? ''}|${task.left}|${task.right}|${JSON.stringify(task.answer)}`
+      : `${task.question}|${task.expression ?? ''}|${JSON.stringify(task.answer)}`;
   if (approved[topicId]?.ids.includes(task.id)) {
     if (
       topicId === 'clock-spoken-time' &&

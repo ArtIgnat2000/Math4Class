@@ -10,10 +10,10 @@ import {
 describe('approved textbook exercise gate', () => {
   it('releases checked textbook tasks alongside explicitly approved authored practice', () => {
     const pack = getPack(4, []);
-    expect(pack.topics).toHaveLength(10);
-    expect(pack.topics.reduce((sum, topic) => sum + topic.tasks.length, 0)).toBe(40);
+    expect(pack.topics).toHaveLength(11);
+    expect(pack.topics.reduce((sum, topic) => sum + topic.tasks.length, 0)).toBe(50);
     const tasks = pack.topics.flatMap((topic) => topic.tasks.map((task) => ({ topic, task })));
-    expect(tasks.filter(({ topic, task }) => !isAuthorTask(topic.id, task.id))).toHaveLength(32);
+    expect(tasks.filter(({ topic, task }) => !isAuthorTask(topic.id, task.id))).toHaveLength(42);
     expect(tasks.filter(({ topic, task }) => isAuthorTask(topic.id, task.id))).toHaveLength(8);
     for (const { topic, task } of tasks) {
       expect(taskApproved(4, topic.id, task)).toBe(true);
