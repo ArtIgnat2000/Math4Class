@@ -12021,7 +12021,8 @@ h1[tabindex='-1']:focus {
 .test-intro-dialog > .eyebrow {
   max-width: none;
   margin: 0 0 8px;
-  color: #7d8774;
+  /* 11 px text needs 4.5:1: #6b7563 keeps 4.83 on the white sheet. */
+  color: #6b7563;
   font-size: 11px;
   letter-spacing: 1.6px;
   text-align: center;

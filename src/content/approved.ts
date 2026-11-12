@@ -38,6 +38,13 @@ const approved: Record<string, { page: number; exercise: string | string[]; ids:
     exercise: 'нижние задания',
     ids: ['four-years', 'two-three'],
   },
+  // Page 75 is the second variant of the same test table: ten numbered questions,
+  // still without exercise numbers.
+  'page-75-test': {
+    page: 75,
+    exercise: 'тест',
+    ids: ['v2-1', 'v2-2', 'v2-3', 'v2-4', 'v2-5', 'v2-6', 'v2-7', 'v2-8', 'v2-9', 'v2-10'],
+  },
   // Page 74 is the test table: ten numbered questions without exercise numbers.
   'page-74-test': {
     page: 74,
@@ -162,6 +169,19 @@ const approvedSignatures: Record<string, string> = {
   'page-74-test/test-9':
     'Какое число надо записать в окошко, чтобы стало верным равенство 8 200 + □ = 10 000 − 1 000?||"b"',
   'page-74-test/test-10': 'Какой может быть длина нового чертёжного карандаша?||"c"',
+  'page-75-test/v2-1': 'Какое число надо прибавить к числу 2 400, чтобы получить 4 000?||"a"',
+  'page-75-test/v2-2': 'Из какого числа вычли 300, если получили 900?||"c"',
+  'page-75-test/v2-3': 'Значение какого выражения равно 1 600?||"c"',
+  'page-75-test/v2-4': 'Укажи значение числового выражения.|(980 − 350) : 9 + 100|"a"',
+  'page-75-test/v2-5':
+    'Какой знак сравнения надо поставить в кружок, чтобы получить верное неравенство?||5 600 − (300 + 600)|5 600 − 300 + 600|"<"',
+  'page-75-test/v2-6':
+    'Выбери верное выражение для решения задачи: «В 2 одинаковые банки с ананасовым компотом кладут 18 кружков ананаса. Сколько кружков ананаса нужно положить в 6 таких банок?»||"b"',
+  'page-75-test/v2-7': 'Укажи правильно вычисленную сумму чисел 38 697 и 42 538.||"b"',
+  'page-75-test/v2-8': 'Укажи правильно вычисленную разность чисел 81 423 и 29 873.||"b"',
+  'page-75-test/v2-9':
+    'Какое число надо записать в окошко, чтобы стало верным равенство 9 400 + □ = 10 250 − 250?||"a"',
+  'page-75-test/v2-10': 'Какой может быть масса кошки, которой один год?||"b"',
 };
 
 export function taskApproved(grade: number, topicId: string, task: Task): boolean {

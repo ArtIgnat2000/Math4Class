@@ -2,7 +2,7 @@ import type { Grade, Topic } from './content';
 import { checkAnswer, shuffled } from './answers';
 import { addDays, dayKey } from './dates';
 import { uid, type Answer, type LessonResult, type Profile, type Session } from './model';
-import { topicKey } from './progress';
+import { isPrintedTest, topicKey } from './progress';
 
 export function createSession(
   topic: Topic,
@@ -22,15 +22,16 @@ export function createSession(
     grade === 4 && topic.id === 'mass-kg-g' && mode === 'learn'
       ? topic.tasks.find((task) => task.id === 'kg-3')
       : undefined;
-  // The page-74 test is a printed check of ten numbered questions: it keeps the
-  // textbook order instead of being shuffled like a practice set.
+  // A printed test is a check of numbered questions: it keeps the textbook order
+  // instead of being shuffled like a practice set.
+  const printedTest = isPrintedTest(topic.id);
   const orderedTasks = [
     ...(pilotOpening ? [pilotOpening] : []),
     ...shuffled(prioritized, random),
     ...rest.filter((task) => task.id !== pilotOpening?.id),
   ];
   const tasks = (
-    grade === 4 && topic.id === 'page-74-test' && mode === 'learn' ? [...topic.tasks] : orderedTasks
+    grade === 4 && printedTest && mode === 'learn' ? [...topic.tasks] : orderedTasks
   ).slice(0, topic.lessonSize);
   return {
     id: uid(),

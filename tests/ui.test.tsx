@@ -137,7 +137,7 @@ describe('textbook lessons and compound answers', () => {
         <Catalog onOpen={vi.fn()} />
       </AppProvider>,
     );
-    expect(container.querySelectorAll('.topic-card')).toHaveLength(11);
+    expect(container.querySelectorAll('.topic-card')).toHaveLength(12);
     await user.selectOptions(screen.getByLabelText('Раздел учебника'), 'calendar');
     expect(container.querySelectorAll('.topic-card')).toHaveLength(5);
     await user.selectOptions(screen.getByLabelText('Материалы'), 'intro');
@@ -153,7 +153,7 @@ describe('textbook lessons and compound answers', () => {
     expect(container.querySelectorAll('.topic-card')).toHaveLength(0);
     await user.click(screen.getByRole('button', { name: '4 класс' }));
     expect(screen.getByLabelText('Материалы')).toHaveValue('all');
-    expect(container.querySelectorAll('.topic-card')).toHaveLength(11);
+    expect(container.querySelectorAll('.topic-card')).toHaveLength(12);
   });
   it('keeps textbook provenance in Parents, not on the child home', async () => {
     const user = userEvent.setup();
@@ -173,12 +173,12 @@ describe('textbook lessons and compound answers', () => {
       screen.getByRole('button', { name: 'Об источнике встроенных материалов 4 класса' }),
     );
     const dialog = within(screen.getByRole('dialog'));
-    expect(dialog.getByText('24 тем по фотографиям страниц.')).toBeInTheDocument();
+    expect(dialog.getByText('25 тем по фотографиям страниц.')).toBeInTheDocument();
     expect(dialog.getByText('7 тем по оглавлению.')).toBeInTheDocument();
     expect(dialog.getByText(/М. А. Бантова/)).toBeInTheDocument();
     expect(dialog.getByText(/16-е издание, стереотипное/)).toBeInTheDocument();
-    expect(dialog.getByText(/40 тем/)).toBeInTheDocument();
-    expect(dialog.getByText(/283 задания в банке/)).toBeInTheDocument();
+    expect(dialog.getByText(/41 тем/)).toBeInTheDocument();
+    expect(dialog.getByText(/293 задания в банке/)).toBeInTheDocument();
     // Author's exercises are counted apart from the checked textbook ones.
     expect(dialog.getByText(/8 авторских заданий приложения/)).toBeInTheDocument();
     expect(dialog.getByText(/6 и 11 ноября 2026/)).toBeInTheDocument();

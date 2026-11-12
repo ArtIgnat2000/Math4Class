@@ -15,7 +15,7 @@ import type { Task, Topic } from '../engine/content';
 import type { Answer, LessonResult, Session, TopicProgress } from '../engine/model';
 import { answerLabel, initialOrder, parseNumericAnswer } from '../engine/answers';
 import { parseColumnChoice } from '../engine/column-choice';
-import { LEVEL_LABELS } from '../engine/progress';
+import { LEVEL_LABELS, isPrintedTest } from '../engine/progress';
 import { MathVisual } from './MathVisual';
 import { MassStory } from './MassStory';
 import { MassIntroVisual } from './MassIntroVisual';
@@ -262,10 +262,11 @@ export function TopicDialog({
         <EquationPilot onPractice={onStart} />
       </Modal>
     );
-  if (topic.id === 'page-74-test')
+  // Every printed test variant opens with the same sheet; only the data differs.
+  if (isPrintedTest(topic.id))
     return (
       <Modal
-        title="Проверим себя"
+        title={topic.title}
         eyebrow="Проверочная работа"
         onClose={onClose}
         className="topic-dialog test-intro-dialog"
@@ -556,7 +557,7 @@ function TaskArea({
   }, [checked]);
   return (
     <form
-      className={`task-card ${session.topicId === 'mass-kg-g' ? 'mass-task-card' : ''} ${session.topicId === 'mass-conversion-comparison' ? 'comparison-task-card' : ''} ${session.topicId === 'page-74-test' ? 'test-task-card' : ''}`}
+      className={`task-card ${session.topicId === 'mass-kg-g' ? 'mass-task-card' : ''} ${session.topicId === 'mass-conversion-comparison' ? 'comparison-task-card' : ''} ${isPrintedTest(session.topicId) ? 'test-task-card' : ''}`}
       onSubmit={(e) => {
         e.preventDefault();
         if (checked) onNext();
@@ -718,9 +719,10 @@ function TaskArea({
           {task.type === 'choice' && (
             <div className="choice-options">
               {task.options.map((option, i) => {
-                // The page-74 test prints tasks 7–8 as columns; keep that layout.
-                const column =
-                  session.topicId === 'page-74-test' ? parseColumnChoice(option.label) : null;
+                // Printed test variants write the written calculations as columns; keep that layout.
+                const column = isPrintedTest(session.topicId)
+                  ? parseColumnChoice(option.label)
+                  : null;
                 return (
                   <button
                     type="button"

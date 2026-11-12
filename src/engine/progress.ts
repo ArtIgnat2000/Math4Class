@@ -5,6 +5,16 @@ export const LEVEL_LABELS = ['Ещё не пробовал', 'Знакомлюс
 export function topicKey(grade: Grade, topicId: string): string {
   return `${grade}:${topicId}`;
 }
+/**
+ * A printed test is a whole-numbered check sheet (the «Проверим себя» page test),
+ * not a practice set: it keeps the printed order and its own start sheet. Both
+ * variants of the textbook check share the same identifier suffix, so a new
+ * variant only adds data and does not need a new code branch.
+ */
+export function isPrintedTest(topicId: string): boolean {
+  return /-test(?:-v\d+)?$/.test(topicId);
+}
+
 export function streak(profile: Profile, today = dayKey()): number {
   let cursor = profile.daily[today]?.lessons ? today : addDays(today, -1);
   let value = 0;
