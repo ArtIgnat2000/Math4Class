@@ -213,7 +213,9 @@ test('every approved exercise stays usable on a phone and tablet', async ({ brow
           await page.getByRole('button', { name: 'Дальше' }).click();
           await page.getByRole('button', { name: 'Проверить себя' }).click();
         } else {
-          await page.getByRole('button', { name: /Давай попробуем|Начать занятие/ }).click();
+          await page
+            .getByRole('button', { name: /Давай попробуем|Начать занятие|Начать тест/ })
+            .click();
         }
         const confirm = page.getByRole('button', { name: 'Начать новое', exact: true });
         if (await confirm.isVisible()) await confirm.click();

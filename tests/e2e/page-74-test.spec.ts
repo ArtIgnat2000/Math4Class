@@ -48,9 +48,11 @@ test('the page-74 test is its own catalog section and counts as an ordinary less
   await section.locator('.topic-card').filter({ hasText: 'Проверим себя' }).click();
 
   const dialog = page.getByRole('dialog');
-  await expect(dialog.getByText('10 заданий')).toBeVisible();
-  await expect(dialog.getByText('Проверим себя', { exact: true }).first()).toBeVisible();
-  await dialog.getByRole('button', { name: 'Давай попробуем' }).click();
+  await expect(dialog.locator('.test-intro-meta')).toContainText('10 заданий');
+  await expect(dialog.locator('.test-intro-meta')).toContainText('10 минут');
+  await expect(dialog.getByRole('heading', { name: 'Проверим себя' })).toBeVisible();
+  await expect(dialog.locator('.test-intro-list li')).toHaveCount(3);
+  await dialog.getByRole('button', { name: 'Начать тест' }).click();
 
   const card = page.locator('.task-card');
   await expect(card).toBeVisible();
@@ -115,7 +117,7 @@ test('the test card fits a small phone, keeps 44 px targets and shows the column
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/#/topics');
   await page.locator('.topic-card').filter({ hasText: 'Проверим себя' }).click();
-  await page.getByRole('dialog').getByRole('button', { name: 'Давай попробуем' }).click();
+  await page.getByRole('dialog').getByRole('button', { name: 'Начать тест' }).click();
   const card = page.locator('.task-card');
   await expect(card).toBeVisible();
   await expect(card.locator('.task-source-number')).toHaveText('Задание 1');
