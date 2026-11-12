@@ -394,6 +394,10 @@ export default function App() {
                   if (profile.grade !== lastResult.grade) setGrade(lastResult.grade);
                   navigate('topics');
                 }}
+                onRewards={() => {
+                  if (profile.grade !== lastResult.grade) setGrade(lastResult.grade);
+                  navigate('rewards');
+                }}
               />
             )
           )}
