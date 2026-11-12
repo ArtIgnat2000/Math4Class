@@ -90,7 +90,7 @@ describe('бонус на экране завершения занятия', () 
     mode: 'learn',
   };
 
-  it('называет новую награду за это занятие', () => {
+  it('показывает превью новой награды и открывает крупную картинку', () => {
     render(
       <Result
         result={result}
@@ -101,9 +101,22 @@ describe('бонус на экране завершения занятия', () 
         onTopics={vi.fn()}
       />,
     );
-    const bonus = screen.getByRole('status');
-    expect(bonus).toHaveTextContent('Награда:');
-    expect(within(bonus).getByText(rewardsForLesson(12)[0].title)).toBeInTheDocument();
+    const item = rewardsForLesson(12)[0];
+    const reward = screen.getByRole('region', { name: 'Твоя новая награда' });
+    const card = within(reward).getByRole('button', {
+      name: `Рассмотреть награду «${item.title}»`,
+    });
+    expect(card.querySelector('img')?.getAttribute('src')).toContain(`/rewards/${item.id}.webp`);
+
+    fireEvent.click(card);
+    const dialog = screen.getByRole('dialog', { name: item.title });
+    expect(dialog.querySelector('.reward-modal-art')?.getAttribute('src')).toContain(
+      `/rewards/${item.id}.webp`,
+    );
+    expect(dialog).toHaveTextContent('Открылась за 12-е занятие');
+
+    fireEvent.click(within(dialog).getByRole('button', { name: 'Продолжить' }));
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
 
   it('не обещает бонус, если на этом занятии его нет', () => {
@@ -117,6 +130,6 @@ describe('бонус на экране завершения занятия', () 
         onTopics={vi.fn()}
       />,
     );
-    expect(screen.queryByRole('status')).not.toBeInTheDocument();
+    expect(screen.queryByRole('region', { name: /награда/ })).not.toBeInTheDocument();
   });
 });

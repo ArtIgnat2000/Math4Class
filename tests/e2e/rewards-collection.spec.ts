@@ -79,6 +79,48 @@ for (const width of [320, 390, 820]) {
   });
 }
 
+test('награду можно рассмотреть крупно и уйти в свою коллекцию', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  const data = profileWithLessons(23);
+  data.profiles[0].history = [
+    {
+      id: 'r1',
+      topicId: 'page-74-test',
+      topicTitle: 'Проверим себя',
+      grade: 4,
+      day: '2026-11-12',
+      correct: 10,
+      total: 10,
+      assisted: 0,
+      recovered: 0,
+      xp: 100,
+      stars: 3,
+      mode: 'learn',
+    },
+  ];
+  await seed(page, data);
+  await page.goto('/#/result');
+
+  const cards = page.locator('.result-reward-card');
+  await expect(cards).toHaveCount(3);
+  await cards.first().click();
+
+  const dialog = page.getByRole('dialog');
+  await expect(dialog).toContainText('Открылась за 23-е занятие');
+  await expect
+    .poll(() =>
+      dialog.locator('.reward-modal-art').evaluate((img: HTMLImageElement) => img.naturalWidth),
+    )
+    .toBeGreaterThan(0);
+  expect((await new AxeBuilder({ page }).include('[role="dialog"]').analyze()).violations).toEqual(
+    [],
+  );
+
+  await dialog.getByRole('button', { name: 'Мои награды' }).click();
+  await expect(page).toHaveURL(/#\/rewards$/);
+  await expect(page.getByRole('heading', { name: 'Скины и вещи' })).toBeVisible();
+});
+
 test('бонус не выталкивает главное действие результата за экран', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 568 });
   const data = profileWithLessons(12);
@@ -101,7 +143,12 @@ test('бонус не выталкивает главное действие р�
   await seed(page, data);
   await page.goto('/#/result');
 
-  await expect(page.locator('.result-bonus')).toContainText('Награда');
+  const reward = page.locator('.result-reward');
+  await expect(reward).toContainText('Твоя новая награда');
+  await expect(reward.locator('.result-reward-card img')).toHaveAttribute(
+    'src',
+    /\/rewards\/.+\.webp$/,
+  );
   const primary = page.locator('.result-actions').getByRole('button', { name: 'Дальше' });
   await expect(primary).toBeInViewport({ ratio: 1 });
   expect((await new AxeBuilder({ page }).include('.result-main').analyze()).violations).toEqual([]);

@@ -4,6 +4,7 @@ import {
   ArrowRight,
   BookOpen,
   Check,
+  ChevronRight,
   CircleCheck,
   Gift,
   Lightbulb,
@@ -42,6 +43,8 @@ import type { RewardItem } from '../engine/rewards';
 import { StepIndicator } from './StepIndicator';
 import { OrderAnswer } from './OrderAnswer';
 import { Brand, Modal, ProgressBar, Stars, TopicSymbol } from './shared';
+import { rewardArtUrl } from './RewardCollection';
+import { REWARD_SHELVES } from '../engine/rewards';
 
 /**
  * A theory example is only safe when it does not spell out the answer of a task
@@ -917,6 +920,7 @@ export function Result({
   onNext,
   onHome,
   onTopics,
+  onRewards,
 }: {
   result: LessonResult;
   nextTopic?: Topic;
@@ -926,13 +930,12 @@ export function Result({
   onNext: () => void;
   onHome: () => void;
   onTopics: () => void;
+  onRewards?: () => void;
 }) {
-  const bonusTitles =
-    bonus?.items
-      .slice(0, 2)
-      .map((item) => item.title)
-      .join(', ') ?? '';
-  const bonusMore = bonus ? bonus.items.length - 2 : 0;
+  const [openReward, setOpenReward] = useState<RewardItem | null>(null);
+  const shelfTitle = openReward
+    ? (REWARD_SHELVES.find((shelf) => shelf.id === openReward.shelf)?.title ?? '')
+    : '';
   return (
     <div className="lesson-shell result-shell">
       <header className="lesson-header">
@@ -962,13 +965,43 @@ export function Result({
           {result.correct} из {result.total} с первого раза
         </p>
         {bonus && bonus.items.length > 0 && (
-          <p className="result-bonus" role="status">
-            <Gift size={16} aria-hidden="true" />
-            <span>
-              {bonus.items.length === 1 ? 'Награда' : 'Награды'}: <strong>{bonusTitles}</strong>
-              {bonusMore > 0 ? ` +${bonusMore}` : ''}
-            </span>
-          </p>
+          <section className="result-reward" aria-labelledby="result-reward-title">
+            <p id="result-reward-title" className="result-reward-title">
+              <Gift size={17} aria-hidden="true" />
+              {bonus.items.length === 1 ? 'Твоя новая награда' : 'Твои новые награды'}
+            </p>
+            <ul className="result-reward-list">
+              {bonus.items.map((item) => (
+                <li key={item.id}>
+                  <button
+                    type="button"
+                    className="result-reward-card"
+                    onClick={() => setOpenReward(item)}
+                    aria-haspopup="dialog"
+                    aria-label={`Рассмотреть награду «${item.title}»`}
+                  >
+                    <img
+                      src={rewardArtUrl(item.id)}
+                      alt=""
+                      width={480}
+                      height={360}
+                      loading="lazy"
+                      decoding="async"
+                      draggable={false}
+                    />
+                    <span className="result-reward-card-text">
+                      <strong>{item.title}</strong>
+                      <small>Нажми, чтобы рассмотреть</small>
+                    </span>
+                    <ChevronRight className="result-reward-chevron" size={20} aria-hidden="true" />
+                  </button>
+                </li>
+              ))}
+            </ul>
+            {bonus.items.length > 1 && (
+              <p className="result-reward-hint">Смахни карточки, чтобы увидеть все награды</p>
+            )}
+          </section>
         )}
         <p className="result-next">
           {nextTopic ? (
@@ -991,6 +1024,40 @@ export function Result({
           </button>
         </div>
       </main>
+      {openReward && (
+        <Modal
+          title={openReward.title}
+          eyebrow="Твоя награда"
+          onClose={() => setOpenReward(null)}
+          className="reward-modal"
+        >
+          <img
+            className="reward-modal-art"
+            src={rewardArtUrl(openReward.id)}
+            alt=""
+            width={480}
+            height={360}
+            draggable={false}
+          />
+          <p className="reward-modal-meta">
+            {shelfTitle ? `Коллекция «${shelfTitle}». ` : ''}Открылась за {openReward.need}-е
+            занятие.
+          </p>
+          <p className="reward-modal-note">
+            Награда уже твоя и осталась в разделе «Мои награды» — там вся коллекция.
+          </p>
+          <div className="reward-modal-actions">
+            <button data-autofocus className="button primary" onClick={() => setOpenReward(null)}>
+              Продолжить
+            </button>
+            {onRewards && (
+              <button className="button secondary" onClick={onRewards}>
+                Мои награды
+              </button>
+            )}
+          </div>
+        </Modal>
+      )}
     </div>
   );
 }
