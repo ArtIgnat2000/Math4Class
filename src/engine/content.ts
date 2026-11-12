@@ -41,6 +41,8 @@ const diagramSchema = z
   );
 const baseTask = {
   id: idSchema,
+  // Printed question number when the source numbers its tasks (for example a page test).
+  sourceNumber: z.number().int().min(1).max(99).optional(),
   question: text,
   expression: z.string().trim().min(1).max(150).optional(),
   hint: text,

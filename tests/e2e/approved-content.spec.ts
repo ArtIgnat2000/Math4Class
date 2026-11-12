@@ -51,8 +51,8 @@ test('only source-checked tasks appear and unverified grades have no lessons', a
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/#/topics');
   // Source-checked topics plus the roman and time-unit topics with approved additions.
-  await expect(page.locator('.topic-card')).toHaveCount(10);
-  await expect(page.getByRole('status').filter({ hasText: '40 заданий' })).toBeVisible();
+  await expect(page.locator('.topic-card')).toHaveCount(11);
+  await expect(page.getByRole('status').filter({ hasText: '50 заданий' })).toBeVisible();
   await expect(page.getByText('Килограмм и грамм', { exact: true })).toHaveCount(0);
   await expect(page.getByText('Многозначные числа', { exact: true })).toHaveCount(0);
   await page.getByRole('combobox', { name: 'Класс обучения' }).selectOption('1');

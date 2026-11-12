@@ -13,6 +13,7 @@ import {
 import type { Task, Topic } from '../engine/content';
 import type { Answer, LessonResult, Session, TopicProgress } from '../engine/model';
 import { answerLabel, initialOrder, parseNumericAnswer } from '../engine/answers';
+import { parseColumnChoice } from '../engine/column-choice';
 import { LEVEL_LABELS } from '../engine/progress';
 import { MathVisual } from './MathVisual';
 import { MassStory } from './MassStory';
@@ -33,6 +34,7 @@ import { AreaPilot } from './AreaPilot';
 import { DecimalPilot } from './DecimalPilot';
 import { TimeUnitsTable } from './TimeUnitsTable';
 import { NumericInput } from './NumericInput';
+import { ColumnChoice } from './ColumnChoice';
 import { NumericKeypad } from './NumericKeypad';
 import { CardGuide, CardTitleContext } from './CardGuide';
 import type { RewardItem } from '../engine/rewards';
@@ -534,7 +536,7 @@ function TaskArea({
   }, [checked]);
   return (
     <form
-      className={`task-card ${session.topicId === 'mass-kg-g' ? 'mass-task-card' : ''} ${session.topicId === 'mass-conversion-comparison' ? 'comparison-task-card' : ''}`}
+      className={`task-card ${session.topicId === 'mass-kg-g' ? 'mass-task-card' : ''} ${session.topicId === 'mass-conversion-comparison' ? 'comparison-task-card' : ''} ${session.topicId === 'page-74-test' ? 'test-task-card' : ''}`}
       onSubmit={(e) => {
         e.preventDefault();
         if (checked) onNext();
@@ -585,6 +587,9 @@ function TaskArea({
                       : 'Выбери ответ и нажми «Проверить».'}
           </CardGuide>
         </CardTitleContext.Provider>
+        {task.sourceNumber !== undefined && (
+          <p className="task-source-number">Задание {task.sourceNumber}</p>
+        )}
         <h1>{task.question}</h1>
         {session.topicId === 'mass-kg-g' && (
           <MassStory
@@ -692,23 +697,37 @@ function TaskArea({
           )}
           {task.type === 'choice' && (
             <div className="choice-options">
-              {task.options.map((option, i) => (
-                <button
-                  type="button"
-                  key={option.id}
-                  disabled={checked}
-                  aria-pressed={answer === option.id}
-                  className={`choice-option ${answer === option.id ? 'selected' : ''} ${checked && task.answer === option.id ? 'correct-option' : ''} ${checked && answer === option.id && !session.feedback?.correct ? 'wrong-option' : ''}`}
-                  onClick={() => setAnswer(option.id)}
-                >
-                  <span>{String.fromCharCode(1040 + i)}</span>
-                  {session.topicId === 'mass-conversion-comparison' && (
-                    <ComparisonChoicePicture value={option.label} />
-                  )}
-                  <strong>{option.label}</strong>
-                  {checked && task.answer === option.id && <Check size={19} />}
-                </button>
-              ))}
+              {task.options.map((option, i) => {
+                // The page-74 test prints tasks 7–8 as columns; keep that layout.
+                const column =
+                  session.topicId === 'page-74-test' ? parseColumnChoice(option.label) : null;
+                return (
+                  <button
+                    type="button"
+                    key={option.id}
+                    disabled={checked}
+                    aria-pressed={answer === option.id}
+                    className={`choice-option ${answer === option.id ? 'selected' : ''} ${checked && task.answer === option.id ? 'correct-option' : ''} ${checked && answer === option.id && !session.feedback?.correct ? 'wrong-option' : ''}`}
+                    onClick={() => setAnswer(option.id)}
+                  >
+                    <span>{String.fromCharCode(1040 + i)}</span>
+                    {column ? (
+                      <>
+                        <ColumnChoice layout={column} />
+                        <strong className="sr-only">{option.label}</strong>
+                      </>
+                    ) : (
+                      <>
+                        {session.topicId === 'mass-conversion-comparison' && (
+                          <ComparisonChoicePicture value={option.label} />
+                        )}
+                        <strong>{option.label}</strong>
+                      </>
+                    )}
+                    {checked && task.answer === option.id && <Check size={19} />}
+                  </button>
+                );
+              })}
             </div>
           )}
           {task.type === 'compare' && (

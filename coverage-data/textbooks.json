@@ -510,6 +510,76 @@
               "evidence": "11 ноября 2026: условие № 258 сверено по фотографии страницы 51; переход через полночь и ответ проверены."
             }
           ]
+        },
+        {
+          "number": 74,
+          "pdfPage": null,
+          "scope": "instructional",
+          "exclusionEvidence": "",
+          "inventoryComplete": false,
+          "inventoryEvidence": "",
+          "materials": [
+            {
+              "key": "тест",
+              "kind": "exercise",
+              "label": "Тест, задания 1–10 — таблица «Задание / Варианты ответов»",
+              "review": "partial",
+              "expectedParts": null,
+              "taskRefs": [
+                {
+                  "topicId": "page-74-test",
+                  "taskId": "test-1",
+                  "parts": []
+                },
+                {
+                  "topicId": "page-74-test",
+                  "taskId": "test-2",
+                  "parts": []
+                },
+                {
+                  "topicId": "page-74-test",
+                  "taskId": "test-3",
+                  "parts": []
+                },
+                {
+                  "topicId": "page-74-test",
+                  "taskId": "test-4",
+                  "parts": []
+                },
+                {
+                  "topicId": "page-74-test",
+                  "taskId": "test-5",
+                  "parts": []
+                },
+                {
+                  "topicId": "page-74-test",
+                  "taskId": "test-6",
+                  "parts": []
+                },
+                {
+                  "topicId": "page-74-test",
+                  "taskId": "test-7",
+                  "parts": []
+                },
+                {
+                  "topicId": "page-74-test",
+                  "taskId": "test-8",
+                  "parts": []
+                },
+                {
+                  "topicId": "page-74-test",
+                  "taskId": "test-9",
+                  "parts": []
+                },
+                {
+                  "topicId": "page-74-test",
+                  "taskId": "test-10",
+                  "parts": []
+                }
+              ],
+              "evidence": "12 ноября 2026: владелец прислал фотографию страницы 74 и подтвердил, что это учебник «Школа России», 4 класс, часть 1; сверены условия, числа и варианты ответов десяти заданий. Заголовок над таблицей на фотографии обрезан, остальные материалы страницы не инвентаризированы."
+            }
+          ]
         }
       ]
     }

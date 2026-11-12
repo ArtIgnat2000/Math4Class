@@ -7732,6 +7732,88 @@ h1[tabindex='-1']:focus {
   font-size: 12px;
   font-weight: 800;
 }
+/* The page-74 test prints tasks 7–8 as written columns and numbers every question. */
+.task-source-number {
+  margin: 0 auto 4px;
+  color: #6b7c5b;
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+  text-align: center;
+  text-transform: uppercase;
+}
+.test-task-card .choice-option > .column-choice {
+  display: inline-grid;
+  grid-template-columns: 14px auto;
+  align-items: start;
+  justify-items: initial;
+  gap: 0 8px;
+  width: auto;
+  height: auto;
+  flex: 0 0 auto;
+  margin: 0 auto 0 6px;
+  border-radius: 0;
+  background: none;
+  color: #4f6242;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum';
+}
+.test-task-card .choice-option {
+  padding: 14px 18px;
+}
+/* Keep each side whole and put the sign between them, even on a narrow phone. */
+.test-task-card .compare-expressions > span:not(.compare-placeholder) {
+  flex: 0 1 auto;
+  max-width: 100%;
+  white-space: nowrap;
+}
+@media (max-width: 599px) {
+  .test-task-card .compare-expressions {
+    flex-direction: column;
+    gap: 4px;
+  }
+  .test-task-card .compare-placeholder {
+    width: 46px;
+    height: 42px;
+    font-size: 24px;
+  }
+}
+.test-task-card .choice-option.selected > .column-choice,
+.test-task-card .choice-option.wrong-option > .column-choice,
+.test-task-card .choice-option.correct-option > .column-choice {
+  background: none;
+  color: #4f6242;
+}
+.column-choice-sign {
+  padding-top: 2px;
+  font-size: 15px;
+  font-weight: 750;
+  line-height: 1.4;
+}
+.column-choice-body {
+  display: grid;
+  justify-items: stretch;
+  gap: 1px;
+  min-width: 0;
+}
+.column-choice-operand,
+.column-choice-result {
+  font-size: 17px;
+  line-height: 1.35;
+  letter-spacing: 0.045em;
+  text-align: right;
+}
+.column-choice-operand {
+  font-weight: 650;
+}
+.column-choice-operand:nth-child(2) {
+  margin-bottom: 2px;
+  padding-bottom: 2px;
+  border-bottom: 2px solid #b7caa3;
+}
+.column-choice-result {
+  font-weight: 750;
+}
 @media (max-width: 599px) {
   .comparison-intro-anchors img {
     height: 57px;
@@ -11026,6 +11108,15 @@ h1[tabindex='-1']:focus {
   align-items: center;
   gap: 6px;
   min-width: 0;
+}
+/* A ten-question check needs more dots than a lesson: let the card type wrap
+   instead of running under the help button on a 320 px phone. */
+.card-guide-leading {
+  flex-wrap: wrap;
+  row-gap: 2px;
+}
+.card-guide-kind {
+  white-space: nowrap;
 }
 .card-guide-buttons {
   margin-left: auto;
