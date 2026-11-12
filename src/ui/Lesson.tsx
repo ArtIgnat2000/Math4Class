@@ -33,6 +33,7 @@ import { DividendPilot } from './DividendPilot';
 import { AreaPilot } from './AreaPilot';
 import { DecimalPilot } from './DecimalPilot';
 import { TimeUnitsTable } from './TimeUnitsTable';
+import { TestIntro } from './TestIntro';
 import { NumericInput } from './NumericInput';
 import { ColumnChoice } from './ColumnChoice';
 import { NumericKeypad } from './NumericKeypad';
@@ -256,6 +257,22 @@ export function TopicDialog({
         className="topic-dialog mass-intro-dialog year-month-dialog equation-dialog"
       >
         <EquationPilot onPractice={onStart} />
+      </Modal>
+    );
+  if (topic.id === 'page-74-test')
+    return (
+      <Modal
+        title="Проверим себя"
+        eyebrow="Проверочная работа"
+        onClose={onClose}
+        className="topic-dialog test-intro-dialog"
+      >
+        <TestIntro
+          count={topic.tasks.length}
+          minutes={topic.minutes}
+          started={Boolean(progress?.sessions)}
+          onStart={onStart}
+        />
       </Modal>
     );
   if (topic.id === 'time-units-table')

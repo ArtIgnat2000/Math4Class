@@ -12004,3 +12004,147 @@ h1[tabindex='-1']:focus {
   outline: 3px solid rgba(83, 129, 79, 0.32);
   outline-offset: 2px;
 }
+
+/* The page-74 check opens as a single clean sheet: large type, grouped rows,
+   one obvious action. No separate help toggle — the whole instruction is here. */
+.test-intro-dialog {
+  max-width: 560px;
+  padding: 38px 34px 28px;
+  border: 0;
+  border-radius: 28px;
+  background: #ffffff;
+  box-shadow: 0 30px 90px #16281d33;
+}
+.test-intro-dialog > .eyebrow {
+  max-width: none;
+  margin: 0 0 8px;
+  color: #7d8774;
+  font-size: 11px;
+  letter-spacing: 1.6px;
+  text-align: center;
+}
+.test-intro-dialog > h2 {
+  max-width: none;
+  padding-right: 0;
+  color: #1c3324;
+  font-size: clamp(27px, 5.4vw, 36px);
+  font-weight: 750;
+  line-height: 1.15;
+  letter-spacing: -0.9px;
+  text-align: center;
+}
+.test-intro-dialog .modal-close {
+  top: 10px;
+  right: 10px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #f2f4ee;
+  color: #5c6753;
+}
+.test-intro-dialog .modal-close:hover {
+  background: #e8ecdf;
+}
+.test-intro-lead {
+  max-width: 40ch;
+  margin: 14px auto 0;
+  color: #5c6753;
+  font-size: 16px;
+  line-height: 1.55;
+  text-align: center;
+}
+.test-intro-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 6px 18px;
+  margin: 16px 0 22px;
+  color: #46533f;
+  font-size: 15px;
+  font-weight: 600;
+}
+.test-intro-meta > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+.test-intro-meta svg {
+  color: #8a957f;
+}
+.test-intro-list {
+  margin: 0 0 22px;
+  padding: 2px 18px;
+  border-radius: 18px;
+  background: #f5f7f0;
+  list-style: none;
+}
+.test-intro-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 15px 0;
+}
+.test-intro-list li + li {
+  border-top: 1px solid #e2e8d7;
+}
+.test-intro-list li > span {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #22351f;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+}
+.test-intro-list p {
+  margin: 1px 0 0;
+  color: #3f4c3a;
+  font-size: 16px;
+  line-height: 1.5;
+}
+.test-intro-start {
+  width: 100%;
+  min-height: 56px;
+  border-radius: 16px;
+  font-size: 15px;
+  letter-spacing: 0.1px;
+}
+@media (max-width: 599px) {
+  /* A phone gets a real bottom sheet: anchored to the edge, rounded on top only. */
+  .modal-overlay:has(.test-intro-dialog) {
+    align-items: flex-end;
+    padding: 0;
+  }
+  .test-intro-dialog {
+    width: 100%;
+    max-width: none;
+    max-height: 90svh;
+    padding: 26px 20px calc(16px + env(safe-area-inset-bottom));
+    border: 0;
+    border-radius: 26px 26px 0 0;
+  }
+  .test-intro-dialog > h2,
+  .test-intro-dialog > .eyebrow {
+    padding-left: 34px;
+    padding-right: 34px;
+  }
+  .test-intro-dialog > h2 {
+    font-size: clamp(24px, 7.4vw, 30px);
+  }
+  .test-intro-lead {
+    font-size: 15px;
+  }
+  .test-intro-list p {
+    font-size: 15px;
+  }
+  .test-intro-list {
+    padding: 0 14px;
+  }
+  .test-intro-start {
+    min-height: 52px;
+  }
+}
