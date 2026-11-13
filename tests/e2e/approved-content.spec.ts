@@ -51,8 +51,8 @@ test('only source-checked tasks appear and unverified grades have no lessons', a
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/#/topics');
   // Source-checked topics plus the roman and time-unit topics with approved additions.
-  await expect(page.locator('.topic-card')).toHaveCount(11);
-  await expect(page.getByRole('status').filter({ hasText: '50 заданий' })).toBeVisible();
+  await expect(page.locator('.topic-card')).toHaveCount(12);
+  await expect(page.getByRole('status').filter({ hasText: '60 заданий' })).toBeVisible();
   await expect(page.getByText('Килограмм и грамм', { exact: true })).toHaveCount(0);
   await expect(page.getByText('Многозначные числа', { exact: true })).toHaveCount(0);
   await page.getByRole('combobox', { name: 'Класс обучения' }).selectOption('1');
@@ -196,7 +196,11 @@ test('every approved exercise stays usable on a phone and tablet', async ({ brow
       const page = await context.newPage();
       await page.goto('/#/topics');
       for (const topic of pack.topics.filter((item: { id: string }) => approvedTaskIds[item.id])) {
-        await page.locator('.topic-card').filter({ hasText: topic.title }).click();
+        // Printed test variants share a title prefix, so match the exact card name.
+        await page
+          .locator('.topic-card')
+          .filter({ has: page.getByText(topic.title, { exact: true }) })
+          .click();
         if (
           [
             'calendar-years-months',

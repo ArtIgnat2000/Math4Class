@@ -45,7 +45,11 @@ test('the page-74 test is its own catalog section and counts as an ordinary less
   await page.goto('/#/topics');
   const section = page.locator('.catalog-section').filter({ hasText: 'Проверочная работа' });
   await expect(section.getByRole('heading', { name: 'Проверочная работа' })).toBeVisible();
-  await section.locator('.topic-card').filter({ hasText: 'Проверим себя' }).click();
+  // Two variants share the section; match the first one by its exact card name.
+  await section
+    .locator('.topic-card')
+    .filter({ has: page.getByText('Проверим себя', { exact: true }) })
+    .click();
 
   const dialog = page.getByRole('dialog');
   await expect(dialog.locator('.test-intro-meta')).toContainText('10 заданий');
@@ -116,7 +120,10 @@ test('the test card fits a small phone, keeps 44 px targets and shows the column
   await page.setViewportSize({ width: 320, height: 568 });
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/#/topics');
-  await page.locator('.topic-card').filter({ hasText: 'Проверим себя' }).click();
+  await page
+    .locator('.topic-card')
+    .filter({ has: page.getByText('Проверим себя', { exact: true }) })
+    .click();
   await page.getByRole('dialog').getByRole('button', { name: 'Начать тест' }).click();
   const card = page.locator('.task-card');
   await expect(card).toBeVisible();
